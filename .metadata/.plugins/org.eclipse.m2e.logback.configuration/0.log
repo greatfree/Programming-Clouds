@@ -1,0 +1,160 @@
+2014-07-17 14:44:57,090 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-07-17 14:44:57,364 [pool-5-thread-1] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-07-17 14:44:57,415 [main] ERROR o.e.r.i.r.repo.ModelRepositoryIndex - Failed to open search index.
+org.apache.lucene.index.IndexNotFoundException: no segments* file found in org.apache.lucene.store.NIOFSDirectory@/GreatFreeLabs/Papers/JavaProgramming/Code/.metadata/.plugins/org.eclipse.recommenders.rcp/index lockFactory=org.apache.lucene.store.NativeFSLockFactory@4590ffc9: files: []
+	at org.apache.lucene.index.SegmentInfos$FindSegmentsFile.run(SegmentInfos.java:712) ~[org.apache.lucene.core_3.5.0.v20120319-2345.jar:3.5.0 1204988 - simon - 2011-11-22 14:46:51]
+	at org.apache.lucene.index.DirectoryReader.open(DirectoryReader.java:75) ~[org.apache.lucene.core_3.5.0.v20120319-2345.jar:3.5.0 1204988 - simon - 2011-11-22 14:46:51]
+	at org.apache.lucene.index.IndexReader.open(IndexReader.java:462) ~[org.apache.lucene.core_3.5.0.v20120319-2345.jar:3.5.0 1204988 - simon - 2011-11-22 14:46:51]
+	at org.apache.lucene.index.IndexReader.open(IndexReader.java:308) ~[org.apache.lucene.core_3.5.0.v20120319-2345.jar:3.5.0 1204988 - simon - 2011-11-22 14:46:51]
+	at org.eclipse.recommenders.internal.rcp.repo.ModelRepositoryIndex.open(ModelRepositoryIndex.java:64) ~[org.eclipse.recommenders.rcp_1.0.3.v20130211-0152-b208.jar:na]
+	at org.eclipse.recommenders.internal.rcp.wiring.RecommendersModule$ServicesInitializer.<init>(RecommendersModule.java:377) [org.eclipse.recommenders.rcp_1.0.3.v20130211-0152-b208.jar:na]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) [na:1.6.0_24]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39) [na:1.6.0_24]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27) [na:1.6.0_24]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513) [na:1.6.0_24]
+	at com.google.inject.internal.DefaultConstructionProxyFactory$1.newInstance(DefaultConstructionProxyFactory.java:85) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:85) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:254) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.ProviderToInternalFactoryAdapter$1.call(ProviderToInternalFactoryAdapter.java:46) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1031) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.ProviderToInternalFactoryAdapter.get(ProviderToInternalFactoryAdapter.java:40) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.Scopes$1$1.get(Scopes.java:65) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.InternalFactoryToProviderAdapter.get(InternalFactoryToProviderAdapter.java:40) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:204) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:198) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1024) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.InternalInjectorCreator.loadEagerSingletons(InternalInjectorCreator.java:198) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.InternalInjectorCreator.injectDynamically(InternalInjectorCreator.java:179) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.internal.InternalInjectorCreator.build(InternalInjectorCreator.java:109) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.Guice.createInjector(Guice.java:95) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at com.google.inject.Guice.createInjector(Guice.java:72) [com.google.inject_3.0.0.v201203062045.jar:na]
+	at org.eclipse.recommenders.injection.InjectionService.getInjector(InjectionService.java:47) [org.eclipse.recommenders.injection_1.0.3.v20130211-0152-b208.jar:na]
+	at org.eclipse.recommenders.injection.ExtensionFactory.<init>(ExtensionFactory.java:28) [org.eclipse.recommenders.injection_1.0.3.v20130211-0152-b208.jar:na]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) [na:1.6.0_24]
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39) [na:1.6.0_24]
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27) [na:1.6.0_24]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:513) [na:1.6.0_24]
+	at java.lang.Class.newInstance0(Class.java:355) [na:1.6.0_24]
+	at java.lang.Class.newInstance(Class.java:308) [na:1.6.0_24]
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:184) [org.eclipse.equinox.registry_3.5.200.v20120522-1841.jar:na]
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:905) [org.eclipse.equinox.registry_3.5.200.v20120522-1841.jar:na]
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:243) [org.eclipse.equinox.registry_3.5.200.v20120522-1841.jar:na]
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:55) [org.eclipse.equinox.registry_3.5.200.v20120522-1841.jar:na]
+	at org.eclipse.jdt.internal.ui.text.java.CompletionProposalComputerDescriptor.createComputer(CompletionProposalComputerDescriptor.java:308) [org.eclipse.jdt.ui_3.8.2.v20130107-165834.jar:na]
+	at org.eclipse.jdt.internal.ui.text.java.CompletionProposalComputerDescriptor.getComputer(CompletionProposalComputerDescriptor.java:275) [org.eclipse.jdt.ui_3.8.2.v20130107-165834.jar:na]
+	at org.eclipse.jdt.internal.ui.text.java.CompletionProposalComputerDescriptor.sessionStarted(CompletionProposalComputerDescriptor.java:418) [org.eclipse.jdt.ui_3.8.2.v20130107-165834.jar:na]
+	at org.eclipse.jdt.internal.ui.text.java.CompletionProposalCategory.sessionStarted(CompletionProposalCategory.java:389) [org.eclipse.jdt.ui_3.8.2.v20130107-165834.jar:na]
+	at org.eclipse.jdt.internal.ui.text.java.ContentAssistProcessor$CompletionListener.assistSessionStarted(ContentAssistProcessor.java:119) [org.eclipse.jdt.ui_3.8.2.v20130107-165834.jar:na]
+	at org.eclipse.jface.text.contentassist.ContentAssistant.fireSessionBeginEvent(ContentAssistant.java:2221) [org.eclipse.jface.text_3.8.2.v20121126-164145.jar:na]
+	at org.eclipse.jface.text.contentassist.ContentAssistant.prepareToShowCompletions(ContentAssistant.java:1696) [org.eclipse.jface.text_3.8.2.v20121126-164145.jar:na]
+	at org.eclipse.jface.text.contentassist.ContentAssistant.access$6(ContentAssistant.java:1687) [org.eclipse.jface.text_3.8.2.v20121126-164145.jar:na]
+	at org.eclipse.jface.text.contentassist.ContentAssistant$2.run(ContentAssistant.java:376) [org.eclipse.jface.text_3.8.2.v20121126-164145.jar:na]
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35) [org.eclipse.swt.cocoa.macosx.x86_64_3.100.1.v4236b.jar:na]
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:135) [org.eclipse.swt.cocoa.macosx.x86_64_3.100.1.v4236b.jar:na]
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3946) [org.eclipse.swt.cocoa.macosx.x86_64_3.100.1.v4236b.jar:na]
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3623) [org.eclipse.swt.cocoa.macosx.x86_64_3.100.1.v4236b.jar:na]
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1053) [org.eclipse.e4.ui.workbench.swt_0.10.3.v20130124-133900.jar:na]
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332) [org.eclipse.core.databinding.observable_1.4.1.v20120521-2329.jar:na]
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:942) [org.eclipse.e4.ui.workbench.swt_0.10.3.v20130124-133900.jar:na]
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:86) [org.eclipse.e4.ui.workbench_0.11.0.v20130125-100758.jar:na]
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:588) [org.eclipse.ui.workbench_3.104.0.v20130204-164612.jar:na]
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332) [org.eclipse.core.databinding.observable_1.4.1.v20120521-2329.jar:na]
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543) [org.eclipse.ui.workbench_3.104.0.v20130204-164612.jar:na]
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149) [org.eclipse.ui.workbench_3.104.0.v20130204-164612.jar:na]
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124) [org.eclipse.ui.ide.application_1.0.400.v20120523-1955.jar:na]
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196) [org.eclipse.equinox.app_1.3.100.v20120522-1841.jar:na]
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110) [org.eclipse.osgi_3.8.2.v20130124-134944.jar:na]
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79) [org.eclipse.osgi_3.8.2.v20130124-134944.jar:na]
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353) [org.eclipse.osgi_3.8.2.v20130124-134944.jar:na]
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180) [org.eclipse.osgi_3.8.2.v20130124-134944.jar:na]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.6.0_24]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39) ~[na:1.6.0_24]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25) ~[na:1.6.0_24]
+	at java.lang.reflect.Method.invoke(Method.java:597) ~[na:1.6.0_24]
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629) [org.eclipse.equinox.launcher_1.3.0.v20120522-1813.jar:na]
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584) [org.eclipse.equinox.launcher_1.3.0.v20120522-1813.jar:na]
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1438) [org.eclipse.equinox.launcher_1.3.0.v20120522-1813.jar:na]
+2014-07-17 14:44:59,832 [pool-8-thread-1] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-07-17 15:09:05,239 [pool-10-thread-1] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-07-17 15:09:06,785 [pool-12-thread-1] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-07-17 15:09:08,006 [pool-14-thread-1] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-07-30 11:02:17,201 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-08-04 11:35:01,105 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-08-04 17:50:44,338 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-08-10 10:00:30,102 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-08-22 09:25:02,075 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-08-24 13:04:59,964 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-08-26 09:02:18,332 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-09-02 11:38:37,540 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-09-06 08:46:56,608 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-09-17 10:56:03,267 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-09-20 02:59:54,376 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-09-26 00:51:06,161 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-10-03 23:41:53,541 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-10-12 22:05:48,715 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-11-03 18:31:43,818 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-11-03 18:31:44,116 [Worker-18] WARN  o.e.r.i.rcp.repo.ModelRepository - 'remote-models (http://download.eclipse.org/recommenders/models/juno/, releases+snapshots)' did not send ETAG header for 'org.eclipse.recommenders:index:zip:0.0.0'.
+2014-11-03 18:31:44,407 [pool-6-thread-1] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-11-03 18:31:44,420 [Worker-18] WARN  o.e.r.i.rcp.repo.ModelRepository - 'remote-models (http://download.eclipse.org/recommenders/models/juno/, releases+snapshots)' did not send ETAG header for 'org.eclipse.recommenders:index:zip:0.0.0'.
+2014-11-03 18:31:44,445 [Worker-18] WARN  o.e.r.i.r.repo.UpdateModelIndexJob - Updating index cancelled.
+org.sonatype.aether.resolution.DependencyResolutionException: Could not transfer artifact org.eclipse.recommenders:index:zip:0.0.0 from/to remote-models (http://download.eclipse.org/recommenders/models/juno/): Error transferring file: null to http://download.eclipse.org/recommenders/models/juno/org/eclipse/recommenders/index/0.0.0/index-0.0.0.zip
+	at org.sonatype.aether.impl.internal.DefaultRepositorySystem.resolveDependencies(DefaultRepositorySystem.java:375) ~[na:na]
+	at org.eclipse.recommenders.internal.rcp.repo.ModelRepository.resolve(ModelRepository.java:224) ~[na:na]
+	at org.eclipse.recommenders.internal.rcp.repo.UpdateModelIndexJob.downloadAndUnzipIndex(UpdateModelIndexJob.java:68) ~[na:na]
+	at org.eclipse.recommenders.internal.rcp.repo.UpdateModelIndexJob.run(UpdateModelIndexJob.java:49) ~[na:na]
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53) [org.eclipse.core.jobs_3.5.300.v20120912-155018.jar:na]
+Caused by: org.sonatype.aether.resolution.ArtifactResolutionException: Could not transfer artifact org.eclipse.recommenders:index:zip:0.0.0 from/to remote-models (http://download.eclipse.org/recommenders/models/juno/): Error transferring file: null to http://download.eclipse.org/recommenders/models/juno/org/eclipse/recommenders/index/0.0.0/index-0.0.0.zip
+	at org.sonatype.aether.impl.internal.DefaultArtifactResolver.resolve(DefaultArtifactResolver.java:538) ~[na:na]
+	at org.sonatype.aether.impl.internal.DefaultArtifactResolver.resolveArtifacts(DefaultArtifactResolver.java:216) ~[na:na]
+	at org.sonatype.aether.impl.internal.DefaultRepositorySystem.resolveDependencies(DefaultRepositorySystem.java:358) ~[na:na]
+	... 4 common frames omitted
+org.sonatype.aether.transfer.ArtifactTransferException: Could not transfer artifact org.eclipse.recommenders:index:zip:0.0.0 from/to remote-models (http://download.eclipse.org/recommenders/models/juno/): Error transferring file: null to http://download.eclipse.org/recommenders/models/juno/org/eclipse/recommenders/index/0.0.0/index-0.0.0.zip
+	at org.sonatype.aether.connector.wagon.WagonRepositoryConnector$4.wrap(WagonRepositoryConnector.java:951) ~[na:na]
+	at org.sonatype.aether.connector.wagon.WagonRepositoryConnector$4.wrap(WagonRepositoryConnector.java:941) ~[na:na]
+	at org.sonatype.aether.connector.wagon.WagonRepositoryConnector$GetTask.run(WagonRepositoryConnector.java:669) ~[na:na]
+	at org.sonatype.aether.util.concurrency.RunnableErrorForwarder$1.run(RunnableErrorForwarder.java:60) ~[na:na]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886) ~[na:1.6.0_24]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908) ~[na:1.6.0_24]
+	at java.lang.Thread.run(Thread.java:680) ~[na:1.6.0_24]
+Caused by: org.apache.maven.wagon.TransferFailedException: Error transferring file: null to http://download.eclipse.org/recommenders/models/juno/org/eclipse/recommenders/index/0.0.0/index-0.0.0.zip
+	at org.sonatype.maven.wagon.AhcWagon.fillInputData(AhcWagon.java:301) ~[na:na]
+	at org.apache.maven.wagon.StreamWagon.getInputStream(StreamWagon.java:116) ~[na:na]
+	at org.apache.maven.wagon.StreamWagon.getIfNewer(StreamWagon.java:88) ~[na:na]
+	at org.apache.maven.wagon.StreamWagon.get(StreamWagon.java:61) ~[na:na]
+	at org.sonatype.aether.connector.wagon.WagonRepositoryConnector$GetTask.run(WagonRepositoryConnector.java:601) ~[na:na]
+	... 4 common frames omitted
+Caused by: java.io.IOException: null to http://download.eclipse.org/recommenders/models/juno/org/eclipse/recommenders/index/0.0.0/index-0.0.0.zip
+	at org.sonatype.maven.wagon.AhcWagon.fillInputData(AhcWagon.java:270) ~[na:na]
+	... 8 common frames omitted
+Caused by: java.net.ConnectException: null to http://download.eclipse.org/recommenders/models/juno/org/eclipse/recommenders/index/0.0.0/index-0.0.0.zip
+	at com.ning.http.client.providers.netty.NettyConnectListener.operationComplete(NettyConnectListener.java:95) ~[na:na]
+	at org.jboss.netty.channel.DefaultChannelFuture.notifyListener(DefaultChannelFuture.java:381) ~[na:na]
+	at org.jboss.netty.channel.DefaultChannelFuture.addListener(DefaultChannelFuture.java:148) ~[na:na]
+	at com.ning.http.client.providers.netty.NettyAsyncHttpProvider.doConnect(NettyAsyncHttpProvider.java:945) ~[na:na]
+	at com.ning.http.client.providers.netty.NettyAsyncHttpProvider.execute(NettyAsyncHttpProvider.java:776) ~[na:na]
+	at com.ning.http.client.AsyncHttpClient.executeRequest(AsyncHttpClient.java:484) ~[na:na]
+	at com.ning.http.client.AsyncHttpClient$BoundRequestBuilder.execute(AsyncHttpClient.java:227) ~[na:na]
+	at org.sonatype.maven.wagon.AhcWagon.fillInputData(AhcWagon.java:264) ~[na:na]
+	... 8 common frames omitted
+Caused by: java.nio.channels.UnresolvedAddressException: null
+	at sun.nio.ch.Net.checkAddress(Net.java:30) ~[na:1.6.0_24]
+	at sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:480) ~[na:1.6.0_24]
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink.connect(NioClientSocketPipelineSink.java:140) ~[na:na]
+	at org.jboss.netty.channel.socket.nio.NioClientSocketPipelineSink.eventSunk(NioClientSocketPipelineSink.java:103) ~[na:na]
+	at org.jboss.netty.handler.codec.oneone.OneToOneEncoder.handleDownstream(OneToOneEncoder.java:60) ~[na:na]
+	at org.jboss.netty.handler.codec.http.HttpClientCodec.handleDownstream(HttpClientCodec.java:82) ~[na:na]
+	at org.jboss.netty.handler.stream.ChunkedWriteHandler.handleDownstream(ChunkedWriteHandler.java:115) ~[na:na]
+	at org.jboss.netty.channel.Channels.connect(Channels.java:541) ~[na:na]
+	at org.jboss.netty.channel.AbstractChannel.connect(AbstractChannel.java:210) ~[na:na]
+	at org.jboss.netty.bootstrap.ClientBootstrap.connect(ClientBootstrap.java:227) ~[na:na]
+	at org.jboss.netty.bootstrap.ClientBootstrap.connect(ClientBootstrap.java:188) ~[na:na]
+	at com.ning.http.client.providers.netty.NettyAsyncHttpProvider.doConnect(NettyAsyncHttpProvider.java:902) ~[na:na]
+	... 12 common frames omitted
+2014-11-06 21:27:36,885 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-11-06 21:27:37,779 [pool-6-thread-1] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-11-09 03:19:20,447 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-11-20 01:51:58,627 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-11-20 21:35:57,257 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-11-26 15:17:54,998 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-11-29 01:51:27,144 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8
+2014-11-30 03:23:56,122 [main] INFO  c.n.h.c.p.n.NettyAsyncHttpProvider - Number of application's worked threads is 8

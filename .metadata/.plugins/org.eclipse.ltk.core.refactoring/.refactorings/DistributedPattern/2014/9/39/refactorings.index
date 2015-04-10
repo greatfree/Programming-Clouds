@@ -1,0 +1,15 @@
+1411278910290	Delete element
+1411279612910	Rename field 'LEAVE'
+1411279622067	Rename field 'LEAVE'
+1411324953840	Rename method 'APPLE'
+1411325411052	Rename type 'TestingConfig'
+1411356749260	Delete element
+1411356780706	Rename field 'SERVER_A'
+1411356789467	Rename field 'SERVER_B'
+1411356848804	Move compilation unit
+1411364112003	Delete element
+1411364829305	Rename method 'SetBusy'
+1411364838821	Rename method 'SetIdle'
+1411364847321	Rename method 'Wait'
+1411400506863	Rename method 'AddResource'
+1411400625568	Rename local variable 'removedResource'

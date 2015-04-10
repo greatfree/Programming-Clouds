@@ -1,0 +1,10 @@
+AbstractTextEditor.Color.SelectionBackground=245,255,0
+AbstractTextEditor.Color.SelectionBackground.SystemDefault=false
+currentLine=false
+eclipse.preferences.version=1
+occurrenceHighlighting=false
+occurrenceIndicationColor=43,43,43
+occurrenceTextStyle=UNDERLINE
+overviewRuler_migration=migrated_3.1
+writeOccurrenceHighlighting=false
+writeOccurrenceIndicationColor=30,26,18

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;com.greatfree.testing.TerminateSignal.NRK()&apos; to &apos;SIGNAL&apos;&#x0A;- Original project: &apos;DistributedPattern&apos;&#x0A;- Original element: &apos;com.greatfree.testing.TerminateSignal.NRK()&apos;&#x0A;- Renamed element: &apos;com.greatfree.testing.TerminateSignal.SIGNAL()&apos;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;NRK&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;com.greatfree.testing{TerminateSignal.java[TerminateSignal~NRK" name="SIGNAL" references="true" stamp="1408670974024" version="1.0"/>
+</session>

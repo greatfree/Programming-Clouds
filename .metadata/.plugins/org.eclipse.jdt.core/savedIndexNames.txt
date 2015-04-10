@@ -1,0 +1,18 @@
+INDEX VERSION 1.127+/GreatFreeLabs/Papers/JavaProgramming/Code/.metadata/.plugins/org.eclipse.jdt.core
+946853370.index
+1445342579.index
+1271342938.index
+4209483032.index
+1234933010.index
+3723324381.index
+1580723340.index
+805180237.index
+3227933577.index
+2898595224.index
+4204983151.index
+1880564851.index
+2918435180.index
+3600374074.index
+3424539694.index
+3809090424.index
+643548961.index

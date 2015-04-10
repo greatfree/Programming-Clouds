@@ -1,0 +1,21 @@
+1410920971617	Rename local variable 'res'
+1410936470571	Move compilation units
+1410936510327	Move compilation units
+1410942939199	Rename method 'Get'
+1410943073233	Rename field 'CSERVER_CLIENT_POOL_SIZE'
+1410943080458	Rename field 'CSERVER_CLIENT_IDLE_CHECK_DELAY'
+1410943085296	Rename field 'CSERVER_CLIENT_IDLE_CHECK_PERIOD'
+1410943089465	Rename field 'CSERVER_CLIENT_MAX_IDLE_TIME'
+1410946126940	Rename package 'com.greatfree.testing'
+1410946145335	Rename package 'com.greatfree.testing.eventing'
+1410946157244	Rename package 'com.greatfree.testing.polling'
+1410947651466	Rename local variable 'ip'
+1411225806857	Delete element
+1411226618283	Rename type 'EventingListenerDisposer'
+1411226726356	Rename type 'PollingServerProducerDisposer'
+1411226765645	Rename type 'PollingListenerDisposer'
+1411226932203	Rename type 'ListenerDisposer'
+1411226958081	Rename type 'ListenerDisposer'
+1411229510137	Rename type 'ServerProducerDisposer'
+1411229649031	Rename method 'DRINK'
+1411230497145	Delete element

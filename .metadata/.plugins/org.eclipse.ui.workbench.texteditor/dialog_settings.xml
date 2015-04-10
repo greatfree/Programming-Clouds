@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="263" key="DIALOG_WIDTH"/>
+		<item value="441" key="DIALOG_Y_ORIGIN"/>
+		<item value="832" key="DIALOG_X_ORIGIN"/>
+		<item value="399" key="DIALOG_HEIGHT"/>
+		<item value="1|Lucida Grande|11.0|0|COCOA|1|LucidaGrande" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="true" key="wrap"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
+		<item value="false" key="incremental"/>
+		<item value="false" key="wholeword"/>
+		<item value="29" key="selection"/>
+		<list key="findhistory">
+			<item value="09"/>
+			<item value="04"/>
+			<item value="28"/>
+			<item value="memory"/>
+			<item value="MemoryIO"/>
+			<item value="static final"/>
+			<item value="10"/>
+			<item value="LOCAL_KEY"/>
+		</list>
+		<list key="replacehistory">
+			<item value="29"/>
+			<item value="SearchIO"/>
+			<item value="final static"/>
+			<item value="28"/>
+			<item value="11/28"/>
+			<item value="memory server"/>
+			<item value="memory servers"/>
+			<item value="11/27/"/>
+		</list>
+	</section>
+</section>

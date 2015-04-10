@@ -1,0 +1,17 @@
+{
+  "/GreatFreeLabs/Papers/JavaProgramming/Code/DistributedPattern/src": {
+    "location": "/GreatFreeLabs/Papers/JavaProgramming/Code/DistributedPattern/src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027/GreatFreeLabs/Papers/JavaProgramming/Code/DistributedPattern/src\u0027. Skipped."
+  },
+  "/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar": {
+    "coordinate": "jre:jre:zip:call:1.0.0",
+    "location": "/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar",
+    "status": "RESOLVED"
+  },
+  "/GreatFreeLabs/Papers/JavaProgramming/Code/Lib/je-5.0.58.jar": {
+    "location": "/GreatFreeLabs/Papers/JavaProgramming/Code/Lib/je-5.0.58.jar",
+    "status": "UNRESOLVED",
+    "error": "No call model found for \u0027/GreatFreeLabs/Papers/JavaProgramming/Code/Lib/je-5.0.58.jar\u0027. Neither fingerprint \u0027bb82e0540b1f60613ea8e6e85c2f9a92b4585bc0\u0027 nor symbolic name \u0027je-5.0.58\u0027 are known."
+  }
+}

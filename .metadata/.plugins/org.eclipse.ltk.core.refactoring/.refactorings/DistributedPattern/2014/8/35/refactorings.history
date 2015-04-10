@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;com.greatfree.data&apos; to &apos;com.greatfree.util&apos;&#x0A;- Original project: &apos;DistributedPattern&apos;&#x0A;- Original element: &apos;DistributedPattern/src/com.greatfree.data&apos;&#x0A;- Renamed element: &apos;DistributedPattern/src/com.greatfree.util&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;com.greatfree.data&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;com.greatfree.data" name="com.greatfree.util" qualified="false" references="true" stamp="1409018375240" textual="false" version="1.0"/>
+</session>
