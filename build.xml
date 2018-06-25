@@ -1,0 +1,53 @@
+<project name="Clouds" default="main" basedir=".">
+  <description>This file is used to build the server node. 03/03/2017, Bing Li</description>
+  <!-- set global properties for this build -->
+  <property name="src.dir" value="src"/>
+  <property name="build.dir" value="build"/>
+  <property name="classes.dir" value="${build.dir}/classes"/>
+  <property name="jar.dir" value="${build.dir}/jar"/>
+  <property name="main-class" value="com.greatfree.testing.server.StartServer"/>
+  <property name="lib.dir" value="lib"/>
+  <property name="lib.dir" value="lib"/>
+  <property name="java.home" value="/opt/jdk1.7.0"/>
+
+  <path id="classpath">
+    <fileset dir="${java.home}" includes="**/*.jar"/>
+    <fileset dir="${lib.dir}" includes="**/*.jar"/>
+  </path>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${classes.dir}"/>
+    <mkdir dir="${jar.dir}"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile the source">
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" debug="true" debuglevel="source,lines,vars" includeantruntime="false"/>
+  </target>
+
+  <target name="jar" depends="compile" description="generate the distribution" >
+    <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="${main-class}"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="run" depends="jar">
+    <java fork="true" maxmemory="8192m" classname="${main-class}">
+      <classpath>
+        <path refid="classpath"/>
+        <path location="${jar.dir}/${ant.project.name}.jar"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="clean" description="clean up" >
+    <delete dir="${build.dir}"/>
+  </target>
+
+  <target name="main" depends="clean,run"/>
+</project>
