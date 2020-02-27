@@ -2,7 +2,9 @@
 
 The World First Generic &amp; Self-Contained Distributed Programming Paradigm
 
-Video class: https://bit.ly/38pvojZ
+Video classes (Chinese): https://bit.ly/38pvojZ
+
+Video classes (English): https://bit.ly/39opE9L
 
 GreatFree as a Generic and Self-Contained Programming Paradigm for the Distributed Computing Environment over the Internet
 
