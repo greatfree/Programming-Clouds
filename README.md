@@ -6,6 +6,8 @@ Video classes (Chinese): https://bit.ly/38pvojZ
 
 Video classes (English): https://bit.ly/39opE9L
 
+(All of the videos are still being updated. The English classes miss more topics. I am uploading the version now. 02/27/2020, Bing Li)
+
 GreatFree as a Generic and Self-Contained Programming Paradigm for the Distributed Computing Environment over the Internet
 
 As a generic and self-contained programming paradigm for the distributed computing environment over the Internet, GreatFree is characterized by the three essential techniques, including the Distributed Primitives (DP), the Asynchronous Messaging on the Thread Level (AMTL) and the Steady Patterns for Rich Application (SPRA) programming interfaces. The DP is a series of fundamental programming elements with their corresponding code-level design patterns, which hide tedious underlying technical details to raise the programming efficiency as well as compose advanced components for complicated scenarios. The AMTL not only eases the concurrency programming to develop asynchronous systems by default but also makes threading visible to design sophisticated concurrent mechanisms. The SPRA unveils that numerous heterogeneous distributed systems can be implemented with the distributed programming components of GreatFree in a limited number of homogeneous code-level design patterns. It proves that GreatFree is self-contained and generic such that developers are allowed to work with the paradigm only to program various distributed systems conveniently. Because of the highly patterned implementation, a new high-level language is feasible to be proposed for more simplified distributed programming.
