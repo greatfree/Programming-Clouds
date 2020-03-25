@@ -1,0 +1,33 @@
+package org.greatfree.dip.container.p2p.self.peer;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+import org.greatfree.chat.ChatConfig;
+import org.greatfree.dip.container.p2p.message.SelfNotification;
+import org.greatfree.dip.container.p2p.message.SelfRequest;
+import org.greatfree.dip.container.p2p.message.SelfResponse;
+import org.greatfree.exceptions.RemoteReadException;
+
+// Created: 10/03/2019, Bing Li
+class StartSelfPeer
+{
+
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	{
+		SelfPeer.CONTAINER().start("greatfree", ChatConfig.CHAT_SERVER_PORT, new SelfTask(), true);
+		
+		SelfPeer.CONTAINER().selfSyncNotify(new SelfNotification("hello"));
+
+		SelfResponse response = (SelfResponse)SelfPeer.CONTAINER().selfRead(new SelfRequest("query"));
+		System.out.println(response.getResponse());
+		
+		System.out.println("Press enter to exit ...");
+		Scanner in = new Scanner(System.in);
+		in.nextLine();
+
+		SelfPeer.CONTAINER().stop(1000);
+		in.close();
+	}
+
+}

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Container>
+	<!-- Server Parameters -->
+	<Port>8964</Port>
+	<ListeningThreadCount>5</ListeningThreadCount>
+	<ServerThreadPoolSize>100</ServerThreadPoolSize>
+	<ServerThreadKeepAliveTime>5000</ServerThreadKeepAliveTime>
+	<SchedulerThreadPoolSize>50</SchedulerThreadPoolSize>
+	<SchedulerThreadPoolKeepAliveTime>5000</SchedulerThreadPoolKeepAliveTime>
+	
+	<!-- Notification Dispatcher Parameters -->
+	<NotificationDispatcherPoolSize>100</NotificationDispatcherPoolSize>
+	<NotificationQueueSize>20</NotificationQueueSize>
+	<NotificationDispatcherWaitTime>1000</NotificationDispatcherWaitTime>
+	<NotificationDispatcherWaitRound>5</NotificationDispatcherWaitRound>
+	<NotificationDispatcherIdleCheckDelay>3000</NotificationDispatcherIdleCheckDelay>
+	<NotificationDispatcherIdleCheckPeriod>3000</NotificationDispatcherIdleCheckPeriod>
+
+	<!-- Request Dispatcher Parameters -->	
+	<RequestDispatcherPoolSize>100</RequestDispatcherPoolSize>
+	<RequestQueueSize>30</RequestQueueSize>
+	<RequestDispatcherWaitTime>1000</RequestDispatcherWaitTime>
+	<RequestDispatcherWaitRound>5</RequestDispatcherWaitRound>
+	<RequestDispatcherIdleCheckDelay>3000</RequestDispatcherIdleCheckDelay>
+	<RequestDispatcherIdleCheckPeriod>3000</RequestDispatcherIdleCheckPeriod>
+
+	<!-- Peer Parameters -->
+	<PeerName>Coordinator</PeerName>
+	<RegistryServerIP>192.168.0.117</RegistryServerIP>
+	<RegistryServerPort>8941</RegistryServerPort>
+	<IsRegistryNeeded>true</IsRegistryNeeded>
+	<FreeClientPoolSize>500</FreeClientPoolSize>
+	<ReaderClientSize>100</ReaderClientSize>
+	<SyncEventerIdleCheckDelay>4000</SyncEventerIdleCheckDelay>
+	<SyncEventerIdleCheckPeriod>5000</SyncEventerIdleCheckPeriod>
+	<SyncEventerMaxIdleTime>3000</SyncEventerMaxIdleTime>
+	<AsyncEventQueueSize>100</AsyncEventQueueSize>
+	<AsyncEventerSize>50</AsyncEventerSize>
+	<AsyncEventingWaitTime>1000</AsyncEventingWaitTime>
+	<AsyncEventerWaitTime>1000</AsyncEventerWaitTime>
+	<AsyncEventerWaitRound>5</AsyncEventerWaitRound>
+	<AsyncEventIdleCheckDelay>3000</AsyncEventIdleCheckDelay>
+	<AsyncEventIdleCheckPeriod>3000</AsyncEventIdleCheckPeriod>
+	<ClientThreadPoolSize>100</ClientThreadPoolSize>
+	<ClientThreadKeepAliveTime>3000</ClientThreadKeepAliveTime>
+
+	<!-- Cluster Parameters -->
+	<SchedulerPoolSize>50</SchedulerPoolSize>
+	<SchedulerKeepAliveTime>5000</SchedulerKeepAliveTime>
+	<SchedulerShutdownTimeout>6000</SchedulerShutdownTimeout>
+	<RootBranchCount>2</RootBranchCount>
+	<SubBranchCount>2</SubBranchCount>
+	<BroadcastRequestWaitTime>50000</BroadcastRequestWaitTime>
+	<RootName>ClusterRoot</RootName>
+
+</Container>
