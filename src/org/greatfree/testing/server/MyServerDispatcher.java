@@ -42,7 +42,7 @@ import org.greatfree.testing.message.WeatherStream;
 
 // Created: 09/20/2014, Bing Li
 //public class MyServerDispatcher extends ServerMessageDispatcher<ServerMessage>
-public class MyServerDispatcher extends ServerDispatcher<ServerMessage>
+class MyServerDispatcher extends ServerDispatcher<ServerMessage>
 {
 	// Declare a notification dispatcher to process the registration notification concurrently. 11/04/2014, Bing Li
 	private NotificationDispatcher<RegisterClientNotification, RegisterClientThread, RegisterClientThreadCreator> registerClientNotificationDispatcher;

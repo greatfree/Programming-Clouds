@@ -13,7 +13,7 @@ import org.greatfree.server.abandoned.MessageProducer;
  */
 
 // Created: 08/04/2014, Bing Li
-public class ServerMessageProducer
+class ServerMessageProducer
 {
 	// The Threader aims to associate with the message producer to guarantee the producer can work concurrently. 09/20/2014, Bing Li
 //	private Runner<MessageProducer<MyServerDispatcher>, ServerProducerDisposer> producerThreader;

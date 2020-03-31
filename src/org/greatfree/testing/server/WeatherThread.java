@@ -14,7 +14,7 @@ import org.greatfree.testing.server.resources.WeatherDB;
  */
 
 // Created: 02/15/2016, Bing Li
-public class WeatherThread extends RequestQueue<WeatherRequest, WeatherStream, WeatherResponse>
+class WeatherThread extends RequestQueue<WeatherRequest, WeatherStream, WeatherResponse>
 {
 	/*
 	 * Initialize the thread of request queue. The value of maxTaskSize is the length of the queue to take the count of requests. 02/15/2016, Bing Li

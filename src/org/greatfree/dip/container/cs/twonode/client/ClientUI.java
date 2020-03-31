@@ -73,21 +73,24 @@ class ClientUI
 			case MenuOptions.REGISTER_CHATTING:
 //				response = (ChatRegistryResponse)ChatClient.CS_FRONT().read(new ChatRegistryRequest(ChatMaintainer.CS().getLocalUserKey(), ChatMaintainer.CS().getLocalUsername(), ChatMaintainer.CS().getLocalUsername() + " is a great & free guy!"));
 
-				response = (ChatRegistryResponse)StandaloneClient.CS().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatRegistryRequest(ChatMaintainer.CS_CONTAINER().getLocalUserKey(), ChatMaintainer.CS_CONTAINER().getLocalUsername(), ChatMaintainer.CS_CONTAINER().getLocalUsername() + " is a great & free guy!"));
+//				response = (ChatRegistryResponse)StandaloneClient.CS().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatRegistryRequest(ChatMaintainer.CS_CONTAINER().getLocalUserKey(), ChatMaintainer.CS_CONTAINER().getLocalUsername(), ChatMaintainer.CS_CONTAINER().getLocalUsername() + " is a great & free guy!"));
 
-				System.out.println("Chatting registry status: " + response.isSucceeded());
+//				System.out.println("Chatting registry status: " + response.isSucceeded());
 
 				/*
 				 * The below code is used to test the future read. 03/25/2020, Bing Li
 				 */
-				System.out.println("AGAIN: Chatting registry status: " + response.isSucceeded());
+//				System.out.println("AGAIN: Chatting registry status: " + response.isSucceeded());
 
-				Future<ServerMessage> res = StandaloneClient.CS().futureRead(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatRegistryRequest(ChatMaintainer.CS_CONTAINER().getLocalUserKey(), ChatMaintainer.CS_CONTAINER().getLocalUsername(), ChatMaintainer.CS_CONTAINER().getLocalUsername() + " is a great & free guy!"));
-				
+//				Future<ServerMessage> res = StandaloneClient.CS().futureRead(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatRegistryRequest(ChatMaintainer.CS_CONTAINER().getLocalUserKey(), ChatMaintainer.CS_CONTAINER().getLocalUsername(), ChatMaintainer.CS_CONTAINER().getLocalUsername() + " is a great & free guy!"));
+				Future<ServerMessage> res = StandaloneClient.CS().futureRead(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatRegistryRequest(ChatMaintainer.CS_CONTAINER().getLocalUserKey(), ChatMaintainer.CS_CONTAINER().getLocalUsername(), ChatMaintainer.CS_CONTAINER().getLocalUsername() + " is a great & free guy!"), 2000);
+
+				/*
 				while (!res.isDone())
 				{
 					System.out.println("Waiting ...");
 				}
+				*/
 				
 				try
 				{
@@ -97,7 +100,8 @@ class ClientUI
 				}
 				catch (ExecutionException e)
 				{
-					e.printStackTrace();
+//					e.printStackTrace();
+					System.out.println("Time out ...");
 				}
 				break;
 

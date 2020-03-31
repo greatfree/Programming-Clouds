@@ -8,7 +8,7 @@ import org.greatfree.util.TerminateSignal;
  */
 
 // Created: 07/17/2014, Bing Li
-public class StartServer
+class StartServer
 {
 	public static void main(String[] args)
 	{

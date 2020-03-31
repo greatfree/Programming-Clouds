@@ -28,7 +28,22 @@ class RequestThread extends RequestQueue<Request, RequestStream, ServerMessage>
 			while (!this.isEmpty())
 			{
 				request = this.getRequest();
-				response = ServiceProvider.CS().processRequest(request.getMessage());
+				
+				System.out.println("RequestThread: serverKey = " + super.getServerKey());
+				
+				response = ServiceProvider.CS().processRequest(super.getServerKey(), request.getMessage());
+
+				// The sleeping aims to test the reading out feature. 03/29/2020, Bing Li
+				/*
+				try
+				{
+					Thread.sleep(5000);
+				}
+				catch (InterruptedException e1)
+				{
+					e1.printStackTrace();
+				}
+				*/
 				try
 				{
 					this.respond(request.getOutStream(), request.getLock(), response);

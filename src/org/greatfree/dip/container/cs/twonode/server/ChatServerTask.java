@@ -55,7 +55,7 @@ class ChatServerTask implements ServerTask
 				ChatRegistryRequest crr = (ChatRegistryRequest)request;
 				
 				System.out.println(crr.getUserKey() + ", " + crr.getUserName() + ", " + crr.getDescription());
-				
+
 				AccountRegistry.CS().add(new CSAccount(crr.getUserKey(), crr.getUserName(), crr.getDescription()));
 				return new ChatRegistryResponse(true);
 		}

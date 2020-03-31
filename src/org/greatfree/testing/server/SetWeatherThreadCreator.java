@@ -8,7 +8,7 @@ import org.greatfree.testing.message.WeatherNotification;
  */
 
 // Created: 02/15/2016, Bing Li
-public class SetWeatherThreadCreator implements NotificationThreadCreatable<WeatherNotification, SetWeatherThread>
+class SetWeatherThreadCreator implements NotificationThreadCreatable<WeatherNotification, SetWeatherThread>
 {
 	@Override
 	public SetWeatherThread createNotificationThreadInstance(int taskSize)

@@ -25,7 +25,7 @@ class NotificationThread extends NotificationQueue<Notification>
 				try
 				{
 					notification = this.getNotification();
-					ServiceProvider.CS().processNotification(notification);
+					ServiceProvider.CS().processNotification(super.getServerKey(), notification);
 					this.disposeMessage(notification);
 				}
 				catch (InterruptedException e)

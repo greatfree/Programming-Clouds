@@ -12,7 +12,7 @@ import org.greatfree.dip.p2p.peer.ChatMaintainer;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 01/12/2019, Bing Li
-public class ClientUI
+class ClientUI
 {
 	private Scanner in = new Scanner(System.in);
 

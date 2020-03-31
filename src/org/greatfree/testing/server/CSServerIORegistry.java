@@ -10,7 +10,7 @@ import org.greatfree.client.ServerIORegistry;
  */
 
 // Created: 08/22/2014, Bing Li
-public class CSServerIORegistry
+class CSServerIORegistry
 {
 	// Declare an instance of ServerIORegistry for MyServerIOs. 08/22/2014, Bing Li
 	private ServerIORegistry<CSServerIO> registry;

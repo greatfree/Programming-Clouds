@@ -7,7 +7,7 @@ import org.greatfree.reuse.RunnerDisposable;
  */
 
 // Created: 08/10/2014, Bing Li
-public class ServerListenerDisposer implements RunnerDisposable<CSServerListener>
+class ServerListenerDisposer implements RunnerDisposable<CSServerListener>
 {
 	/*
 	 * Dispose the instance of MyServerListener. 09/20/2014, Bing Li

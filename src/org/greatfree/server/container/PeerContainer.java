@@ -16,6 +16,8 @@ public class PeerContainer
 	
 	public PeerContainer(String peerName, int port, ServerTask task, boolean isRegistryNeeded) throws IOException
 	{
+		CSDispatcher csd = new CSDispatcher(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
+
 		this.peer = new Peer.PeerBuilder<CSDispatcher>()
 				.peerPort(port)
 				.peerName(peerName)
@@ -26,7 +28,7 @@ public class PeerContainer
 //				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)
 //				.serverThreadKeepAliveTime(ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME)
 //				.dispatcher(new CSDispatcher(RegistryConfig.DISPATCHER_THREAD_POOL_SIZE, RegistryConfig.DISPATCHER_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME))
-				.dispatcher(new CSDispatcher(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME))
+				.dispatcher(csd)
 				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
 				.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
 				.syncEventerIdleCheckDelay(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_DELAY)
@@ -47,14 +49,20 @@ public class PeerContainer
 //				.schedulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
 //				.asyncEventerShutdownTimeout(ClientConfig.ASYNC_SCHEDULER_SHUTDOWN_TIMEOUT)
 				.build();
+		
+		// Assign the server key to the message dispatchers in the server dispatcher. 03/30/2020, Bing Li
+		csd.init();
 
-		ServiceProvider.CS().init(task);
+		ServiceProvider.CS().init(this.peer.getPeerID(), task);
 	}
 
 	
 	public PeerContainer(ServerTask task, String configXML) throws IOException
 	{
 		PeerProfile.P2P().init(configXML);
+
+		CSDispatcher csd = new CSDispatcher(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
+
 		this.peer = new Peer.PeerBuilder<CSDispatcher>()
 				.peerPort(ServerProfile.CS().getPort())
 				.peerName(PeerProfile.P2P().getPeerName())
@@ -64,7 +72,7 @@ public class PeerContainer
 				.listenerCount(ServerProfile.CS().getListeningThreadCount())
 //				.serverThreadPoolSize(ServerProfile.CS().getServerThreadPoolSize())
 //				.serverThreadKeepAliveTime(ServerProfile.CS().getServerThreadKeepAliveTime())
-				.dispatcher(new CSDispatcher(ServerProfile.CS().getServerThreadPoolSize(), ServerProfile.CS().getServerThreadKeepAliveTime(), ServerProfile.CS().getSchedulerThreadPoolSize(), ServerProfile.CS().getSchedulerThreadPoolKeepAliveTime()))
+				.dispatcher(csd)
 				.freeClientPoolSize(PeerProfile.P2P().getFreeClientPoolSize())
 				.readerClientSize(PeerProfile.P2P().getReaderClientSize())
 				.syncEventerIdleCheckDelay(PeerProfile.P2P().getSyncEventerIdleCheckDelay())
@@ -80,8 +88,11 @@ public class PeerContainer
 				.schedulerPoolSize(PeerProfile.P2P().getSchedulerPoolSize())
 				.scheulerKeepAliveTime(PeerProfile.P2P().getSchedulerKeepAliveTime())
 				.build();
+		
+		// Assign the server key to the message dispatchers in the server dispatcher. 03/30/2020, Bing Li
+		csd.init();
 
-		ServiceProvider.CS().init(task);
+		ServiceProvider.CS().init(this.peer.getPeerID(), task);
 	}
 
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException

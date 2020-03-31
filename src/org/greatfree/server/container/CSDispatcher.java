@@ -13,7 +13,7 @@ import org.greatfree.message.container.RequestStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 12/18/2018, Bing Li
-public class CSDispatcher extends ServerDispatcher<ServerMessage>
+class CSDispatcher extends ServerDispatcher<ServerMessage>
 {
 	private NotificationDispatcher<Notification, NotificationThread, NotificationThreadCreator> notificationDispatcher;
 	private RequestDispatcher<Request, RequestStream, ServerMessage, RequestThread, RequestThreadCreator> requestDispatcher;
@@ -23,10 +23,14 @@ public class CSDispatcher extends ServerDispatcher<ServerMessage>
 	{
 		super(threadPoolSize, threadKeepAliveTime, schedulerPoolSize, schedulerKeepAliveTime);
 //		super(schedulerPoolSize, schedulerKeepAliveTime);
-
+	}
+	
+	public void init()
+	{
 		if (ServerProfile.CS().isDefault())
 		{
 			this.notificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<Notification, NotificationThread, NotificationThreadCreator>()
+					.serverKey(super.getServerKey())
 					.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 					.threadCreator(new NotificationThreadCreator())
 					.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
@@ -37,7 +41,10 @@ public class CSDispatcher extends ServerDispatcher<ServerMessage>
 					.scheduler(super.getScheduler())
 					.build();
 
+			System.out.println("CSDispatcher-Constructor(): server key = " + super.getServerKey());
+			
 			this.requestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<Request, RequestStream, ServerMessage, RequestThread, RequestThreadCreator>()
+					.serverKey(super.getServerKey())
 					.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
 					.threadCreator(new RequestThreadCreator())
 					.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
@@ -51,6 +58,7 @@ public class CSDispatcher extends ServerDispatcher<ServerMessage>
 		else
 		{
 			this.notificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<Notification, NotificationThread, NotificationThreadCreator>()
+					.serverKey(super.getServerKey())
 					.poolSize(ServerProfile.CS().getNotificationDispatcherPoolSize())
 					.threadCreator(new NotificationThreadCreator())
 					.notificationQueueSize(ServerProfile.CS().getNotificationQueueSize())
@@ -62,6 +70,7 @@ public class CSDispatcher extends ServerDispatcher<ServerMessage>
 					.build();
 
 			this.requestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<Request, RequestStream, ServerMessage, RequestThread, RequestThreadCreator>()
+					.serverKey(super.getServerKey())
 					.poolSize(ServerProfile.CS().getRequestDispatcherPoolSize())
 					.threadCreator(new RequestThreadCreator())
 					.requestQueueSize(ServerProfile.CS().getRequestQueueSize())

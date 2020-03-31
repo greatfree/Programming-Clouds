@@ -8,7 +8,7 @@ import org.greatfree.server.abandoned.MessageProducer;
  */
 
 // Created: 09/20/2014, Bing Li
-public class ServerProducerDisposer implements RunnerDisposable<MessageProducer<MyServerDispatcher>>
+class ServerProducerDisposer implements RunnerDisposable<MessageProducer<MyServerDispatcher>>
 {
 	/*
 	 * Dispose the message producer. 09/20/2014, Bing Li

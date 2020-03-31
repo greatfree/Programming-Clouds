@@ -16,7 +16,7 @@ import org.greatfree.util.NodeID;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 05/01/2017, Bing Li
-public class StartPeer
+class StartPeer
 {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException

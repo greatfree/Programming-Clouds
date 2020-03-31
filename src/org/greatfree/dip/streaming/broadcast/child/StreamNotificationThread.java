@@ -37,7 +37,7 @@ class StreamNotificationThread extends NotificationQueue<StreamNotification>
 
 					// Only the randomly selected child is responsible for multicasting data to subscribers. 03/21/2020, Bing Li
 					if (notification.getChildKey().equals(ChildPeer.BROADCAST().getLocalKey()))
-					{						
+					{
 						if (RootMulticastor.CHILD_STREAM().resetChildren(ChildPeer.BROADCAST().getSubscriberIPs(notification.getData().getPublisher(), notification.getData().getTopic())))
 						{
 							RootMulticastor.CHILD_STREAM().broadcastNotify(notification);

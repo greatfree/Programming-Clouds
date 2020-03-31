@@ -3,9 +3,9 @@ package org.greatfree.concurrency;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.greatfree.exceptions.FutureExceptionHandler;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.UtilConfig;
 
@@ -14,10 +14,12 @@ import org.greatfree.util.UtilConfig;
  */
 
 // Created: 07/17/2014, Bing Li
+// public class ThreadPool
 public class ThreadPool
 {
 	// The built-in thread pool from JDK. 08/10/2014, Bing Li
-	private ThreadPoolExecutor threadPool;
+//	private ThreadPoolExecutor threadPool;
+	private AfterExecuteThreadExecutor threadPool;
 	// The core pool size of the thread pool. 08/10/2014, Bing Li
 	private int corePoolSize;
 	// The max pool size of the thread pool. 08/10/2014, Bing Li
@@ -36,7 +38,8 @@ public class ThreadPool
 		this.corePoolSize = corePoolSize;
 		this.maxPoolSize = corePoolSize + UtilConfig.ADDTIONAL_THREAD_POOL_SIZE;
 		this.keepAliveTime = keepAliveTime;
-		this.threadPool = new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, TimeUnit.MILLISECONDS, this.taskQueue);
+//		this.threadPool = new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, TimeUnit.MILLISECONDS, this.taskQueue);
+		this.threadPool = new AfterExecuteThreadExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, TimeUnit.MILLISECONDS, this.taskQueue);
 	}
 	
 	/*
@@ -75,11 +78,13 @@ public class ThreadPool
 		{
 			if (this.keepAliveTime == Long.MAX_VALUE)
 			{
-				this.threadPool = new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, TimeUnit.MILLISECONDS, this.taskQueue);
+//				this.threadPool = new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, TimeUnit.MILLISECONDS, this.taskQueue);
+				this.threadPool = new AfterExecuteThreadExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, TimeUnit.MILLISECONDS, this.taskQueue);
 			}
 			else
 			{
-				this.threadPool = new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, TimeUnit.MILLISECONDS, this.taskQueue);
+//				this.threadPool = new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, TimeUnit.MILLISECONDS, this.taskQueue);
+				this.threadPool = new AfterExecuteThreadExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, TimeUnit.MILLISECONDS, this.taskQueue);
 			}
 		}
 	}
@@ -119,7 +124,13 @@ public class ThreadPool
 		this.threadPool.submit(task);
 	}
 	
-	public ThreadPoolExecutor getPool()
+	public void setFutureExceptionHandler(FutureExceptionHandler handler)
+	{
+		this.threadPool.setFutureExceptionHandler(handler);
+	}
+	
+//	public ThreadPoolExecutor getPool()
+	public AfterExecuteThreadExecutor getPool()
 	{
 		return this.threadPool;
 	}

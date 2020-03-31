@@ -35,7 +35,8 @@ class StartChatClient
 
 		System.out.println("Client starting up ...");
 
-		StandaloneClient.CS().init();
+//		StandaloneClient.CS().init();
+		StandaloneClient.CS().init(new ReadExceptionHandler());
 		
 		System.out.println("Client started ...");
 		

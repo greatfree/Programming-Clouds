@@ -7,7 +7,7 @@ import org.greatfree.chat.ChatOptions;
 import org.greatfree.dip.p2p.peer.ChatMaintainer;
 
 // Created: 01/12/2019, Bing Li
-public class ChatUI
+class ChatUI
 {
 	private Scanner in = new Scanner(System.in);
 

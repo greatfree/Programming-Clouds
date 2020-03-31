@@ -15,6 +15,12 @@ import org.greatfree.testing.message.MessageType;
 import org.greatfree.testing.message.RegisterClientNotification;
 
 /*
+ * The server key is added as a new field. 03/30/2020, Bing Li
+ * 
+ * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+ */
+
+/*
  * This is an implementation of ServerMessageDispatcher. It contains the concurrency mechanism to respond clients' requests and receive clients' notifications for the server. The dispatcher contains the concurrency mechanism that is used to establish the fundamental connection rather than high level applications. In another word, the high level application needs to build on it. 04/19/2017, Bing Li
  */
 
@@ -22,6 +28,9 @@ import org.greatfree.testing.message.RegisterClientNotification;
 //public abstract class ServerDispatcher extends ServerMessageDispatcher<ServerMessage>
 public abstract class ServerDispatcher<Message extends ServerMessage>
 {
+	// The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+	private String serverKey;
+	
 	// Declare an instance of ThreadPool that is used to execute threads concurrently. 11/07/2014, Bing Li
 	private ThreadPool pool;
 
@@ -93,6 +102,16 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 
 	public abstract void dispose(long timeout) throws InterruptedException;
 	public abstract void process(OutMessageStream<ServerMessage> message);
+	
+	public String getServerKey()
+	{
+		return this.serverKey;
+	}
+	
+	public void setServerKey(String key)
+	{
+		this.serverKey = key;
+	}
 	
 	/*
 	 * Shut down the server message dispatcher. 09/20/2014, Bing Li

@@ -38,6 +38,12 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 	// The thread is possibly interrupted by the thread pool/the system when the thread is hung by a task permanently. If so, the exception is not required to be displayed according to the flag. 11/05/2019, Bing Li
 //	private AtomicBoolean isSysInterrupted;
 	private AtomicBoolean isHung;
+	/*
+	 * The server key is added as a new field. 03/30/2020, Bing Li
+	 * 
+	 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+	 */
+	private String serverKey;
 
 	/*
 	 * Initialize an instance. 09/22/2014, Bing Li
@@ -121,6 +127,21 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 	public String getKey()
 	{
 		return this.key;
+	}
+
+	/*
+	 * The server key is added as a new field. 03/30/2020, Bing Li
+	 * 
+	 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+	 */
+	public void setServerKey(String key)
+	{
+		this.serverKey = key;
+	}
+	
+	public String getServerKey()
+	{
+		return this.serverKey;
 	}
 
 	/*

@@ -8,6 +8,7 @@ import org.greatfree.dip.multicast.child.ChildMulticastor;
 import org.greatfree.dip.multicast.message.ShutdownChildrenBroadcastNotification;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.util.ServerStatus;
 
 // Created: 03/23/2020, Bing Li
 class ShutdownChildrenBroadcastNotificationThread extends NotificationQueue<ShutdownChildrenBroadcastNotification>
@@ -35,7 +36,7 @@ class ShutdownChildrenBroadcastNotificationThread extends NotificationQueue<Shut
 				}
 				catch (InterruptedException | IOException | ClassNotFoundException | RemoteReadException | InstantiationException | IllegalAccessException | DistributedNodeFailedException e)
 				{
-					e.printStackTrace();
+					ServerStatus.FREE().printException(e);
 				}
 			}
 			try

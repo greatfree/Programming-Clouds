@@ -4,7 +4,7 @@ import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
 import org.greatfree.testing.message.TestNotification;
 
 // Created: 12/10/2016, Bing Li
-public class TestNotificationThreadCreator implements NotificationThreadCreatable<TestNotification, TestNotificationThread>
+class TestNotificationThreadCreator implements NotificationThreadCreatable<TestNotification, TestNotificationThread>
 {
 
 	@Override

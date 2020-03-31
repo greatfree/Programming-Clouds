@@ -5,6 +5,14 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.greatfree.util.Tools;
 
 /*
+ * The server key is updated to be identical to the one of CSServer. 03/30/2020, Bing Li
+ * 
+ * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+ * 
+ * If only one server container exists in a process, the key is not required to be identical to the one of CSServer. It is generated arbitrarily. 03/30/2020, Bing Li
+ */
+
+/*
  * This class contains the basic parameters to initialize dispatchers, which are widely used in the development environment to manage threads efficiently. 12/01/2016, Bing Li
  */
 
@@ -12,7 +20,7 @@ import org.greatfree.util.Tools;
 public abstract class ConcurrentDispatcher implements Runnable, CheckIdleable
 {
 	// The key of the dispatcher. 12/01/2016, Bing Li
-	private final String key;
+	private final String serverKey;
 	// The size of the thread pool. 05/19/2018, Bing Li
 	private final int poolSize;
 	// Declare a thread pool that is used to run a thread. 11/04/2014, Bing Li
@@ -66,7 +74,38 @@ public abstract class ConcurrentDispatcher implements Runnable, CheckIdleable
 	public ConcurrentDispatcher(int poolSize, int maxTaskSizePerThread, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, long idleCheckDelay, long idleCheckPeriod, int waitRound)
 	{
 		// Generate a unique key for each dispatcher. 12/01/2016, Bing Li
-		this.key = Tools.generateUniqueKey();
+		this.serverKey = Tools.generateUniqueKey();
+		this.poolSize = poolSize;
+//		this.threadPool = threadPool;
+		this.maxTaskSizePerThread = maxTaskSizePerThread;
+//		this.maxThreadSize = poolSize;
+		this.scheduler = scheduler;
+		this.workCollaborator = new Sync(true);
+		this.dispatcherWaitTime = dispatcherWaitTime;
+//		this.isSelfThreadPool = isSelfThreadPool;
+		this.waitRound = waitRound;
+		this.idleCheckDelay = idleCheckDelay;
+		this.idleCheckPeriod = idleCheckPeriod;
+//		this.timeout = timeout;
+	}
+
+	public ConcurrentDispatcher(String serverKey, int poolSize, int maxTaskSizePerThread, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, long idleCheckDelay, long idleCheckPeriod, int waitRound)
+	{
+		/*
+		 * The server key is updated to be identical to the one of CSServer. 03/30/2020, Bing Li
+		 * 
+		 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+		 * 
+		 * If only one server container exists in a process, the key is not required to be identical to the one of CSServer. It is generated arbitrarily. 03/30/2020, Bing Li
+		 */
+		if (serverKey != null)
+		{
+			this.serverKey = serverKey;
+		}
+		else
+		{
+			this.serverKey = Tools.generateUniqueKey();
+		}
 		this.poolSize = poolSize;
 //		this.threadPool = threadPool;
 		this.maxTaskSizePerThread = maxTaskSizePerThread;
@@ -87,9 +126,9 @@ public abstract class ConcurrentDispatcher implements Runnable, CheckIdleable
 	/*
 	 * Expose the key. 12/01/2016, Bing Li
 	 */
-	protected String getKey()
+	protected String getServerKey()
 	{
-		return this.key;
+		return this.serverKey;
 	}
 
 	/*

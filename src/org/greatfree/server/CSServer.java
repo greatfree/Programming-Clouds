@@ -150,6 +150,7 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 		this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>>>();
 		this.messageProducer = new ServerMessageProducer<Dispatcher>();
 		this.dispatcher = builder.getDispatcher();
+		this.dispatcher.setServerKey(this.id);
 		this.isStarted = new AtomicBoolean(false);
 //		this.timeout = builder.getTimeout();
 	}
@@ -303,11 +304,13 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 		}
 		*/
 	}
-	
+
+	/*
 	public void setID(String key)
 	{
 		this.id = key;
 	}
+	*/
 	
 	public String getID()
 	{

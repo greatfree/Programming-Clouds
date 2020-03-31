@@ -7,7 +7,6 @@ import org.greatfree.dip.p2p.RegistryConfig;
 import org.greatfree.dip.streaming.StreamConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.server.Peer;
-import org.greatfree.server.PeerRegistry;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 03/18/2020, Bing Li
@@ -37,7 +36,7 @@ class PubSubServer
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
 		TerminateSignal.SIGNAL().setTerminated();
-		PeerRegistry.SYSTEM().dispose();
+//		PeerRegistry.SYSTEM().dispose();
 
 		this.peer.stop(timeout);
 	}

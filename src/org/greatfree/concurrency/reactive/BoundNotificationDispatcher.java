@@ -83,7 +83,7 @@ public class BoundNotificationDispatcher<Notification extends OldMulticastMessag
 		this.threads = new ConcurrentHashMap<String, Runner<NotificationThread>>();
 		this.notificationQueue = new LinkedBlockingQueue<Notification>();
 		this.binder = builder.getBinder();
-		this.binder.addThread(this.getKey());
+		this.binder.addThread(this.getServerKey());
 		this.threadCreator = builder.getCreator();
 		this.idleChecker = new ThreadIdleChecker<BoundNotificationDispatcher<Notification, Binder, NotificationThread, ThreadCreator>>(this);
 	}
@@ -426,7 +426,7 @@ public class BoundNotificationDispatcher<Notification extends OldMulticastMessag
 		if (this.threads.size() < upperSize)
 		{
 			// Create a new thread. 11/29/2014, Bing Li
-			NotificationThread thread = this.threadCreator.createNotificationThreadInstance(this.getMaxTaskSizePerThread(), this.getKey(), this.binder);
+			NotificationThread thread = this.threadCreator.createNotificationThreadInstance(this.getMaxTaskSizePerThread(), this.getServerKey(), this.binder);
 			// Take the notification. 11/29/2014, Bing Li
 			thread.enqueue(this.notificationQueue.poll());
 			// Initialize one instance of Runner. 05/19/2018, Bing Li
@@ -454,7 +454,7 @@ public class BoundNotificationDispatcher<Notification extends OldMulticastMessag
 		if (this.threads.size() <= 0)
 		{
 			// Create a new thread. 11/29/2014, Bing Li
-			NotificationThread thread = this.threadCreator.createNotificationThreadInstance(this.getMaxTaskSizePerThread(), this.getKey(), this.binder);
+			NotificationThread thread = this.threadCreator.createNotificationThreadInstance(this.getMaxTaskSizePerThread(), this.getServerKey(), this.binder);
 			// Take the notification. 11/29/2014, Bing Li
 			thread.enqueue(this.notificationQueue.poll());
 			// Initialize one instance of Runner. 05/19/2018, Bing Li

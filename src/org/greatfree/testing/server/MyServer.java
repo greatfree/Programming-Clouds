@@ -18,7 +18,7 @@ import org.greatfree.util.TerminateSignal;
  */
 
 // Created: 07/17/2014, Bing Li
-public class MyServer
+class MyServer
 {
 	// The ServerSocket waits for clients' connecting. The socket serves the server in the sense that it not only responds to clients' requests but also notifies clients even without clients' requests. 08/10/2014, Bing Li
 	private ServerSocket mySocket;

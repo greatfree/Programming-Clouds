@@ -50,7 +50,7 @@ public class BoundRequestDispatcher<Request extends OldMulticastMessage, Respons
 		this.threads = new ConcurrentHashMap<String, Runner<RequestThread>>();
 		this.requestQueue = new LinkedBlockingQueue<Request>();
 		this.reqBinder = builder.getBinder();
-		this.reqBinder.addThread(this.getKey());
+		this.reqBinder.addThread(this.getServerKey());
 		this.threadCreator = builder.getCreator();
 		this.idleChecker = new ThreadIdleChecker<BoundRequestDispatcher<Request, Response, RequestBinder, RequestThread, RequestThreadCreator>>(this);
 	}
@@ -411,7 +411,7 @@ public class BoundRequestDispatcher<Request extends OldMulticastMessage, Respons
 		if (this.threads.size() < upperSize)
 		{
 			// Create a new thread. 11/29/2014, Bing Li
-			RequestThread thread = this.threadCreator.createRequestThreadInstance(this.getMaxTaskSizePerThread(), this.getKey(), this.reqBinder);
+			RequestThread thread = this.threadCreator.createRequestThreadInstance(this.getMaxTaskSizePerThread(), this.getServerKey(), this.reqBinder);
 			// Take the request. 11/29/2014, Bing Li
 			thread.enqueue(this.requestQueue.poll());
 			// Initialize one instance of Runner. 05/19/2018, Bing Li
@@ -439,7 +439,7 @@ public class BoundRequestDispatcher<Request extends OldMulticastMessage, Respons
 		if (this.threads.size() <= 0)
 		{
 			// Create a new thread. 11/29/2014, Bing Li
-			RequestThread thread = this.threadCreator.createRequestThreadInstance(this.getMaxTaskSizePerThread(), this.getKey(), this.reqBinder);
+			RequestThread thread = this.threadCreator.createRequestThreadInstance(this.getMaxTaskSizePerThread(), this.getServerKey(), this.reqBinder);
 			// Take the request. 11/29/2014, Bing Li
 			thread.enqueue(this.requestQueue.poll());
 			// Initialize one instance of Runner. 05/19/2018, Bing Li

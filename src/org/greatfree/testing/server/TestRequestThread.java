@@ -9,7 +9,7 @@ import org.greatfree.testing.message.TestResponse;
 import org.greatfree.testing.message.TestStream;
 
 // Created: 12/10/2016, Bing Li
-public class TestRequestThread extends RequestQueue<TestRequest, TestStream, TestResponse>
+class TestRequestThread extends RequestQueue<TestRequest, TestStream, TestResponse>
 {
 
 	public TestRequestThread(int maxTaskSize)

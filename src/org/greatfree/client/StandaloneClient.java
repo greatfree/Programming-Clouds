@@ -7,6 +7,7 @@ import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.dip.p2p.RegistryConfig;
+import org.greatfree.exceptions.FutureExceptionHandler;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 
@@ -61,6 +62,31 @@ public class StandaloneClient
 				.schedulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
 				.asyncSchedulerShutdownTimeout(ClientConfig.ASYNC_SCHEDULER_SHUTDOWN_TIMEOUT)
 				.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
+				.build();
+		
+		SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);
+		this.client.init(SharedThreadPool.SHARED().getPool());
+	}
+
+	public void init(FutureExceptionHandler handler) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		this.client = new CSClient.CSClientBuilder()
+				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
+				.clientIdleCheckDelay(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_DELAY)
+				.clientIdleCheckPeriod(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_PERIOD)
+				.clientMaxIdleTime(RegistryConfig.SYNC_EVENTER_MAX_IDLE_TIME)
+				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
+				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
+				.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
+				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
+				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
+				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
+				.schedulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
+				.asyncSchedulerShutdownTimeout(ClientConfig.ASYNC_SCHEDULER_SHUTDOWN_TIMEOUT)
+				.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
+				.readTimeoutExceptionHandler(handler)
 				.build();
 		
 		SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);

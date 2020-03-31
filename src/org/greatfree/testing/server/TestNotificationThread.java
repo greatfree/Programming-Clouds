@@ -5,7 +5,7 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.testing.message.TestNotification;
 
 // Created: 12/10/2016, Bing Li
-public class TestNotificationThread extends NotificationQueue<TestNotification> 
+class TestNotificationThread extends NotificationQueue<TestNotification> 
 {
 	public TestNotificationThread(int taskSize)
 	{

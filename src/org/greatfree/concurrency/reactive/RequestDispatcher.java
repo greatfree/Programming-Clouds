@@ -21,6 +21,14 @@ import org.greatfree.util.ServerStatus;
 import org.greatfree.util.UtilConfig;
 
 /*
+ * The server key is updated to be identical to the one of CSServer. 03/30/2020, Bing Li
+ * 
+ * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+ * 
+ * If only one server container exists in a process, the key is not required to be identical to the one of CSServer. It is generated arbitrarily. 03/30/2020, Bing Li
+ */
+
+/*
  * This is an important class that enqueues requests and creates threads to respond them concurrently. It works in the way like a dispatcher. That is why it is named. 11/04/2014, Bing Li
  */
 
@@ -70,7 +78,8 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 	{
 //		super(builder.getPoolSize(), builder.getKeepAliveTime(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), true, builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound(), builder.getTimeout());
 //		super(builder.getThreadPool(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
-		super(builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
+//		super(builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
+		super(builder.getServerKey(), builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
 		this.threads = new ConcurrentHashMap<String, Runner<RequestThread>>();
 		this.requestQueue = new LinkedBlockingQueue<Stream>();
 		this.threadCreator = builder.getCreator();
@@ -82,6 +91,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 	 */
 	public static class RequestDispatcherBuilder<Request extends ServerMessage, Stream extends OutMessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>, ThreadCreator extends RequestThreadCreatable<Request, Stream, Response, RequestThread>> implements Builder<RequestDispatcher<Request, Stream, Response, RequestThread, ThreadCreator>>
 	{
+		private String serverKey;
 		private int poolSize;
 //		private long keepAliveTime;
 //		private ThreadPool threadPool;
@@ -96,6 +106,12 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 		
 		public RequestDispatcherBuilder()
 		{
+		}
+
+		public RequestDispatcherBuilder<Request, Stream, Response, RequestThread, ThreadCreator> serverKey(String serverKey)
+		{
+			this.serverKey = serverKey;
+			return this;
 		}
 
 		public RequestDispatcherBuilder<Request, Stream, Response, RequestThread, ThreadCreator> poolSize(int poolSize)
@@ -172,6 +188,11 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 		public RequestDispatcher<Request, Stream, Response, RequestThread, ThreadCreator> build()
 		{
 			return new RequestDispatcher<Request, Stream, Response, RequestThread, ThreadCreator>(this);
+		}
+		
+		public String getServerKey()
+		{
+			return this.serverKey;
 		}
 
 		public int getPoolSize()
@@ -392,6 +413,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 		{
 			// Create a new thread. 11/29/2014, Bing Li
 			RequestThread thread = this.threadCreator.createRequestThreadInstance(this.getMaxTaskSizePerThread());
+			thread.setServerKey(super.getServerKey());
 			// Take the request. 11/29/2014, Bing Li
 			Stream s = this.requestQueue.poll();
 			if (s != null)
@@ -424,6 +446,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 		{
 			// Create a new thread. 11/29/2014, Bing Li
 			RequestThread thread = this.threadCreator.createRequestThreadInstance(this.getMaxTaskSizePerThread());
+			thread.setServerKey(super.getServerKey());
 			Stream s = this.requestQueue.poll();
 			if (s != null)
 			{

@@ -1,14 +1,13 @@
-package org.greatfree.testing.server.abandoned;
+package org.greatfree.testing.server;
 
 import org.greatfree.reuse.RunnerDisposable;
-import org.greatfree.testing.server.ManServerListener;
 
 /*
  * The class is responsible for disposing the instance of ManServerListener by invoking its method of shutdown(). 01/20/2016, Bing Li
  */
 
 // Created: 01/20/2016, Bing Li
-public class ManServerListenerDisposer implements RunnerDisposable<ManServerListener>
+class ManServerListenerDisposer implements RunnerDisposable<ManServerListener>
 {
 	/*
 	 * Dispose the instance of ManServerListener. 01/20/2016, Bing Li

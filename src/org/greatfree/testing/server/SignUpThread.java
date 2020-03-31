@@ -17,7 +17,7 @@ import org.greatfree.util.Tools;
  */
 
 // Created: 09/22/2014, Bing Li
-public class SignUpThread extends RequestQueue<SignUpRequest, SignUpStream, SignUpResponse>
+class SignUpThread extends RequestQueue<SignUpRequest, SignUpStream, SignUpResponse>
 {
 	/*
 	 * Initialize the thread. The value of maxTaskSize is the length of the queue to take the count of requests. 11/04/2014, Bing Li

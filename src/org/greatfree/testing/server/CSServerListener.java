@@ -18,7 +18,7 @@ import org.greatfree.util.ServerStatus;
 
 // Created: 07/30/2014, Bing Li
 // public class CSServerListener extends ServerListener implements Runnable
-public class CSServerListener extends ServerListener
+class CSServerListener extends ServerListener
 {
 	/*
 	 * Initialize the listener. 08/22/2014, Bing Li

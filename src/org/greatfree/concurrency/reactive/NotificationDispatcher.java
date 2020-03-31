@@ -20,6 +20,14 @@ import org.greatfree.util.ServerStatus;
 import org.greatfree.util.UtilConfig;
 
 /*
+ * The server key is updated to be identical to the one of CSServer. 03/30/2020, Bing Li
+ * 
+ * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+ * 
+ * If only one server container exists in a process, the key is not required to be identical to the one of CSServer. It is generated arbitrarily. 03/30/2020, Bing Li
+ */
+
+/*
  * This is an important class that enqueues notifications and creates threads to process them concurrently. It works in the way like a dispatcher. That is why it is named. 11/04/2014, Bing Li
  */
 
@@ -97,7 +105,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 	{
 //		super(builder.getPoolSize(), builder.getKeepAliveTime(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), true, builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound(), builder.getTimeout());
 //		super(builder.getThreadPool(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
-		super(builder.getPoolSize(), builder.getNotificationQueueSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
+		super(builder.getServerKey(), builder.getPoolSize(), builder.getNotificationQueueSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
 //		this.threads = new ConcurrentHashMap<String, NotificationThread>();
 		this.threads = new ConcurrentHashMap<String, Runner<NotificationThread>>();
 		this.notificationQueue = new LinkedBlockingQueue<Notification>();
@@ -110,6 +118,14 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 //	public static class NotificationDispatcherBuilder<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>> implements Builder<NotificationDispatcher<Notification, NotificationThread>>
 	public static class NotificationDispatcherBuilder<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>, ThreadCreator extends NotificationThreadCreatable<Notification, NotificationThread>> implements Builder<NotificationDispatcher<Notification, NotificationThread, ThreadCreator>>
 	{
+		/*
+		 * The server key is updated to be identical to the one of CSServer. 03/30/2020, Bing Li
+		 * 
+		 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+		 * 
+		 * If only one server container exists in a process, the key is not required to be identical to the one of CSServer. It is generated arbitrarily. 03/30/2020, Bing Li
+		 */
+		private String serverKey;
 		private int poolSize;
 //		private long keepAliveTime;
 //		private ThreadPool threadPool;
@@ -125,6 +141,12 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 		
 		public NotificationDispatcherBuilder()
 		{
+		}
+
+		public NotificationDispatcherBuilder<Notification, NotificationThread, ThreadCreator> serverKey(String serverKey)
+		{
+			this.serverKey = serverKey;
+			return this;
 		}
 
 		public NotificationDispatcherBuilder<Notification, NotificationThread, ThreadCreator> poolSize(int poolSize)
@@ -203,6 +225,11 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 		public NotificationDispatcher<Notification, NotificationThread, ThreadCreator> build()
 		{
 			return new NotificationDispatcher<Notification, NotificationThread, ThreadCreator>(this);
+		}
+		
+		public String getServerKey()
+		{
+			return this.serverKey;
 		}
 
 		public int getPoolSize()
@@ -447,6 +474,11 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 		{
 			// Create a new thread. 11/29/2014, Bing Li
 			NotificationThread thread = this.threadCreator.createNotificationThreadInstance(this.getMaxTaskSizePerThread());
+			
+			/*
+			 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+			 */
+			thread.setServerKey(super.getServerKey());
 //			NotificationQueue<Notification> thread = this.rootThread.createNotificationThreadInstance();
 //			NotificationThread thread = (NotificationThread) this.rootThread.createNotificationThreadInstance();
 			// Take the notification. 11/29/2014, Bing Li
@@ -481,6 +513,10 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 		{
 			// Create a new thread. 11/29/2014, Bing Li
 			NotificationThread thread = this.threadCreator.createNotificationThreadInstance(this.getMaxTaskSizePerThread());
+			/*
+			 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+			 */
+			thread.setServerKey(super.getServerKey());
 			Notification n = this.notificationQueue.poll();
 			if (n != null)
 			{

@@ -13,7 +13,7 @@ import org.greatfree.testing.message.NodeKeyNotification;
  */
 
 // Created: 08/10/2014, Bing Li
-public class ConnectClientThread extends Thread
+class ConnectClientThread extends Thread
 {
 	// The queue keeps the clients' IPs which need to be connected to. 08/24/2014, Bing Li
 	private Queue<IPResource> ipQueue;

@@ -42,7 +42,7 @@ class StreamNotificationThread extends NotificationQueue<StreamNotification>
 				}
 				catch (InterruptedException | InstantiationException | IllegalAccessException | IOException e)
 				{
-					e.printStackTrace();
+					System.out.println(StreamConfig.ONE_SUBSCRIBER_LEAVE);
 				}
 			}
 			try

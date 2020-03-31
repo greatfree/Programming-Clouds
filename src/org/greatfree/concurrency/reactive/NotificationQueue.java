@@ -11,6 +11,12 @@ import org.greatfree.message.ServerMessage;
 import org.greatfree.util.Tools;
 
 /*
+ * The server key is added as a new field. 03/30/2020, Bing Li
+ * 
+ * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+ */
+
+/*
  * The Notification is updated. It extends the abstract class, DisposableRunner, instead of implementing the interface of Runnable. Then, the thread is executed by Runner rather than ThreadPool. The update simplifies the code as well as lowering the resource consumption. 05/19/2018, Bing Li
  * 
  * A fundamental thread that receives and processes notifications in the form of messages concurrently. Notifications are put into a queue and prepare for further processing. It must be derived by sub classes to process specific notifications. 11/04/2014, Bing Li
@@ -41,6 +47,13 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	// The thread is possibly interrupted by the thread pool/the system when the thread is hung by a task permanently. If so, the exception is not required to be displayed according to the flag. 11/05/2019, Bing Li
 //	private AtomicBoolean isSysInterrupted;
 	private AtomicBoolean isHung;
+	
+	/*
+	 * The server key is added as a new field. 03/30/2020, Bing Li
+	 * 
+	 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+	 */
+	private String serverKey;
 
 	/*
 	 * Initialize the notification thread. This constructor has no limit on the size of the queue. 11/04/2014, Bing Li
@@ -150,6 +163,21 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	public String getKey()
 	{
 		return this.key;
+	}
+	
+	/*
+	 * The server key is added as a new field. 03/30/2020, Bing Li
+	 * 
+	 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
+	 */
+	public void setServerKey(String key)
+	{
+		this.serverKey = key;
+	}
+	
+	public String getServerKey()
+	{
+		return this.serverKey;
 	}
 
 	/*

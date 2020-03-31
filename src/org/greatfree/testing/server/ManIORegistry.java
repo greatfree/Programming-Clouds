@@ -10,7 +10,7 @@ import org.greatfree.client.ServerIORegistry;
  */
 
 // Created: 01/20/2016, Bing Li
-public class ManIORegistry
+class ManIORegistry
 {
 	// Declare an instance of ServerIORegistry for ManIOs. 01/20/2016, Bing Li
 	private ServerIORegistry<ManIO> registry;

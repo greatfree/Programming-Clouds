@@ -10,7 +10,7 @@ import org.greatfree.testing.server.resources.WeatherDB;
  */
 
 // Created: 02/10/2016, Bing Li
-public class SetWeatherThread extends NotificationQueue<WeatherNotification>
+class SetWeatherThread extends NotificationQueue<WeatherNotification>
 {
 	/*
 	 * Initialize the thread. 02/11/2016, Bing Li

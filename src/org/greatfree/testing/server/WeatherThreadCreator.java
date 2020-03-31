@@ -10,7 +10,7 @@ import org.greatfree.testing.message.WeatherStream;
  */
 
 // Created: 02/15/2016, Bing Li
-public class WeatherThreadCreator implements RequestThreadCreatable<WeatherRequest, WeatherStream, WeatherResponse, WeatherThread>
+class WeatherThreadCreator implements RequestThreadCreatable<WeatherRequest, WeatherStream, WeatherResponse, WeatherThread>
 {
 	@Override
 	public WeatherThread createRequestThreadInstance(int taskSize)

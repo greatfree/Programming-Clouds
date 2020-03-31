@@ -10,7 +10,7 @@ import org.greatfree.testing.message.SignUpStream;
  */
 
 // Created: 11/04/2014, Bing Li
-public class SignUpThreadCreator implements RequestThreadCreatable<SignUpRequest, SignUpStream, SignUpResponse, SignUpThread>
+class SignUpThreadCreator implements RequestThreadCreatable<SignUpRequest, SignUpStream, SignUpResponse, SignUpThread>
 {
 	@Override
 	public SignUpThread createRequestThreadInstance(int taskSize)

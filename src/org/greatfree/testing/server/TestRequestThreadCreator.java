@@ -6,7 +6,7 @@ import org.greatfree.testing.message.TestResponse;
 import org.greatfree.testing.message.TestStream;
 
 // Created: 12/10/2016, Bing Li
-public class TestRequestThreadCreator implements RequestThreadCreatable<TestRequest, TestStream, TestResponse, TestRequestThread>
+class TestRequestThreadCreator implements RequestThreadCreatable<TestRequest, TestStream, TestResponse, TestRequestThread>
 {
 
 	@Override

@@ -17,7 +17,7 @@ import org.greatfree.util.ServerStatus;
  */
 
 // Created: 08/10/2014, Bing Li
-public class CSServerIO extends ServerIO
+class CSServerIO extends ServerIO
 {
 	/*
 	 * Initialize the server IO. The socket is the connection between the client and the server. The collaborator is shared with other IOs to control the count of ServerIOs instances. 11/23/2014, Bing Li

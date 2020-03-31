@@ -14,7 +14,7 @@ import org.greatfree.util.ServerStatus;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 05/08/2017, Bing Li
-public class InstanceChatPeerTester
+class InstanceChatPeerTester
 {
 
 	public static void main(String[] args)

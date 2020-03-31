@@ -1,3 +1,4 @@
+
 package org.greatfree.util;
 
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
 import java.io.Writer;
 import java.util.List;
 
@@ -216,6 +218,11 @@ public class FileManager
 			out.close();
 		}
 	}
+	
+	public static long getFileSize(String filePath)
+	{
+		return (new File(filePath)).length();
+	}
 
 	public static byte[] loadFile(String filePath) throws IOException
 	{
@@ -231,10 +238,40 @@ public class FileManager
 			is.close();
 		}
 	}
+	
+	public static byte[] loadFile(String filePath, int startIndex, int endIndex) throws IOException
+	{
+		RandomAccessFile f = new RandomAccessFile(filePath, "r");
+		f.seek(startIndex);
+		byte[] bytes = new byte[endIndex - startIndex + 1];
+		f.read(bytes);
+		f.close();
+		return bytes;
+	}
+	
+	public static byte[] loadFile(String filePath, int size) throws IOException
+	{
+		File file = new File(filePath);
+		InputStream is = null;
+		try
+		{
+			is = new FileInputStream(file);
+			return IOUtils.toByteArray(is, size);
+		}
+		finally
+		{
+			is.close();
+		}
+	}
 
 	public static void saveFile(String filePath, byte[] bytes) throws IOException
 	{
 		FileUtils.writeByteArrayToFile(new File(filePath), bytes);
+	}
+
+	public static void saveFile(String filePath, byte[] bytes, boolean isAppend) throws IOException
+	{
+		FileUtils.writeByteArrayToFile(new File(filePath), bytes, isAppend);
 	}
 	
 	public static List<String> readText(String filePath) throws IOException

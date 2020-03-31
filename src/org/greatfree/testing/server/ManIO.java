@@ -13,7 +13,7 @@ import org.greatfree.message.ServerMessage;
  */
 
 // Created: 01/20/2016, Bing Li
-public class ManIO extends ServerIO
+class ManIO extends ServerIO
 {
 	/*
 	 * Initialize the server IO. The socket is the connection between the administrator and the server. The server is shared with other IOs to control the count of ServerIOs instances. 01/20/2016, Bing Li
