@@ -78,8 +78,10 @@ public class ServerConfig
 	public final static int COORDINATOR_DN_PORT = 8946;
 	public final static int DN_PORT = 8945;
 
-	public final static long REQUEST_THREAD_WAIT_TIME = 1000;
-	public final static long NOTIFICATION_THREAD_WAIT_TIME = 1000;
+//	public final static long REQUEST_THREAD_WAIT_TIME = 1000;
+	public final static long REQUEST_THREAD_WAIT_TIME = 5000;
+//	public final static long NOTIFICATION_THREAD_WAIT_TIME = 1000;
+	public final static long NOTIFICATION_THREAD_WAIT_TIME = 5000;
 
 //	public final static int REQUEST_DISPATCHER_POOL_SIZE = 50;
 	public final static int REQUEST_DISPATCHER_POOL_SIZE = 100;
@@ -105,7 +107,9 @@ public class ServerConfig
 	public final static int NOTIFICATION_QUEUE_SIZE = 20;
 //	public final static int MAX_NOTIFICATION_THREAD_SIZE = 10;
 
-	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 1000;
+//	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 1000;
+//	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 5000;
+	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 10000;
 	public final static int NOTIFICATION_DISPATCHER_WAIT_ROUND = 5;
 	public final static long NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY = 3000;
 	public final static long NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD = 3000;

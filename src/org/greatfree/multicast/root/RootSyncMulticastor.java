@@ -304,6 +304,7 @@ class RootSyncMulticastor
 		// An integer to keep the new parent node index. 11/10/2014, Bing Li
 		int newParentNodeIndex;
 		
+//		System.out.println("0) RootSyncMulticastor-notify(): notification is to be sent!");
 		
 		// Check whether the FreeClient pool has the count of nodes than the root capacity. 11/10/2014, Bing Li
 		if (this.eventer.getClientSize() > this.rootBranchCount)
@@ -423,17 +424,17 @@ class RootSyncMulticastor
 			// Create the message without children's IPs. 11/10/2014, Bing Li
 //			msg = this.messageCreator.createInstanceWithoutChildren(obj);
 //			notification.setChildrenNodes(null);
-//			System.out.println("4) RootEventer-disseminate(): notification is sent without children");
+//			System.out.println("1) RootSyncMulticastor-notify(): notification is sent without children");
 			notification.setChildrenNodes(UtilConfig.NO_IPS);
 			// Send the message one by one to the immediate nodes of the root. 11/10/2014, Bing Li
 			for (String childClientKey : this.eventer.getClientKeys())
 			{
 				try
 				{
-//					System.out.println("6) BaseBroadcastNotifier: disseminate(): data to be sent ...");
+//					System.out.println("2) RootSyncMulticastor: notify(): notification to be sent ...");
 					// Send the message to the immediate node of the root. 11/10/2014, Bing Li
 					this.eventer.notify(childClientKey, notification);
-//					System.out.println("7) BaseBroadcastNotifier: disseminate(): data is sent ...");
+//					System.out.println("3) RootSyncMulticastor: notify(): notification is sent ...");
 				}
 				catch (IOException e)
 				{
@@ -441,6 +442,7 @@ class RootSyncMulticastor
 					 * The exception denotes that the remote end gets something wrong. However, it does not need to send the message since the immediate node has no children. 11/10/2014, Bing Li
 					 */
 					
+//					System.out.println("4) RootSyncMulticastor: notify(): notification is sent with exception ...");
 					// Remove the instance of FreeClient. 11/10/2014, Bing Li
 					this.eventer.removeClient(childClientKey);
 					throw new DistributedNodeFailedException(childClientKey);

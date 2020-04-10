@@ -242,25 +242,33 @@ public class Sync
 	 * Bing Li
 	 */
 //	public void holdOn(long waitTime) throws InterruptedException
-	public void holdOn(long waitTime)
+	public boolean holdOn(long waitTime)
 	{
 		// Check whether the flag of shutdown is set. The waiting is performed
 		// only when the flag of shutdown is not set. 11/20/2014, Bing Li
 //		if (!this.isShutdown())
 //		{
 		this.waitLock.lock();
-		if (!this.isShutdown)
+		try
 		{
-			try
+			if (!this.isShutdown)
 			{
-				this.waitCondition.await(waitTime, TimeUnit.MILLISECONDS);
+				try
+				{
+//					System.out.println("Sync is waiting ...");
+					return this.waitCondition.await(waitTime, TimeUnit.MILLISECONDS);
+				}
+				catch (InterruptedException e)
+				{
+					Thread.currentThread().interrupt();
+				}
 			}
-			catch (InterruptedException e)
-			{
-				Thread.currentThread().interrupt();
-			}
+			return false;
 		}
-		this.waitLock.unlock();
+		finally
+		{
+			this.waitLock.unlock();
+		}
 	}
 
 	/*

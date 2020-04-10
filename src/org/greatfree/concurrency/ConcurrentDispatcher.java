@@ -220,9 +220,9 @@ public abstract class ConcurrentDispatcher implements Runnable, CheckIdleable
 		this.workCollaborator.signalAll();
 	}
 	
-	protected void holdOn()
+	protected boolean holdOn()
 	{
-		this.workCollaborator.holdOn(this.dispatcherWaitTime);
+		return this.workCollaborator.holdOn(this.dispatcherWaitTime);
 	}
 	
 	protected boolean isShutdown()

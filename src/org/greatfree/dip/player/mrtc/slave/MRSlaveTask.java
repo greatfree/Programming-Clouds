@@ -17,6 +17,7 @@ class MRSlaveTask extends PlayerTask
 	{
 		switch (notification.getApplicationID())
 		{
+			// Since each slave probably plays the role of the master in one map/reduce round, it must prepare for receiving task states from its slaves. 04/03/2020, Bing Li 
 			case ThreadingMessageType.TASK_STATE_NOTIFICATION:
 				System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				return;

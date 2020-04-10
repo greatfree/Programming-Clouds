@@ -1,14 +1,14 @@
-package org.greatfree.dip.streaming.unicast.child;
+package org.greatfree.testing.server;
 
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.streaming.message.SubscribeNotification;
+import org.greatfree.testing.message.TNNotification;
 
-// Created: 03/23/2020, Bing Li
-public class SubscribeNotificationThread extends NotificationQueue<SubscribeNotification>
+// Created: 04/10/2020, Bing Li
+class TNNotificationThread extends NotificationQueue<TNNotification>
 {
 
-	public SubscribeNotificationThread(int taskSize)
+	public TNNotificationThread(int taskSize)
 	{
 		super(taskSize);
 	}
@@ -16,7 +16,7 @@ public class SubscribeNotificationThread extends NotificationQueue<SubscribeNoti
 	@Override
 	public void run()
 	{
-		SubscribeNotification notification;
+		TNNotification notification;
 		while (!this.isShutdown())
 		{
 			while (!this.isEmpty())
@@ -24,8 +24,7 @@ public class SubscribeNotificationThread extends NotificationQueue<SubscribeNoti
 				try
 				{
 					notification = this.getNotification();
-					System.out.println("SubscribeNotificationThread: sKey = " + notification.getStreamKey());
-					StreamRegistry.UNICAST().addSubscriber(notification.getStreamKey(), notification.getSubscriber(), notification.getSubscriberIP());
+					System.out.println(notification.getMessage());
 					this.disposeMessage(notification);
 				}
 				catch (InterruptedException e)
@@ -35,6 +34,7 @@ public class SubscribeNotificationThread extends NotificationQueue<SubscribeNoti
 			}
 			try
 			{
+				// Wait for a moment after all of the existing notifications are processed. 01/20/2016, Bing Li
 				this.holdOn(ServerConfig.NOTIFICATION_THREAD_WAIT_TIME);
 			}
 			catch (InterruptedException e)
@@ -42,6 +42,7 @@ public class SubscribeNotificationThread extends NotificationQueue<SubscribeNoti
 				e.printStackTrace();
 			}
 		}
+		
 	}
 
 }

@@ -206,17 +206,19 @@ public abstract class NotificationObjectQueue<Notification> extends RunnerTask
 		this.idleLock.unlock();
 		*/
 		// Wait for some time, which is determined by the value of waitTime. 11/20/2014, Bing Li
-		this.collaborator.holdOn(waitTime);
-		// Set the state of the thread to be idle after waiting for some time. 11/20/2014, Bing Li
-//		this.setIdle();
-		this.idleLock.lock();
-		// Only when the queue is empty, the thread is set to be busy. 02/07/2016, Bing Li
-		if (this.queue.size() <= 0)
+		if (this.collaborator.holdOn(waitTime))
 		{
-			// Set the state of the thread to be idle after waiting for some time. 11/04/2014, Bing Li
-			this.isIdle = true;
+			// Set the state of the thread to be idle after waiting for some time. 11/20/2014, Bing Li
+//			this.setIdle();
+			this.idleLock.lock();
+			// Only when the queue is empty, the thread is set to be busy. 02/07/2016, Bing Li
+			if (this.queue.size() <= 0)
+			{
+				// Set the state of the thread to be idle after waiting for some time. 11/04/2014, Bing Li
+				this.isIdle = true;
+			}
+			this.idleLock.unlock();
 		}
-		this.idleLock.unlock();
 	}
 	
 	/*

@@ -33,25 +33,27 @@ class ReduceTask implements ThreadTask
 	@Override
 	public void processNotification(String threadKey, TaskNotification notification)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void processNotification(String threadKey, TaskInvokeNotification notification)
 	{
 		System.out.println(PlayerSystem.THREADING().getNickName() + " => REDUCE_TASK: local ID = " + PlayerSystem.THREADING().getNickName());
+		// Get the reduce task. 01/08/2020, Bing Li
 		ReduceInvokeNotification rn = (ReduceInvokeNotification)notification;
 		System.out.println(PlayerSystem.THREADING().getNickName() + " => REDUCE_TASK: max hop = " + rn.getMaxHop());
 		System.out.println(PlayerSystem.THREADING().getNickName() + " => REDUCE_TASK: current task = " + rn.getCurrentHop() + "/" + rn.getMaxHop());
 		
+		// Initialize the path to track the MP process. The path can be regarded as the concurrent task accomplished by the current slave. 01/08/2020, Bing Li
 		String path = UtilConfig.EMPTY_STRING;
 		if (path.equals(UtilConfig.EMPTY_STRING))
 		{
+			// Keep the reduce step in the current slave. 01/08/2020, Bing Li
 			path = MRConfig.REDUCE_TASK + PlayerSystem.THREADING().getNickName() + UtilConfig.COMMA + MRConfig.THREAD_PREFIX + threadKey;
 		}
 		else
 		{
+			// The below line is NOT useful? I need to verify it. 01/08/2020, Bing Li
 			path += UtilConfig.NEW_LINE + MRConfig.REDUCE_TASK + PlayerSystem.THREADING().getNickName() + UtilConfig.COMMA + MRConfig.THREAD_PREFIX + threadKey;
 		}
 		System.out.println(PlayerSystem.THREADING().getNickName() + " => REDUCE_TASK: path:");
@@ -59,12 +61,14 @@ class ReduceTask implements ThreadTask
 		System.out.println(path);
 		System.out.println("============================================");
 		
+		// Detect whether the slave number is larger than the minimum reasonable number, 1. 01/10/2020, Bing Li
 		if (PlayerSystem.THREADING().getSlaveSize() > MRConfig.MINIMUM_SLAVE_SIZE)
 		{
 			System.out.println(PlayerSystem.THREADING().getNickName() + " => REDUCE_TASK: REDUCE to Slave: " + PlayerSystem.THREADING().getSlaveName(rn.getRPSlaveKey()));
 			Player rpPlayer = PlayerSystem.THREADING().retrievePlayerWithAllThreads(rn.getRPSlaveKey());
 			try
 			{
+				// Assign one Map task to the RP thread such that a new hop of MR game for this round is started. 01/10/2020, Bing Li
 				rpPlayer.notifyThreads(new MapInvokeNotification(rn.getMRSessionKey(), rn.getRPThreadKey(), path, rn.getCurrentHop() + 1, rn.getMaxHop(), rn.getCD()));
 			}
 			catch (ClassNotFoundException | RemoteReadException | IOException | InterruptedException e)
@@ -77,6 +81,7 @@ class ReduceTask implements ThreadTask
 			System.out.println(PlayerSystem.THREADING().getNickName() + " => REDUCE_TASK: DONE to Master: " + PlayerSystem.THREADING().getMasterName());
 			try
 			{
+				// If the number of slaves is less than the minimum reasonable number, 2, it represents that only the master and the current slave participate this round of MR game. Then, the current slave has only one choice to send it result to the master, which has to play the role of the RP. 01/10/2020, Bing Li
 				PlayerSystem.THREADING().syncNotifyMaster(new MRFinalNotification(path, rn.getCurrentHop() + 1, rn.getMaxHop(), rn.getCD(), rn.getMRSessionKey(), false));
 			}
 			catch (IOException | InterruptedException e)
@@ -90,28 +95,23 @@ class ReduceTask implements ThreadTask
 	@Override
 	public TaskResponse processRequest(String threadKey, TaskRequest request)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public TaskResponse processRequest(String threadKey, TaskInvokeRequest request)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void processNotification(String threadKey, InteractNotification notification)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public TaskResponse processRequest(String threadKey, InteractRequest request)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

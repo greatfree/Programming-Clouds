@@ -118,9 +118,9 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 	 */
 	protected void shutdown(long timeout) throws InterruptedException
 	{
-		System.out.println("ServerDispatcher-shutdown(): starting to shutdown ...");
+//		System.out.println("ServerDispatcher-shutdown(): starting to shutdown ...");
 		this.isDown.set(true);
-		System.out.println("ServerDispatcher-shutdown(): shutdown is performed ...");
+//		System.out.println("ServerDispatcher-shutdown(): shutdown is performed ...");
 		// Dispose the register dispatcher. 01/14/2016, Bing Li
 		this.registerClientNotificationDispatcher.dispose();
 		// Dispose the dispatcher for initializing reading feedback. 11/09/2014, Bing Li

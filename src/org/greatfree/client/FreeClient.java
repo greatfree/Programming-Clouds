@@ -11,6 +11,7 @@ import org.greatfree.message.InitReadNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.FreeObject;
 import org.greatfree.util.Tools;
+import org.greatfree.util.UtilConfig;
 
 /*
  * This is a TCP client that encloses some details of TCP APIs such that it is convenient for developers to interact with remote servers. Moreover, the client is upgraded to fit the caching management. 08/10/2014, Bing Li
@@ -147,5 +148,10 @@ public class FreeClient extends FreeObject
 		this.out.reset();
 		// Wait for the response from the remote end. 09/17/2014, Bing Li
 		return (ServerMessage)this.in.readObject();
+	}
+	
+	public String toString()
+	{
+		return this.serverAddress + UtilConfig.COLON + this.serverPort;
 	}
 }

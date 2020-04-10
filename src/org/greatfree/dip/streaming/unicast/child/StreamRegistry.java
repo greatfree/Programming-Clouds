@@ -8,7 +8,7 @@ import org.greatfree.util.IPAddress;
 import org.greatfree.util.UtilConfig;
 
 // Created: 03/22/2020, Bing Li
-class StreamRegistry
+public class StreamRegistry
 {
 //	private Map<String, List<String>> subscribers;
 	private Map<String, Map<String, IPAddress>> ips;

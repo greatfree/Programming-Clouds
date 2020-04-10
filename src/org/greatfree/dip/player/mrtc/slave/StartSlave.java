@@ -16,12 +16,16 @@ class StartSlave
 	{
 		System.out.println("MR Slave, " + PlayerSystem.THREADING().getNickName() + ", starting up ...");
 
+		// Initialize the task the slave needs to do in the game. 04/03/2020, Bing Li
 		MRSlaveTask task = new MRSlaveTask();
+		// Start the slave. 04/03/2020, Bing Li
 		PlayerSystem.THREADING().startSlave(ThreadConfig.THREAD_PORT, task);
 
 		System.out.println("MR Slave, " + PlayerSystem.THREADING().getNickName() + ", started ...");
 
+		// Add the mapping task the slave should take. 04/03/2020, Bing Li
 		PlayerSystem.THREADING().addTask(new MapTask());
+		// Add the reducing task the slave should take. 04/03/2020, Bing Li
 		PlayerSystem.THREADING().addTask(new ReduceTask());
 
 		// After the server is started, the loop check whether the flag of terminating is set. If the terminating flag is true, the process is ended. Otherwise, the process keeps running. 08/22/2014, Bing Li

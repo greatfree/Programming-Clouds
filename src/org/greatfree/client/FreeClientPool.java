@@ -98,6 +98,7 @@ public class FreeClientPool
 		// Check whether the instance of FreeClient is valid. 11/20/2014, Bing Li
 		if (client != UtilConfig.NO_CLIENT)
 		{
+//			System.out.println("FreeClientPool-send(): " + client);
 			// Send the message. 11/20/2014, Bing Li
 			client.send(msg);
 			// Collect the instance of FreeClient. 11/20/2014, Bing Li

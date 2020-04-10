@@ -1,4 +1,3 @@
-
 package org.greatfree.util;
 
 import java.io.BufferedReader;

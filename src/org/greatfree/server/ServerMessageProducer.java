@@ -34,6 +34,7 @@ public class ServerMessageProducer<Dispatcher extends ServerDispatcher<ServerMes
 		// Initialize the message producer. A threader is associated with the message producer such that the producer is able to work in a concurrent way. 09/20/2014, Bing Li
 //		this.producerThreader = new Runner<MessageProducer<Dispatcher>, ServerProducerDisposer<Dispatcher>>(new MessageProducer<Dispatcher>(dispatcher), new ServerProducerDisposer<Dispatcher>());
 //		this.producerThreader = new Runner<MessageProducer<Dispatcher>>(new MessageProducer<Dispatcher>(dispatcher, timeout));
+//		System.out.println("ServerMessageProducer-init(): dispatcher hashCode = " + dispatcher.hashCode());
 		this.producerThreader = new Runner<MessageProducer<Dispatcher>>(new MessageProducer<Dispatcher>(dispatcher));
 		// Start the associated thread for the message producer. 09/20/2014, Bing Li
 		this.producerThreader.start();

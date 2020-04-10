@@ -2,6 +2,7 @@ package org.greatfree.concurrency.threading;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.greatfree.concurrency.RunnerTask;
@@ -33,6 +34,9 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 //	private AtomicBoolean isWaitForEver;
 //	private AtomicLong waitTime;
 
+	// The thread is possibly interrupted by the thread pool/the system when the thread is hung by a task permanently. If so, the exception is not required to be displayed according to the flag. 11/05/2019, Bing Li
+	private AtomicBoolean isHung;
+
 	/*
 	 * Initialize the notification thread. This constructor has a limit on the size of the queue. 11/04/2014, Bing Li
 	 */
@@ -53,6 +57,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 		
 //		this.isWaitForEver = new AtomicBoolean(false);
 //		this.waitTime = new AtomicLong(0);
+		this.isHung = new AtomicBoolean(false);
 	}
 
 	/*
@@ -92,6 +97,11 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 		return this.key;
 	}
 
+	public boolean isHung()
+	{
+		return this.isHung.get();
+	}
+
 	/*
 	 * Enqueue a notification into the thread. 11/04/2014, Bing Li
 	 */
@@ -129,16 +139,18 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	public void holdOn(long waitTime) throws InterruptedException
 	{
 		// Wait for some time, which is determined by the value of waitTime. 11/04/2014, Bing Li
-		this.sync.holdOn(waitTime);
-		
-		this.idleLock.lock();
-		// Only when the queue is empty, the thread is set to be busy. 02/07/2016, Bing Li
-		if (this.queue.size() <= 0)
+		if (this.sync.holdOn(waitTime))
 		{
-			// Set the state of the thread to be idle after waiting for some time. 11/04/2014, Bing Li
-			this.isIdle = true;
+			
+			this.idleLock.lock();
+			// Only when the queue is empty, the thread is set to be busy. 02/07/2016, Bing Li
+			if (this.queue.size() <= 0)
+			{
+				// Set the state of the thread to be idle after waiting for some time. 11/04/2014, Bing Li
+				this.isIdle = true;
+			}
+			this.idleLock.unlock();
 		}
-		this.idleLock.unlock();
 	}
 	
 	/*
@@ -233,6 +245,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	 */
 	public Notification getNotification() throws InterruptedException
 	{
+		this.isHung.set(true);
 		return this.queue.poll();
 	}
 
@@ -241,6 +254,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	 */
 	public Notification peekNotification()
 	{
+		this.isHung.set(true);
 		return this.queue.peek();
 	}
 
@@ -281,6 +295,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	 */
 	public synchronized void disposeMessage(Notification notification)
 	{
+		this.isHung.set(false);
 		notification = null;
 	}
 
@@ -289,6 +304,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	 */
 	public synchronized void dispose(Object obj)
 	{
+		this.isHung.set(false);
 		obj = null;
 	}
 }

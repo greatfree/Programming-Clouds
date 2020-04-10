@@ -241,25 +241,27 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 		this.idleLock.unlock();
 		*/
 		// Wait for some time, which is determined by the value of waitTime. 09/22/2014, Bing Li
-		this.collaborator.holdOn(waitTime);
-		// Set the state of the thread to be idle after waiting for some time. 09/22/2014, Bing Li
-//		this.setIdle();
-		this.idleLock.lock();
-		// Only when the queue is empty, the thread is set to be busy. 02/07/2016, Bing Li
-		if (this.queue.size() <= 0)
+		if (this.collaborator.holdOn(waitTime))
 		{
-			// Set the state of the thread to be idle after waiting for some time. 11/04/2014, Bing Li
-			this.isIdle = true;
-			// If the thread is idle before holding on and the queue is empty after the waiting, it really indicates the thread is idle. So, it can dispose itself at this moment. 02/22/2016, Bing Li
-			/*
-			if (isIdleBeforeHoldOn)
+			// Set the state of the thread to be idle after waiting for some time. 09/22/2014, Bing Li
+//			this.setIdle();
+			this.idleLock.lock();
+			// Only when the queue is empty, the thread is set to be busy. 02/07/2016, Bing Li
+			if (this.queue.size() <= 0)
 			{
-				// Dispose the thread itself. 02/22/2016, Bing Li
-				this.dispose();
+				// Set the state of the thread to be idle after waiting for some time. 11/04/2014, Bing Li
+				this.isIdle = true;
+				// If the thread is idle before holding on and the queue is empty after the waiting, it really indicates the thread is idle. So, it can dispose itself at this moment. 02/22/2016, Bing Li
+				/*
+				if (isIdleBeforeHoldOn)
+				{
+					// Dispose the thread itself. 02/22/2016, Bing Li
+					this.dispose();
+				}
+				*/
 			}
-			*/
+			this.idleLock.unlock();
 		}
-		this.idleLock.unlock();
 	}
 
 	/*

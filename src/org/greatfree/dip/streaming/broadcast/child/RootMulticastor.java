@@ -55,18 +55,18 @@ public class RootMulticastor
 	{
 		if (ips != UtilConfig.NO_IPS)
 		{
-			this.client.clearChildren();
-			for (IPAddress entry : ips.values())
+			if (ips.size() > 0)
 			{
-				System.out.println("RootMulticastor@Child: resetChildren(): ip = " + entry);
-				this.client.addChild(entry.getIP(), entry.getPort());
+				this.client.clearChildren();
+				for (IPAddress entry : ips.values())
+				{
+					System.out.println("RootMulticastor@Child: resetChildren(): ip = " + entry);
+					this.client.addChild(entry.getIP(), entry.getPort());
+				}
+				return true;
 			}
-			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	public void broadcastNotify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException

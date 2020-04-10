@@ -370,10 +370,20 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 				// The algorithm to determine whether a thread should be disposed or not is simple. When it is checked to be idle, it is time to dispose it. 11/04/2014, Bing Li
 				this.threads.remove(thread.getFunction().getKey());
 				// Disposing a thread at this location probably causes inconsistency. That is, immediately after the thread is shutdown, a new request is enqueued such that it causes the request cannot be processed. Thus, the disposing must be locked. 02/22/2016, Bing Li 
-				thread.stop();
+				if (!thread.getFunction().isHung())
+				{
+					thread.stop();
+				}
+				else
+				{
+					thread.interrupt();
+				}
 				// Collect the resource of the thread. 11/04/2014, Bing Li
 				thread = null;
 			}
+			/* 
+			 * The below lines result in busy threads are killed such that more threads are created! That is a bug. 04/10/2020, Bing Li
+			 * 
 			else if (thread.getFunction().isHung())
 			{
 				this.threads.remove(thread.getFunction().getKey());
@@ -381,6 +391,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 				thread.interrupt();
 				thread = null;
 			}
+			*/
 		}
 	}
 
@@ -557,26 +568,28 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 			if (!this.isShutdown())
 			{
 				// If the dispatcher is still alive, it denotes that no requests are available temporarily. Just wait for a while. 11/04/2014, Bing Li
-				this.holdOn();
-				// Check whether the request queue is empty. 01/13/2016, Bing Li
-				if (this.requestQueue.size() <= 0)
+				if (super.holdOn())
 				{
-					// Check whether the count of the loops exceeds the predefined value. 01/13/2016, Bing Li
-					if (currentRound.getAndIncrement() >= this.getWaitRound())
+					// Check whether the request queue is empty. 01/13/2016, Bing Li
+					if (this.requestQueue.size() <= 0)
 					{
-						// Check whether the threads are all disposed. 01/13/2016, Bing Li
-						if (this.threads.isEmpty())
+						// Check whether the count of the loops exceeds the predefined value. 01/13/2016, Bing Li
+						if (currentRound.getAndIncrement() >= this.getWaitRound())
 						{
-							// Dispose the dispatcher. 01/13/2016, Bing Li
-							try
+							// Check whether the threads are all disposed. 01/13/2016, Bing Li
+							if (this.threads.isEmpty())
 							{
-								this.dispose();
+								// Dispose the dispatcher. 01/13/2016, Bing Li
+								try
+								{
+									this.dispose();
+								}
+								catch (InterruptedException e)
+								{
+									e.printStackTrace();
+								}
+								break;
 							}
-							catch (InterruptedException e)
-							{
-								e.printStackTrace();
-							}
-							break;
 						}
 					}
 				}

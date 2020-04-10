@@ -71,7 +71,7 @@ class SubscriberDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case StreamMessageType.SEARCH_REQUEST:
-				System.out.println("CLIENT_SEARCH_REQUEST received @" + Calendar.getInstance().getTime());
+				System.out.println("SEARCH_REQUEST received @" + Calendar.getInstance().getTime());
 				if (!this.searchRequestDispatcher.isReady())
 				{
 					super.execute(this.searchRequestDispatcher);

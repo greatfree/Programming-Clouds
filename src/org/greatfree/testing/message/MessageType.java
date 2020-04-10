@@ -69,4 +69,6 @@ public class MessageType
 	public final static int TEST_NOTIFICATION = 54;
 	public final static int TEST_REQUEST = 55;
 	public final static int TEST_RESPONSE = 56;
+	
+	public final static int TN_NOTIFICATION = 1000;
 }

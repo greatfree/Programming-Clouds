@@ -111,6 +111,7 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 		// Initialize the message producer to dispatcher messages. 11/23/2014, Bing Li
 		this.messageProducer = new ServerMessageProducer<Dispatcher>();
 		this.dispatcher = dispatcher;
+//		System.out.println("AbstractCSServer-Constructor(): dispatcher hashCode = " + this.dispatcher.hashCode());
 		this.dispatcher.setServerKey(this.hashKey);
 		this.isStarted = new AtomicBoolean(false);
 //		this.timeout = timeout;

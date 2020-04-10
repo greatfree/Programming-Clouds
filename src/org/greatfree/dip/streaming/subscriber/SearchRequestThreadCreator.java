@@ -6,7 +6,7 @@ import org.greatfree.dip.streaming.message.SearchResponse;
 import org.greatfree.dip.streaming.message.SearchStream;
 
 // Created: 03/21/2020, Bing Li
-class SearchRequestThreadCreator implements RequestThreadCreatable<SearchRequest, SearchStream, SearchResponse, SearchRequestThread>
+public class SearchRequestThreadCreator implements RequestThreadCreatable<SearchRequest, SearchStream, SearchResponse, SearchRequestThread>
 {
 
 	@Override

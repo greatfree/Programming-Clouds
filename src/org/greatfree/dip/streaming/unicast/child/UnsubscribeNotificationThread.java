@@ -5,7 +5,7 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.dip.streaming.message.UnsubscribeNotification;
 
 // Created: 03/23/2020, Bing Li
-class UnsubscribeNotificationThread extends NotificationQueue<UnsubscribeNotification>
+public class UnsubscribeNotificationThread extends NotificationQueue<UnsubscribeNotification>
 {
 
 	public UnsubscribeNotificationThread(int taskSize)

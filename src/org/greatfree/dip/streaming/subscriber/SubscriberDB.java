@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Created: 03/21/2020, Bing Li
-class SubscriberDB
+public class SubscriberDB
 {
 	private List<String> db;
 	

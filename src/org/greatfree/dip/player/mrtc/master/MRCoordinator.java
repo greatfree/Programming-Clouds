@@ -40,8 +40,12 @@ class MRCoordinator
 		}
 	}
 
+	/*
+	 * Create threads/players. 04/03/2020, Bing Li
+	 */
 	public void createPlayer() throws ClassNotFoundException, RemoteReadException, IOException
 	{
+		// PlayerSystem is the kernel to interact with slaves for threading. 04/03/2020, Bing Li
 		Set<String> slaveKeys = PlayerSystem.THREADING().getAllSlaves();
 //		System.out.println("MRCoordinator-createPlayer(): slaveKeys size = " + slaveKeys.size());
 		Map<String, Integer> playerRequirements = new HashMap<String, Integer>();
@@ -51,7 +55,10 @@ class MRCoordinator
 		}
 		this.players = PlayerSystem.THREADING().create(playerRequirements);
 	}
-	
+
+	/*
+	 * Notify all slaves about the slaves and threads to participate the game. 04/03/2020, Bing Li
+	 */
 	public void notifyAllSlaves() throws IOException, InterruptedException
 	{
 		PlayerSystem.THREADING().notifyAllSlaves(this.players);
@@ -79,6 +86,9 @@ class MRCoordinator
 		return initMRSlaveKeys;
 	}
 	
+	/*
+	 * Initialize the map/reduce (MR) game. 04/03/2020, Bing Li
+	 */
 	public void initMR(int maxHop) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
 	{
 		// Choose initial MR slaves. 10/02/2019, Bing Li
@@ -163,6 +173,9 @@ class MRCoordinator
 		}
 	}
 
+	/*
+	 * Keep playing the game. 04/03/2020, Bing Li
+	 */
 	public void continueMR(String mrSessionKey, int currentHop, int maxHop) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
 	{
 		MRStates.CONCURRENCY().removeCD(mrSessionKey);

@@ -360,7 +360,8 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 //		for (NotificationThread thread : this.threads.values())
 		for (Runner<NotificationThread> thread : this.threads.values())
 		{
-			if (!thread.getFunction().isFull())
+//			if (!thread.getFunction().isFull())
+			if (!thread.getFunction().isHung())
 			{
 //				thread.dispose();
 				thread.stop();
@@ -369,6 +370,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 			{
 				thread.interrupt();
 			}
+//			thread.interrupt();
 		}
 		// Clear the threads. 11/04/2014, Bing Li
 		this.threads.clear();
@@ -434,14 +436,25 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 			// If the thread is empty and idle, it is the one to be checked. 11/04/2014, Bing Li
 			if (thread.getFunction().isIdle())
 			{
+//				System.out.println("NotificationDispatcher-checkIdle(): thread is to be Killed!");
 				// The algorithm to determine whether a thread should be disposed or not is simple. When it is checked to be idle, it is time to dispose it. 11/04/2014, Bing Li
 				this.threads.remove(thread.getFunction().getKey());
 				// Dispose the thread. 11/04/2014, Bing Li
 //				thread.dispose();
-				thread.stop();
+				if (!thread.getFunction().isHung())
+				{
+					thread.stop();
+				}
+				else
+				{
+					thread.interrupt();
+				}
 				// Collect the resource of the thread. 11/04/2014, Bing Li
 				thread = null;
 			}
+			/*
+			 * The below lines result in busy threads are killed such that more threads are created! That is a bug. 04/10/2020, Bing Li
+			 * 
 			else if (thread.getFunction().isHung())
 			{
 				this.threads.remove(thread.getFunction().getKey());
@@ -449,6 +462,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 				thread.interrupt();
 				thread = null;
 			}
+			*/
 		}
 	}
 
@@ -562,13 +576,15 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 					// Dequeue the notification from the queue of the dispatcher. 11/05/2014, Bing Li
 					// If the notification is dequeued before the thread is available, it is possible the dequeued notification is lost without being assigned to any threads. 04/20/2018, Bing Li
 //					notification = this.notificationQueue.poll();
+					
+					System.out.println("NotificationDispatcher-run(): threads' size = " + this.threads.size());
 				
 					// Since all of the threads created by the dispatcher are saved in the map by their unique keys, it is necessary to check whether any alive threads are available. If so, it is possible to assign tasks to them if they are not so busy. 11/05/2014, Bing Li
 					while (this.threads.size() > 0)
 					{
 						// Select the thread whose load is the least and keep the key of the thread. 11/05/2014, Bing Li
 						selectedThreadKey = CollectionSorter.minValueKey(this.threads);
-						// Since no concurrency is applied here, it is possible that the key is invalid. Thus, just check here. 11/19/2014, Bing Li
+						// Since no concurrency management is applied here, it is possible that the key is invalid. Thus, just check here. 11/19/2014, Bing Li
 						if (selectedThreadKey != null)
 						{
 							// Since no concurrency is applied here, it is possible that the key is out of the map. Thus, just check here. 11/19/2014, Bing Li
@@ -595,20 +611,20 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 										// If the least load thread's queue is not full, just put the notification into the queue. 11/05/2014, Bing Li
 										this.threads.get(selectedThreadKey).getFunction().enqueue(this.notificationQueue.poll());
 									}
-									
 									// Jump out from the loop since the notification is put into a thread. 11/05/2014, Bing Li
 									break;
 								}
 								catch (NullPointerException e)
 								{
-									// Since no concurrency is applied here, it is possible that a NullPointerException is raised. If so, it means that the selected thread is not available. Just continue to select anther one. 11/19/2014, Bing Li
+									// Since no concurrency management is applied here, it is possible that a NullPointerException is raised. If so, it means that the selected thread is not available. Just continue to select anther one. 11/19/2014, Bing Li
 									continue;
 								}
 							}
 						}
 					}
+//					System.out.println("Thread is created here ...");
 					// If no threads are available, it needs to create a new one to take the notification. 11/05/2014, Bing Li
-//					this.createThread(notification);
+//						this.createThread(notification);
 					this.createThread();
 	
 					// If the dispatcher is shutdown, it is not necessary to keep processing the notifications. So, jump out the loop and the thread is dead. 11/05/2014, Bing Li
@@ -622,19 +638,21 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 				if (!super.isShutdown())
 				{
 					// If the dispatcher is still alive, it denotes that no notifications are available temporarily. Just wait for a while. 11/05/2014, Bing Li
-					this.holdOn();
-					// Check whether the request queue is empty. 01/14/2016, Bing Li
-					if (this.notificationQueue.size() <= 0)
+					if (super.holdOn())
 					{
-						// Check whether the count of the loops exceeds the predefined value. 01/14/2016, Bing Li
-						if (currentRound.getAndIncrement() >= super.getWaitRound())
+						// Check whether the request queue is empty. 01/14/2016, Bing Li
+						if (this.notificationQueue.size() <= 0)
 						{
-							// Check whether the threads are all disposed. 01/14/2016, Bing Li
-							if (this.threads.isEmpty())
+							// Check whether the count of the loops exceeds the predefined value. 01/14/2016, Bing Li
+							if (currentRound.getAndIncrement() >= super.getWaitRound())
 							{
-								// Dispose the dispatcher. 01/14/2016, Bing Li
-								this.dispose();
-								break;
+								// Check whether the threads are all disposed. 01/14/2016, Bing Li
+								if (this.threads.isEmpty())
+								{
+									// Dispose the dispatcher. 01/14/2016, Bing Li
+									this.dispose();
+									break;
+								}
 							}
 						}
 					}

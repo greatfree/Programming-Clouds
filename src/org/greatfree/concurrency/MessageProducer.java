@@ -32,6 +32,7 @@ public class MessageProducer<Consumer extends ServerDispatcher<ServerMessage>> e
 	{
 		// The consumer is defined and initialized outside the message producer. 08/22/2014, Bing Li
 		this.consumer = consumer;
+//		System.out.println("MessageProducer: consumer-hashCode = " + this.consumer.hashCode());
 		// Initialize a concurrency controlled queue to keep the messages in a thread-safe way. 08/22/2014, Bing Li
 		this.queue = new LinkedBlockingQueue<OutMessageStream<ServerMessage>>();
 		// Initialize a collaborator for the notify-wait mechanism. 08/22/2014, Bing Li
@@ -93,6 +94,8 @@ public class MessageProducer<Consumer extends ServerDispatcher<ServerMessage>> e
 				{
 					// Process the message by the consumer, which is defined outside the class. 08/22/2014, Bing Li
 					this.consumer.consume(message);
+//					System.out.println("MessageProducer-run(): message received: type = " + message.getMessage().getType());
+//					System.out.println("MessageProducer-run(): consumer-hashCode = " + this.consumer.hashCode());
 					this.consumer.process(message);
 				}
 			}

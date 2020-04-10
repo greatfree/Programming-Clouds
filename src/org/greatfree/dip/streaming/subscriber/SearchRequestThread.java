@@ -9,7 +9,7 @@ import org.greatfree.dip.streaming.message.SearchResponse;
 import org.greatfree.dip.streaming.message.SearchStream;
 
 // Created: 03/21/2020, Bing Li
-class SearchRequestThread extends RequestQueue<SearchRequest, SearchStream, SearchResponse>
+public class SearchRequestThread extends RequestQueue<SearchRequest, SearchStream, SearchResponse>
 {
 
 	public SearchRequestThread(int taskSize)

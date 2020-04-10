@@ -47,6 +47,9 @@ public class CSServerIO<Dispatcher extends ServerDispatcher<ServerMessage>> exte
 			{
 				// Wait and read messages from a client. 08/22/2014, Bing Li
 				message = (ServerMessage)super.read();
+				
+//				System.out.println("CServerIO-run(): message received: type = " + message.getType());
+				
 				this.messageProducer.produceMessage(new OutMessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
 			}
 			catch (ClassNotFoundException | IOException e)

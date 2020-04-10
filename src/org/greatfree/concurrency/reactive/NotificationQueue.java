@@ -277,6 +277,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	 */
 	public void holdOn(long waitTime) throws InterruptedException
 	{
+//		System.out.println("NotificationQueue-holdOn(): waitTime = " + waitTime);
 //		System.out.println("1) NotificationQueue-holdOn(): this.isIdle = " + this.isIdle);
 		/*
 		// The lock intends to avoid the problem to shutdown the thread when the thread is holding on. 02/06/2016, Bing Li
@@ -288,26 +289,27 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 		this.idleLock.unlock();
 		*/
 		// Wait for some time, which is determined by the value of waitTime. 11/04/2014, Bing Li
-		this.collaborator.holdOn(waitTime);
-		
-//		this.setIdle();
-		this.idleLock.lock();
-		// Only when the queue is empty, the thread is set to be busy. 02/07/2016, Bing Li
-		if (this.queue.size() <= 0)
+		if (this.collaborator.holdOn(waitTime))
 		{
-			// Set the state of the thread to be idle after waiting for some time. 11/04/2014, Bing Li
-			this.isIdle = true;
-			// If the thread is idle before holding on and the queue is empty after the waiting, it really indicates the thread is idle. So, it can dispose itself at this moment. 02/22/2016, Bing Li
-			/*
-			if (isIdleBeforeHoldOn)
+//			this.setIdle();
+			this.idleLock.lock();
+			// Only when the queue is empty, the thread is set to be busy. 02/07/2016, Bing Li
+			if (this.queue.size() <= 0)
 			{
-				// Dispose the thread itself. 02/22/2016, Bing Li
-				this.dispose();
+				// Set the state of the thread to be idle after waiting for some time. 11/04/2014, Bing Li
+				this.isIdle = true;
+				// If the thread is idle before holding on and the queue is empty after the waiting, it really indicates the thread is idle. So, it can dispose itself at this moment. 02/22/2016, Bing Li
+				/*
+				if (isIdleBeforeHoldOn)
+				{
+					// Dispose the thread itself. 02/22/2016, Bing Li
+					this.dispose();
+				}
+				*/
+//				this.dispose();
 			}
-			*/
-//			this.dispose();
+			this.idleLock.unlock();
 		}
-		this.idleLock.unlock();
 		
 		// To be continued. A severe bug exists here. If the isIdle is true at the line, it is possible to dispose the current thread by itself. If the thread needs to be disposed by the idleChecker, it is possible to the value of isIdle is reset to be false. Thus, the thread cannot be disposed for ever. 02/21/2016, Bing Li
 //		System.out.println("2) NotificationQueue-holdOn(): this.isIdle = " + this.isIdle);
@@ -326,6 +328,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	 */
 	public boolean isFull()
 	{
+//		System.out.println("Thread-" + super.hashCode() + ": NotificationQueue-isFull(): queue.size = " + this.queue.size() + ", taskSize = " + this.taskSize);
 		return this.queue.size() >= this.taskSize;
 	}
 	
