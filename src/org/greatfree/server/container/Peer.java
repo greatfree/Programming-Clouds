@@ -438,7 +438,7 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 	{
 		// The line aims to hide exceptions when the system is shutdown. 03/19/2020, Bing Li
 		ServerStatus.FREE().setShutdown();
-		System.out.println("===> Peer-stop(): starting ...");
+//		System.out.println("===> Peer-stop(): starting ...");
 		this.register.unregister(this.client);
 		// Since here is a request, it is required to wait for the response before shutting down. 01/16/2019, Bing Li
 		try
@@ -447,12 +447,12 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		}
 		catch (InterruptedException e)
 		{
-			System.out.println("===> Peer-stop(): sleep is INTERRUPTED ...");
+//			System.out.println("===> Peer-stop(): sleep is INTERRUPTED ...");
 			ServerStatus.FREE().printException(e);
 		}
 		this.client.dispose();
 		super.stop(timeout);
-		System.out.println("===> Peer-stop(): done ...");
+//		System.out.println("===> Peer-stop(): done ...");
 	}
 
 	/*

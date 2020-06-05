@@ -18,9 +18,14 @@ import org.greatfree.message.ServerMessage;
 import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
 import org.greatfree.server.container.ServerTask;
+import org.greatfree.util.UtilConfig;
 
+import edu.greatfree.container.p2p.message.ChatNotification;
 import edu.greatfree.container.p2p.message.ChatPartnerRequest;
 import edu.greatfree.container.p2p.message.ChatRegistryRequest;
+import edu.greatfree.container.pe.message.PEChatApplicationID;
+import edu.greatfree.container.pe.message.PollChatRequest;
+import edu.greatfree.container.pe.message.PollChatResponse;
 
 // Created: 01/12/2019, Bing Li
 class RegistryTask implements ServerTask
@@ -46,6 +51,15 @@ class RegistryTask implements ServerTask
 				{
 					e.printStackTrace();
 				}
+				break;
+
+				/*
+				 * Chatting messages on polling are retained here. 06/05/2020, Bing Li
+				 */
+			case P2PChatApplicationID.CHAT_NOTIFICATION:
+				System.out.println("CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				ChatNotification cn = (ChatNotification)notification;
+				ChatContainer.POLL().keepMessage(cn.getSenderKey(), cn.getMessage());
 				break;
 		}
 	}
@@ -86,6 +100,23 @@ class RegistryTask implements ServerTask
 			case P2PChatApplicationID.UNREGISTER_PEER_REQUEST:
 				System.out.println("UNREGISTER_PEER_REQUEST received @" + Calendar.getInstance().getTime());
 				return Register.unregisterPeer((UnregisterPeerRequest)request);
+				
+				/*
+				 * Chatting messages on polling are returned here. 06/05/2020, Bing Li
+				 */
+			case PEChatApplicationID.POLL_CHAT_REQUEST:
+				System.out.println("POLL_CHAT_REQUEST received @" + Calendar.getInstance().getTime());
+				PollChatRequest pcr = (PollChatRequest)request;
+				if (!ChatContainer.POLL().isEmpty(pcr.getPartnerKey()))
+				{
+					String msg = ChatContainer.POLL().getMessage(pcr.getPartnerKey());
+					ChatContainer.POLL().clear(pcr.getPartnerKey());
+					return new PollChatResponse(msg);
+				}
+				else
+				{
+					return new PollChatResponse(UtilConfig.EMPTY_STRING);
+				}
 		}
 		return null;
 	}

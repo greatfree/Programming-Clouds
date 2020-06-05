@@ -28,7 +28,7 @@ public class ServerContainer
 		// Assign the server key to the message dispatchers in the server dispatcher. 03/30/2020, Bing Li
 		csd.init();
 		
-		System.out.println("ServerContainer-Constructor(): server ID = " + this.server.getID());
+//		System.out.println("ServerContainer-Constructor(): server ID = " + this.server.getID());
 		
 		ServiceProvider.CS().init(this.server.getID(), task);
 	}

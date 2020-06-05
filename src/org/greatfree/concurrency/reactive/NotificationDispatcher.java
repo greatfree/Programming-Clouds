@@ -577,7 +577,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 					// If the notification is dequeued before the thread is available, it is possible the dequeued notification is lost without being assigned to any threads. 04/20/2018, Bing Li
 //					notification = this.notificationQueue.poll();
 					
-					System.out.println("NotificationDispatcher-run(): threads' size = " + this.threads.size());
+//					System.out.println("NotificationDispatcher-run(): threads' size = " + this.threads.size());
 				
 					// Since all of the threads created by the dispatcher are saved in the map by their unique keys, it is necessary to check whether any alive threads are available. If so, it is possible to assign tasks to them if they are not so busy. 11/05/2014, Bing Li
 					while (this.threads.size() > 0)

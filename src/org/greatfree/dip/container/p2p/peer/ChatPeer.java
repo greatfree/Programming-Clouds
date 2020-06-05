@@ -15,7 +15,7 @@ class ChatPeer
 {
 	private PeerContainer peer;
 	
-	public ChatPeer()
+	private ChatPeer()
 	{
 	}
 	

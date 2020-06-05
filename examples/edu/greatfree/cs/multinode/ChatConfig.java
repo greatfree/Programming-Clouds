@@ -19,7 +19,8 @@ public class ChatConfig
 	public final static int CHAT_REGISTRY_PORT = 8942;
 
 	public final static long CHAT_POLLING_DELAY = 0;
-	public final static long CHAT_POLLING_PERIOD = 10000;
+//	public final static long CHAT_POLLING_PERIOD = 10000;
+	public final static long CHAT_POLLING_PERIOD = 2000;
 
 	public final static int STOP_CS_CHATTING_SERVER = 1;
 	public final static int STOP_CHATTING_REGISTRY_SERVER = 2;
@@ -30,4 +31,11 @@ public class ChatConfig
 
 	public final static long SERVER_SHUTDOWN_TIMEOUT = 3000;
 	public final static long TERMINATE_SLEEP = 2000;
+	
+	public final static String EVENTING = "e";
+	
+	public static String generateUserKey(String username)
+	{
+		return Tools.getHash(username);
+	}
 }

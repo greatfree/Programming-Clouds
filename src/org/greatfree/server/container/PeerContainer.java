@@ -53,7 +53,8 @@ public class PeerContainer
 		// Assign the server key to the message dispatchers in the server dispatcher. 03/30/2020, Bing Li
 		csd.init();
 
-		ServiceProvider.CS().init(this.peer.getPeerID(), task);
+//		ServiceProvider.CS().init(this.peer.getPeerID(), task);
+		ServiceProvider.CS().init(csd.getServerKey(), task);
 	}
 
 	
@@ -92,7 +93,8 @@ public class PeerContainer
 		// Assign the server key to the message dispatchers in the server dispatcher. 03/30/2020, Bing Li
 		csd.init();
 
-		ServiceProvider.CS().init(this.peer.getPeerID(), task);
+//		ServiceProvider.CS().init(this.peer.getPeerID(), task);
+		ServiceProvider.CS().init(csd.getServerKey(), task);
 	}
 
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException

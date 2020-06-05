@@ -75,6 +75,7 @@ class FilePeer
 
 	public ChatPartnerResponse searchUser(String userKey) throws ClassNotFoundException, RemoteReadException, IOException
 	{
+		System.out.println("FilePeer-searchUser(): userKey = " + userKey);
 		return (ChatPartnerResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS, ChatConfig.CHAT_REGISTRY_PORT, new ChatPartnerRequest(userKey));
 	}
 	

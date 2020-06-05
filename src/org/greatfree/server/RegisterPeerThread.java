@@ -36,7 +36,7 @@ public class RegisterPeerThread extends RequestQueue<RegisterPeerRequest, Regist
 //				account = PeerRegistry.SYSTEM().get(request.getMessage().getPeerKey());
 //				response = new RegisterPeerResponse(account.getPeerPort(), account.getAdminPort());
 				
-//				System.out.println("RegisterPeerThread: peerKey = " + request.getMessage().getPeerKey());
+				System.out.println("RegisterPeerThread: peerKey = " + request.getMessage().getPeerKey());
 				System.out.println("RegisterPeerThread: peerName = " + request.getMessage().getPeerName());
 				System.out.println("RegisterPeerThread: ip = " + request.getMessage().getIP());
 				System.out.println("RegisterPeerThread: port = " + request.getMessage().getPort());

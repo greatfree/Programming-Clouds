@@ -25,8 +25,13 @@ class StartFilePeer
 		partnerName = in.nextLine();
 		
 		FilePeer.PEER().start(localName);
-		
+
+		System.out.println("Are you ready? Press Enter to continue ... ");
+		in.nextLine();
+
 		ChatPartnerResponse response = FilePeer.PEER().searchUser(Tools.getHash(partnerName));
+		
+		System.out.println("Partner's IP = " + response.getIP() + ":" + response.getPort());
 
 		if (localName.equals("greatfree"))
 		{
