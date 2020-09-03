@@ -139,7 +139,7 @@ public class SortedDistributedMap<Value extends Pointing, Factory extends CacheM
 		{
 			this.isEvicted = (IsEvicted)FileManager.readObject(CacheConfig.getIsEvictedPath(super.getCachePathAtBase()));
 		}
-		catch (ClassNotFoundException | IOException e)
+		catch (IOException e)
 		{
 			this.isEvicted = new IsEvicted();
 		}

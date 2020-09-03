@@ -1,7 +1,7 @@
 package org.greatfree.dip.multicast;
 
+import org.greatfree.server.container.PeerContainer;
 import org.greatfree.util.IPAddress;
-import org.greatfree.util.Tools;
 
 /*
  * The constants about cluster multicasting are defined in the class. 05/08/2017, Bing Li
@@ -14,11 +14,13 @@ public class MulticastConfig
 	
 	// The name should be unique. 01/15/2019, Bing Li
 	public final static String CLUSTER_SERVER_ROOT_NAME = "ClusterServerRoot";
-	public final static String CLUSTER_SERVER_ROOT_KEY = Tools.getHash(CLUSTER_SERVER_ROOT_NAME);
+//	public final static String CLUSTER_SERVER_ROOT_KEY = Tools.getHash(CLUSTER_SERVER_ROOT_NAME);
+	public final static String CLUSTER_SERVER_ROOT_KEY = PeerContainer.getPeerKey(CLUSTER_SERVER_ROOT_NAME);
 
 	// The name should be unique. 01/15/2019, Bing Li
 	public final static String CLUSTER_CLIENT_ROOT_NAME = "ClusterClientRoot";
-	public final static String CLUSTER_CLIENT_ROOT_KEY = Tools.getHash(CLUSTER_CLIENT_ROOT_NAME);
+//	public final static String CLUSTER_CLIENT_ROOT_KEY = Tools.getHash(CLUSTER_CLIENT_ROOT_NAME);
+	public final static String CLUSTER_CLIENT_ROOT_KEY = PeerContainer.getPeerKey(CLUSTER_CLIENT_ROOT_NAME);
 
 	public final static int MULTICASTOR_POOL_SIZE = 100;
 	public final static long RESOURCE_WAIT_TIME = 2000;

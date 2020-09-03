@@ -14,11 +14,11 @@ class MapStoreSaveTester
 	{
 		String home = "/Users/libing/GreatFreeLabs/Temp/";
 		MapStore<MyUKValue, MyUKFactory, StoreKeyCreator> store = new MapStore.MapStoreBuilder<MyUKValue, MyUKFactory, StoreKeyCreator>()
+				.rootPath(home)
 				.storeKey("mystore")
 				.factory(new MyUKFactory())
 				.cacheSize(1000)
 				.keyCreator(new StoreKeyCreator())
-				.rootPath(home)
 				.totalStoreSize(10000)
 				.offheapSizeInMB(4)
 				.diskSizeInMB(10)

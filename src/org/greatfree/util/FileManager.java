@@ -2,6 +2,8 @@ package org.greatfree.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,10 +15,18 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.io.Writer;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 
 /*
  * The class provides some fundamental file operations based on the API from File of JDK. 11/03/2014, Bing Li
@@ -106,6 +116,33 @@ public class FileManager
 	}
 
 	/*
+	 * Create a text file that is made up with the text synchronously among
+	 * processes. 11/23/2014, Bing Li
+	 */
+	public static void createTextFileSync(String fileName, String text, boolean isAppended) throws IOException
+	{
+		ByteBuffer buffer = ByteBuffer.wrap(text.getBytes());
+		Path path = Paths.get(fileName);
+		FileChannel fileChannel;
+		if (isAppended)
+		{
+			fileChannel = FileChannel.open(path, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
+			fileChannel.position(fileChannel.size() - 1);
+		}
+		else
+		{
+			fileChannel = FileChannel.open(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW);
+			fileChannel.position(0);
+		}
+		FileLock lock = fileChannel.lock();
+		if (lock.isValid())
+		{
+			fileChannel.write(buffer);
+		}
+		fileChannel.close();
+	}
+
+	/*
 	 * Load a text file into the memory. 11/25/2014, Bing Li
 	 */
 	public static String loadText(String fileName) throws IOException
@@ -130,8 +167,69 @@ public class FileManager
 	}
 
 	/*
+	 * Load a text file into the memory synchronously among processes. 11/25/2014,
+	 * Bing Li
+	 */
+	/*
+	public static String loadTextSync(String fileName, int bufferSize) throws IOException
+	{
+		Path path = Paths.get(fileName);
+		FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ);
+		FileLock lock = fileChannel.lock(0, Long.MAX_VALUE, true);
+		if (lock.isValid() && lock.isShared())
+		{
+			StringBuffer sb = new StringBuffer();
+			ByteBuffer buffer = ByteBuffer.allocate(bufferSize);
+			int noOfBytesRead = fileChannel.read(buffer);
+			while (noOfBytesRead != -1)
+			{
+				buffer.flip();
+				while (buffer.hasRemaining())
+				{
+					sb.append((char) buffer.get());
+				}
+				buffer.clear();
+				noOfBytesRead = fileChannel.read(buffer);
+			}
+			return sb.toString();
+		}
+		fileChannel.close();
+		return UtilConfig.EMPTY_STRING;
+	}
+	*/
+
+	/*
+	 * Load a text file into the memory synchronously among processes. 11/25/2014,
+	 * Bing Li
+	 */
+	public static String loadTextSync(String fileName) throws IOException
+	{
+		Path path = Paths.get(fileName);
+		FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ);
+		FileLock lock = fileChannel.lock(0, Long.MAX_VALUE, true);
+		if (lock.isValid() && lock.isShared())
+		{
+			StringBuffer sb = new StringBuffer();
+			ByteBuffer buffer = ByteBuffer.allocate((int)fileChannel.size());
+			int noOfBytesRead = fileChannel.read(buffer);
+			if (noOfBytesRead != -1)
+			{
+				buffer.flip();
+				while (buffer.hasRemaining())
+				{
+					sb.append((char) buffer.get());
+				}
+				buffer.clear();
+			}
+			return sb.toString();
+		}
+		fileChannel.close();
+		return UtilConfig.EMPTY_STRING;
+	}
+
+	/*
 	 * The method is used to append slashes at the end of a directory. It is
-	 * necessary to do so when processing paths for pne particular file systems.
+	 * necessary to do so when processing paths for one particular file systems.
 	 * 07/01/2017, Bing Li
 	 */
 	public static String appendSlash(String directory)
@@ -176,7 +274,7 @@ public class FileManager
 		}
 	}
 
-	public static Object readObject(String objectPath) throws IOException, ClassNotFoundException
+	public static Object readObject(String objectPath) throws IOException
 	{
 		FileInputStream fis = null;
 		ObjectInputStream in = null;
@@ -187,6 +285,10 @@ public class FileManager
 			Object object = in.readObject();
 			// in.close();
 			return object;
+		}
+		catch (ClassNotFoundException e)
+		{
+			return null;
 		}
 		finally
 		{
@@ -217,7 +319,74 @@ public class FileManager
 			out.close();
 		}
 	}
+
+	public static boolean writeObjectSync(String objectPath, Object object) throws IOException
+	{
+		FileOutputStream fos = null;
+		ByteArrayOutputStream baos = null;
+		ObjectOutputStream oos = null;
+		try
+		{
+			baos = new ByteArrayOutputStream();
+			oos = new ObjectOutputStream(baos);
+			oos.writeObject(object);
+			oos.flush();
+			byte[] bytes = baos.toByteArray();
+			ByteBuffer buffer = ByteBuffer.allocate(bytes.length);
+			buffer.clear();
+			buffer.put(bytes);
+			buffer.flip();
+
+			fos = new FileOutputStream(objectPath);
+			FileChannel fc = fos.getChannel();
+			fc.position(0);
+			FileLock lock = fc.lock();
+			if (!lock.isShared() && lock.isValid())
+			{
+				fc.write(buffer);
+			}
+			return true;
+		}
+		finally
+		{
+			fos.close();
+			oos.close();
+			baos.close();
+		}
+	}
 	
+	public static Object readObjectSync(String objectPath) throws IOException, ClassNotFoundException
+	{
+		FileInputStream fis = null;
+		ObjectInputStream ois = null;
+		ByteArrayInputStream bais = null;
+		try
+		{
+			fis = new FileInputStream(objectPath);
+			FileChannel fc = fis.getChannel();
+			FileLock lock = fc.lock(0, Long.MAX_VALUE, true);
+			if (lock.isShared() && lock.isValid())
+			{
+				ByteBuffer buffer = ByteBuffer.allocate((int)fc.size());
+				int noOfBytesRead = fc.read(buffer);
+				if (noOfBytesRead != -1)
+				{
+					bais = new ByteArrayInputStream(buffer.array());
+					ois = new ObjectInputStream(bais);
+					buffer.clear();
+					return ois.readObject();
+				}
+			}
+		}
+		finally
+		{
+			fis.close();
+			ois.close();
+			bais.close();
+		}
+		return null;
+	}
+
 	public static long getFileSize(String filePath)
 	{
 		return (new File(filePath)).length();
@@ -237,7 +406,7 @@ public class FileManager
 			is.close();
 		}
 	}
-	
+
 	public static byte[] loadFile(String filePath, int startIndex, int endIndex) throws IOException
 	{
 		RandomAccessFile f = new RandomAccessFile(filePath, "r");
@@ -247,7 +416,7 @@ public class FileManager
 		f.close();
 		return bytes;
 	}
-	
+
 	public static byte[] loadFile(String filePath, int size) throws IOException
 	{
 		File file = new File(filePath);
@@ -263,6 +432,21 @@ public class FileManager
 		}
 	}
 
+	public static Collection<File> loadAllFiles(String path)
+	{
+		return FileUtils.listFiles(FileUtils.getFile(path), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+	}
+
+	public static void moveFile(File sourceFile, String destinationFile) throws IOException
+	{
+		FileUtils.moveFile(sourceFile, FileUtils.getFile(destinationFile));
+	}
+
+	public static void moveFile(String sourceFile, String destinationFile) throws IOException
+	{
+		FileUtils.moveFile(FileUtils.getFile(sourceFile), FileUtils.getFile(destinationFile));
+	}
+
 	public static void saveFile(String filePath, byte[] bytes) throws IOException
 	{
 		FileUtils.writeByteArrayToFile(new File(filePath), bytes);
@@ -272,7 +456,7 @@ public class FileManager
 	{
 		FileUtils.writeByteArrayToFile(new File(filePath), bytes, isAppend);
 	}
-	
+
 	public static List<String> readText(String filePath) throws IOException
 	{
 		return FileUtils.readLines(new File(filePath), UtilConfig.UTF_8);

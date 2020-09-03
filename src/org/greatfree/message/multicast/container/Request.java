@@ -13,6 +13,9 @@ public abstract class Request extends MulticastRequest
 	private int applicationID;
 
 	/*
+	 * 
+	 * This key is important. Developers can set the value. So they can decide how to balance the load. For example, in the case of S3, all of the encoded data slices for the same encoding block can be sent to a unique child for merging. The client key can be the ID of the encoding block. 07/11/2020, Bing Li
+	 * 
 	 * The constructor is usually used for the nearest unicasting. So the client key is required for nearest measure. 10/28/2018, Bing Li 
 	 */
 //	public Request(String clientKey, int requestType, int applicationID)

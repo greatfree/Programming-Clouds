@@ -5,15 +5,53 @@ import java.io.IOException;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.dip.container.p2p.message.PeerAddressRequest;
+import org.greatfree.dip.multicast.message.PeerAddressResponse;
 import org.greatfree.dip.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.util.IPAddress;
+import org.greatfree.util.Tools;
 
 // Created: 12/31/2018, Bing Li
 public class PeerContainer
 {
 	private Peer<CSDispatcher> peer;
 	
+	public PeerContainer(String peerName, int port, String registryServerIP, int registryServerPort, ServerTask task, boolean isRegistryNeeded) throws IOException
+	{
+		CSDispatcher csd = new CSDispatcher(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
+
+		this.peer = new Peer.PeerBuilder<CSDispatcher>()
+				.peerPort(port)
+				.peerName(peerName)
+				.registryServerIP(registryServerIP)
+				.registryServerPort(registryServerPort)
+				.isRegistryNeeded(isRegistryNeeded)
+				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.dispatcher(csd)
+				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
+				.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
+				.syncEventerIdleCheckDelay(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_DELAY)
+				.syncEventerIdleCheckPeriod(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_PERIOD)
+				.syncEventerMaxIdleTime(RegistryConfig.SYNC_EVENTER_MAX_IDLE_TIME)
+				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
+				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
+				.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
+				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
+				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
+				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
+				.scheulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
+				.build();
+		
+		// Assign the server key to the message dispatchers in the server dispatcher. 03/30/2020, Bing Li
+		csd.init();
+
+		ServiceProvider.CS().init(csd.getServerKey(), task);
+	}
+
 	public PeerContainer(String peerName, int port, ServerTask task, boolean isRegistryNeeded) throws IOException
 	{
 		CSDispatcher csd = new CSDispatcher(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
@@ -117,6 +155,11 @@ public class PeerContainer
 		this.peer.asyncNotify(ip, port, notification);
 	}
 	
+	public IPAddress getIPAddress(String registryIP, int registryPort, String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return ((PeerAddressResponse)this.peer.read(registryIP,  registryPort, new PeerAddressRequest(nodeKey))).getPeerAddress();
+	}
+	
 	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		return this.peer.read(ip, port, request);
@@ -180,5 +223,10 @@ public class PeerContainer
 	public int getRegistryPort()
 	{
 		return this.peer.getRegistryServerPort();
+	}
+	
+	public static String getPeerKey(String peerName)
+	{
+		return Tools.getHash(peerName);
 	}
 }

@@ -290,6 +290,25 @@ public class CacheList<Value extends UniqueKey, Factory extends CacheMapFactorab
 		}
 		return rscs;
 	}
+	
+	public List<String> getTopKeys(int endIndex)
+	{
+		List<String> rscs = new ArrayList<String>();
+		Value rsc;
+		for (int i = 0; i <= endIndex; i++)
+		{
+			rsc = this.get(i);
+			if (rsc != null)
+			{
+				rscs.add(rsc.getKey());
+			}
+			else
+			{
+				break;
+			}
+		}
+		return rscs;
+	}
 
 	public long getMemCacheSize()
 	{

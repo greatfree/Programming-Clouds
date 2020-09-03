@@ -545,6 +545,25 @@ public class ListStore<Value extends UniqueKey, Factory extends CacheMapFactorab
 		}
 		return rscs;
 	}
+	
+	public List<String> getTopKeys(String listKey, int endIndex)
+	{
+		List<String> rscs = new ArrayList<String>();
+		Value rsc;
+		for (int i = 0; i <= endIndex; i++)
+		{
+			rsc = this.get(listKey, i);
+			if (rsc != null)
+			{
+				rscs.add(rsc.getKey());
+			}
+			else
+			{
+				break;
+			}
+		}
+		return rscs;
+	}
 
 	public int getSize(String listKey)
 	{

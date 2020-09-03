@@ -6,10 +6,13 @@ import java.util.concurrent.Future;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.dip.container.p2p.message.PeerAddressRequest;
+import org.greatfree.dip.multicast.message.PeerAddressResponse;
 import org.greatfree.dip.p2p.RegistryConfig;
 import org.greatfree.exceptions.FutureExceptionHandler;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.util.IPAddress;
 
 // Created: 01/10/2019, Bing Li
 public class StandaloneClient
@@ -148,4 +151,8 @@ public class StandaloneClient
 		return this.client.futureRead(ip, port, request, timeout);
 	}
 	
+	public IPAddress getIPAddress(String registryIP, int registryPort, String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return ((PeerAddressResponse)StandaloneClient.CS().read(registryIP,  registryPort, new PeerAddressRequest(nodeKey))).getPeerAddress();
+	}
 }
