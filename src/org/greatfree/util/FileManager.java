@@ -135,11 +135,18 @@ public class FileManager
 			fileChannel.position(0);
 		}
 		FileLock lock = fileChannel.lock();
-		if (lock.isValid())
+		try
 		{
-			fileChannel.write(buffer);
+			if (lock.isValid())
+			{
+				fileChannel.write(buffer);
+			}
 		}
-		fileChannel.close();
+		finally
+		{
+			lock.release();
+			fileChannel.close();
+		}
 	}
 
 	/*
@@ -207,23 +214,30 @@ public class FileManager
 		Path path = Paths.get(fileName);
 		FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ);
 		FileLock lock = fileChannel.lock(0, Long.MAX_VALUE, true);
-		if (lock.isValid() && lock.isShared())
+		try
 		{
-			StringBuffer sb = new StringBuffer();
-			ByteBuffer buffer = ByteBuffer.allocate((int)fileChannel.size());
-			int noOfBytesRead = fileChannel.read(buffer);
-			if (noOfBytesRead != -1)
+			if (lock.isValid() && lock.isShared())
 			{
-				buffer.flip();
-				while (buffer.hasRemaining())
+				StringBuffer sb = new StringBuffer();
+				ByteBuffer buffer = ByteBuffer.allocate((int)fileChannel.size());
+				int noOfBytesRead = fileChannel.read(buffer);
+				if (noOfBytesRead != -1)
 				{
-					sb.append((char) buffer.get());
+					buffer.flip();
+					while (buffer.hasRemaining())
+					{
+						sb.append((char) buffer.get());
+					}
+					buffer.clear();
 				}
-				buffer.clear();
+				return sb.toString();
 			}
-			return sb.toString();
 		}
-		fileChannel.close();
+		finally
+		{
+			lock.release();
+			fileChannel.close();
+		}
 		return UtilConfig.EMPTY_STRING;
 	}
 
@@ -325,6 +339,7 @@ public class FileManager
 		FileOutputStream fos = null;
 		ByteArrayOutputStream baos = null;
 		ObjectOutputStream oos = null;
+		FileLock lock = null;
 		try
 		{
 			baos = new ByteArrayOutputStream();
@@ -340,7 +355,7 @@ public class FileManager
 			fos = new FileOutputStream(objectPath);
 			FileChannel fc = fos.getChannel();
 			fc.position(0);
-			FileLock lock = fc.lock();
+			lock = fc.lock();
 			if (!lock.isShared() && lock.isValid())
 			{
 				fc.write(buffer);
@@ -349,22 +364,29 @@ public class FileManager
 		}
 		finally
 		{
+			if (lock != null)
+			{
+				lock.release();
+			}
 			fos.close();
 			oos.close();
 			baos.close();
 		}
 	}
 	
-	public static Object readObjectSync(String objectPath) throws IOException, ClassNotFoundException
+	public static Object readObjectSync(String objectPath) throws IOException
 	{
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		ByteArrayInputStream bais = null;
+		FileLock lock = null;
 		try
 		{
 			fis = new FileInputStream(objectPath);
 			FileChannel fc = fis.getChannel();
-			FileLock lock = fc.lock(0, Long.MAX_VALUE, true);
+//			System.out.println("FileManager-readObjectSync(): lock is acquiring");
+			lock = fc.lock(0, Long.MAX_VALUE, true);
+//			System.out.println("FileManager-readObjectSync(): lock is acquired!");
 			if (lock.isShared() && lock.isValid())
 			{
 				ByteBuffer buffer = ByteBuffer.allocate((int)fc.size());
@@ -377,12 +399,34 @@ public class FileManager
 					return ois.readObject();
 				}
 			}
+			else
+			{
+//				System.out.println("FileManager-readObjectSync(): lock is NOT valid!");
+			}
+		}
+		catch (IOException | ClassNotFoundException e)
+		{
+			return null;
 		}
 		finally
 		{
-			fis.close();
-			ois.close();
-			bais.close();
+			if (lock != null)
+			{
+				lock.release();
+			}
+			if (fis != null)
+			{
+				try
+				{
+					fis.close();
+					ois.close();
+					bais.close();
+				}
+				catch (IOException e)
+				{
+					return null;
+				}
+			}
 		}
 		return null;
 	}

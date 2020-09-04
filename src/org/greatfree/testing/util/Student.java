@@ -25,4 +25,9 @@ class Student implements Serializable
 	{
 		return this.age;
 	}
+	
+	public String toString()
+	{
+		return this.name + ", " + this.age;
+	}
 }
