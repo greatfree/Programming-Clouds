@@ -8,9 +8,9 @@ import org.greatfree.client.AsyncRemoteEventer;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ClientConfig;
-import org.greatfree.dip.cs.multinode.message.AddPartnerNotification;
-import org.greatfree.dip.cs.multinode.message.ChatNotification;
-import org.greatfree.dip.p2p.RegistryConfig;
+import org.greatfree.dsf.cs.multinode.message.AddPartnerNotification;
+import org.greatfree.dsf.cs.multinode.message.ChatNotification;
+import org.greatfree.dsf.p2p.RegistryConfig;
 
 // Created: 04/23/2017, Bing Li
 public class ChatEventer

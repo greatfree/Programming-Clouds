@@ -2,8 +2,8 @@ package org.greatfree.cluster.root;
 
 import java.io.IOException;
 
-import org.greatfree.dip.multicast.message.PeerAddressRequest;
-import org.greatfree.dip.multicast.message.PeerAddressResponse;
+import org.greatfree.dsf.multicast.message.PeerAddressRequest;
+import org.greatfree.dsf.multicast.message.PeerAddressResponse;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.TerminateSignal;
 

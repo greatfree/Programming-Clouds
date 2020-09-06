@@ -7,7 +7,7 @@ import org.greatfree.chat.ChatConfig;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.concurrency.Scheduler;
-import org.greatfree.dip.p2p.RegistryConfig;
+import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.util.ServerStatus;
 import org.greatfree.util.TerminateSignal;
 

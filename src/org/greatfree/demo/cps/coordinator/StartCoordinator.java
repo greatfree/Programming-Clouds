@@ -3,7 +3,7 @@ package org.greatfree.demo.cps.coordinator;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.container.cps.threenode.coordinator.Coordinator;
+import org.greatfree.dsf.container.cps.threenode.coordinator.Coordinator;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.TerminateSignal;
 

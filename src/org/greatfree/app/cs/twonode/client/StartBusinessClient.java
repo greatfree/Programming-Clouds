@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.concurrency.Scheduler;
-import org.greatfree.dip.p2p.RegistryConfig;
+import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 07/27/2018, Bing Li

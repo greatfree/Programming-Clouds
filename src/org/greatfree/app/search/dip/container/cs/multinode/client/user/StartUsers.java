@@ -7,8 +7,8 @@ import org.greatfree.app.search.dip.container.cluster.message.LocationNotificati
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.cluster.StandaloneClusterClient;
-import org.greatfree.dip.multicast.MulticastConfig;
-import org.greatfree.dip.p2p.RegistryConfig;
+import org.greatfree.dsf.multicast.MulticastConfig;
+import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.Tools;
 

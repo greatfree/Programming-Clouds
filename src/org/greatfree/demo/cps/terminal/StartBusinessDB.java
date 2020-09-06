@@ -3,7 +3,7 @@ package org.greatfree.demo.cps.terminal;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.container.cps.threenode.terminal.TerminalServer;
+import org.greatfree.dsf.container.cps.threenode.terminal.TerminalServer;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.TerminateSignal;
 

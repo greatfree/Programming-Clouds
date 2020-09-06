@@ -11,7 +11,7 @@ import org.greatfree.cache.db.StringKeyDB;
 import org.greatfree.cache.db.StringKeyDBPool;
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.p2p.RegistryConfig;
+import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.server.Peer;
 import org.greatfree.testing.cache.distributed.DistributedMapIntegerValueFactory;

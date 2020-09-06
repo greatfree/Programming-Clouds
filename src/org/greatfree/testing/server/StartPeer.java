@@ -5,11 +5,11 @@ import java.util.Scanner;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.cs.multinode.message.AddPartnerNotification;
-import org.greatfree.dip.cs.multinode.message.PollNewSessionsRequest;
-import org.greatfree.dip.cs.multinode.message.PollNewSessionsResponse;
-import org.greatfree.dip.cs.multinode.server.ChatServerDispatcher;
-import org.greatfree.dip.p2p.RegistryConfig;
+import org.greatfree.dsf.cs.multinode.message.AddPartnerNotification;
+import org.greatfree.dsf.cs.multinode.message.PollNewSessionsRequest;
+import org.greatfree.dsf.cs.multinode.message.PollNewSessionsResponse;
+import org.greatfree.dsf.cs.multinode.server.ChatServerDispatcher;
+import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.server.Peer;
 import org.greatfree.util.NodeID;

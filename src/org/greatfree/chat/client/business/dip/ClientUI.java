@@ -6,8 +6,8 @@ import org.greatfree.app.business.dip.cs.multinode.client.customer.BusinessCusto
 import org.greatfree.chat.ChatOptions;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
-import org.greatfree.dip.cs.multinode.message.ChatPartnerResponse;
-import org.greatfree.dip.cs.multinode.message.ChatRegistryResponse;
+import org.greatfree.dsf.cs.multinode.message.ChatPartnerResponse;
+import org.greatfree.dsf.cs.multinode.message.ChatRegistryResponse;
 
 /*
  * The class aims to print a menu list on the screen for users to interact with the client and communicate with the chatting server. The menu is unique in the client such that it is implemented in the pattern of a singleton. 04/23/2017, Bing Li

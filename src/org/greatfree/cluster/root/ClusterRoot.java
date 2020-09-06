@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.cluster.root.container.RootServiceProvider;
-import org.greatfree.dip.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.dsf.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;

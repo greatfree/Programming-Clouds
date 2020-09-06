@@ -3,7 +3,7 @@ package org.greatfree.app.cps.terminal;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.p2p.RegistryConfig;
+import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.server.CSServer;
 import org.greatfree.util.TerminateSignal;

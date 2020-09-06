@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.dsf.multicast.message.RootIPAddressBroadcastNotification;
 
 // Created: 01/13/2019, Bing Li
 class RootIPAddressBroadcastNotificationThread extends NotificationQueue<RootIPAddressBroadcastNotification>

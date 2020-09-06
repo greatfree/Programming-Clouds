@@ -1,9 +1,9 @@
 package org.greatfree.app.business.dip.cs.multinode.server;
 
 import org.greatfree.concurrency.reactive.RequestThreadCreatable;
-import org.greatfree.dip.cs.multinode.message.ChatRegistryRequest;
-import org.greatfree.dip.cs.multinode.message.ChatRegistryResponse;
-import org.greatfree.dip.cs.multinode.message.ChatRegistryStream;
+import org.greatfree.dsf.cs.multinode.message.ChatRegistryRequest;
+import org.greatfree.dsf.cs.multinode.message.ChatRegistryResponse;
+import org.greatfree.dsf.cs.multinode.message.ChatRegistryStream;
 
 /*
  * The creator generates one instance of ChatRegistryThread. It is invoked by the thread management mechanism, RequestDispatcher. 04/15/2017, Bing Li

@@ -5,7 +5,7 @@ import java.util.Calendar;
 import org.greatfree.client.OutMessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.dsf.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.container.Notification;

@@ -8,10 +8,10 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.demo.cps.message.MerchandiseRequest;
 import org.greatfree.demo.cps.message.MerchandiseResponse;
 import org.greatfree.demo.cps.message.OrderNotification;
-import org.greatfree.dip.container.cps.message.StopCoordinatorNotification;
-import org.greatfree.dip.container.cps.message.StopTerminalNotification;
-import org.greatfree.dip.container.cps.threenode.front.MenuOptions;
-import org.greatfree.dip.cps.threetier.front.ClientMenu;
+import org.greatfree.dsf.container.cps.message.StopCoordinatorNotification;
+import org.greatfree.dsf.container.cps.message.StopTerminalNotification;
+import org.greatfree.dsf.container.cps.threenode.front.MenuOptions;
+import org.greatfree.dsf.cps.threetier.front.ClientMenu;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 01/28/2019, Bing Li

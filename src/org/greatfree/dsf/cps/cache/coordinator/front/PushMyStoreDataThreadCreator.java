@@ -1,0 +1,16 @@
+package org.greatfree.dsf.cps.cache.coordinator.front;
+
+import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.dsf.cps.cache.message.replicate.PushMyStoreDataNotification;
+
+// Created: 08/09/2018, Bing Li
+public class PushMyStoreDataThreadCreator implements NotificationThreadCreatable<PushMyStoreDataNotification, PushMyStoreDataThread>
+{
+
+	@Override
+	public PushMyStoreDataThread createNotificationThreadInstance(int taskSize)
+	{
+		return new PushMyStoreDataThread(taskSize);
+	}
+
+}

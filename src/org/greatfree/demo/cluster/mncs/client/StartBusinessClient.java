@@ -8,7 +8,7 @@ import org.greatfree.app.container.cs.multinode.business.message.Merchandise;
 import org.greatfree.demo.cluster.mncs.message.MerchandiseRequest;
 import org.greatfree.demo.cluster.mncs.message.MerchandiseResponse;
 import org.greatfree.demo.cluster.mncs.message.PostMerchandiseNotification;
-import org.greatfree.dip.cluster.cs.twonode.client.ChatClient;
+import org.greatfree.dsf.cluster.cs.twonode.client.ChatClient;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.multicast.container.Response;
 import org.greatfree.util.Tools;

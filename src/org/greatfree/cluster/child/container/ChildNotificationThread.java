@@ -39,7 +39,7 @@ class ChildNotificationThread extends NotificationQueue<Notification>
 					if (notification.getNotificationType() == MulticastMessageType.INTER_CHILDEN_NOTIFICATION)
 					{
 //						Child.CONTAINER().forward(notification);
-						System.out.println("ChildNotificationThread: INTER_CHILDEN_NOTIFICATION is received and it will be forwarded ...");
+//						System.out.println("ChildNotificationThread: INTER_CHILDEN_NOTIFICATION is received and it will be forwarded ...");
 						Child.CONTAINER().forward((InterChildrenNotification)notification);
 					}
 					else

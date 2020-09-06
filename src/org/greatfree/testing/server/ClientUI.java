@@ -6,9 +6,9 @@ import java.util.Scanner;
 import org.greatfree.chat.ChatOptions;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
-import org.greatfree.dip.p2p.message.ChatPartnerResponse;
-import org.greatfree.dip.p2p.message.ChatRegistryResponse;
-import org.greatfree.dip.p2p.peer.ChatMaintainer;
+import org.greatfree.dsf.p2p.message.ChatPartnerResponse;
+import org.greatfree.dsf.p2p.message.ChatRegistryResponse;
+import org.greatfree.dsf.p2p.peer.ChatMaintainer;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 01/12/2019, Bing Li

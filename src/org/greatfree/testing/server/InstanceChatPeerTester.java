@@ -7,7 +7,7 @@ import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.p2p.peer.ChatMaintainer;
+import org.greatfree.dsf.p2p.peer.ChatMaintainer;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.server.ChatPeer;
 import org.greatfree.util.ServerStatus;

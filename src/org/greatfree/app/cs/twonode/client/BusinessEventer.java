@@ -9,7 +9,7 @@ import org.greatfree.app.cs.twonode.message.ShutdownBusinessServerNotification;
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.client.SyncRemoteEventer;
-import org.greatfree.dip.p2p.RegistryConfig;
+import org.greatfree.dsf.p2p.RegistryConfig;
 
 // Created: 07/27/2018, Bing Li
 public class BusinessEventer

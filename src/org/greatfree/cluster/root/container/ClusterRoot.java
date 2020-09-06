@@ -9,8 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.concurrency.ThreadPool;
-import org.greatfree.dip.container.p2p.message.ClusterIPRequest;
-import org.greatfree.dip.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.dsf.container.p2p.message.ClusterIPRequest;
+import org.greatfree.dsf.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;

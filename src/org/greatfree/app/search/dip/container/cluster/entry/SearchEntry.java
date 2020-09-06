@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.cluster.RootTask;
 import org.greatfree.cluster.root.container.ClusterServerContainer;
-import org.greatfree.dip.multicast.MulticastConfig;
+import org.greatfree.dsf.multicast.MulticastConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 

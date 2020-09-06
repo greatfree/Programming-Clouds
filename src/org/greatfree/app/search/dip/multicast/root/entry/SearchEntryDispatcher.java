@@ -15,8 +15,8 @@ import org.greatfree.client.OutMessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.multicast.message.MulticastDIPMessageType;
-import org.greatfree.dip.multicast.message.ShutdownChildrenAdminNotification;
+import org.greatfree.dsf.multicast.message.MulticastDIPMessageType;
+import org.greatfree.dsf.multicast.message.ShutdownChildrenAdminNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.server.ServerDispatcher;
 

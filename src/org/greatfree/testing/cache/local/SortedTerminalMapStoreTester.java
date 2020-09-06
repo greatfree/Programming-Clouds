@@ -6,10 +6,10 @@ import org.greatfree.cache.CacheConfig;
 import org.greatfree.cache.distributed.terminal.SortedTerminalMapStore;
 import org.greatfree.cache.factory.StoreKeyCreator;
 import org.greatfree.data.DescendantListPointingComparator;
-import org.greatfree.dip.cps.cache.TestCacheConfig;
-import org.greatfree.dip.cps.cache.data.MyCacheTiming;
-import org.greatfree.dip.cps.cache.data.MyCacheTimingFactory;
-import org.greatfree.dip.cps.cache.terminal.db.MyCacheTimingDB;
+import org.greatfree.dsf.cps.cache.TestCacheConfig;
+import org.greatfree.dsf.cps.cache.data.MyCacheTiming;
+import org.greatfree.dsf.cps.cache.data.MyCacheTimingFactory;
+import org.greatfree.dsf.cps.cache.terminal.db.MyCacheTimingDB;
 import org.greatfree.util.Time;
 import org.greatfree.util.Tools;
 

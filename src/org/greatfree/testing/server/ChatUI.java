@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import org.greatfree.chat.ChatMenu;
 import org.greatfree.chat.ChatOptions;
-import org.greatfree.dip.p2p.peer.ChatMaintainer;
+import org.greatfree.dsf.p2p.peer.ChatMaintainer;
 
 // Created: 01/12/2019, Bing Li
 class ChatUI

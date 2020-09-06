@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.child.container.ClusterChildContainer;
-import org.greatfree.dip.multicast.MulticastConfig;
+import org.greatfree.dsf.multicast.MulticastConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.TerminateSignal;
 

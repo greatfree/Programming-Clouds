@@ -9,7 +9,7 @@ import java.util.Map;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.client.IPResource;
 import org.greatfree.client.SyncRemoteEventer;
-import org.greatfree.dip.multicast.rp.child.ChildPeer;
+import org.greatfree.dsf.multicast.rp.child.ChildPeer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessage;

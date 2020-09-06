@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.SocketException;
 
 import org.greatfree.client.CSClient;
-import org.greatfree.dip.container.p2p.message.RegisterPeerRequest;
-import org.greatfree.dip.container.p2p.message.UnregisterPeerRequest;
+import org.greatfree.dsf.container.p2p.message.RegisterPeerRequest;
+import org.greatfree.dsf.container.p2p.message.UnregisterPeerRequest;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.RegisterPeerResponse;
 import org.greatfree.message.ServerMessage;

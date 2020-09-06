@@ -9,7 +9,7 @@ import org.greatfree.app.search.dip.multicast.message.SearchResponse;
 import org.greatfree.app.search.dip.multicast.message.SearchStream;
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.multicast.root.RootMulticastor;
+import org.greatfree.dsf.multicast.root.RootMulticastor;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.util.Tools;
 

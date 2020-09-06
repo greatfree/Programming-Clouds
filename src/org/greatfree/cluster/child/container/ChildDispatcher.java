@@ -4,10 +4,11 @@ import java.util.Calendar;
 
 import org.greatfree.client.OutMessageStream;
 import org.greatfree.cluster.message.ClusterMessageType;
+import org.greatfree.cluster.message.SelectedChildNotification;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.dsf.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.container.ChildResponse;
@@ -23,6 +24,7 @@ import org.greatfree.server.ServerDispatcher;
 class ChildDispatcher extends ServerDispatcher<ServerMessage>
 {
 	private NotificationDispatcher<RootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator> rootIPBroadcastNotificationDispatcher;
+	private NotificationDispatcher<SelectedChildNotification, SelectedChildNotificationThread, SelectedChildNotificationThreadCreator> selectedChildNotificationDispatcher;
 
 	private NotificationDispatcher<Notification, ChildNotificationThread, ChildNotificationThreadCreator> notificationDispatcher;
 	
@@ -61,7 +63,18 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
 				.build();
-		
+
+		this.selectedChildNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<SelectedChildNotification, SelectedChildNotificationThread, SelectedChildNotificationThreadCreator>()
+				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
+				.threadCreator(new SelectedChildNotificationThreadCreator())
+				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
+				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
+				.scheduler(super.getScheduler())
+				.build();
+
 		this.notificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<Notification, ChildNotificationThread, ChildNotificationThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new ChildNotificationThreadCreator())
@@ -150,6 +163,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 	{
 		super.shutdown(timeout);
 		this.rootIPBroadcastNotificationDispatcher.dispose();
+		this.selectedChildNotificationDispatcher.dispose();
 		this.notificationDispatcher.dispose();
 		this.requestDispatcher.dispose();
 //		this.intercastNotificationDispatcher.dispose();
@@ -171,6 +185,15 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 					super.execute(this.rootIPBroadcastNotificationDispatcher);
 				}
 				this.rootIPBroadcastNotificationDispatcher.enqueue((RootIPAddressBroadcastNotification)message.getMessage());
+				break;
+				
+			case ClusterMessageType.SELECTED_CHILD_NOTIFICATION:
+				System.out.println("SELECTED_CHILD_NOTIFICATION received at " + Calendar.getInstance().getTime());
+				if (!this.selectedChildNotificationDispatcher.isReady())
+				{
+					super.execute(this.selectedChildNotificationDispatcher);
+				}
+				this.selectedChildNotificationDispatcher.enqueue((SelectedChildNotification)message.getMessage());
 				break;
 				
 			case MulticastMessageType.NOTIFICATION:

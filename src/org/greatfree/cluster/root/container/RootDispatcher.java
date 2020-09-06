@@ -4,8 +4,10 @@ import java.util.Calendar;
 
 import org.greatfree.client.OutMessageStream;
 import org.greatfree.cluster.message.ClusterMessageType;
+import org.greatfree.cluster.message.HeavyWorkloadNotification;
 import org.greatfree.cluster.message.JoinNotification;
 import org.greatfree.cluster.message.LeaveNotification;
+import org.greatfree.cluster.message.SuperfluousResourcesNotification;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -26,6 +28,8 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 {
 	private NotificationDispatcher<JoinNotification, JoinNotificationThread, JoinNotificationThreadCreator> joinNotificationDispatcher;
 	private NotificationDispatcher<LeaveNotification, LeaveNotificationThread, LeaveNotificationThreadCreator> leaveNotificationDispatcher;
+	private NotificationDispatcher<HeavyWorkloadNotification, HeavyWorkloadNotificationThread, HeavyWorkloadNotificationThreadCreator> heavyWorkloadNotificationDispatcher;
+	private NotificationDispatcher<SuperfluousResourcesNotification, SuperfluousResourcesNotificationThread, SuperfluousResourcesNotificationThreadCreator> superfluousResourcesNotificationDispatcher;
 
 	private NotificationDispatcher<Notification, RootNotificationThread, RootNotificationThreadCreator> notificationDispatcher;
 	private RequestDispatcher<Request, RequestStream, Response, RootRequestThread, RootRequestThreadCreator> requestDispatcher;
@@ -55,6 +59,28 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 		this.leaveNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<LeaveNotification, LeaveNotificationThread, LeaveNotificationThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new LeaveNotificationThreadCreator())
+				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
+				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
+				.scheduler(super.getScheduler())
+				.build();
+
+		this.heavyWorkloadNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<HeavyWorkloadNotification, HeavyWorkloadNotificationThread, HeavyWorkloadNotificationThreadCreator>()
+				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
+				.threadCreator(new HeavyWorkloadNotificationThreadCreator())
+				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
+				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
+				.scheduler(super.getScheduler())
+				.build();
+
+		this.superfluousResourcesNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<SuperfluousResourcesNotification, SuperfluousResourcesNotificationThread, SuperfluousResourcesNotificationThreadCreator>()
+				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
+				.threadCreator(new SuperfluousResourcesNotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
 				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
@@ -125,6 +151,8 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 		super.shutdown(timeout);
 		this.joinNotificationDispatcher.dispose();
 		this.leaveNotificationDispatcher.dispose();
+		this.heavyWorkloadNotificationDispatcher.dispose();
+		this.superfluousResourcesNotificationDispatcher.dispose();
 		this.notificationDispatcher.dispose();
 		this.requestDispatcher.dispose();
 		this.multicastResponseDispatcher.dispose();
@@ -157,6 +185,28 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				}
 				// Enqueue the instance of Notification into the dispatcher for concurrent processing. 02/15/2016, Bing Li
 				this.leaveNotificationDispatcher.enqueue((LeaveNotification)message.getMessage());
+				break;
+				
+			case ClusterMessageType.HEAVY_WORKLOAD_NOTIFICATION:
+				System.out.println("HEAVY_WORKLOAD_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				if (!this.heavyWorkloadNotificationDispatcher.isReady())
+				{
+					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
+					super.execute(this.heavyWorkloadNotificationDispatcher);
+				}
+				// Enqueue the instance of Notification into the dispatcher for concurrent processing. 02/15/2016, Bing Li
+				this.heavyWorkloadNotificationDispatcher.enqueue((HeavyWorkloadNotification)message.getMessage());
+				break;
+				
+			case ClusterMessageType.SUPERFLUOUS_RESOURCES_NOTIFICATION:
+				System.out.println("SUPERFLUOUS_RESOURCES_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				if (!this.superfluousResourcesNotificationDispatcher.isReady())
+				{
+					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
+					super.execute(this.superfluousResourcesNotificationDispatcher);
+				}
+				// Enqueue the instance of Notification into the dispatcher for concurrent processing. 02/15/2016, Bing Li
+				this.superfluousResourcesNotificationDispatcher.enqueue((SuperfluousResourcesNotification)message.getMessage());
 				break;
 
 			case MulticastMessageType.NOTIFICATION:

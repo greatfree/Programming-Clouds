@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.cs.multinode.message.ChatRegistryRequest;
-import org.greatfree.dip.cs.multinode.message.ChatRegistryResponse;
-import org.greatfree.dip.cs.multinode.message.ChatRegistryStream;
+import org.greatfree.dsf.cs.multinode.message.ChatRegistryRequest;
+import org.greatfree.dsf.cs.multinode.message.ChatRegistryResponse;
+import org.greatfree.dsf.cs.multinode.message.ChatRegistryStream;
 
 /*
  * The thread registers the chatting account concurrently. 04/15/2017, Bing Li

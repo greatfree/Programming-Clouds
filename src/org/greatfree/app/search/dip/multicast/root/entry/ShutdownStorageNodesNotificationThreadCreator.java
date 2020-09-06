@@ -1,7 +1,7 @@
 package org.greatfree.app.search.dip.multicast.root.entry;
 
 import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
-import org.greatfree.dip.multicast.message.ShutdownChildrenAdminNotification;
+import org.greatfree.dsf.multicast.message.ShutdownChildrenAdminNotification;
 
 // Created: 12/10/2018, Bing Li
 class ShutdownStorageNodesNotificationThreadCreator implements NotificationThreadCreatable<ShutdownChildrenAdminNotification, ShutdownStorageNodesNotificationThread>

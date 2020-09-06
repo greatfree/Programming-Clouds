@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import org.greatfree.app.p2p.message.GreetingResponse;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dip.p2p.message.ChatPartnerResponse;
+import org.greatfree.dsf.p2p.message.ChatPartnerResponse;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.TerminateSignal;
 import org.greatfree.util.Tools;
