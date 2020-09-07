@@ -120,6 +120,40 @@ public class ClusterServerContainer
 		this.task = task;
 	}
 
+	public ClusterServerContainer(int port, String rootName, RootTask task, int replicas) throws IOException
+	{
+		this.server = new ClusterServer.ServerOnClusterBuilder()
+				.peerPort(port)
+				.peerName(rootName)
+				.registryServerIP(RegistryConfig.PEER_REGISTRY_ADDRESS)
+				.registryServerPort(RegistryConfig.PEER_REGISTRY_PORT)
+				.isRegistryNeeded(true)
+				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)
+				.serverThreadKeepAliveTime(ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME)
+				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
+				.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
+				.syncEventerIdleCheckDelay(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_DELAY)
+				.syncEventerIdleCheckPeriod(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_PERIOD)
+				.syncEventerMaxIdleTime(RegistryConfig.SYNC_EVENTER_MAX_IDLE_TIME)
+				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
+				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
+				.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
+				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
+				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
+				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
+				.schedulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
+				.rootBranchCount(MulticastConfig.ROOT_BRANCH_COUNT)
+				.treeBranchCount(MulticastConfig.SUB_BRANCH_COUNT)
+				.requestWaitTime(MulticastConfig.BROADCAST_REQUEST_WAIT_TIME)
+				.replicas(replicas)
+				.build();
+
+		this.task = task;
+	}
+
 	/*
 	public boolean isChildrenEmpty()
 	{
@@ -146,6 +180,6 @@ public class ClusterServerContainer
 
 	public void start() throws ClassNotFoundException, IOException, RemoteReadException, DistributedNodeFailedException
 	{
-		this.server.start(task);
+		this.server.start(this.task);
 	}
 }

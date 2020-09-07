@@ -227,6 +227,11 @@ public class RootClient
 		return this.reader.syncRead(childrenKeys, request);
 	}
 	
+	public List<MulticastResponse> asyncBroadcastRead(MulticastRequest request, Set<String> childrenKeys)
+	{
+		return this.reader.asyncRead(childrenKeys, request);
+	}
+	
 	/*
 	 * The method is just added to simplify the conversion between the list of parent objects and the list of child objects. 03/13/2020, Bing Li 
 	 */
@@ -316,7 +321,7 @@ public class RootClient
 	}
 
 	/*
-	 * The method has not been tested although it should be correct. 09//15/2018, Bing Li
+	 * The method has not been tested although it should be correct. 09/15/2018, Bing Li
 	 */
 	public List<MulticastResponse> asyncUnicastRead(MulticastRequest request)
 	{

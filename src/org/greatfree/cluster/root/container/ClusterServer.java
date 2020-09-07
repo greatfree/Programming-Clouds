@@ -2,6 +2,7 @@ package org.greatfree.cluster.root.container;
 
 import java.io.IOException;
 
+import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.cluster.RootTask;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.dsf.cluster.original.cs.twonode.message.StopChatClusterNotification;
@@ -41,7 +42,14 @@ class ClusterServer
 			.schedulerPoolSize(builder.getSchedulerPoolSize())
 			.scheulerKeepAliveTime(builder.getSchedulerKeepAliveTime());
 
-		ClusterRoot.CONTAINER().init(peerBuilder, builder.getRootBranchCount(), builder.getTreeBranchCount(), builder.getRequestWaitTime());
+		if (builder.getReplicas() == ClusterConfig.NO_REPLICAS)
+		{
+			ClusterRoot.CONTAINER().init(peerBuilder, builder.getRootBranchCount(), builder.getTreeBranchCount(), builder.getRequestWaitTime());
+		}
+		else
+		{
+			ClusterRoot.CONTAINER().init(peerBuilder, builder.getRootBranchCount(), builder.getTreeBranchCount(), builder.getRequestWaitTime(), builder.getReplicas());
+		}
 	}
 	
 	public static class ServerOnClusterBuilder implements Builder<ClusterServer>
@@ -78,10 +86,12 @@ class ClusterServer
 		private int treeBranchCount;
 		private long requestWaitTime;
 		
+		private int replicas;
+		
 		public ServerOnClusterBuilder()
 		{
 		}
-		
+
 		public ServerOnClusterBuilder peerName(String peerName)
 		{
 			this.peerName = peerName;
@@ -232,6 +242,12 @@ class ClusterServer
 			return this;
 		}
 
+		public ServerOnClusterBuilder replicas(int replicas)
+		{
+			this.replicas = replicas;
+			return this;
+		}
+
 		@Override
 		public ClusterServer build() throws IOException
 		{
@@ -361,6 +377,11 @@ class ClusterServer
 		public long getRequestWaitTime()
 		{
 			return this.requestWaitTime;
+		}
+		
+		public int getReplicas()
+		{
+			return this.replicas;
 		}
 	}
 	

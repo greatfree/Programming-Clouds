@@ -1,5 +1,6 @@
 package org.greatfree.message.multicast.container;
 
+import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.message.multicast.MulticastMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
 
@@ -11,6 +12,7 @@ public abstract class Notification extends MulticastMessage
 	private String clientKey;
 	private int notificationType;
 	private int applicationID;
+	private int partitionIndex;
 
 	/*
 	 * The constructor is usually used for the nearest unicasting. So the client key is required for nearest measurement. 10/28/2018, Bing Li 
@@ -22,6 +24,7 @@ public abstract class Notification extends MulticastMessage
 		this.notificationType = notificationType;
 //		this.notificationType = MulticastMessageType.UNICAST_NOTIFICATION;
 		this.applicationID = applicationID;
+		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
 	}
 
 	/*
@@ -36,6 +39,18 @@ public abstract class Notification extends MulticastMessage
 		super(MulticastMessageType.NOTIFICATION);
 		this.notificationType = notificationType;
 		this.applicationID = applicationID;
+		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
+	}
+
+	/*
+	 * Some messages need to be replicated among one partition. If so, the constructor is employed and the partition index should be specified. 09/07/2020, Bing Li
+	 */
+	public Notification(int notificationType, int applicationID, int partitionIndex)
+	{
+		super(MulticastMessageType.NOTIFICATION);
+		this.notificationType = notificationType;
+		this.applicationID = applicationID;
+		this.partitionIndex = partitionIndex;
 	}
 
 	/*
@@ -91,5 +106,17 @@ public abstract class Notification extends MulticastMessage
 	public int getApplicationID()
 	{
 		return this.applicationID;
+	}
+
+	/*
+	public boolean isReplicated()
+	{
+		return this.isReplicated;
+	}
+	*/
+	
+	public int getPartitionIndex()
+	{
+		return this.partitionIndex;
 	}
 }

@@ -1,5 +1,6 @@
 package org.greatfree.message.multicast.container;
 
+import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.MulticastRequest;
 
@@ -11,6 +12,7 @@ public abstract class Request extends MulticastRequest
 	private String clientKey;
 	private int requestType;
 	private int applicationID;
+	private int partitionIndex;
 
 	/*
 	 * 
@@ -26,6 +28,7 @@ public abstract class Request extends MulticastRequest
 //		this.requestType = requestType;
 		this.requestType = MulticastMessageType.UNICAST_REQUEST;
 		this.applicationID = applicationID;
+		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
 	}
 
 	/*
@@ -40,6 +43,18 @@ public abstract class Request extends MulticastRequest
 		super(MulticastMessageType.REQUEST);
 		this.requestType = requestType;
 		this.applicationID = applicationID;
+		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
+	}
+
+	/*
+	 * This constructor is usually used for broadcasting upon replication. The partition index is required to be specified. 10/28/2018, Bing Li
+	 */
+	public Request(int requestType, int applicationID, int partitionIndex)
+	{
+		super(MulticastMessageType.REQUEST);
+		this.requestType = requestType;
+		this.applicationID = applicationID;
+		this.partitionIndex = partitionIndex;
 	}
 
 	/*
@@ -95,5 +110,10 @@ public abstract class Request extends MulticastRequest
 	public int getApplicationID()
 	{
 		return this.applicationID;
+	}
+	
+	public int getPartitionIndex()
+	{
+		return this.partitionIndex;
 	}
 }
