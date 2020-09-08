@@ -101,23 +101,29 @@ class ClusterRoot
 		
 		if (ipResponse.getIPs() != null)
 		{
-//			System.out.println("RootPeer-ipResponse: ip size = " + ipResponse.getIPs().size());
+//			System.out.println("ClusterRoot-start(): ip size = " + ipResponse.getIPs().size());
 
 			// Add the IP addresses to the client pool. 05/08/2017, Bing Li
 			for (IPAddress ip : ipResponse.getIPs().values())
 			{
 //				System.out.println("Distributed IPs = " + ip.getIP() + ", " + ip.getPort());
 				this.root.addPartners(ip.getIP(), ip.getPort());
+//				this.partitionChild(ip.getIPKey());
 			}
 			
 			this.broadcastNotify(new RootIPAddressBroadcastNotification(new IPAddress(this.root.getPeerID(), this.root.getPeerIP(), this.root.getPort())));
 		}
-		Set<String> childrenKeys;
+	
+//		int partitionSize = ipResponse.getIPs().size() / this.replicas + 1;
+//		Set<String> childrenKeys;
+		// The commented line is a bug. 09/08/2020, Bing Li
+		/*
 		for (int i = 0; i < this.replicas; i++)
 		{
 			childrenKeys = Sets.newHashSet();
 			this.partitionedChildren.add(childrenKeys);
 		}
+		*/
 	}
 
 	/*
@@ -125,17 +131,39 @@ class ClusterRoot
 	 */
 	private void partitionChild(String ipKey)
 	{
-		int minIndex = 0;
-		int currentMaxSize = this.partitionedChildren.get(minIndex).size();
-		for (int i = 1; i < this.partitionedChildren.size(); i++)
+		if (this.partitionedChildren.size() > 0)
 		{
-			if (this.partitionedChildren.get(i).size() < currentMaxSize)
+			int index = 0;
+//			int currentMaxSize = this.partitionedChildren.get(minIndex).size();
+			boolean isFound = false;
+			for (int i = 0; i < this.partitionedChildren.size(); i++)
 			{
-				currentMaxSize = this.partitionedChildren.get(i).size();
-				minIndex = i;
+//				if (this.partitionedChildren.get(i).size() < currentMaxSize)
+				if (this.partitionedChildren.get(i).size() < this.replicas)
+				{
+//					currentMaxSize = this.partitionedChildren.get(i).size();
+					index = i;
+					isFound = true;
+					break;
+				}
+			}
+			if (!isFound)
+			{
+				Set<String> childrenKeys = Sets.newHashSet();
+				childrenKeys.add(ipKey);
+				this.partitionedChildren.add(childrenKeys);
+			}
+			else
+			{
+				this.partitionedChildren.get(index).add(ipKey);
 			}
 		}
-		this.partitionedChildren.get(minIndex).add(ipKey);
+		else
+		{
+			Set<String> childrenKeys = Sets.newHashSet();
+			childrenKeys.add(ipKey);
+			this.partitionedChildren.add(childrenKeys);
+		}
 	}
 	
 	/*
@@ -162,12 +190,19 @@ class ClusterRoot
 		this.children.remove(childID);
 		
 		// Usually, the size of the partition is NOT large. So the below algorithm is acceptable. 09/07/2020, Bing Li
+		int index = 0;
 		for (int i = 0; i < this.partitionedChildren.size(); i++)
 		{
 			if (this.partitionedChildren.get(i).contains(ipKey))
 			{
-				this.partitionedChildren.get(i).remove(ipKey);
+				index = i;
+				this.partitionedChildren.get(index).remove(ipKey);
+				break;
 			}
+		}
+		if (this.partitionedChildren.get(index).size() <= 0)
+		{
+			this.partitionedChildren.remove(index);
 		}
 	}
 	
@@ -297,9 +332,9 @@ class ClusterRoot
 		return this.client.broadcastRead(request);
 	}
 	
-	public List<MulticastResponse> broadcastRead(MulticastRequest request, int partitionIndex) throws DistributedNodeFailedException, IOException
+	public MulticastResponse broadcastRead(MulticastRequest request, int partitionIndex) throws DistributedNodeFailedException, IOException
 	{
-		return this.client.broadcastRead(request, this.partitionedChildren.get(partitionIndex));
+		return this.client.broadcastReadUponPartition(request, this.partitionedChildren.get(partitionIndex));
 	}
 	
 	public List<MulticastResponse> asyncBroadcastRead(MulticastRequest request) throws DistributedNodeFailedException, IOException
@@ -307,9 +342,9 @@ class ClusterRoot
 		return this.client.asyncBroadcastRead(request);
 	}
 	
-	public List<MulticastResponse> asyncBroadcastRead(MulticastRequest request, int partitionIndex)
+	public MulticastResponse asyncBroadcastRead(MulticastRequest request, int partitionIndex)
 	{
-		return this.client.asyncBroadcastRead(request, this.partitionedChildren.get(partitionIndex));
+		return this.client.asyncBroadcastReadUponPartition(request, this.partitionedChildren.get(partitionIndex));
 	}
 	
 	public List<MulticastResponse> anycastRead(MulticastRequest request, int n) throws IOException, DistributedNodeFailedException
@@ -339,7 +374,7 @@ class ClusterRoot
 			case MulticastMessageType.BROADCAST_NOTIFICATION:
 				if (this.children.size() > 0)
 				{
-					System.out.println("ClusterRoot-processNotification(): replicas = " + this.replicas);
+//					System.out.println("ClusterRoot-processNotification(): replicas = " + this.replicas);
 //					if (this.replicas == ClusterConfig.NO_REPLICAS)
 					if (notification.getPartitionIndex() == ClusterConfig.NO_PARTITION_INDEX)
 					{

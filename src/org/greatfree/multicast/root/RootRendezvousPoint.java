@@ -304,4 +304,22 @@ public class RootRendezvousPoint
 		// Return the list of responses
 		return results;
 	}
+
+	/*
+	 * Waiting for responses from the distributed nodes. But in the case, a single response from one partition is enough since data within partition is replicated and identical such that it is not necessary to wait additional ones. 08/26/2018, Bing Li
+	 */
+	public MulticastResponse waitForResponseUponPartition(String collaboratorKey)
+	{
+		if (!this.points.containsKey(collaboratorKey))
+		{
+			this.points.put(collaboratorKey, new MulticastPoint(collaboratorKey));
+		}
+		if (!this.points.get(collaboratorKey).isFull())
+		{
+			this.points.get(collaboratorKey).holdOn(this.waitTime);
+		}
+		List<MulticastResponse> results = this.points.get(collaboratorKey).getResponses();
+		this.points.remove(collaboratorKey);
+		return results.get(0);
+	}
 }

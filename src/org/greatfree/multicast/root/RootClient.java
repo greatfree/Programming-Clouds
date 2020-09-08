@@ -226,12 +226,28 @@ public class RootClient
 	{
 		return this.reader.syncRead(childrenKeys, request);
 	}
-	
+
+	/*
+	 * The method waits for a single response from one particular partition. 09/08/2020, Bing Li
+	 */
+	public MulticastResponse broadcastReadUponPartition(MulticastRequest request, Set<String> childrenKeys) throws DistributedNodeFailedException, IOException
+	{
+		return this.reader.syncReadUponPartition(childrenKeys, request);
+	}
+
 	public List<MulticastResponse> asyncBroadcastRead(MulticastRequest request, Set<String> childrenKeys)
 	{
 		return this.reader.asyncRead(childrenKeys, request);
 	}
 	
+	/*
+	 * The method waits for a single response from one particular partition. 09/08/2020, Bing Li
+	 */
+	public MulticastResponse asyncBroadcastReadUponPartition(MulticastRequest request, Set<String> childrenKeys)
+	{
+		return this.reader.asyncReadUponPartition(childrenKeys, request);
+	}
+
 	/*
 	 * The method is just added to simplify the conversion between the list of parent objects and the list of child objects. 03/13/2020, Bing Li 
 	 */

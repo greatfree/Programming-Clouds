@@ -1,7 +1,6 @@
 package org.greatfree.dsf.cluster.replication.client;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 import org.greatfree.client.StandaloneClient;
@@ -33,28 +32,37 @@ class StartClient
 		System.out.println("The IP of the pool cluster is " + rootIP);
 		
 		String option = UtilConfig.EMPTY_STRING;
-		List<ReplicationTaskResponse> responses;
+//		List<ReplicationTaskResponse> responses;
 		Response response;
+		ReplicationTaskResponse rtr;
 		String message = "Hello";
 		String msgKey = Tools.getHash(message);
-
+		
+		int partitionIndex = 0;
 		while (!option.equals("q"))
 		{
+			System.out.println("partition index = " + partitionIndex);
 			System.out.println("Press Enter to send ReplicationTaskNotification to the Replication cluster ...");
 			option = in.nextLine();
-			StandaloneClient.CS().syncNotify(rootIP.getIP(), rootIP.getPort(), new ReplicationTaskNotification(message, 0));
+			StandaloneClient.CS().syncNotify(rootIP.getIP(), rootIP.getPort(), new ReplicationTaskNotification(message, partitionIndex));
 			
 			/*
 			 * The retrieval is performed using normal broadcasting request since the data is replicated in a randomly selected partition. 09/07/2020, Bing Li
 			 */
 			System.out.println("Press Enter to send ReplicationTaskRequest to the Replication cluster ...");
 			option = in.nextLine();
-			response = (Response)StandaloneClient.CS().read(rootIP.getIP(), rootIP.getPort(), new ReplicationTaskRequest(msgKey, message, 0));
+//			response = (Response)StandaloneClient.CS().read(rootIP.getIP(), rootIP.getPort(), new ReplicationTaskRequest(msgKey, message, 0));
+			response = (Response)StandaloneClient.CS().read(rootIP.getIP(), rootIP.getPort(), new ReplicationTaskRequest(msgKey, message, partitionIndex));
+			/*
 			responses = Tools.filter(response.getResponses(), ReplicationTaskResponse.class);
 			for (ReplicationTaskResponse entry : responses)
 			{
 				System.out.println("childKey = " + entry.getChildrenKey() + ": message = " + entry.getMessage());
 			}
+			*/
+			rtr = (ReplicationTaskResponse)response.getResponse();
+			System.out.println("childKey = " + rtr.getChildrenKey() + ": message = " + rtr.getMessage());
+			partitionIndex = ++partitionIndex % ReplicationConfig.REPLICAS;
 		}
 
 		System.out.println("Press Enter to quit ...");

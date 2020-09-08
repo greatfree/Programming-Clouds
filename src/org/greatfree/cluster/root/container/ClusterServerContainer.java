@@ -120,6 +120,9 @@ public class ClusterServerContainer
 		this.task = task;
 	}
 
+	/*
+	 * The constructor implements the feature of partition-based replications. 09/08/2020, Bing Li
+	 */
 	public ClusterServerContainer(int port, String rootName, RootTask task, int replicas) throws IOException
 	{
 		this.server = new ClusterServer.ServerOnClusterBuilder()

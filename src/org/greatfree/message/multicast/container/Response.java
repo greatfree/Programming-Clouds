@@ -12,6 +12,7 @@ public class Response extends ServerMessage
 	
 //	private int responseType;
 	private List<MulticastResponse> responses;
+	private MulticastResponse response;
 
 //	public Response(List<MulticastResponse> responses)
 	public Response(int type, List<MulticastResponse> responses)
@@ -20,6 +21,17 @@ public class Response extends ServerMessage
 		super(type);
 //		this.responseType = responseType;
 		this.responses = responses;
+		this.response = null;
+	}
+
+	/*
+	 * The constructor is used for generating the response for the partition based queries. Only a single response is enough for replication. 09/08/2020, Bing Li
+	 */
+	public Response(int type, MulticastResponse response)
+	{
+		super(type);
+		this.responses = null;
+		this.response = response;
 	}
 
 	/*
@@ -32,5 +44,10 @@ public class Response extends ServerMessage
 	public List<MulticastResponse> getResponses()
 	{
 		return this.responses;
+	}
+	
+	public MulticastResponse getResponse()
+	{
+		return this.response;
 	}
 }
