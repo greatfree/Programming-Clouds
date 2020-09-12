@@ -3,6 +3,8 @@ package org.greatfree.server.container;
 import java.io.IOException;
 
 import org.greatfree.client.FreeClientPool;
+import org.greatfree.cluster.message.PartitionSizeRequest;
+import org.greatfree.cluster.message.PartitionSizeResponse;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.dsf.container.p2p.message.PeerAddressRequest;
@@ -158,6 +160,14 @@ public class PeerContainer
 	public IPAddress getIPAddress(String registryIP, int registryPort, String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		return ((PeerAddressResponse)this.peer.read(registryIP,  registryPort, new PeerAddressRequest(nodeKey))).getPeerAddress();
+	}
+	
+	/*
+	 * The method is useful for most storage systems, which need the partition information to design the upper level distribution strategy. 09/09/2020, Bing Li
+	 */
+	public int getPartitionSize(String clusterIP, int clusterPort) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return ((PartitionSizeResponse)this.peer.read(clusterIP,  clusterPort, new PartitionSizeRequest())).getPartitionSize();
 	}
 	
 	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException

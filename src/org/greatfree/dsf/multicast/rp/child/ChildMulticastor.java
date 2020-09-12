@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.message.multicast.RPMulticastRequest;
 import org.greatfree.multicast.RendezvousPoint;
@@ -58,12 +58,12 @@ public class ChildMulticastor
 		this.client.notify(rpIP.getIP(), rpIP.getPort(), response);
 	}
 
-	public void notify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void notify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 		this.client.notify(notification);
 	}
 	
-	public void asyncNotify(MulticastMessage notification)
+	public void asyncNotify(MulticastNotification notification)
 	{
 		this.client.asynNotify(notification);
 	}

@@ -18,6 +18,8 @@ class RootAsyncMulticastReader
 	private AsyncPool<MulticastRequest> randomActor;
 	private AsyncPool<ChildKeyMulticastRequest> childKeyActor;
 	
+	private AsyncPool<RandomChildrenMulticastRequest> randomChildrenActor;
+	
 	private ThreadPool pool;
 	
 	public RootAsyncMulticastReader(RootSyncMulticastor multicastor, ThreadPool pool)
@@ -126,6 +128,19 @@ class RootAsyncMulticastReader
 				.actor(new ChildKeyRootReadActor(multicastor))
 				.build();
 
+		this.randomChildrenActor = new AsyncPool.ActorPoolBuilder<RandomChildrenMulticastRequest>()
+				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
+				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
+				.actorWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
+				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.idleCheckDelay(ClientConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ClientConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
+				.schedulerPoolSize(ClientConfig.SCHEDULER_POOL_SIZE)
+				.schedulerKeepAliveTime(ClientConfig.SCHEDULER_KEEP_ALIVE_TIME)
+				.actor(new RandomChildrenRootReadActor(multicastor))
+				.build();
+
 		this.pool = pool;
 	}
 	
@@ -139,6 +154,7 @@ class RootAsyncMulticastReader
 		this.nearestKeyActor.dispose();
 		this.randomActor.dispose();
 		this.childKeyActor.dispose();
+		this.randomChildrenActor.dispose();
 	}
 
 	public void asyncRead(MulticastRequest request)
@@ -211,5 +227,14 @@ class RootAsyncMulticastReader
 			this.pool.execute(this.childKeyActor);
 		}
 		this.childKeyActor.perform(request);
+	}
+	
+	public void asynRead(RandomChildrenMulticastRequest request)
+	{
+		if (!this.randomChildrenActor.isReady())
+		{
+			this.pool.execute(this.randomChildrenActor);
+		}
+		this.randomChildrenActor.perform(request);
 	}
 }

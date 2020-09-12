@@ -6,7 +6,7 @@ import java.util.List;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.message.multicast.RPMulticastRequest;
 import org.greatfree.multicast.RendezvousPoint;
@@ -62,17 +62,17 @@ public class RootMulticastor
 		return this.client.getRP();
 	}
 	
-	public void broadcastNotify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void broadcastNotify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 		this.client.broadcastNotify(notification);
 	}
 	
-	public void anycastNotify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void anycastNotify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 		this.client.anycastNotify(notification);
 	}
 	
-	public void unicastNotify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void unicastNotify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 		this.client.unicastNotify(notification);
 	}

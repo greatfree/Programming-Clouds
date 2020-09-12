@@ -2,17 +2,15 @@ package org.greatfree.multicast.root;
 
 import java.io.IOException;
 
-import org.greatfree.concurrency.Async;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 
 // Created: 09/15/2018, Bing Li
-class SizeRootReadActor extends Async<SizeMulticastRequest>
+// class SizeRootReadActor extends Async<SizeMulticastRequest>
+class SizeRootReadActor extends AsyncMulticastor<SizeMulticastRequest>
 {
-	private RootSyncMulticastor multicastor;
-	
 	public SizeRootReadActor(RootSyncMulticastor multicastor)
 	{
-		this.multicastor = multicastor;
+		super(multicastor);
 	}
 	
 	@Override
@@ -20,7 +18,7 @@ class SizeRootReadActor extends Async<SizeMulticastRequest>
 	{
 		try
 		{
-			this.multicastor.read(request.getRequest(), request.getChildrenSize());
+			super.getMulticastor().readWithNResponses(request.getRequest(), request.getChildrenSize());
 		}
 		catch (IOException | DistributedNodeFailedException e)
 		{

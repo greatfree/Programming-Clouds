@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.greatfree.cluster.RootTask;
 import org.greatfree.cluster.root.container.ClusterServerContainer;
 import org.greatfree.dsf.cluster.replication.ReplicationConfig;
+import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 
@@ -48,7 +49,7 @@ class ReplicationRoot
 	
 	public void start(int port, RootTask task, int replicas) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException
 	{
-		this.server = new ClusterServerContainer(port, ReplicationConfig.REPLICATION_ROOT, task, replicas);
+		this.server = new ClusterServerContainer(port, ReplicationConfig.REPLICATION_ROOT, RegistryConfig.PEER_REGISTRY_ADDRESS, RegistryConfig.PEER_REGISTRY_PORT, task, replicas);
 		this.server.start();
 	}
 }

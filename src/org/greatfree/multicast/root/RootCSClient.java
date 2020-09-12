@@ -7,7 +7,7 @@ import java.util.Set;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.client.SyncRemoteEventer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.util.Builder;
@@ -17,7 +17,7 @@ import org.greatfree.util.Builder;
  */
 
 // Created: 08/22/2018, Bing Li
-class RootCSClient<Notification extends MulticastMessage, Request extends MulticastRequest, Response extends MulticastResponse>
+class RootCSClient<Notification extends MulticastNotification, Request extends MulticastRequest, Response extends MulticastResponse>
 {
 	private RootMulticastEventer<Notification> eventer;
 	private RootMulticastReader<Request, Response> reader;
@@ -41,7 +41,7 @@ class RootCSClient<Notification extends MulticastMessage, Request extends Multic
 		this.reader.dispose();
 	}
 	
-	public static class RootCSClientBuilder<Notification extends MulticastMessage, Request extends MulticastRequest, Response extends MulticastResponse> implements Builder<RootCSClient<Notification, Request, Response>>
+	public static class RootCSClientBuilder<Notification extends MulticastNotification, Request extends MulticastRequest, Response extends MulticastResponse> implements Builder<RootCSClient<Notification, Request, Response>>
 	{
 		/*
 		private int clientPoolSize;

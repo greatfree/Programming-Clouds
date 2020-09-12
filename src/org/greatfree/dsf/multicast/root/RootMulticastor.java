@@ -9,7 +9,7 @@ import org.greatfree.dsf.multicast.message.HelloWorldAnycastResponse;
 import org.greatfree.dsf.multicast.message.HelloWorldBroadcastResponse;
 import org.greatfree.dsf.multicast.message.HelloWorldUnicastResponse;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.multicast.root.RootClient;
@@ -96,19 +96,19 @@ public class RootMulticastor
 	}
 	*/
 	
-	public void broadcastNotify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void broadcastNotify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 //		this.eventer.disseminate(notification);
 		this.client.broadcastNotify(notification);
 	}
 	
-	public void anycastNotify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void anycastNotify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 //		this.eventer.disseminate(notification);
 		this.client.anycastNotify(notification);
 	}
 	
-	public void unicastNotify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void unicastNotify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 //		this.eventer.randomDisseminate(notification);
 		this.client.unicastNotify(notification);

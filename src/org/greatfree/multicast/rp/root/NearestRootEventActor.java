@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.Async;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.multicast.root.NearestMulticastMessage;
+import org.greatfree.multicast.root.NearestMulticastNotification;
 
 // Created: 10/15/2018, Bing Li
-class NearestRootEventActor extends Async<NearestMulticastMessage>
+class NearestRootEventActor extends Async<NearestMulticastNotification>
 {
 	private RootSyncMulticastor multicastor;
 	
@@ -17,11 +17,11 @@ class NearestRootEventActor extends Async<NearestMulticastMessage>
 	}
 	
 	@Override
-	public void perform(NearestMulticastMessage notification)
+	public void perform(NearestMulticastNotification notification)
 	{
 		try
 		{
-			this.multicastor.nearestNotify(notification.getKey(), notification.getMessage());
+			this.multicastor.nearestNotify(notification.getKey(), notification.getNotification());
 		}
 		catch (IOException | DistributedNodeFailedException e)
 		{

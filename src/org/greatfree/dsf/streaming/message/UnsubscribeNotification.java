@@ -1,9 +1,9 @@
 package org.greatfree.dsf.streaming.message;
 
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 03/23/2020, Bing Li
-public class UnsubscribeNotification extends MulticastMessage
+public class UnsubscribeNotification extends MulticastNotification
 {
 	private static final long serialVersionUID = 8418225857650621992L;
 

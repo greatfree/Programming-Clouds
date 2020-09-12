@@ -1,12 +1,16 @@
 package org.greatfree.cluster.root.container;
 
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 import org.greatfree.client.OutMessageStream;
 import org.greatfree.cluster.message.ClusterMessageType;
 import org.greatfree.cluster.message.HeavyWorkloadNotification;
 import org.greatfree.cluster.message.JoinNotification;
 import org.greatfree.cluster.message.LeaveNotification;
+import org.greatfree.cluster.message.PartitionSizeRequest;
+import org.greatfree.cluster.message.PartitionSizeResponse;
+import org.greatfree.cluster.message.PartitionSizeStream;
 import org.greatfree.cluster.message.SuperfluousResourcesNotification;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
@@ -30,7 +34,8 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 	private NotificationDispatcher<LeaveNotification, LeaveNotificationThread, LeaveNotificationThreadCreator> leaveNotificationDispatcher;
 	private NotificationDispatcher<HeavyWorkloadNotification, HeavyWorkloadNotificationThread, HeavyWorkloadNotificationThreadCreator> heavyWorkloadNotificationDispatcher;
 	private NotificationDispatcher<SuperfluousResourcesNotification, SuperfluousResourcesNotificationThread, SuperfluousResourcesNotificationThreadCreator> superfluousResourcesNotificationDispatcher;
-
+	private RequestDispatcher<PartitionSizeRequest, PartitionSizeStream, PartitionSizeResponse, PartitionSizeRequestThread, PartitionSizeRequestThreadCreator> partitionSizeRequestDispatcher;
+	
 	private NotificationDispatcher<Notification, RootNotificationThread, RootNotificationThreadCreator> notificationDispatcher;
 	private RequestDispatcher<Request, RequestStream, Response, RootRequestThread, RootRequestThreadCreator> requestDispatcher;
 
@@ -38,6 +43,8 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 	
 	private NotificationDispatcher<IntercastNotification, IntercastNotificationThread, IntercastNotificationThreadCreator> intercastNotificationDispatcher;
 	private RequestDispatcher<IntercastRequest, IntercastRequestStream, Response, IntercastRequestThread, IntercastRequestThreadCreator> intercastRequestDispatcher;
+
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster.child.container");
 
 //	public RootDispatcher(int schedulerPoolSize, long schedulerKeepAliveTime)
 	public RootDispatcher(int serverThreadPoolSize, long serverThreadKeepAliveTime, int schedulerPoolSize, long schedulerKeepAliveTime)
@@ -86,6 +93,17 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
+				.scheduler(super.getScheduler())
+				.build();
+
+		this.partitionSizeRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<PartitionSizeRequest, PartitionSizeStream, PartitionSizeResponse, PartitionSizeRequestThread, PartitionSizeRequestThreadCreator>()
+				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
+				.threadCreator(new PartitionSizeRequestThreadCreator())
+				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.REQUEST_DISPATCHER_WAIT_TIME)
+				.waitRound(ServerConfig.REQUEST_DISPATCHER_WAIT_ROUND)
+				.idleCheckDelay(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
 				.build();
 
@@ -153,6 +171,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 		this.leaveNotificationDispatcher.dispose();
 		this.heavyWorkloadNotificationDispatcher.dispose();
 		this.superfluousResourcesNotificationDispatcher.dispose();
+		this.partitionSizeRequestDispatcher.dispose();
 		this.notificationDispatcher.dispose();
 		this.requestDispatcher.dispose();
 		this.multicastResponseDispatcher.dispose();
@@ -166,7 +185,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 		switch (message.getMessage().getType())
 		{
 			case ClusterMessageType.JOIN_NOTIFICATION:
-				System.out.println("JOIN_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("JOIN_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.joinNotificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -177,7 +196,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 
 			case ClusterMessageType.LEAVE_NOTIFICATION:
-				System.out.println("LEAVE_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("LEAVE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.leaveNotificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -188,7 +207,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case ClusterMessageType.HEAVY_WORKLOAD_NOTIFICATION:
-				System.out.println("HEAVY_WORKLOAD_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("HEAVY_WORKLOAD_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.heavyWorkloadNotificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -199,7 +218,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case ClusterMessageType.SUPERFLUOUS_RESOURCES_NOTIFICATION:
-				System.out.println("SUPERFLUOUS_RESOURCES_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("SUPERFLUOUS_RESOURCES_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.superfluousResourcesNotificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -208,9 +227,21 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				// Enqueue the instance of Notification into the dispatcher for concurrent processing. 02/15/2016, Bing Li
 				this.superfluousResourcesNotificationDispatcher.enqueue((SuperfluousResourcesNotification)message.getMessage());
 				break;
+				
+			case ClusterMessageType.PARTITION_SIZE_REQUEST:
+				log.info("PARTITION_SIZE_REQUEST received @" + Calendar.getInstance().getTime());
+				// Check whether the shutdown notification dispatcher is ready or not. 02/15/2016, Bing Li
+				if (!this.partitionSizeRequestDispatcher.isReady())
+				{
+					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
+					super.execute(this.partitionSizeRequestDispatcher);
+				}
+				// Enqueue the instance of Request into the dispatcher for concurrent processing. 02/15/2016, Bing Li
+				this.partitionSizeRequestDispatcher.enqueue(new PartitionSizeStream(message.getOutStream(), message.getLock(), (PartitionSizeRequest)message.getMessage()));
+				break;
 
 			case MulticastMessageType.NOTIFICATION:
-				System.out.println("NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.notificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -221,7 +252,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 
 			case MulticastMessageType.REQUEST:
-				System.out.println("REQUEST received @" + Calendar.getInstance().getTime());
+				log.info("REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the shutdown notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.requestDispatcher.isReady())
 				{
@@ -233,7 +264,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 
 			case ClusterMessageType.CHILD_RESPONSE:
-				System.out.println("CHILD_RESPONSE received @" + Calendar.getInstance().getTime());
+				log.info("CHILD_RESPONSE received @" + Calendar.getInstance().getTime());
 				if (!this.multicastResponseDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -244,7 +275,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case MulticastMessageType.INTERCAST_NOTIFICATION:
-				System.out.println("INTERCAST_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("INTERCAST_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.intercastNotificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -255,7 +286,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case MulticastMessageType.INTERCAST_REQUEST:
-				System.out.println("INTERCAST_REQUEST received @" + Calendar.getInstance().getTime());
+				log.info("INTERCAST_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the shutdown notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.intercastRequestDispatcher.isReady())
 				{

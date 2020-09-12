@@ -71,12 +71,38 @@ class ChildRequestThread extends NotificationQueue<Request>
 						InterChildrenRequest icr = (InterChildrenRequest)request;
 						Child.CONTAINER().forward(icr);
 						response = ChildServiceProvider.CHILD().processRequest(icr);
+						/*
+						 * It is not reasonable to notify the root when the child responds requests from the root since the notifications from the root also imposes workloads to the child. So I think the states of workloads should be implemented only on the application level. 09/11/2020, Bing Li
+						 */
+						/*
+						if (Child.CONTAINER().isNormal())
+						{
+							Child.CONTAINER().notifySubRoot(icr.getSubRootIP(), icr.getSubRootPort(), response);
+						}
+						else
+						{
+							Child.CONTAINER().notifySubRoot(icr.getSubRootIP(), icr.getSubRootPort(), response, Child.CONTAINER().isBusy(), Child.CONTAINER().isIdle());
+						}
+						*/
 						Child.CONTAINER().notifySubRoot(icr.getSubRootIP(), icr.getSubRootPort(), response);
 					}
 					else
 					{
 						Child.CONTAINER().forward(request);
 						response = ChildServiceProvider.CHILD().processRequest(request);
+						/*
+						 * It is not reasonable to notify the root when the child responds requests from the root since the notifications from the root also imposes workloads to the child. So I think the states of workloads should be implemented only on the application level. 09/11/2020, Bing Li
+						 */
+						/*
+						if (Child.CONTAINER().isNormal())
+						{
+							Child.CONTAINER().notifyRoot(response);
+						}
+						else
+						{
+							Child.CONTAINER().notifyRoot(response, Child.CONTAINER().isBusy(), Child.CONTAINER().isIdle());
+						}
+						*/
 						Child.CONTAINER().notifyRoot(response);
 					}
 					this.disposeMessage(request);

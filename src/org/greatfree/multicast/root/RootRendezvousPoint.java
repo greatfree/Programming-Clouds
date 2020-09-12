@@ -117,7 +117,14 @@ public class RootRendezvousPoint
 //			System.out.println("RootRendezvousPoint-saveResponse(): create a new point");
 			this.points.put(response.getCollaboratorKey(), new MulticastPoint(response.getCollaboratorKey()));
 		}
-		this.points.get(response.getCollaboratorKey()).addResponse(response);
+		
+		// The below line might cause NullPointerException. 09/09/2020, Bing Li
+//		this.points.get(response.getCollaboratorKey()).addResponse(response);
+		MulticastPoint point = this.points.get(response.getCollaboratorKey());
+		if (point != null)
+		{
+			point.addResponse(response);
+		}
 		/*
 		if (this.responses.get(response.getCollaboratorKey()).size() >= this.receiverCounts.get(response.getCollaboratorKey()))
 		{
@@ -314,7 +321,9 @@ public class RootRendezvousPoint
 		{
 			this.points.put(collaboratorKey, new MulticastPoint(collaboratorKey));
 		}
-		if (!this.points.get(collaboratorKey).isFull())
+//		if (!this.points.get(collaboratorKey).isFull())
+		// Once if a replica is available, it is not necessary to wait. 09/09/2020, Bing Li
+		if (!this.points.get(collaboratorKey).isAvailable())
 		{
 			this.points.get(collaboratorKey).holdOn(this.waitTime);
 		}

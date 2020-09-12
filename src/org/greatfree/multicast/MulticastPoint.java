@@ -37,6 +37,11 @@ public class MulticastPoint
 		return this.responses.size() >= this.receiverCount.get();
 	}
 	
+	public boolean isAvailable()
+	{
+		return this.responses.size() > 0;
+	}
+	
 	public void addResponse(MulticastResponse response)
 	{
 		this.responses.add(response);

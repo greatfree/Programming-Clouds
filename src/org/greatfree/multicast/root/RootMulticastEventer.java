@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.greatfree.client.SyncRemoteEventer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.multicast.Tree;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.Rand;
@@ -21,7 +21,7 @@ import org.greatfree.util.UtilConfig;
  */
 
 // Created: 08/22/2018, Bing Li
-class RootMulticastEventer<Notification extends MulticastMessage>
+class RootMulticastEventer<Notification extends MulticastNotification>
 {
 	// Declare an instance of FreeClient pool, which is used to manage instances of FreeClient to send messages to relevant nodes. 11/10/2014, Bing Li
 //	private FreeClientPool clientPool;

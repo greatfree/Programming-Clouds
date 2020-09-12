@@ -28,7 +28,7 @@ class SuperfluousResourcesNotificationThread extends NotificationQueue<Superfluo
 				try
 				{
 					notification = this.getNotification();
-					ClusterRoot.CONTAINER().unicastNotify(new SelectedChildNotification(notification.getPoolClusterRootKey(), notification.getPoolClusterRootIP()));
+					ClusterRoot.CONTAINER().unicastNotify(new SelectedChildNotification(notification.getPoolClusterRootKey(), notification.getPoolClusterRootIP(), false));
 					this.disposeMessage(notification);
 				}
 				catch (InterruptedException | IOException | DistributedNodeFailedException e)

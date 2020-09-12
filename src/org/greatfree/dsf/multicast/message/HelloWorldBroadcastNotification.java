@@ -1,14 +1,14 @@
 package org.greatfree.dsf.multicast.message;
 
 import org.greatfree.dsf.multicast.HelloWorld;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 
 /*
  * The notification is a testing message to be sent to distributed nodes in the manner of broadcasting. 05/08/2017, Bing Li
  */
 
 // Created: 05/08/2017, Bing Li
-public class HelloWorldBroadcastNotification extends MulticastMessage
+public class HelloWorldBroadcastNotification extends MulticastNotification
 {
 	private static final long serialVersionUID = 6393056123607868530L;
 	

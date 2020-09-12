@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastResponse;
 
 // Created: 10/14/2018, Bing Li
@@ -33,7 +33,7 @@ class ChildEventer
 	/*
 	 * Disseminate the instance of Message asynchronously. 11/11/2014, Bing Li
 	 */
-	public void asyncNotify(MulticastMessage notification)
+	public void asyncNotify(MulticastNotification notification)
 	{
 		this.asyncEventer.notify(notification);
 	}
@@ -41,7 +41,7 @@ class ChildEventer
 	/*
 	 * Disseminate the instance of Message synchronously. 11/11/2014, Bing Li
 	 */
-	public void syncNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void syncNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.multicastor.notify(notification);
 	}

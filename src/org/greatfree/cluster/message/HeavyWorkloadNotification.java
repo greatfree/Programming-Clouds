@@ -15,12 +15,14 @@ public class HeavyWorkloadNotification extends ServerMessage
 
 	private String taskClusterRootKey;
 	private IPAddress taskClusterRootIP;
+	private int nodeSize;
 	
-	public HeavyWorkloadNotification(String taskClusterRootKey, IPAddress taskClusterRootIP)
+	public HeavyWorkloadNotification(String taskClusterRootKey, IPAddress taskClusterRootIP, int nodeSize)
 	{
 		super(ClusterMessageType.HEAVY_WORKLOAD_NOTIFICATION);
 		this.taskClusterRootKey = taskClusterRootKey;
 		this.taskClusterRootIP = taskClusterRootIP;
+		this.nodeSize = nodeSize;
 	}
 	
 	public String getTaskClusterRootKey()
@@ -31,5 +33,10 @@ public class HeavyWorkloadNotification extends ServerMessage
 	public IPAddress getTaskClusterRootIP()
 	{
 		return this.taskClusterRootIP;
+	}
+	
+	public int getNodeSize()
+	{
+		return this.nodeSize;
 	}
 }

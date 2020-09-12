@@ -1,10 +1,10 @@
 package org.greatfree.cluster.child.container;
 
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 import org.greatfree.client.OutMessageStream;
 import org.greatfree.cluster.message.ClusterMessageType;
-import org.greatfree.cluster.message.SelectedChildNotification;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -24,16 +24,19 @@ import org.greatfree.server.ServerDispatcher;
 class ChildDispatcher extends ServerDispatcher<ServerMessage>
 {
 	private NotificationDispatcher<RootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator> rootIPBroadcastNotificationDispatcher;
-	private NotificationDispatcher<SelectedChildNotification, SelectedChildNotificationThread, SelectedChildNotificationThreadCreator> selectedChildNotificationDispatcher;
+	
+	// Since the message, SelectedChildNotification, needs to be forwarded/broadcast, it inherits Notification. The message is processed in the thread,  ChildNotificationThread. So the below lines is NOT useful. 09/12/2020, Bing Li
+//	private NotificationDispatcher<SelectedChildNotification, SelectedChildNotificationThread, SelectedChildNotificationThreadCreator> selectedChildNotificationDispatcher;
 
 	private NotificationDispatcher<Notification, ChildNotificationThread, ChildNotificationThreadCreator> notificationDispatcher;
-	
 	private NotificationDispatcher<Request, ChildRequestThread, ChildRequestThreadCreator> requestDispatcher;
 	
 	private NotificationDispatcher<ChildResponse, ChildResponseThread, ChildResponseThreadCreator> multicastResponseDispatcher;
 	
 	private NotificationDispatcher<IntercastNotification, IntercastNotificationThread, IntercastNotificationThreadCreator> intercastNotificationDispatcher;
 	private RequestDispatcher<IntercastRequest, IntercastRequestStream, Response, IntercastRequestThread, IntercastRequestThreadCreator> intercastRequestDispatcher;
+
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster.child.container");
 
 	/*
 	 * I am implementing the root-based intercasting. It seems that the below lines are not necessary temporarily. 02/15/2019, Bing Li
@@ -64,6 +67,8 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.scheduler(super.getScheduler())
 				.build();
 
+		// Since the message, SelectedChildNotification, needs to be forwarded/broadcast, it inherits Notification. So the below lines is NOT useful. 09/12/2020, Bing Li
+		/*
 		this.selectedChildNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<SelectedChildNotification, SelectedChildNotificationThread, SelectedChildNotificationThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new SelectedChildNotificationThreadCreator())
@@ -74,6 +79,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
 				.build();
+				*/
 
 		this.notificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<Notification, ChildNotificationThread, ChildNotificationThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
@@ -163,7 +169,8 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 	{
 		super.shutdown(timeout);
 		this.rootIPBroadcastNotificationDispatcher.dispose();
-		this.selectedChildNotificationDispatcher.dispose();
+		// Since the message, SelectedChildNotification, needs to be forwarded/broadcast, it inherits Notification. The message is processed in the thread,  ChildNotificationThread. So the below lines is NOT useful. 09/12/2020, Bing Li
+//		this.selectedChildNotificationDispatcher.dispose();
 		this.notificationDispatcher.dispose();
 		this.requestDispatcher.dispose();
 //		this.intercastNotificationDispatcher.dispose();
@@ -179,25 +186,28 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 		switch (message.getMessage().getType())
 		{
 			case MulticastMessageType.ROOT_IPADDRESS_BROADCAST_NOTIFICATION:
-				System.out.println("ROOT_IPADDRESS_BROADCAST_NOTIFICATION received at " + Calendar.getInstance().getTime());
+				log.info("ROOT_IPADDRESS_BROADCAST_NOTIFICATION received at " + Calendar.getInstance().getTime());
 				if (!this.rootIPBroadcastNotificationDispatcher.isReady())
 				{
 					super.execute(this.rootIPBroadcastNotificationDispatcher);
 				}
 				this.rootIPBroadcastNotificationDispatcher.enqueue((RootIPAddressBroadcastNotification)message.getMessage());
 				break;
-				
+
+				// Since the message, SelectedChildNotification, needs to be forwarded/broadcast, it inherits Notification. The message is processed in the thread,  ChildNotificationThread. So the below lines is NOT useful. 09/12/2020, Bing Li
+				/*
 			case ClusterMessageType.SELECTED_CHILD_NOTIFICATION:
-				System.out.println("SELECTED_CHILD_NOTIFICATION received at " + Calendar.getInstance().getTime());
+				log.info("SELECTED_CHILD_NOTIFICATION received at " + Calendar.getInstance().getTime());
 				if (!this.selectedChildNotificationDispatcher.isReady())
 				{
 					super.execute(this.selectedChildNotificationDispatcher);
 				}
 				this.selectedChildNotificationDispatcher.enqueue((SelectedChildNotification)message.getMessage());
 				break;
+				*/
 				
 			case MulticastMessageType.NOTIFICATION:
-				System.out.println("NOTIFICATION received at " + Calendar.getInstance().getTime());
+				log.info("NOTIFICATION received at " + Calendar.getInstance().getTime());
 				if (!this.notificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -208,7 +218,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case MulticastMessageType.REQUEST:
-				System.out.println("REQUEST received at " + Calendar.getInstance().getTime());
+				log.info("REQUEST received at " + Calendar.getInstance().getTime());
 				if (!this.requestDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -220,7 +230,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 
 				/*
 			case MulticastMessageType.INTERCAST_NOTIFICATION:
-				System.out.println("INTERCAST_NOTIFICATION received at " + Calendar.getInstance().getTime());
+				log.info("INTERCAST_NOTIFICATION received at " + Calendar.getInstance().getTime());
 				if (!this.intercastNotificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -231,7 +241,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case MulticastMessageType.INTERCAST_REQUEST:
-				System.out.println("INTERCAST_REQUEST received at " + Calendar.getInstance().getTime());
+				log.info("INTERCAST_REQUEST received at " + Calendar.getInstance().getTime());
 				if (!this.intercastRequestDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -243,7 +253,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				*/
 
 			case ClusterMessageType.CHILD_RESPONSE:
-				System.out.println("CHILD_RESPONSE received @" + Calendar.getInstance().getTime());
+				log.info("CHILD_RESPONSE received @" + Calendar.getInstance().getTime());
 				if (!this.multicastResponseDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -254,7 +264,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case MulticastMessageType.INTERCAST_NOTIFICATION:
-				System.out.println("INTERCAST_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("INTERCAST_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.intercastNotificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -265,7 +275,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case MulticastMessageType.INTERCAST_REQUEST:
-				System.out.println("INTERCAST_REQUEST received @" + Calendar.getInstance().getTime());
+				log.info("INTERCAST_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the shutdown notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.intercastRequestDispatcher.isReady())
 				{

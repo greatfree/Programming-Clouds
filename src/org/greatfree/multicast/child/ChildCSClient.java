@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.client.SyncRemoteEventer;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.util.Builder;
 
 // Created: 08/24/2018, Bing Li
-class ChildCSClient<Notification extends MulticastMessage, Request extends MulticastRequest>
+class ChildCSClient<Notification extends MulticastNotification, Request extends MulticastRequest>
 {
 	private ChildMulticastEventer<Notification> eventer;
 	private ChildMulticastReader<Request> reader;
@@ -26,7 +26,7 @@ class ChildCSClient<Notification extends MulticastMessage, Request extends Multi
 		this.reader.dispose();
 	}
 	
-	public static class ChildCSClientBuilder<Notification extends MulticastMessage, Request extends MulticastRequest> implements Builder<ChildCSClient<Notification, Request>>
+	public static class ChildCSClientBuilder<Notification extends MulticastNotification, Request extends MulticastRequest> implements Builder<ChildCSClient<Notification, Request>>
 	{
 		private String localIPKey;
 		private FreeClientPool clientPool;

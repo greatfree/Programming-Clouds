@@ -13,7 +13,7 @@ import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
@@ -148,17 +148,17 @@ class ClusterRoot
 		return this.client.getRP();
 	}
 
-	public void broadcastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void broadcastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.client.broadcastNotify(notification);
 	}
 	
-	public void anycastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void anycastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.client.anycastNotify(notification);
 	}
 	
-	public void unicastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void unicastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.client.unicastNotify(notification);
 	}

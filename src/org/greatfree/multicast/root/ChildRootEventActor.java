@@ -2,25 +2,23 @@ package org.greatfree.multicast.root;
 
 import java.io.IOException;
 
-import org.greatfree.concurrency.Async;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 
 // Created: 09/10/2018, Bing Li
-class ChildRootEventActor extends Async<ChildMulticastMessage>
+// class ChildRootEventActor extends Async<ChildMulticastMessage>
+class ChildRootEventActor extends AsyncMulticastor<ChildMulticastNotification>
 {
-	private RootSyncMulticastor multicastor;
-	
 	public ChildRootEventActor(RootSyncMulticastor multicastor)
 	{
-		this.multicastor = multicastor;
+		super(multicastor);
 	}
 	
 	@Override
-	public void perform(ChildMulticastMessage notification)
+	public void perform(ChildMulticastNotification notification)
 	{
 		try
 		{
-			this.multicastor.notify(notification.getMessage(), notification.getChildKey());
+			super.getMulticastor().notify(notification.getNotification(), notification.getChildKey());
 		}
 		catch (IOException | DistributedNodeFailedException e)
 		{

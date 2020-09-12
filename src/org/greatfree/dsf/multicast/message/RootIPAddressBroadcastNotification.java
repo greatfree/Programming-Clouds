@@ -1,6 +1,6 @@
 package org.greatfree.dsf.multicast.message;
 
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.util.IPAddress;
 
@@ -9,7 +9,7 @@ import org.greatfree.util.IPAddress;
  */
 
 // Created: 05/20/2017, Bing Li
-public class RootIPAddressBroadcastNotification extends MulticastMessage
+public class RootIPAddressBroadcastNotification extends MulticastNotification
 {
 	private static final long serialVersionUID = -3404599339423965092L;
 	

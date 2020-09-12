@@ -3,19 +3,19 @@ package org.greatfree.multicast.child;
 import org.greatfree.concurrency.AsyncPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ClientConfig;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 09/15/2018, Bing Li
 class ChildAsyncMulticastEventer
 {
 	// The actor to perform multicasting asynchronously. 09/10/2018, Bing Li
-	private AsyncPool<MulticastMessage> actor;
+	private AsyncPool<MulticastNotification> actor;
 	
 	private ThreadPool pool;
 
 	public ChildAsyncMulticastEventer(ChildSyncMulticastor multicastor, ThreadPool pool)
 	{
-		this.actor = new AsyncPool.ActorPoolBuilder<MulticastMessage>()
+		this.actor = new AsyncPool.ActorPoolBuilder<MulticastNotification>()
 				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
 				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
 				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
@@ -36,7 +36,7 @@ class ChildAsyncMulticastEventer
 		this.actor.dispose();
 	}
 	
-	public void notify(MulticastMessage notification)
+	public void notify(MulticastNotification notification)
 	{
 		if (!this.actor.isReady())
 		{

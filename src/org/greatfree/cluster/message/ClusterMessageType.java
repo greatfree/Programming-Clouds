@@ -14,4 +14,9 @@ public class ClusterMessageType
 	public final static int HEAVY_WORKLOAD_NOTIFICATION = 219;
 	public final static int SELECTED_CHILD_NOTIFICATION = 220;
 	public final static int SUPERFLUOUS_RESOURCES_NOTIFICATION = 221;
+	
+	public final static int PARTITION_SIZE_REQUEST = 222;
+	public final static int PARTITION_SIZE_RESPONSE = 223;
+	
+	public final static int SET_STATES_NOTIFICATION = 224;
 }

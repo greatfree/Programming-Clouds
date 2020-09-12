@@ -2,17 +2,15 @@ package org.greatfree.multicast.root;
 
 import java.io.IOException;
 
-import org.greatfree.concurrency.Async;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 
 // Created: 09/16/2018, Bing Li
-class NearestKeysRootReadActor extends Async<NearestKeysMulticastRequest> 
+// class NearestKeysRootReadActor extends Async<NearestKeysMulticastRequest> 
+class NearestKeysRootReadActor extends AsyncMulticastor<NearestKeysMulticastRequest> 
 {
-	private RootSyncMulticastor multicastor;
-	
 	public NearestKeysRootReadActor(RootSyncMulticastor multicastor)
 	{
-		this.multicastor = multicastor;
+		super(multicastor);
 	}
 
 	@Override
@@ -20,7 +18,7 @@ class NearestKeysRootReadActor extends Async<NearestKeysMulticastRequest>
 	{
 		try
 		{
-			this.multicastor.nearestRead(message.getDataKeys(), message.getRequest());
+			super.getMulticastor().nearestRead(message.getDataKeys(), message.getRequest());
 		}
 		catch (DistributedNodeFailedException | IOException e)
 		{

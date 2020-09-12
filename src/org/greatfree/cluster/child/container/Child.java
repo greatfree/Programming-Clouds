@@ -3,6 +3,7 @@ package org.greatfree.cluster.child.container;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.greatfree.cluster.message.IsRootOnlineResponse;
 import org.greatfree.cluster.message.JoinNotification;
@@ -14,7 +15,7 @@ import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.SystemMessageConfig;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
@@ -45,6 +46,14 @@ class Child
 	private IPAddress rootAddress;
 	private Peer<ChildDispatcher> child;
 	private ChildClient client;
+
+	/*
+	private AtomicBoolean isNormal;
+	private AtomicBoolean isBusy;
+	private AtomicBoolean isIdle;
+	*/
+
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster.child.container");
 
 	/*
 	 * The class is added to the child. That is an interesting design which supports the client's to perform inter-multicasting. 02/28/2019, Bing Li
@@ -113,16 +122,22 @@ class Child
 		}
 		if (response.isOnline())
 		{
-//			System.out.println("ClusterChild-start(): root address = " + response.getRootAddress().getIP() + ":" + response.getRootAddress().getPort());
+//			log.info("ClusterChild-start(): root address = " + response.getRootAddress().getIP() + ":" + response.getRootAddress().getPort());
 			this.setRootIP(response.getRootAddress());
 //			this.child.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), new JoinNotification(this.child.getPeerID()));
 			this.joinCluster();
-			System.out.println("ClusterChild-start(): done!");
+			log.info("ClusterChild-start(): done!");
 		}
 		else
 		{
-			System.out.println("ClusterChild-start(): root is not online! ");
+			log.info("ClusterChild-start(): root is not online! ");
 		}
+
+		/*
+		this.isNormal = new AtomicBoolean(true);
+		this.isBusy = new AtomicBoolean(false);
+		this.isIdle = new AtomicBoolean(false);
+		*/
 	}
 
 	/*
@@ -132,6 +147,12 @@ class Child
 	{
 		this.rootKey = rootKey;
 		this.setRootIP(rootIP);
+
+		/*
+		this.isNormal = new AtomicBoolean(true);
+		this.isBusy = new AtomicBoolean(false);
+		this.isIdle = new AtomicBoolean(false);
+		*/
 	}
 
 	/*
@@ -141,6 +162,38 @@ class Child
 	}
 	*/
 	
+	/*
+	public boolean isNormal()
+	{
+		return this.isNormal.get();
+	}
+	
+	public boolean isBusy()
+	{
+		return this.isBusy.get();
+	}
+	
+	public boolean isIdle()
+	{
+		return this.isIdle.get();
+	}
+	*/
+	
+	/*
+	 * 
+	 * It is not reasonable to notify the root when the child responds requests from the root since the notifications from the root also imposes workloads to the child. So I think the states of workloads should be implemented only on the application level. 09/11/2020, Bing Li
+	 * 
+	 * The method is invoked probably when the child itself is aware of its states or a remote monitor detects the states. 09/11/2020, Bing Li
+	 */
+	/*
+	public void setStates(boolean isNormal, boolean isBusy, boolean isIdle)
+	{
+		this.isNormal.set(isNormal);
+		this.isBusy.set(isBusy);
+		this.isIdle.set(isIdle);
+	}
+	*/
+
 	public String getChildKey()
 	{
 		return this.child.getPeerID();
@@ -250,12 +303,12 @@ class Child
 	}
 	*/
 
-	public void notify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void notify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 		this.client.notify(notification);
 	}
 	
-	public void asyncNotify(MulticastMessage notification)
+	public void asyncNotify(MulticastNotification notification)
 	{
 		this.client.asynNotify(notification);
 	}
@@ -280,6 +333,18 @@ class Child
 		 */
 		this.child.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), new ChildResponse(response));
 	}
+	
+	/*
+	 * It is not reasonable to notify the root when the child responds requests from the root since the notifications from the root also imposes workloads to the child. So I think the states of workloads should be implemented only on the application level. 09/11/2020, Bing Li
+	 * 
+	 * When it is necessary to notify the root the states of the child in terms of the pressure of workload, the method is invoked. 09/11/2020, Bing Li
+	 */
+	/*
+	public void notifyRoot(MulticastResponse response, boolean isBusy, boolean isIdle) throws IOException, InterruptedException
+	{
+		this.child.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), new ChildResponse(response, isBusy, isIdle));
+	}
+	*/
 	
 	/*
 	 * The method notifies the root for the intercasting responses. 03/02/2019, Bing Li
@@ -335,6 +400,18 @@ class Child
 		 */
 		this.child.syncNotify(ip, port, new ChildResponse(response));
 	}
+	
+	/*
+	 * It is not reasonable to notify the root when the child responds requests from the root since the notifications from the root also imposes workloads to the child. So I think the states of workloads should be implemented only on the application level. 09/11/2020, Bing Li
+	 * 
+	 * When it is necessary to notify the root the states of the child in terms of the pressure of workload, the method is invoked. 09/11/2020, Bing Li
+	 */
+	/*
+	public void notifySubRoot(String ip, int port, MulticastResponse response, boolean isBusy, boolean isIdle) throws IOException, InterruptedException
+	{
+		this.child.syncNotify(ip, port, new ChildResponse(response, isBusy, isIdle));
+	}
+	*/
 
 	public void saveResponse(ChildResponse response) throws InterruptedException
 	{
@@ -388,7 +465,7 @@ class Child
 		/*
 		 * The children keys are not IP keys but user keys generated by application-level IDs. So it should be converted by the root. 02/28/2019, Bing Li
 		 */
-//		System.out.println("Child-interBroadcastNotify(): destination keys size = " + icn.getIntercastNotification().getChildDestinations().keySet().size());
+//		log.info("Child-interBroadcastNotify(): destination keys size = " + icn.getIntercastNotification().getChildDestinations().keySet().size());
 		this.subRootClient.broadcastNotify(icn, icn.getIntercastNotification().getChildDestinations().keySet());
 	}
 	

@@ -1,10 +1,10 @@
 package org.greatfree.dsf.streaming.message;
 
 import org.greatfree.dsf.streaming.StreamData;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 03/18/2020, Bing Li
-public class StreamNotification extends MulticastMessage
+public class StreamNotification extends MulticastNotification
 {
 	private static final long serialVersionUID = 7264578299029579295L;
 	

@@ -12,7 +12,7 @@ import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.util.IPAddress;
@@ -92,7 +92,7 @@ class ChatClient
 		return this.client.read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
 	}
 	
-	public void asyncBroadcastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void asyncBroadcastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.client.asyncBroadcastNotify(notification);
 	}

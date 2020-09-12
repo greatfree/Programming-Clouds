@@ -8,14 +8,14 @@ import java.util.Map;
 
 import org.greatfree.client.IPResource;
 import org.greatfree.client.SyncRemoteEventer;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.multicast.Tree;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.Rand;
 import org.greatfree.util.UtilConfig;
 
 // Created: 08/23/2018, Bing Li
-class ChildMulticastEventer<Notification extends MulticastMessage>
+class ChildMulticastEventer<Notification extends MulticastNotification>
 {
 	// Declare an instance of FreeClient pool, which is used to manage instances of FreeClient to send messages to relevant nodes. 11/11/2014, Bing Li
 	private SyncRemoteEventer<Notification> eventer;

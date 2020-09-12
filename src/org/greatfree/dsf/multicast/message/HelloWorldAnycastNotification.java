@@ -1,14 +1,14 @@
 package org.greatfree.dsf.multicast.message;
 
 import org.greatfree.dsf.multicast.HelloWorld;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 
 /*
  * The notification is a testing message to be sent to distributed data in the manner of anycasting. 05/08/2017, Bing Li
  */
 
 // Created: 05/19/2017, Bing Li
-public class HelloWorldAnycastNotification extends MulticastMessage
+public class HelloWorldAnycastNotification extends MulticastNotification
 {
 	private static final long serialVersionUID = -8596454328337543079L;
 	

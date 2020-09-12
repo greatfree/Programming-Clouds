@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 09/04/2018, Bing Li
@@ -29,12 +29,12 @@ public class ChildClient
 		this.multicastor.dispose();
 	}
 
-	public void notify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void notify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 		this.eventer.syncNotify(notification);
 	}
 	
-	public void asynNotify(MulticastMessage notification)
+	public void asynNotify(MulticastNotification notification)
 	{
 		this.eventer.asyncNotify(notification);
 	}

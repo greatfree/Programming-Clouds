@@ -13,7 +13,7 @@ import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.server.container.PeerProfile;
@@ -197,32 +197,32 @@ public class ClusterPeerContainer
 		this.client.asyncNotify(ip, port, notification);
 	}
 	
-	public void broadcastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void broadcastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		ClusterRoot.CONTAINER().broadcastNotify(notification);
 	}
 	
-	public void asyncBroadcastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void asyncBroadcastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		ClusterRoot.CONTAINER().asyncBroadcastNotify(notification);
 	}
 	
-	public void anycastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void anycastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		ClusterRoot.CONTAINER().anycastNotify(notification);
 	}
 	
-	public void asyncAnycastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void asyncAnycastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		ClusterRoot.CONTAINER().asyncAnycastNotify(notification);
 	}
 	
-	public void unicastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void unicastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		ClusterRoot.CONTAINER().unicastNotify(notification);
 	}
 	
-	public void asyncUnicastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void asyncUnicastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		ClusterRoot.CONTAINER().asyncUnicastNotify(notification);
 	}

@@ -7,7 +7,7 @@ import org.greatfree.util.Tools;
  */
 
 // Created: 05/13/2017, Bing Li
-public abstract class MulticastRequest extends MulticastMessage
+public abstract class MulticastRequest extends MulticastNotification
 {
 	private static final long serialVersionUID = 3004660627027017743L;
 

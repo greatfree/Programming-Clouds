@@ -123,13 +123,13 @@ public class ClusterServerContainer
 	/*
 	 * The constructor implements the feature of partition-based replications. 09/08/2020, Bing Li
 	 */
-	public ClusterServerContainer(int port, String rootName, RootTask task, int replicas) throws IOException
+	public ClusterServerContainer(int port, String rootName, String registryIP, int registryPort, RootTask task, int replicas) throws IOException
 	{
 		this.server = new ClusterServer.ServerOnClusterBuilder()
 				.peerPort(port)
 				.peerName(rootName)
-				.registryServerIP(RegistryConfig.PEER_REGISTRY_ADDRESS)
-				.registryServerPort(RegistryConfig.PEER_REGISTRY_PORT)
+				.registryServerIP(registryIP)
+				.registryServerPort(registryPort)
 				.isRegistryNeeded(true)
 				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
 				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)

@@ -6,7 +6,7 @@ import java.util.Map;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.multicast.root.RootClient;
 import org.greatfree.multicast.root.RootRendezvousPoint;
 import org.greatfree.util.IPAddress;
@@ -69,7 +69,7 @@ public class RootMulticastor
 		return false;
 	}
 
-	public void broadcastNotify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void broadcastNotify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 		this.client.broadcastNotify(notification);
 	}

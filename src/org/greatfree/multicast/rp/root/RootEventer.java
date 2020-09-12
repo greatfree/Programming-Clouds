@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 10/15/2018, Bing Li
 class RootEventer
@@ -29,7 +29,7 @@ class RootEventer
 	/*
 	 * Multicast data in an asynchronous way. It could be a broadcast or an anycast. 09/15/2018, Bing Li
 	 */
-	public void asyncNotify(MulticastMessage notification)
+	public void asyncNotify(MulticastNotification notification)
 	{
 		this.asyncEventer.asyncNotify(notification);
 	}
@@ -37,7 +37,7 @@ class RootEventer
 	/*
 	 * Multicast data in a synchronous way. It could be a broadcast or an anycast. 09/15/2018, Bing Li
 	 */
-	public void syncNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void syncNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.multicastor.notify(notification);
 	}
@@ -45,7 +45,7 @@ class RootEventer
 	/*
 	 * Broadcast data in an synchronous way within a group of specified children. 09/15/2018, Bing Li
 	 */
-	public void asyncNotify(MulticastMessage notification, Set<String> childrenKeys)
+	public void asyncNotify(MulticastNotification notification, Set<String> childrenKeys)
 	{
 		this.asyncEventer.asyncNotify(notification, childrenKeys);
 	}
@@ -53,7 +53,7 @@ class RootEventer
 	/*
 	 * Broadcast data in a synchronous way within a group of specified children. 09/15/2018, Bing Li
 	 */
-	public void syncNotify(MulticastMessage notification, Set<String> childrenKeys) throws IOException, DistributedNodeFailedException
+	public void syncNotify(MulticastNotification notification, Set<String> childrenKeys) throws IOException, DistributedNodeFailedException
 	{
 		this.multicastor.notify(notification, childrenKeys);
 	}
@@ -61,7 +61,7 @@ class RootEventer
 	/*
 	 * Unicast data in an asynchronous way to a specified child. 09/15/2018, Bing Li
 	 */
-	public void asyncNotify(MulticastMessage notification, String childKey)
+	public void asyncNotify(MulticastNotification notification, String childKey)
 	{
 		this.asyncEventer.asyncNotify(notification, childKey);
 	}
@@ -69,7 +69,7 @@ class RootEventer
 	/*
 	 * Unicast data in a synchronous way to a specified child. 09/15/2018, Bing Li
 	 */
-	public void syncNotify(MulticastMessage notification, String childKey) throws IOException, DistributedNodeFailedException
+	public void syncNotify(MulticastNotification notification, String childKey) throws IOException, DistributedNodeFailedException
 	{
 		this.multicastor.notify(notification, childKey);
 	}
@@ -77,7 +77,7 @@ class RootEventer
 	/*
 	 * Unicast data in an asynchronous way to a nearest child in terms of the similarity to the specified key. 09/15/2018, Bing Li
 	 */
-	public void asyncNearestNotify(String key, MulticastMessage notification)
+	public void asyncNearestNotify(String key, MulticastNotification notification)
 	{
 		this.asyncEventer.asyncNearestNotify(key, notification);
 	}
@@ -85,7 +85,7 @@ class RootEventer
 	/*
 	 * Unicast data in a synchronous way to a nearest child in terms of the similarity to the specified key. 09/15/2018, Bing Li
 	 */
-	public void syncNearestNotify(String key, MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void syncNearestNotify(String key, MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.multicastor.nearestNotify(key, notification);
 	}
@@ -93,7 +93,7 @@ class RootEventer
 	/*
 	 * Unicast data in an asynchronous way to a child that is selected randomly. 09/15/2018, Bing Li
 	 */
-	public void asyncRandomNotify(MulticastMessage notification)
+	public void asyncRandomNotify(MulticastNotification notification)
 	{
 		this.asyncEventer.asyncRandomNotify(notification);
 	}
@@ -101,7 +101,7 @@ class RootEventer
 	/*
 	 * Unicast data in a asynchronous way to a child that is selected randomly. 09/15/2018, Bing Li
 	 */
-	public void syncRandomNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void syncRandomNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.multicastor.randomNotify(notification);
 	}

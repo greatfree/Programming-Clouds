@@ -1,11 +1,11 @@
 package org.greatfree.message.multicast.container;
 
 import org.greatfree.cluster.ClusterConfig;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastMessageType;
 
 // Created: 09/23/2018, Bing Li
-public abstract class Notification extends MulticastMessage
+public abstract class Notification extends MulticastNotification
 {
 	private static final long serialVersionUID = 3659819496588962078L;
 	

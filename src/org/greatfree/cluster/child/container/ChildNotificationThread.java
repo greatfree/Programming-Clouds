@@ -1,7 +1,11 @@
 package org.greatfree.cluster.child.container;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.logging.Logger;
 
+import org.greatfree.cluster.message.ClusterMessageType;
+import org.greatfree.cluster.message.SelectedChildNotification;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
@@ -13,6 +17,7 @@ import org.greatfree.message.multicast.container.Notification;
 // Created: 01/13/2019, Bing Li
 class ChildNotificationThread extends NotificationQueue<Notification>
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster.child.container");
 
 	public ChildNotificationThread(int taskSize)
 	{
@@ -44,7 +49,25 @@ class ChildNotificationThread extends NotificationQueue<Notification>
 					}
 					else
 					{
-						Child.CONTAINER().forward(notification);
+						/*
+						 * One internal message, SelectedChildNotification, is processed here. 09/11/2020, Bing Li 
+						 */
+						if (notification.getApplicationID() == ClusterMessageType.SELECTED_CHILD_NOTIFICATION)
+						{
+							log.info("SELECTED_CHILD_NOTIFICATION received at " + Calendar.getInstance().getTime());
+							SelectedChildNotification scn = (SelectedChildNotification)notification;
+							if (scn.isBusy())
+							{
+								Child.CONTAINER().forward(notification);
+							}
+							Child.CONTAINER().leaveCluster();
+							Child.CONTAINER().reset(scn.getRootKey(), scn.getClusterRootIP());
+							Child.CONTAINER().joinCluster(scn.getClusterRootIP().getIP(), scn.getClusterRootIP().getPort());
+						}
+						else
+						{
+							Child.CONTAINER().forward(notification);
+						}
 					}
 					ChildServiceProvider.CHILD().processNotification(notification);
 					this.disposeMessage(notification);

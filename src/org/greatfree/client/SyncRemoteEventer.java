@@ -2,9 +2,11 @@ package org.greatfree.client;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.IPAddress;
+import org.greatfree.util.Rand;
 
 /*
  * The eventer sends notifications to remote servers in a synchronous manner without waiting for responses. The sending method, notify(), are blocking. 11/05/2014, Bing Li
@@ -15,6 +17,8 @@ public class SyncRemoteEventer<Notification extends ServerMessage>
 {
 	// The pool for FreeClient is needed to issue relevant clients to send notifications. 11/05/2014, Bing Li
 	private FreeClientPool clientPool;
+
+	private final static Logger log = Logger.getLogger("org.greatfree.client");
 
 	/*
 	 * Usually, the FreeClient pool is shared by multiple eventers. So, it is assigned to the eventer when initializing the eventer. 11/05/2014, Bing Li
@@ -74,6 +78,24 @@ public class SyncRemoteEventer<Notification extends ServerMessage>
 	public Set<String> getClientKeys()
 	{
 		return this.clientPool.getClientKeys();
+	}
+
+	/*
+	 * Get the specified size of children. 09/11/2020, Bing Li
+	 */
+	public Set<String> getClientKeys(int n)
+	{
+		log.info("SyncRemoteEventer-getClientKeys(): n = " + n);
+		Set<String> childrenKeys = this.clientPool.getClientKeys();
+		log.info("SyncRemoteEventer-getClientKeys(): childrenKeys size = " + this.clientPool.getClientKeys().size());
+		if (n >= childrenKeys.size())
+		{
+			return childrenKeys;
+		}
+		else
+		{
+			return Rand.getRandomSet(childrenKeys, n);
+		}
 	}
 	
 	public IPAddress getIPAddress(String clientKey)

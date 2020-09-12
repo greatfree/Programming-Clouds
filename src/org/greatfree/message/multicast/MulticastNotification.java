@@ -11,7 +11,7 @@ import org.greatfree.util.Tools;
  */
 
 // Created: 05/12/2017, Bing Li
-public abstract class MulticastMessage extends ServerMessage
+public abstract class MulticastNotification extends ServerMessage
 {
 	private static final long serialVersionUID = 6752213037140344467L;
 	
@@ -48,7 +48,7 @@ public abstract class MulticastMessage extends ServerMessage
 	 * Another constructor of the message. This is invoked by the node which has no grandsons. 11/10/2014, Bing Li
 	 */
 //	public MulticastMessage(int type, String key)
-	public MulticastMessage(int type)
+	public MulticastNotification(int type)
 	{
 		super(type, Tools.generateUniqueKey());
 		this.children = null;

@@ -6,7 +6,7 @@ import java.util.List;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.message.multicast.RPMulticastRequest;
 import org.greatfree.multicast.RendezvousPoint;
@@ -39,12 +39,12 @@ public class RootClient
 		return this.reader.getRP();
 	}
 
-	public void broadcastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void broadcastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.eventer.syncNotify(notification);
 	}
 	
-	public void asyncBroadcastNotify(MulticastMessage notification)
+	public void asyncBroadcastNotify(MulticastNotification notification)
 	{
 		this.eventer.asyncNotify(notification);
 	}
@@ -52,7 +52,7 @@ public class RootClient
 	/*
 	 * Anycast notifications. 09/03/2018, Bing Li
 	 */
-	public void anycastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void anycastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.eventer.syncNotify(notification);
 	}
@@ -60,7 +60,7 @@ public class RootClient
 	/*
 	 * The method has not been tested although it should be correct. 09//15/2018, Bing Li
 	 */
-	public void asyncAnycastNotify(MulticastMessage notification)
+	public void asyncAnycastNotify(MulticastNotification notification)
 	{
 		this.eventer.asyncNotify(notification);
 	}
@@ -68,7 +68,7 @@ public class RootClient
 	/*
 	 * Unicast notifications. 09/03/2018, Bing Li
 	 */
-	public void unicastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void unicastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.eventer.syncRandomNotify(notification);
 	}
@@ -76,7 +76,7 @@ public class RootClient
 	/*
 	 * The method has not been tested although it should be correct. 09//15/2018, Bing Li
 	 */
-	public void asyncUnicastNotify(MulticastMessage notification)
+	public void asyncUnicastNotify(MulticastNotification notification)
 	{
 		this.eventer.asyncRandomNotify(notification);
 	}

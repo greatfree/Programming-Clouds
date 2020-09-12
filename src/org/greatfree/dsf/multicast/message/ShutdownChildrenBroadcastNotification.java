@@ -1,13 +1,13 @@
 package org.greatfree.dsf.multicast.message;
 
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 
 /*
  * After receiving the administration message of shutting down from the administrator, the root sends a broadcast notification to its children. 05/19/2017, Bing Li
  */
 
 // Created: 05/19/2017, Bing Li
-public class ShutdownChildrenBroadcastNotification extends MulticastMessage
+public class ShutdownChildrenBroadcastNotification extends MulticastNotification
 {
 	private static final long serialVersionUID = -8645482803978813301L;
 

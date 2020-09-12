@@ -11,7 +11,7 @@ import org.greatfree.client.FreeClientPool;
 import org.greatfree.client.SyncRemoteEventer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.ServerMessage;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.multicast.Tree;
 import org.greatfree.util.IPAddress;
@@ -67,7 +67,7 @@ class RootSyncMulticastor
 		return Tools.getRandomSetElement(this.eventer.getClientKeys());
 	}
 
-	public void randomNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void randomNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		// Check whether the FreeClient pool has the count of nodes than the root capacity. 11/10/2014, Bing Li
 //		if (this.clientPool.getClientSize() > this.rootBranchCount)
@@ -106,7 +106,7 @@ class RootSyncMulticastor
 		return Tools.getClosestKey(key, this.eventer.getClientKeys());
 	}
 
-	public void nearestNotify(String key, MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void nearestNotify(String key, MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		String nearestKey = Tools.getClosestKey(key, this.eventer.getClientKeys());
 		// Create the message without children's IPs. 11/10/2014, Bing Li
@@ -128,7 +128,7 @@ class RootSyncMulticastor
 		}
 	}
 
-	public void notify(MulticastMessage notification, String childKey) throws IOException, DistributedNodeFailedException
+	public void notify(MulticastNotification notification, String childKey) throws IOException, DistributedNodeFailedException
 	{
 		// Create the message without children's IPs. 11/10/2014, Bing Li
 //		Message msg = this.messageCreator.createInstanceWithoutChildren(obj);
@@ -149,7 +149,18 @@ class RootSyncMulticastor
 		}
 	}
 
-	public void notify(MulticastMessage notification, Set<String> childrenKeys) throws IOException, DistributedNodeFailedException
+	/*
+	 * The method broadcast the notification to randomly selected n children. 09/11/2020, Bing Li
+	 */
+	public void notifyWithinNChildren(MulticastNotification notification, int childrenSize) throws IOException, DistributedNodeFailedException
+	{
+		this.notify(notification, this.eventer.getClientKeys(childrenSize));
+	}
+
+	/*
+	 * Broadcast data in a synchronous way within a group of specified children. 09/15/2018, Bing Li
+	 */
+	public void notify(MulticastNotification notification, Set<String> childrenKeys) throws IOException, DistributedNodeFailedException
 	{
 		// Check whether the children nodes are valid. 11/10/2014, Bing Li
 		if (childrenKeys != UtilConfig.NO_NODE_KEYS)
@@ -293,7 +304,7 @@ class RootSyncMulticastor
 	/*
 	 * Multicast data in a synchronous way. It could be a broadcast or an anycast. 09/15/2018, Bing Li
 	 */
-	public void notify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void notify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		// Declare a tree to support the high efficient multicasting. 11/10/2014, Bing Li
 		Map<String, List<String>> tree;
@@ -549,8 +560,19 @@ class RootSyncMulticastor
 			throw new DistributedNodeFailedException(childKey);
 		}
 	}
-	
-	public void read(MulticastRequest request, int n) throws IOException, DistributedNodeFailedException
+
+	/*
+	 * The method broadcasts a request to randomly selected n children. 09/11/2020, Bing Li
+	 */
+	public void readWithinNChildren(MulticastRequest request, int n) throws DistributedNodeFailedException, IOException
+	{
+		this.read(this.eventer.getClientKeys(n), request);
+	}
+
+	/*
+	 * The method makes a broadcasting request to all of the children and it expects n responses. 09/11/2020, Bing Li
+	 */
+	public void readWithNResponses(MulticastRequest request, int n) throws IOException, DistributedNodeFailedException
 	{
 		// The initial request to be sent. 11/28/2014, Bing Li
 //		Request requestToBeSent;
@@ -710,7 +732,10 @@ class RootSyncMulticastor
 			}
 		}
 	}
-	
+
+	/*
+	 * The method broadcasts a request to specified children. 09/11/2020, Bing Li
+	 */
 	public void read(Set<String> childrenKeys, MulticastRequest request) throws DistributedNodeFailedException, IOException
 	{
 		// The initial request to be sent. 11/28/2014, Bing Li
@@ -870,6 +895,17 @@ class RootSyncMulticastor
 		}
 	}
 
+	/*
+	 * This method makes a broadcasting request to n randomly selected children. 09/11/2020, Bing Li
+	 */
+	public void read(int childrenSize, MulticastRequest request) throws DistributedNodeFailedException, IOException
+	{
+		this.read(this.eventer.getClientKeys(childrenSize), request);
+	}
+
+	/*
+	 * The method broadcasts a request to specified children and expects responses from some (n) of them. 09/11/2020, Bing Li
+	 */
 	public void read(Set<String> childrenKeys, MulticastRequest request, int n) throws IOException, DistributedNodeFailedException
 	{
 		// The initial request to be sent. 11/28/2014, Bing Li
@@ -1040,6 +1076,9 @@ class RootSyncMulticastor
 		}
 	}
 	
+	/*
+	 * The method broadcasts a request to all of the children and expects responses from all of them. 09/11/2020, Bing Li
+	 */
 	public void read(MulticastRequest request) throws DistributedNodeFailedException, IOException
 	{
 		// The initial request to be sent. 11/28/2014, Bing Li

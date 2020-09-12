@@ -11,7 +11,7 @@ import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.dsf.p2p.message.ChatRegistryRequest;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.message.multicast.container.ChildResponse;
@@ -136,12 +136,12 @@ class Child
 		this.asyncRead(request);
 	}
 
-	public void notify(MulticastMessage notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
+	public void notify(MulticastNotification notification) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, DistributedNodeFailedException
 	{
 		this.client.notify(notification);
 	}
 	
-	public void asyncNotify(MulticastMessage notification)
+	public void asyncNotify(MulticastNotification notification)
 	{
 		this.client.asynNotify(notification);
 	}

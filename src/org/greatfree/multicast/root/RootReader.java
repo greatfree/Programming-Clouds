@@ -153,7 +153,7 @@ class RootReader
 		return this.rp.waitForResponses(request.getCollaboratorKey());
 	}
 	
-	public List<MulticastResponse> asyncRead(MulticastRequest request, int n)
+	public List<MulticastResponse> asyncReadWithNResponses(MulticastRequest request, int n)
 	{
 		this.asyncReader.asyncRead(new SizeMulticastRequest(request, n));
 		return this.rp.waitForResponses(request.getCollaboratorKey());
@@ -162,9 +162,9 @@ class RootReader
 	/*
 	 * Anycast the request synchronously to the certain number of children. In a two-node case, reading is always performed synchronously. But in a one-to-many case, the request can be sent either synchronously or asynchronously. The method does that synchronously. 08/26/2018, Bing Li
 	 */
-	public List<MulticastResponse> syncRead(MulticastRequest request, int n) throws IOException, DistributedNodeFailedException
+	public List<MulticastResponse> syncReadWithNResponses(MulticastRequest request, int n) throws IOException, DistributedNodeFailedException
 	{
-		this.multicastor.read(request, n);
+		this.multicastor.readWithNResponses(request, n);
 		// The requesting procedure is blocked until all of the responses are received or it has waited for sufficiently long time. 11/28/2014, Bing Li
 //		this.collaborator.holdOn(this.waitTime);
 		// Return the response collection. 11/28/2014, Bing Li
@@ -177,12 +177,6 @@ class RootReader
 	{
 		this.asyncReader.asyncRead(new ChildrenMulticastRequest(request, childrenKeys));
 		return this.rp.waitForResponses(request.getCollaboratorKey());
-	}
-
-	public MulticastResponse asyncReadUponPartition(Set<String> childrenKeys, MulticastRequest request)
-	{
-		this.asyncReader.asyncRead(new ChildrenMulticastRequest(request, childrenKeys));
-		return this.rp.waitForResponseUponPartition(request.getCollaboratorKey());
 	}
 
 	/*
@@ -199,9 +193,39 @@ class RootReader
 		return this.rp.waitForResponses(request.getCollaboratorKey());
 	}
 
+	/*
+	 * Broadcasting a request synchronously within randomly selected N children. 09/11/2020, Bing Li
+	 */
+	public List<MulticastResponse> syncReadWithinNChildren(int n, MulticastRequest request) throws DistributedNodeFailedException, IOException
+	{
+		this.multicastor.readWithinNChildren(request, n);
+		return this.rp.waitForResponses(request.getCollaboratorKey());
+	}
+	
+	/*
+	 * Broadcasting a request asynchronously within randomly selected N children. 09/11/2020, Bing Li
+	 */
+	public List<MulticastResponse> asyncReadWithinNChildren(int n, MulticastRequest request)
+	{
+		this.asyncReader.asynRead(new RandomChildrenMulticastRequest(request, n));
+		return this.rp.waitForResponses(request.getCollaboratorKey());
+	}
+
+	/*
+	 * Broadcasting a request synchronously within one partition which contains the specified N children. 09/11/2020, Bing Li
+	 */
 	public MulticastResponse syncReadUponPartition(Set<String> childrenKeys, MulticastRequest request) throws DistributedNodeFailedException, IOException
 	{
 		this.multicastor.read(childrenKeys, request);
+		return this.rp.waitForResponseUponPartition(request.getCollaboratorKey());
+	}
+
+	/*
+	 * Broadcasting a request asynchronously within one partition which contains the specified N children. 09/11/2020, Bing Li
+	 */
+	public MulticastResponse asyncReadUponPartition(Set<String> childrenKeys, MulticastRequest request)
+	{
+		this.asyncReader.asyncRead(new ChildrenMulticastRequest(request, childrenKeys));
 		return this.rp.waitForResponseUponPartition(request.getCollaboratorKey());
 	}
 

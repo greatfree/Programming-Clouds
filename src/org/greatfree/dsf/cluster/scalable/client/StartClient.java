@@ -40,7 +40,8 @@ class StartClient
 		{
 			System.out.println("Press Enter to send HeavyWorkloadNotification to the POOL cluster ...");
 			option = in.nextLine();
-			StandaloneClient.CS().syncNotify(poolClusterRootIP.getIP(), poolClusterRootIP.getPort(), new HeavyWorkloadNotification(ScalableConfig.TASK_CLUSTER_ROOT_KEY, taskClusterRootIP));
+//			StandaloneClient.CS().syncNotify(poolClusterRootIP.getIP(), poolClusterRootIP.getPort(), new HeavyWorkloadNotification(ScalableConfig.TASK_CLUSTER_ROOT_KEY, taskClusterRootIP, 1));
+			StandaloneClient.CS().syncNotify(poolClusterRootIP.getIP(), poolClusterRootIP.getPort(), new HeavyWorkloadNotification(ScalableConfig.TASK_CLUSTER_ROOT_KEY, taskClusterRootIP, 4));
 			System.out.println("The notification of HeavyWorkloadNotification is sent to the POOL cluster ...");
 
 			System.out.println("Press Enter to send SuperfluousResourcesNotification to the TASK cluster ...");

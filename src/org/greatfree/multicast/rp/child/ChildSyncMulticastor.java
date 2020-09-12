@@ -12,7 +12,7 @@ import org.greatfree.client.SyncRemoteEventer;
 import org.greatfree.dsf.multicast.rp.child.ChildPeer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.ServerMessage;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.message.multicast.RPMulticastRequest;
 import org.greatfree.message.multicast.RPMulticastResponse;
@@ -67,7 +67,7 @@ class ChildSyncMulticastor
 	/*
 	 * Disseminate the instance of Message synchronously. 11/11/2014, Bing Li
 	 */
-	public void notify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void notify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		// Declare a message to be forwarded, which contains data in the received message. 11/11/2014, Bing Li
 //		Message forwardMessage;

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Logger;
 
 import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.concurrency.ThreadPool;
@@ -16,7 +17,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.ClusterIPResponse;
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
@@ -46,7 +47,9 @@ class ClusterRoot
 	private Map<String, String> children;
 	private int replicas;
 	private List<Set<String>> partitionedChildren;
-	
+
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster.root.container");
+
 	private ClusterRoot()
 	{
 	}
@@ -72,8 +75,11 @@ class ClusterRoot
 		this.client.close();
 		this.children.clear();
 		this.children = null;
-		this.partitionedChildren.clear();
-		this.partitionedChildren = null;
+		if (this.partitionedChildren != null)
+		{
+			this.partitionedChildren.clear();
+			this.partitionedChildren = null;
+		}
 	}
 	
 	public void init(PeerBuilder<RootDispatcher> builder,  int rootBranchCount, int treeBranchCount, long waitTime) throws IOException
@@ -101,12 +107,12 @@ class ClusterRoot
 		
 		if (ipResponse.getIPs() != null)
 		{
-//			System.out.println("ClusterRoot-start(): ip size = " + ipResponse.getIPs().size());
+//			log.info("ClusterRoot-start(): ip size = " + ipResponse.getIPs().size());
 
 			// Add the IP addresses to the client pool. 05/08/2017, Bing Li
 			for (IPAddress ip : ipResponse.getIPs().values())
 			{
-//				System.out.println("Distributed IPs = " + ip.getIP() + ", " + ip.getPort());
+//				log.info("Distributed IPs = " + ip.getIP() + ", " + ip.getPort());
 				this.root.addPartners(ip.getIP(), ip.getPort());
 //				this.partitionChild(ip.getIPKey());
 			}
@@ -166,6 +172,11 @@ class ClusterRoot
 		}
 	}
 	
+	public int getPartitionSize()
+	{
+		return this.partitionedChildren.size();
+	}
+	
 	/*
 	 * For testing only. 01/16/2019, Bing Li
 	 */
@@ -180,7 +191,10 @@ class ClusterRoot
 	{
 		this.children.put(childID, ipKey);
 		this.root.addPartners(ip, port);
-		this.partitionChild(ipKey);
+		if (this.replicas != ClusterConfig.NO_REPLICAS)
+		{
+			this.partitionChild(ipKey);
+		}
 	}
 	
 	public void removeChild(String childID) throws IOException
@@ -189,20 +203,23 @@ class ClusterRoot
 		this.root.removePartner(ipKey);
 		this.children.remove(childID);
 		
-		// Usually, the size of the partition is NOT large. So the below algorithm is acceptable. 09/07/2020, Bing Li
-		int index = 0;
-		for (int i = 0; i < this.partitionedChildren.size(); i++)
+		if (this.replicas != ClusterConfig.NO_REPLICAS)
 		{
-			if (this.partitionedChildren.get(i).contains(ipKey))
+			// Usually, the size of the partition is NOT large. So the below algorithm is acceptable. 09/07/2020, Bing Li
+			int index = 0;
+			for (int i = 0; i < this.partitionedChildren.size(); i++)
 			{
-				index = i;
-				this.partitionedChildren.get(index).remove(ipKey);
-				break;
+				if (this.partitionedChildren.get(i).contains(ipKey))
+				{
+					index = i;
+					this.partitionedChildren.get(index).remove(ipKey);
+					break;
+				}
 			}
-		}
-		if (this.partitionedChildren.get(index).size() <= 0)
-		{
-			this.partitionedChildren.remove(index);
+			if (this.partitionedChildren.get(index).size() <= 0)
+			{
+				this.partitionedChildren.remove(index);
+			}
 		}
 	}
 	
@@ -271,58 +288,63 @@ class ClusterRoot
 		this.client.getRP().saveResponse(response.getResponse());
 	}
 
-	public void broadcastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void broadcastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.client.broadcastNotify(notification);
 	}
 	
 	private void printPartition()
 	{
-		System.out.println("=====================");
+		log.info("=====================");
 		for (int i = 0; i < this.partitionedChildren.size(); i++)
 		{
 			for (String childKey : this.partitionedChildren.get(i))
 			{
-				System.out.println(i + ") " + childKey);
+				log.info(i + ") " + childKey);
 			}
 		}
-		System.out.println("=====================");
+		log.info("=====================");
 	}
 	
 //	public void broadcastNotifyByPartition(MulticastMessage notification) throws IOException, DistributedNodeFailedException
-	public void broadcastNotify(MulticastMessage notification, int partitionIndex) throws IOException, DistributedNodeFailedException
+	public void broadcastNotifyByPartition(MulticastNotification notification, int partitionIndex) throws IOException, DistributedNodeFailedException
 	{
-		System.out.println("ClusterRoot-broadcastNotify(): partitionIndex = " + partitionIndex);
+		log.info("ClusterRoot-broadcastNotify(): partitionIndex = " + partitionIndex);
 		this.printPartition();
 		this.client.broadcastNotify(notification, this.partitionedChildren.get(partitionIndex));
 	}
+	
+	public void broadcastNotifyWithinNChildren(MulticastNotification notification, int childrenSize) throws IOException, DistributedNodeFailedException
+	{
+		this.client.broadcastNotify(notification, childrenSize);
+	}
 
-	public void asyncBroadcastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void asyncBroadcastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.client.asyncBroadcastNotify(notification);
 	}
 	
-	public void asyncBroadcastNotify(MulticastMessage notification, int partitionIndex)
+	public void asyncBroadcastNotify(MulticastNotification notification, int partitionIndex)
 	{
 		this.client.asyncBroadcastNotify(notification, this.partitionedChildren.get(partitionIndex));
 	}
 	
-	public void anycastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void anycastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.client.anycastNotify(notification);
 	}
 	
-	public void asyncAnycastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void asyncAnycastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.client.asyncAnycastNotify(notification);
 	}
 	
-	public void unicastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void unicastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.client.unicastNotify(notification);
 	}
 	
-	public void asyncUnicastNotify(MulticastMessage notification) throws IOException, DistributedNodeFailedException
+	public void asyncUnicastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		this.client.asyncUnicastNotify(notification);
 	}
@@ -332,9 +354,11 @@ class ClusterRoot
 		return this.client.broadcastRead(request);
 	}
 	
-	public MulticastResponse broadcastRead(MulticastRequest request, int partitionIndex) throws DistributedNodeFailedException, IOException
+	public MulticastResponse broadcastReadByPartition(MulticastRequest request, int partitionIndex) throws DistributedNodeFailedException, IOException
 	{
-		return this.client.broadcastReadUponPartition(request, this.partitionedChildren.get(partitionIndex));
+		log.info("ClusterRoot-broadcastRead(): partitionIndex = " + partitionIndex);
+		this.printPartition();
+		return this.client.broadcastReadByPartition(request, this.partitionedChildren.get(partitionIndex));
 	}
 	
 	public List<MulticastResponse> asyncBroadcastRead(MulticastRequest request) throws DistributedNodeFailedException, IOException
@@ -344,7 +368,7 @@ class ClusterRoot
 	
 	public MulticastResponse asyncBroadcastRead(MulticastRequest request, int partitionIndex)
 	{
-		return this.client.asyncBroadcastReadUponPartition(request, this.partitionedChildren.get(partitionIndex));
+		return this.client.asyncBroadcastReadByPartition(request, this.partitionedChildren.get(partitionIndex));
 	}
 	
 	public List<MulticastResponse> anycastRead(MulticastRequest request, int n) throws IOException, DistributedNodeFailedException
@@ -374,7 +398,7 @@ class ClusterRoot
 			case MulticastMessageType.BROADCAST_NOTIFICATION:
 				if (this.children.size() > 0)
 				{
-//					System.out.println("ClusterRoot-processNotification(): replicas = " + this.replicas);
+//					log.info("ClusterRoot-processNotification(): replicas = " + this.replicas);
 //					if (this.replicas == ClusterConfig.NO_REPLICAS)
 					if (notification.getPartitionIndex() == ClusterConfig.NO_PARTITION_INDEX)
 					{
@@ -382,12 +406,12 @@ class ClusterRoot
 					}
 					else
 					{
-						this.broadcastNotify(notification, notification.getPartitionIndex());
+						this.broadcastNotifyByPartition(notification, notification.getPartitionIndex());
 					}
 				}
 				else
 				{
-					System.out.println("No children join!");
+					log.info("No children join!");
 				}
 				break;
 				
@@ -398,7 +422,7 @@ class ClusterRoot
 				}
 				else
 				{
-					System.out.println("No children join!");
+					log.info("No children join!");
 				}
 				break;
 				
@@ -416,7 +440,7 @@ class ClusterRoot
 				}
 				else
 				{
-					System.out.println("No children join!");
+					log.info("No children join!");
 				}
 				break;
 				
@@ -466,7 +490,7 @@ class ClusterRoot
 				}
 				else
 				{
-					System.out.println("No children join!");
+					log.info("No children join!");
 				}
 				break;
 				*/
@@ -488,7 +512,7 @@ class ClusterRoot
 				}
 				else
 				{
-					System.out.println("No children join!");
+					log.info("No children join!");
 				}
 				break;
 				*/
@@ -541,12 +565,12 @@ class ClusterRoot
 					}
 					else
 					{
-						return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.broadcastRead(request, request.getPartitionIndex()));
+						return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.broadcastReadByPartition(request, request.getPartitionIndex()));
 					}
 				}
 				else
 				{
-					System.out.println("No children join!");
+					log.info("No children join!");
 				}
 				break;
 				
@@ -557,7 +581,7 @@ class ClusterRoot
 				}
 				else
 				{
-					System.out.println("No children join!");
+					log.info("No children join!");
 				}
 				break;
 				
@@ -576,7 +600,7 @@ class ClusterRoot
 				}
 				else
 				{
-					System.out.println("No children join!");
+					log.info("No children join!");
 				}
 				break;
 
@@ -595,7 +619,7 @@ class ClusterRoot
 				}
 				else
 				{
-					System.out.println("No children join!");
+					log.info("No children join!");
 				}
 				break;
 				*/
@@ -646,7 +670,7 @@ class ClusterRoot
 				}
 				else
 				{
-					System.out.println("No children join!");
+					log.info("No children join!");
 				}
 				break;
 				*/
@@ -722,7 +746,7 @@ class ClusterRoot
 		}
 		else
 		{
-			System.out.println("No children join!");
+			log.info("No children join!");
 		}
 	}
 
@@ -780,7 +804,7 @@ class ClusterRoot
 		}
 		else
 		{
-			System.out.println("No children join!");
+			log.info("No children join!");
 		}
 		return ClusterConfig.NO_RESPONSE;
 	}

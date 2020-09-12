@@ -3,6 +3,8 @@ package org.greatfree.client;
 import java.io.IOException;
 import java.util.concurrent.Future;
 
+import org.greatfree.cluster.message.PartitionSizeRequest;
+import org.greatfree.cluster.message.PartitionSizeResponse;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
@@ -150,9 +152,20 @@ public class StandaloneClient
 	{
 		return this.client.futureRead(ip, port, request, timeout);
 	}
-	
+
+	/*
+	 * The method is common in many cases to access the IP of one node. 09/09/2020, Bing Li 
+	 */
 	public IPAddress getIPAddress(String registryIP, int registryPort, String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		return ((PeerAddressResponse)StandaloneClient.CS().read(registryIP,  registryPort, new PeerAddressRequest(nodeKey))).getPeerAddress();
+	}
+
+	/*
+	 * The method is useful for most storage systems, which need the partition information to design the upper level distribution strategy. 09/09/2020, Bing Li
+	 */
+	public int getPartitionSize(String clusterIP, int clusterPort) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return ((PartitionSizeResponse)StandaloneClient.CS().read(clusterIP,  clusterPort, new PartitionSizeRequest())).getPartitionSize();
 	}
 }

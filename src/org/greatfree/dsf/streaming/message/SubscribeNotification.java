@@ -1,10 +1,10 @@
 package org.greatfree.dsf.streaming.message;
 
-import org.greatfree.message.multicast.MulticastMessage;
+import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.util.IPAddress;
 
 // Created: 03/23/2020, Bing Li
-public class SubscribeNotification extends MulticastMessage
+public class SubscribeNotification extends MulticastNotification
 {
 	private static final long serialVersionUID = -1645857646440309115L;
 	
