@@ -19,4 +19,10 @@ public class ClusterMessageType
 	public final static int PARTITION_SIZE_RESPONSE = 223;
 	
 	public final static int SET_STATES_NOTIFICATION = 224;
+	
+	public final static int CLUSTER_SIZE_REQUEST = 225;
+	public final static int CLUSTER_SIZE_RESPONSE = 226;
+	
+	public final static int ADDITIONAL_CHILDREN_REQUEST = 227;
+	public final static int ADDITIONAL_CHILDREN_RESPONSE = 228;
 }

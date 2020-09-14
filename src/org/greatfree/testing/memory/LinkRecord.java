@@ -9,6 +9,7 @@ import org.greatfree.util.FreeObject;
 // Created: 11/28/2014, Bing Li
 public class LinkRecord extends FreeObject
 {
+	private static final long serialVersionUID = -2841037610743773645L;
 	private String key;
 	private String link;
 	private String text;

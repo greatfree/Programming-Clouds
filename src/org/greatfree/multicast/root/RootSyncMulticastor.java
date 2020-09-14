@@ -105,6 +105,11 @@ class RootSyncMulticastor
 	{
 		return Tools.getClosestKey(key, this.eventer.getClientKeys());
 	}
+	
+	public Set<String> getChildrenKeys(int size)
+	{
+		return this.eventer.getClientKeys(size);
+	}
 
 	public void nearestNotify(String key, MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{

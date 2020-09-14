@@ -2,17 +2,17 @@ package org.greatfree.cluster.root.container;
 
 import java.io.IOException;
 
-import org.greatfree.cluster.message.PartitionSizeRequest;
-import org.greatfree.cluster.message.PartitionSizeResponse;
-import org.greatfree.cluster.message.PartitionSizeStream;
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.message.multicast.container.ChildRootRequest;
+import org.greatfree.message.multicast.container.ChildRootResponse;
+import org.greatfree.message.multicast.container.ChildRootStream;
 
-// Created: 09/09/2020, Bing Li
-class PartitionSizeRequestThread extends RequestQueue<PartitionSizeRequest, PartitionSizeStream, PartitionSizeResponse>
+// Created: 09/14/2020, Bing Li
+class ChildRootRequestThread extends RequestQueue<ChildRootRequest, ChildRootStream, ChildRootResponse>
 {
 
-	public PartitionSizeRequestThread(int taskSize)
+	public ChildRootRequestThread(int taskSize)
 	{
 		super(taskSize);
 	}
@@ -20,14 +20,14 @@ class PartitionSizeRequestThread extends RequestQueue<PartitionSizeRequest, Part
 	@Override
 	public void run()
 	{
-		PartitionSizeStream request;
-		PartitionSizeResponse response;
+		ChildRootStream request;
+		ChildRootResponse response;
 		while (!this.isShutdown())
 		{
 			while (!this.isEmpty())
 			{
 				request = this.getRequest();
-				response = new PartitionSizeResponse(ClusterRoot.CONTAINER().getPartitionSize());
+				response = ClusterRoot.CONTAINER().processRequest(request.getMessage());
 				try
 				{
 					this.respond(request.getOutStream(), request.getLock(), response);

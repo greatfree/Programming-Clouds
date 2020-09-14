@@ -4,8 +4,12 @@ import java.io.IOException;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.message.multicast.container.ChildRootRequest;
+import org.greatfree.message.multicast.container.ChildRootResponse;
+import org.greatfree.message.multicast.container.Notification;
 import org.greatfree.server.container.Peer.PeerBuilder;
 import org.greatfree.util.Builder;
+import org.greatfree.util.IPAddress;
 
 /*
  * The reason to design the class, ClusterChild, intends to connect with the registry server which is implemented in the container manner. 01/13/2019, Bing Li
@@ -410,6 +414,38 @@ class ClusterChild
 		{
 			return this.requestWaitTime;
 		}
+	}
+	
+	/*
+	 * The child is enabled to interact with the root through notification synchronously. 09/14/2020, Bing Li
+	 */
+	public void syncNotifyRoot(Notification notification) throws IOException, InterruptedException
+	{
+		Child.CONTAINER().syncNotifyRoot(notification);
+	}
+	
+	/*
+	 * The child is enabled to interact with the root through notification asynchronously. 09/14/2020, Bing Li
+	 */
+	public void asyncNotifyRoot(Notification notification)
+	{
+		Child.CONTAINER().asyncNotifyRoot(notification);
+	}
+	
+	/*
+	 * The child is enabled to interact with the root through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
+	 */
+	public ChildRootResponse readRoot(ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return Child.CONTAINER().readRoot(request);
+	}
+	
+	/*
+	 * The child is enabled to interact with the collabrator through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
+	 */
+	public ChildRootResponse readCollaborator(IPAddress ip, ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return Child.CONTAINER().readCollaborator(ip, request);
 	}
 
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException

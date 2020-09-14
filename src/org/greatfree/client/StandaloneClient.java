@@ -1,8 +1,13 @@
 package org.greatfree.client;
 
 import java.io.IOException;
+import java.util.Set;
 import java.util.concurrent.Future;
 
+import org.greatfree.cluster.message.AdditionalChildrenRequest;
+import org.greatfree.cluster.message.AdditionalChildrenResponse;
+import org.greatfree.cluster.message.ClusterSizeRequest;
+import org.greatfree.cluster.message.ClusterSizeResponse;
 import org.greatfree.cluster.message.PartitionSizeRequest;
 import org.greatfree.cluster.message.PartitionSizeResponse;
 import org.greatfree.concurrency.SharedThreadPool;
@@ -158,7 +163,7 @@ public class StandaloneClient
 	 */
 	public IPAddress getIPAddress(String registryIP, int registryPort, String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		return ((PeerAddressResponse)StandaloneClient.CS().read(registryIP,  registryPort, new PeerAddressRequest(nodeKey))).getPeerAddress();
+		return ((PeerAddressResponse)this.client.read(registryIP,  registryPort, new PeerAddressRequest(nodeKey))).getPeerAddress();
 	}
 
 	/*
@@ -166,6 +171,24 @@ public class StandaloneClient
 	 */
 	public int getPartitionSize(String clusterIP, int clusterPort) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		return ((PartitionSizeResponse)StandaloneClient.CS().read(clusterIP,  clusterPort, new PartitionSizeRequest())).getPartitionSize();
+		return ((PartitionSizeResponse)this.client.read(clusterIP,  clusterPort, new PartitionSizeRequest())).getPartitionSize();
+	}
+	
+	/*
+	 * The message is designed for the scalability such that all of the current children are replaced by new coming ones. In the storage system, the current ones is full in the disk space. In the case, they have to be replaced. But in other cases, it depends on the application level how to raise the scale and deal with the existing children. The system level cannot help. 09/12/2020, Bing Li
+	 * 
+	 * The message is an internal one, like the PartitionSizeRequest/PartitionSizeResponse, which is processed by the cluster root only. Programmers do not need to do anything but send it. So it inherits ServerMessage. 09/12/2020, Bing Li
+	 */
+	public int getClusterSize(String clusterIP, int clusterPort) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return ((ClusterSizeResponse)this.client.read(clusterIP,  clusterPort, new ClusterSizeRequest())).getSize();
+	}
+
+	/*
+	 * When additional children are needed by the task cluster, sometimes those children should be initialized or configured before joining. The method serves this goal. 09/13/2020, Bing Li
+	 */
+	public Set<String> getChildrenKeys(String clusterIP, int clusterPort, int size) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return ((AdditionalChildrenResponse)this.client.read(clusterIP, clusterPort, new AdditionalChildrenRequest(size))).getChildrenKeys();
 	}
 }

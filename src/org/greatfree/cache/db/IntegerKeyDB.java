@@ -13,6 +13,8 @@ import com.sleepycat.persist.EntityCursor;
 // Created: 05/22/2017, Bing Li
 public class IntegerKeyDB extends FreeObject implements KeyLoadable<Integer>
 {
+	private static final long serialVersionUID = 800266464281318994L;
+
 	private File envPath;
 	private DBEnv env;
 	private IntegerKeyAccessor accessor;

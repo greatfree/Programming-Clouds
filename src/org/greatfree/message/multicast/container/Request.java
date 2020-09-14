@@ -1,5 +1,7 @@
 package org.greatfree.message.multicast.container;
 
+import java.util.Set;
+
 import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.MulticastRequest;
@@ -13,6 +15,7 @@ public abstract class Request extends MulticastRequest
 	private int requestType;
 	private int applicationID;
 	private int partitionIndex;
+	private Set<String> childrenKeys;
 
 	/*
 	 * 
@@ -29,6 +32,7 @@ public abstract class Request extends MulticastRequest
 		this.requestType = MulticastMessageType.UNICAST_REQUEST;
 		this.applicationID = applicationID;
 		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
+		this.childrenKeys = null;
 	}
 
 	/*
@@ -44,6 +48,7 @@ public abstract class Request extends MulticastRequest
 		this.requestType = requestType;
 		this.applicationID = applicationID;
 		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
+		this.childrenKeys = null;
 	}
 
 	/*
@@ -55,6 +60,19 @@ public abstract class Request extends MulticastRequest
 		this.requestType = requestType;
 		this.applicationID = applicationID;
 		this.partitionIndex = partitionIndex;
+		this.childrenKeys = null;
+	}
+
+	/*
+	 * When broadcasting is performed within specified children, the constructor is employed. 09/13/2020, Bing Li
+	 */
+	public Request(int requestType, int applicationID, Set<String> childrenKeys)
+	{
+		super(MulticastMessageType.REQUEST);
+		this.requestType = requestType;
+		this.applicationID = applicationID;
+		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
+		this.childrenKeys = childrenKeys;
 	}
 
 	/*
@@ -115,5 +133,10 @@ public abstract class Request extends MulticastRequest
 	public int getPartitionIndex()
 	{
 		return this.partitionIndex;
+	}
+	
+	public Set<String> getChildrenKeys()
+	{
+		return this.childrenKeys;
 	}
 }

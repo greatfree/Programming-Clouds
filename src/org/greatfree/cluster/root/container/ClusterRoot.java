@@ -22,6 +22,8 @@ import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.message.multicast.container.ChildResponse;
+import org.greatfree.message.multicast.container.ChildRootRequest;
+import org.greatfree.message.multicast.container.ChildRootResponse;
 import org.greatfree.message.multicast.container.IntercastNotification;
 import org.greatfree.message.multicast.container.IntercastRequest;
 import org.greatfree.message.multicast.container.Notification;
@@ -233,7 +235,14 @@ class ClusterRoot
 //		return this.root.getPartnerCount();
 		return this.children.size();
 	}
-	
+
+	/*
+	 * The method is invoked when the cluster plays the role of a pool. The children are selected to leave for the task cluster. 09/13/2020, Bing Li
+	 */
+	public Set<String> getChildrenKeys(int size)
+	{
+		return this.client.getChildrenKeys(size);
+	}
 
 	/*
 	 * Now I need to implement the root based intercasting. So the method is not necessary temporarily. I will implement the children-based intercasing later. 02/15/2019, Bing Li 
@@ -314,6 +323,11 @@ class ClusterRoot
 		this.client.broadcastNotify(notification, this.partitionedChildren.get(partitionIndex));
 	}
 	
+	public void broadcastNotify(MulticastNotification notification, Set<String> childrenKeys) throws IOException, DistributedNodeFailedException
+	{
+		this.client.broadcastNotify(notification, childrenKeys);
+	}
+	
 	public void broadcastNotifyWithinNChildren(MulticastNotification notification, int childrenSize) throws IOException, DistributedNodeFailedException
 	{
 		this.client.broadcastNotify(notification, childrenSize);
@@ -352,6 +366,11 @@ class ClusterRoot
 	public List<MulticastResponse> broadcastRead(MulticastRequest request) throws DistributedNodeFailedException, IOException
 	{
 		return this.client.broadcastRead(request);
+	}
+	
+	public List<MulticastResponse> broadcastRead(MulticastRequest request, Set<String> childrenKeys) throws DistributedNodeFailedException, IOException
+	{
+		return this.client.broadcastRead(request, childrenKeys);
 	}
 	
 	public MulticastResponse broadcastReadByPartition(MulticastRequest request, int partitionIndex) throws DistributedNodeFailedException, IOException
@@ -400,13 +419,18 @@ class ClusterRoot
 				{
 //					log.info("ClusterRoot-processNotification(): replicas = " + this.replicas);
 //					if (this.replicas == ClusterConfig.NO_REPLICAS)
-					if (notification.getPartitionIndex() == ClusterConfig.NO_PARTITION_INDEX)
+//					if (notification.getPartitionIndex() == ClusterConfig.NO_PARTITION_INDEX)
+					if (notification.getChildrenKeys() != ClusterConfig.NO_CHILDREN_KEYS)
 					{
-						this.client.broadcastNotify(notification);
+						this.client.broadcastNotify(notification, notification.getChildrenKeys());
+					}
+					else if (notification.getPartitionIndex() != ClusterConfig.NO_PARTITION_INDEX)
+					{
+						this.broadcastNotifyByPartition(notification, notification.getPartitionIndex());
 					}
 					else
 					{
-						this.broadcastNotifyByPartition(notification, notification.getPartitionIndex());
+						this.client.broadcastNotify(notification);
 					}
 				}
 				else
@@ -559,13 +583,18 @@ class ClusterRoot
 				if (this.children.size() > 0)
 				{
 //					if (this.replicas != ClusterConfig.NO_REPLICAS)
-					if (request.getPartitionIndex() == ClusterConfig.NO_PARTITION_INDEX)
+//					if (request.getPartitionIndex() == ClusterConfig.NO_PARTITION_INDEX)
+					if (request.getChildrenKeys() != ClusterConfig.NO_CHILDREN_KEYS)
 					{
-						return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.client.broadcastRead(request));
+						return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.client.broadcastRead(request, request.getChildrenKeys()));
+					}
+					else if (request.getPartitionIndex() != ClusterConfig.NO_PARTITION_INDEX)
+					{
+						return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.broadcastReadByPartition(request, request.getPartitionIndex()));
 					}
 					else
 					{
-						return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.broadcastReadByPartition(request, request.getPartitionIndex()));
+						return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.client.broadcastRead(request));
 					}
 				}
 				else
@@ -807,5 +836,10 @@ class ClusterRoot
 			log.info("No children join!");
 		}
 		return ClusterConfig.NO_RESPONSE;
+	}
+	
+	public ChildRootResponse processRequest(ChildRootRequest request)
+	{
+		return RootServiceProvider.ROOT().processChildRequst(request);
 	}
 }

@@ -80,6 +80,11 @@ public class RootClient
 		return this.eventer.getNearestChildKey(key);
 	}
 	
+	public Set<String> getChildrenKeys(int size)
+	{
+		return this.multicastor.getChildrenKeys(size);
+	}
+	
 	/*
 	 * Broadcast notifications. 09/03/2018, Bing Li
 	 */

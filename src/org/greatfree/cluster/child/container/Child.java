@@ -20,6 +20,8 @@ import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.message.multicast.container.ChildResponse;
+import org.greatfree.message.multicast.container.ChildRootRequest;
+import org.greatfree.message.multicast.container.ChildRootResponse;
 import org.greatfree.message.multicast.container.InterChildrenNotification;
 import org.greatfree.message.multicast.container.InterChildrenRequest;
 import org.greatfree.message.multicast.container.Notification;
@@ -199,6 +201,38 @@ class Child
 		return this.child.getPeerID();
 	}
 
+	/*
+	 * The child is enabled to interact with the root through notification synchronously. 09/14/2020, Bing Li
+	 */
+	public void syncNotifyRoot(Notification notification) throws IOException, InterruptedException
+	{
+		this.child.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
+	}
+	
+	/*
+	 * The child is enabled to interact with the root through notification asynchronously. 09/14/2020, Bing Li
+	 */
+	public void asyncNotifyRoot(Notification notification)
+	{
+		this.child.asyncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
+	}
+	
+	/*
+	 * The child is enabled to interact with the root through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
+	 */
+	public ChildRootResponse readRoot(ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return (ChildRootResponse)this.child.read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
+	}
+	
+	/*
+	 * The child is enabled to interact with the collaborator through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
+	 */
+	public ChildRootResponse readCollaborator(IPAddress ip, ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return (ChildRootResponse)this.child.read(ip.getIP(), ip.getPort(), request);
+	}
+
 	public void joinCluster() throws IOException, InterruptedException
 	{
 		this.child.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), new JoinNotification(this.child.getPeerID()));
@@ -213,7 +247,7 @@ class Child
 	{
 		this.child.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), new LeaveNotification(this.child.getPeerID()));
 	}
-
+	
 	/*
 	 * Keep the root IP address. 05/20/2017, Bing Li
 	 */

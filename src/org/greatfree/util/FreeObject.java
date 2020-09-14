@@ -1,15 +1,19 @@
 package org.greatfree.util;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
 /*
+ * Serializable is added. I noticed that when getting the keys of the object and send them over the network, the error of being not serializable is caused. This is an old design. I hope I could upgrade it with the pools from some open source. 09/13/2020, Bing Li
+ * 
  * The class is designed in the system to fit object reusing, caching and so on. 07/30/2014, Bing Li
  */
 
 // Created: 07/17/2014, Bing Li
-public class FreeObject implements Comparable<FreeObject>
+public class FreeObject implements Comparable<FreeObject>, Serializable
 {
+	private static final long serialVersionUID = -5133784154054922445L;
 	// The object key is created uniquely with respect to a unique character of the instance of the class. 08/10/2014, Bing Li
 	private String objectKey;
 	// The hash key is created uniquely arbitrarily. 08/10/2014, Bing Li

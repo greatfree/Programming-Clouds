@@ -9,8 +9,12 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.dsf.multicast.MulticastConfig;
 import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.message.multicast.container.ChildRootRequest;
+import org.greatfree.message.multicast.container.ChildRootResponse;
+import org.greatfree.message.multicast.container.Notification;
 import org.greatfree.server.container.PeerProfile;
 import org.greatfree.server.container.ServerProfile;
+import org.greatfree.util.IPAddress;
 import org.greatfree.util.Tools;
 
 // Created: 01/13/2019, Bing Li
@@ -120,6 +124,38 @@ public class ClusterChildContainer
 				.build();
 		
 		this.task = task;
+	}
+	
+	/*
+	 * The child is enabled to interact with the root through notification synchronously. 09/14/2020, Bing Li
+	 */
+	public void syncNotifyRoot(Notification notification) throws IOException, InterruptedException
+	{
+		this.child.syncNotifyRoot(notification);
+	}
+	
+	/*
+	 * The child is enabled to interact with the root through notification asynchronously. 09/14/2020, Bing Li
+	 */
+	public void asyncNotifyRoot(Notification notification)
+	{
+		this.child.asyncNotifyRoot(notification);
+	}
+	
+	/*
+	 * The child is enabled to interact with the root through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
+	 */
+	public ChildRootResponse readRoot(ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return this.child.readRoot(request);
+	}
+
+	/*
+	 * The child is enabled to interact with the collaborator through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
+	 */
+	public ChildRootResponse readCollaborator(IPAddress ip, ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return this.child.readCollaborator(ip, request);
 	}
 	
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException

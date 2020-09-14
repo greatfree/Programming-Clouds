@@ -57,4 +57,7 @@ public class MulticastMessageType
 	public final static int BROADCAST_RESPONSE = 42;
 	public final static int ANYCAST_RESPONSE = 43;
 	public final static int UNICAST_RESPONSE = 44;
+	
+	public final static int CHILD_ROOT_REQUEST = 72;
+	public final static int CHILD_ROOT_RESPONSE = 73;
 }

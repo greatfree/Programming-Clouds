@@ -1,5 +1,7 @@
 package org.greatfree.message.multicast.container;
 
+import java.util.Set;
+
 import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastMessageType;
@@ -13,6 +15,7 @@ public abstract class Notification extends MulticastNotification
 	private int notificationType;
 	private int applicationID;
 	private int partitionIndex;
+	private Set<String> childrenKeys;
 
 	/*
 	 * The constructor is usually used for the nearest unicasting. So the client key is required for nearest measurement. 10/28/2018, Bing Li 
@@ -25,6 +28,7 @@ public abstract class Notification extends MulticastNotification
 //		this.notificationType = MulticastMessageType.UNICAST_NOTIFICATION;
 		this.applicationID = applicationID;
 		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
+		this.childrenKeys = null;
 	}
 
 	/*
@@ -40,6 +44,7 @@ public abstract class Notification extends MulticastNotification
 		this.notificationType = notificationType;
 		this.applicationID = applicationID;
 		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
+		this.childrenKeys = null;
 	}
 
 	/*
@@ -51,6 +56,19 @@ public abstract class Notification extends MulticastNotification
 		this.notificationType = notificationType;
 		this.applicationID = applicationID;
 		this.partitionIndex = partitionIndex;
+		this.childrenKeys = null;
+	}
+	
+	/*
+	 * When broadcasting is performed within specified children, the constructor is employed. 09/13/2020, Bing Li
+	 */
+	public Notification(int notificationType, int applicationID, Set<String> childrenKeys)
+	{
+		super(MulticastMessageType.NOTIFICATION);
+		this.notificationType = notificationType;
+		this.applicationID = applicationID;
+		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
+		this.childrenKeys = childrenKeys;
 	}
 
 	/*
@@ -118,5 +136,10 @@ public abstract class Notification extends MulticastNotification
 	public int getPartitionIndex()
 	{
 		return this.partitionIndex;
+	}
+	
+	public Set<String> getChildrenKeys()
+	{
+		return this.childrenKeys;
 	}
 }

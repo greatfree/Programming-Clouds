@@ -4,7 +4,13 @@ import java.util.Calendar;
 import java.util.logging.Logger;
 
 import org.greatfree.client.OutMessageStream;
+import org.greatfree.cluster.message.AdditionalChildrenRequest;
+import org.greatfree.cluster.message.AdditionalChildrenResponse;
+import org.greatfree.cluster.message.AdditionalChildrenStream;
 import org.greatfree.cluster.message.ClusterMessageType;
+import org.greatfree.cluster.message.ClusterSizeRequest;
+import org.greatfree.cluster.message.ClusterSizeResponse;
+import org.greatfree.cluster.message.ClusterSizeStream;
 import org.greatfree.cluster.message.HeavyWorkloadNotification;
 import org.greatfree.cluster.message.JoinNotification;
 import org.greatfree.cluster.message.LeaveNotification;
@@ -18,6 +24,9 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.container.ChildResponse;
+import org.greatfree.message.multicast.container.ChildRootRequest;
+import org.greatfree.message.multicast.container.ChildRootResponse;
+import org.greatfree.message.multicast.container.ChildRootStream;
 import org.greatfree.message.multicast.container.IntercastNotification;
 import org.greatfree.message.multicast.container.IntercastRequest;
 import org.greatfree.message.multicast.container.IntercastRequestStream;
@@ -30,19 +39,32 @@ import org.greatfree.server.ServerDispatcher;
 // Created: 01/13/2019, Bing Li
 class RootDispatcher extends ServerDispatcher<ServerMessage>
 {
+	/*
+	 * The below messages are in the system level ones which are processed internally such that programmers do not need to care. 09/12/2020, Bing Li
+	 */
 	private NotificationDispatcher<JoinNotification, JoinNotificationThread, JoinNotificationThreadCreator> joinNotificationDispatcher;
 	private NotificationDispatcher<LeaveNotification, LeaveNotificationThread, LeaveNotificationThreadCreator> leaveNotificationDispatcher;
 	private NotificationDispatcher<HeavyWorkloadNotification, HeavyWorkloadNotificationThread, HeavyWorkloadNotificationThreadCreator> heavyWorkloadNotificationDispatcher;
 	private NotificationDispatcher<SuperfluousResourcesNotification, SuperfluousResourcesNotificationThread, SuperfluousResourcesNotificationThreadCreator> superfluousResourcesNotificationDispatcher;
 	private RequestDispatcher<PartitionSizeRequest, PartitionSizeStream, PartitionSizeResponse, PartitionSizeRequestThread, PartitionSizeRequestThreadCreator> partitionSizeRequestDispatcher;
+	private RequestDispatcher<ClusterSizeRequest, ClusterSizeStream, ClusterSizeResponse, ClusterSizeRequestThread, ClusterSizeRequestThreadCreator> clusterSizeRequestDispatcher;
+	private RequestDispatcher<AdditionalChildrenRequest, AdditionalChildrenStream, AdditionalChildrenResponse, AdditionalChildrenRequestThread, AdditionalChildrenRequestThreadCreator> additionalChildrenRequestDispatcher;
 	
+	/*
+	 * The below messages are interchanged from the child to the root. They belong to the upper level applications. So the approaches to process them are defined by the RootTask. 09/14/2020, Bing Li
+	 */
+	private RequestDispatcher<ChildRootRequest, ChildRootStream, ChildRootResponse, ChildRootRequestThread, ChildRootRequestThreadCreator> childRootRequestDispatcher;
+
+	/*
+	 * These messages are in the application level ones, which should be processed as tasks which programmers need to take care of. 09/12/2020, Bing Li
+	 */
 	private NotificationDispatcher<Notification, RootNotificationThread, RootNotificationThreadCreator> notificationDispatcher;
 	private RequestDispatcher<Request, RequestStream, Response, RootRequestThread, RootRequestThreadCreator> requestDispatcher;
-
-	private NotificationDispatcher<ChildResponse, ChildResponseThread, ChildResponseThreadCreator> multicastResponseDispatcher;
 	
 	private NotificationDispatcher<IntercastNotification, IntercastNotificationThread, IntercastNotificationThreadCreator> intercastNotificationDispatcher;
 	private RequestDispatcher<IntercastRequest, IntercastRequestStream, Response, IntercastRequestThread, IntercastRequestThreadCreator> intercastRequestDispatcher;
+
+	private NotificationDispatcher<ChildResponse, ChildResponseThread, ChildResponseThreadCreator> multicastResponseDispatcher;
 
 	private final static Logger log = Logger.getLogger("org.greatfree.cluster.child.container");
 
@@ -99,6 +121,39 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 		this.partitionSizeRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<PartitionSizeRequest, PartitionSizeStream, PartitionSizeResponse, PartitionSizeRequestThread, PartitionSizeRequestThreadCreator>()
 				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
 				.threadCreator(new PartitionSizeRequestThreadCreator())
+				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.REQUEST_DISPATCHER_WAIT_TIME)
+				.waitRound(ServerConfig.REQUEST_DISPATCHER_WAIT_ROUND)
+				.idleCheckDelay(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_PERIOD)
+				.scheduler(super.getScheduler())
+				.build();
+
+		this.clusterSizeRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<ClusterSizeRequest, ClusterSizeStream, ClusterSizeResponse, ClusterSizeRequestThread, ClusterSizeRequestThreadCreator>()
+				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
+				.threadCreator(new ClusterSizeRequestThreadCreator())
+				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.REQUEST_DISPATCHER_WAIT_TIME)
+				.waitRound(ServerConfig.REQUEST_DISPATCHER_WAIT_ROUND)
+				.idleCheckDelay(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_PERIOD)
+				.scheduler(super.getScheduler())
+				.build();
+
+		this.additionalChildrenRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<AdditionalChildrenRequest, AdditionalChildrenStream, AdditionalChildrenResponse, AdditionalChildrenRequestThread, AdditionalChildrenRequestThreadCreator>()
+				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
+				.threadCreator(new AdditionalChildrenRequestThreadCreator())
+				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.REQUEST_DISPATCHER_WAIT_TIME)
+				.waitRound(ServerConfig.REQUEST_DISPATCHER_WAIT_ROUND)
+				.idleCheckDelay(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_PERIOD)
+				.scheduler(super.getScheduler())
+				.build();
+
+		this.childRootRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<ChildRootRequest, ChildRootStream, ChildRootResponse, ChildRootRequestThread, ChildRootRequestThreadCreator>()
+				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
+				.threadCreator(new ChildRootRequestThreadCreator())
 				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.REQUEST_DISPATCHER_WAIT_TIME)
 				.waitRound(ServerConfig.REQUEST_DISPATCHER_WAIT_ROUND)
@@ -172,6 +227,9 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 		this.heavyWorkloadNotificationDispatcher.dispose();
 		this.superfluousResourcesNotificationDispatcher.dispose();
 		this.partitionSizeRequestDispatcher.dispose();
+		this.clusterSizeRequestDispatcher.dispose();
+		this.additionalChildrenRequestDispatcher.dispose();
+		this.childRootRequestDispatcher.dispose();
 		this.notificationDispatcher.dispose();
 		this.requestDispatcher.dispose();
 		this.multicastResponseDispatcher.dispose();
@@ -238,6 +296,33 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				}
 				// Enqueue the instance of Request into the dispatcher for concurrent processing. 02/15/2016, Bing Li
 				this.partitionSizeRequestDispatcher.enqueue(new PartitionSizeStream(message.getOutStream(), message.getLock(), (PartitionSizeRequest)message.getMessage()));
+				break;
+				
+			case ClusterMessageType.CLUSTER_SIZE_REQUEST:
+				log.info("CLUSTER_SIZE_REQUEST received @" + Calendar.getInstance().getTime());
+				if (!this.clusterSizeRequestDispatcher.isReady())
+				{
+					super.execute(this.clusterSizeRequestDispatcher);
+				}
+				this.clusterSizeRequestDispatcher.enqueue(new ClusterSizeStream(message.getOutStream(), message.getLock(), (ClusterSizeRequest)message.getMessage()));
+				break;
+				
+			case ClusterMessageType.ADDITIONAL_CHILDREN_REQUEST:
+				log.info("ADDITIONAL_CHILDREN_REQUEST received @" + Calendar.getInstance().getTime());
+				if (!this.additionalChildrenRequestDispatcher.isReady())
+				{
+					super.execute(this.additionalChildrenRequestDispatcher);
+				}
+				this.additionalChildrenRequestDispatcher.enqueue(new AdditionalChildrenStream(message.getOutStream(), message.getLock(), (AdditionalChildrenRequest)message.getMessage()));
+				break;
+				
+			case MulticastMessageType.CHILD_ROOT_REQUEST:
+				log.info("CHILD_ROOT_REQUEST received @" + Calendar.getInstance().getTime());
+				if (!this.childRootRequestDispatcher.isReady())
+				{
+					super.execute(this.childRootRequestDispatcher);
+				}
+				this.childRootRequestDispatcher.enqueue(new ChildRootStream(message.getOutStream(), message.getLock(), (ChildRootRequest)message.getMessage()));
 				break;
 
 			case MulticastMessageType.NOTIFICATION:

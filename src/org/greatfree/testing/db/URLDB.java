@@ -22,6 +22,7 @@ import com.sleepycat.persist.EntityCursor;
 // Created: 11/25/2014, Bing Li
 public class URLDB extends FreeObject
 {
+	private static final long serialVersionUID = -96858998286634395L;
 	// Declare the instance of File since operations on a file system is required. 11/25/2014, Bing Li
 	private File envPath;
 	// Declare the instance of DBEnv to set up the required environment. 11/25/2014, Bing Li

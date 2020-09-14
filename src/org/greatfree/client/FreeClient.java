@@ -20,6 +20,7 @@ import org.greatfree.util.UtilConfig;
 // Created: 08/10/2014, Bing Li
 public class FreeClient extends FreeObject
 {
+	private static final long serialVersionUID = 4934437466452541015L;
 	// A client socket that connects to the remote server socket at a remote end. In the system, the remote end is a node in a distributed cluster. 08/24/2014, Bing Li
 	private Socket socket;
 	// The IP address of the remote end. 08/24/2014, Bing Li

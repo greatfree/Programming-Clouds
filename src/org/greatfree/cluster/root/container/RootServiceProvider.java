@@ -1,6 +1,8 @@
 package org.greatfree.cluster.root.container;
 
 import org.greatfree.cluster.RootTask;
+import org.greatfree.message.multicast.container.ChildRootRequest;
+import org.greatfree.message.multicast.container.ChildRootResponse;
 import org.greatfree.message.multicast.container.Notification;
 import org.greatfree.message.multicast.container.Request;
 import org.greatfree.message.multicast.container.Response;
@@ -42,5 +44,10 @@ public class RootServiceProvider
 	public Response processRequest(Request request)
 	{
 		return this.task.processRequest(request);
+	}
+	
+	public ChildRootResponse processChildRequst(ChildRootRequest request)
+	{
+		return this.task.processChildRequest(request);
 	}
 }

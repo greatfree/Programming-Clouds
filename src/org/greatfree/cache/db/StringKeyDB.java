@@ -13,7 +13,7 @@ import com.sleepycat.persist.EntityCursor;
 // Created: 05/22/2017, Bing Li
 public class StringKeyDB extends FreeObject implements KeyLoadable<String>
 {
-
+	private static final long serialVersionUID = -5729594953287014778L;
 	private File envPath;
 	private DBEnv env;
 	private StringKeyAccessor accessor;

@@ -11,6 +11,7 @@ import org.greatfree.util.Tools;
 // Created: 09/17/2014, Bing Li
 public class IPResource extends FreeObject
 {
+	private static final long serialVersionUID = 60625648765049459L;
 	// The IP address. 09/17/2014, Bing Li
 	private String ip;
 	// The port number. 09/17/2014, Bing Li
