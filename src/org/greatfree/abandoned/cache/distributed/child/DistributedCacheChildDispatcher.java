@@ -11,8 +11,8 @@ import org.greatfree.cache.message.PutNotification;
 import org.greatfree.cache.message.UniGetRequest;
 import org.greatfree.client.OutMessageStream;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.multicast.message.OldRootIPAddressBroadcastNotification;
-import org.greatfree.dsf.old.multicast.child.ChildDispatcher;
+import org.greatfree.framework.multicast.message.OldRootIPAddressBroadcastNotification;
+import org.greatfree.framework.old.multicast.child.ChildDispatcher;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
 

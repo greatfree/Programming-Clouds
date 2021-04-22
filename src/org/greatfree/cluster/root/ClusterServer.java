@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.greatfree.cluster.RootTask;
 import org.greatfree.cluster.root.container.RootServiceProvider;
-import org.greatfree.dsf.cluster.original.cs.twonode.message.StopChatClusterNotification;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.cluster.original.cs.twonode.message.StopChatClusterNotification;
 import org.greatfree.server.Peer.PeerBuilder;
 import org.greatfree.util.Builder;
 

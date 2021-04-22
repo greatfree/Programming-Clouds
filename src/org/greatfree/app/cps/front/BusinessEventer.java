@@ -6,7 +6,7 @@ import org.greatfree.app.cps.message.OrderNotification;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.client.SyncRemoteEventer;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.p2p.RegistryConfig;
+import org.greatfree.framework.p2p.RegistryConfig;
 
 // Created: 08/14/2018, Bing Li
 public class BusinessEventer

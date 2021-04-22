@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.greatfree.app.search.dip.container.cluster.message.CrawledPagesNotification;
 import org.greatfree.app.search.dip.multicast.message.Page;
 import org.greatfree.cluster.StandaloneClusterClient;
-import org.greatfree.dsf.multicast.MulticastConfig;
-import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.multicast.MulticastConfig;
+import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.util.Tools;
 
 // Created: 01/14/2019, Bing Li

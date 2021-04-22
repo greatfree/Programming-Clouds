@@ -7,7 +7,7 @@ import org.greatfree.cache.local.CacheMapFactorable;
 import org.greatfree.concurrency.Scheduler;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.cps.cache.TestCacheConfig;
+import org.greatfree.framework.cps.cache.TestCacheConfig;
 
 // Created: 01/21/2018, Bing Li
 public class DistributedMapContainer<Value extends StoreElement, Factory extends CacheMapFactorable<String, Value>>

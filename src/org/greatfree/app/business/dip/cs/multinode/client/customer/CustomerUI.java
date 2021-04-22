@@ -13,7 +13,7 @@ import org.greatfree.chat.client.business.dip.ChatReader;
 import org.greatfree.chat.message.cs.business.CheckCartResponse;
 import org.greatfree.chat.message.cs.business.CheckCustomerTransactionResponse;
 import org.greatfree.chat.message.cs.business.CheckSalesResponse;
-import org.greatfree.dsf.cs.multinode.message.ChatRegistryResponse;
+import org.greatfree.framework.cs.multinode.message.ChatRegistryResponse;
 import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
 

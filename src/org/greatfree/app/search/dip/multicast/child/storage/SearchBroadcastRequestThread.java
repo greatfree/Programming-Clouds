@@ -6,7 +6,7 @@ import org.greatfree.app.search.dip.multicast.message.SearchMultiRequest;
 import org.greatfree.app.search.dip.multicast.message.SearchMultiResponse;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.multicast.child.ChildMulticastor;
+import org.greatfree.framework.multicast.child.ChildMulticastor;
 
 // Created: 09/28/2018, Bing Li
 class SearchBroadcastRequestThread extends NotificationQueue<SearchMultiRequest>

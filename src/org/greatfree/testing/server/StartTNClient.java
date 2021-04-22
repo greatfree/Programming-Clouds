@@ -7,7 +7,7 @@ import org.greatfree.chat.ChatConfig;
 import org.greatfree.chat.message.ShutdownServerNotification;
 import org.greatfree.client.CSClient;
 import org.greatfree.data.ClientConfig;
-import org.greatfree.dsf.p2p.RegistryConfig;
+import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.testing.message.TNNotification;
 import org.greatfree.util.Rand;
 

@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.greatfree.app.search.dip.multicast.message.LocationNotification;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.multicast.root.RootMulticastor;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.framework.multicast.root.RootMulticastor;
 
 // Created: 10/07/2018, Bing Li
 class LocationNotificationThread extends NotificationQueue<LocationNotification>

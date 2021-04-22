@@ -1,7 +1,7 @@
 package org.greatfree.cluster.child;
 
 import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
-import org.greatfree.dsf.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
 
 // Created: 09/23/2018, Bing Li
 class RootIPAddressBroadcastNotificationThreadCreator implements NotificationThreadCreatable<RootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationThread>

@@ -3,7 +3,7 @@ package org.greatfree.app.search.dip.multicast.root.entry;
 import org.greatfree.app.search.dip.multicast.message.SearchMultiResponse;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.multicast.root.RootMulticastor;
+import org.greatfree.framework.multicast.root.RootMulticastor;
 
 // Created: 10/08/2018, Bing Li
 class SearchMultiResponseThread extends NotificationQueue<SearchMultiResponse>

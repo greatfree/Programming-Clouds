@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.concurrency.Scheduler;
-import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.p2p.RegistryConfig;
 
 // Created: 07/27/2018, Bing Li
 public class StartBusinessClient

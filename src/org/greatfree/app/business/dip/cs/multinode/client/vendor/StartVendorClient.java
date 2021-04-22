@@ -6,7 +6,7 @@ import java.util.Scanner;
 import org.greatfree.app.business.dip.cs.multinode.client.UserID;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
-import org.greatfree.dsf.p2p.RegistryConfig;
+import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 12/20/2017, Bing Li

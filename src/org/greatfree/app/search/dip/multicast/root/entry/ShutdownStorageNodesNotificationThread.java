@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.multicast.message.ShutdownChildrenAdminNotification;
-import org.greatfree.dsf.multicast.message.ShutdownChildrenBroadcastNotification;
-import org.greatfree.dsf.multicast.root.RootMulticastor;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.framework.multicast.message.ShutdownChildrenAdminNotification;
+import org.greatfree.framework.multicast.message.ShutdownChildrenBroadcastNotification;
+import org.greatfree.framework.multicast.root.RootMulticastor;
 
 // Created: 12/10/2018, Bing Li
 class ShutdownStorageNodesNotificationThread extends NotificationQueue<ShutdownChildrenAdminNotification>

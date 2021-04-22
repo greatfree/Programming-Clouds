@@ -2,7 +2,7 @@ package org.greatfree.app.business.dip.cs.multinode.server;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.p2p.RegistryConfig;
+import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.util.TerminateSignal;
 
 /*

@@ -3,7 +3,7 @@ package org.greatfree.chat.client.business.dip;
 import java.io.IOException;
 
 import org.greatfree.client.FreeClientPool;
-import org.greatfree.dsf.p2p.RegistryConfig;
+import org.greatfree.framework.p2p.RegistryConfig;
 
 /*
  * The pool is responsible for creating and managing instance of FreeClient to achieve the goal of using a small number of instances of FreeClient to send chatting messages to the chatting server in a high performance. 04/23/2017, Bing Li

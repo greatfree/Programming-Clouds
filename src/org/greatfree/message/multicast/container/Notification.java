@@ -18,14 +18,18 @@ public abstract class Notification extends MulticastNotification
 	private Set<String> childrenKeys;
 
 	/*
+	 * The notification type, MulticastMessageType.UNICAST_NOTIFICATION, is not necessary to be specified since the constructor is unique to represent the case. 10/18/2020, Bing Li
+	 * 
 	 * The constructor is usually used for the nearest unicasting. So the client key is required for nearest measurement. 10/28/2018, Bing Li 
 	 */
-	public Notification(String clientKey, int notificationType, int applicationID)
+//	public Notification(String clientKey, int notificationType, int applicationID)
+	public Notification(String clientKey, int applicationID)
 	{
 		super(MulticastMessageType.NOTIFICATION);
 		this.clientKey = clientKey;
-		this.notificationType = notificationType;
-//		this.notificationType = MulticastMessageType.UNICAST_NOTIFICATION;
+		// MulticastMessageType.UNICAST_NOTIFICATION
+//		this.notificationType = notificationType;
+		this.notificationType = MulticastMessageType.UNICAST_NOTIFICATION;
 		this.applicationID = applicationID;
 		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
 		this.childrenKeys = null;

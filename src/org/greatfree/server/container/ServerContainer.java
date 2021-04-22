@@ -3,8 +3,8 @@ package org.greatfree.server.container;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.server.CSServer;
 
 // Created: 12/18/2018, Bing Li

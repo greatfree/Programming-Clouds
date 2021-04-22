@@ -4,17 +4,17 @@ import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.p2p.RegistryConfig;
-import org.greatfree.dsf.p2p.message.AddPartnerNotification;
-import org.greatfree.dsf.p2p.message.ChatNotification;
-import org.greatfree.dsf.p2p.message.ChatPartnerRequest;
-import org.greatfree.dsf.p2p.message.ChatPartnerResponse;
-import org.greatfree.dsf.p2p.message.ChatRegistryRequest;
-import org.greatfree.dsf.p2p.message.ChatRegistryResponse;
-import org.greatfree.dsf.p2p.peer.ChatMaintainer;
-import org.greatfree.dsf.p2p.peer.ChatManServerDispatcher;
-import org.greatfree.dsf.p2p.peer.ChatServerDispatcher;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.p2p.RegistryConfig;
+import org.greatfree.framework.p2p.message.AddPartnerNotification;
+import org.greatfree.framework.p2p.message.ChatNotification;
+import org.greatfree.framework.p2p.message.ChatPartnerRequest;
+import org.greatfree.framework.p2p.message.ChatPartnerResponse;
+import org.greatfree.framework.p2p.message.ChatRegistryRequest;
+import org.greatfree.framework.p2p.message.ChatRegistryResponse;
+import org.greatfree.framework.p2p.peer.ChatMaintainer;
+import org.greatfree.framework.p2p.peer.ChatManServerDispatcher;
+import org.greatfree.framework.p2p.peer.ChatServerDispatcher;
 import org.greatfree.message.PortRequest;
 import org.greatfree.message.PortResponse;
 

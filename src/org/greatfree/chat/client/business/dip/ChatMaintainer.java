@@ -4,8 +4,8 @@ import java.util.Set;
 
 import org.greatfree.chat.ChatMessage;
 import org.greatfree.chat.ChatTools;
-import org.greatfree.dsf.cs.multinode.message.PollNewChatsResponse;
-import org.greatfree.dsf.cs.multinode.message.PollNewSessionsResponse;
+import org.greatfree.framework.cs.multinode.message.PollNewChatsResponse;
+import org.greatfree.framework.cs.multinode.message.PollNewSessionsResponse;
 
 import com.google.common.collect.Sets;
 

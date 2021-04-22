@@ -6,9 +6,9 @@ import org.greatfree.abandoned.cache.distributed.CacheValue;
 import org.greatfree.abandoned.cache.distributed.root.DistributedCacheRootDispatcher;
 import org.greatfree.cache.message.root.update.PutNotificationCreator;
 import org.greatfree.cache.message.update.PutNotification;
-import org.greatfree.dsf.multicast.MulticastConfig;
-import org.greatfree.dsf.old.multicast.root.ClusterRoot;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.multicast.MulticastConfig;
+import org.greatfree.framework.old.multicast.root.ClusterRoot;
 import org.greatfree.multicast.root.abandoned.ClusterRootUnicastNotifier;
 import org.greatfree.server.Peer;
 

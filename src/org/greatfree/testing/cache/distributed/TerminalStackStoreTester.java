@@ -2,8 +2,8 @@ package org.greatfree.testing.cache.distributed;
 
 import java.util.Calendar;
 
-import org.greatfree.dsf.cps.cache.data.MyStoreData;
-import org.greatfree.dsf.cps.cache.terminal.MyTerminalStackStore;
+import org.greatfree.framework.cps.cache.data.MyStoreData;
+import org.greatfree.framework.cps.cache.terminal.MyTerminalStackStore;
 
 // Created: 07/16/2019, Bing Li
 class TerminalStackStoreTester

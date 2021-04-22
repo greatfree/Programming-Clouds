@@ -8,7 +8,7 @@ import org.greatfree.cluster.message.ClusterMessageType;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.container.ChildResponse;

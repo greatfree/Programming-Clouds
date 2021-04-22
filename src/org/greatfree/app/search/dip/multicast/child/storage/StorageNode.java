@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.multicast.MulticastConfig;
-import org.greatfree.dsf.multicast.child.ChildMulticastor;
-import org.greatfree.dsf.p2p.RegistryConfig;
-import org.greatfree.dsf.p2p.message.ChatRegistryRequest;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.multicast.MulticastConfig;
+import org.greatfree.framework.multicast.child.ChildMulticastor;
+import org.greatfree.framework.p2p.RegistryConfig;
+import org.greatfree.framework.p2p.message.ChatRegistryRequest;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.server.Peer;
 import org.greatfree.util.IPAddress;

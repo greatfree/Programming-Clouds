@@ -7,12 +7,12 @@ import org.greatfree.app.p2p.message.GreetingResponse;
 import org.greatfree.app.p2p.message.HelloNotification;
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.p2p.RegistryConfig;
-import org.greatfree.dsf.p2p.message.ChatPartnerRequest;
-import org.greatfree.dsf.p2p.message.ChatPartnerResponse;
-import org.greatfree.dsf.p2p.message.ChatRegistryRequest;
-import org.greatfree.dsf.p2p.message.ChatRegistryResponse;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.p2p.RegistryConfig;
+import org.greatfree.framework.p2p.message.ChatPartnerRequest;
+import org.greatfree.framework.p2p.message.ChatPartnerResponse;
+import org.greatfree.framework.p2p.message.ChatRegistryRequest;
+import org.greatfree.framework.p2p.message.ChatRegistryResponse;
 import org.greatfree.server.Peer;
 import org.greatfree.util.TerminateSignal;
 

@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.multicast.MulticastConfig;
-import org.greatfree.dsf.multicast.message.RootIPAddressBroadcastNotification;
-import org.greatfree.dsf.multicast.root.RootMulticastor;
-import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.multicast.MulticastConfig;
+import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.framework.multicast.root.RootMulticastor;
+import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.server.Peer;

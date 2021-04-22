@@ -11,10 +11,10 @@ import java.util.logging.Logger;
 
 import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.concurrency.ThreadPool;
-import org.greatfree.dsf.container.p2p.message.ClusterIPRequest;
-import org.greatfree.dsf.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.container.p2p.message.ClusterIPRequest;
+import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.message.multicast.MulticastNotification;

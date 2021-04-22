@@ -112,4 +112,5 @@ public class UtilConfig
 	public final static String COMMA = ",";
 	public final static String BAR = "|";
 	public final static String NEW_LINE = "\n";
+	public final static String DOT = ".";
 }

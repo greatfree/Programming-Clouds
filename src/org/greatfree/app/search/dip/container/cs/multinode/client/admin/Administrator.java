@@ -7,10 +7,10 @@ import org.greatfree.admin.Menu;
 import org.greatfree.app.search.dip.container.cluster.message.ShutdownChildrenAdminNotification;
 import org.greatfree.app.search.dip.container.cluster.message.ShutdownSearchEntryNotification;
 import org.greatfree.cluster.StandaloneClusterClient;
-import org.greatfree.dsf.container.cs.multinode.message.ShutdownServerNotification;
-import org.greatfree.dsf.multicast.MulticastConfig;
-import org.greatfree.dsf.p2p.RegistryConfig;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.container.cs.multinode.message.ShutdownServerNotification;
+import org.greatfree.framework.multicast.MulticastConfig;
+import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.util.Tools;
 
 // Created: 01/14/2019, Bing Li

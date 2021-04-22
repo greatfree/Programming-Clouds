@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.p2p.registry.AccountRegistry;
+import org.greatfree.framework.p2p.registry.AccountRegistry;
 import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.message.multicast.ClusterIPStream;

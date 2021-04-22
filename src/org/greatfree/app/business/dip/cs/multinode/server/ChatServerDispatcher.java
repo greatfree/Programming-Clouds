@@ -30,9 +30,9 @@ import org.greatfree.client.OutMessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.cs.multinode.message.ChatRegistryRequest;
-import org.greatfree.dsf.cs.multinode.message.ChatRegistryResponse;
-import org.greatfree.dsf.cs.multinode.message.ChatRegistryStream;
+import org.greatfree.framework.cs.multinode.message.ChatRegistryRequest;
+import org.greatfree.framework.cs.multinode.message.ChatRegistryResponse;
+import org.greatfree.framework.cs.multinode.message.ChatRegistryStream;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.server.ServerDispatcher;
 

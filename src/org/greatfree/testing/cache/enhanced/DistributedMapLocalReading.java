@@ -4,16 +4,16 @@ import org.greatfree.cache.distributed.DistributedMap;
 import org.greatfree.concurrency.Scheduler;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.dsf.cps.cache.TestCacheConfig;
-import org.greatfree.dsf.cps.cache.coordinator.evicting.EvictMyDataThread;
-import org.greatfree.dsf.cps.cache.coordinator.evicting.EvictMyDataThreadCreator;
-import org.greatfree.dsf.cps.cache.coordinator.postfetching.PostfetchMyDataForDMThread;
-import org.greatfree.dsf.cps.cache.coordinator.postfetching.PostfetchMyDataForDMThreadCreator;
-import org.greatfree.dsf.cps.cache.coordinator.replicating.ReplicateMyDataThread;
-import org.greatfree.dsf.cps.cache.coordinator.replicating.ReplicateMyDataThreadCreator;
-import org.greatfree.dsf.cps.cache.data.MyData;
-import org.greatfree.dsf.cps.cache.data.MyDataFactory;
-import org.greatfree.dsf.cps.cache.message.postfetch.PostfetchMyDataNotification;
+import org.greatfree.framework.cps.cache.TestCacheConfig;
+import org.greatfree.framework.cps.cache.coordinator.evicting.EvictMyDataThread;
+import org.greatfree.framework.cps.cache.coordinator.evicting.EvictMyDataThreadCreator;
+import org.greatfree.framework.cps.cache.coordinator.postfetching.PostfetchMyDataForDMThread;
+import org.greatfree.framework.cps.cache.coordinator.postfetching.PostfetchMyDataForDMThreadCreator;
+import org.greatfree.framework.cps.cache.coordinator.replicating.ReplicateMyDataThread;
+import org.greatfree.framework.cps.cache.coordinator.replicating.ReplicateMyDataThreadCreator;
+import org.greatfree.framework.cps.cache.data.MyData;
+import org.greatfree.framework.cps.cache.data.MyDataFactory;
+import org.greatfree.framework.cps.cache.message.postfetch.PostfetchMyDataNotification;
 
 // Created: 12/24/2018, Bing Li
 public class DistributedMapLocalReading

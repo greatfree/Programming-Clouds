@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.greatfree.cluster.RootTask;
 import org.greatfree.cluster.root.container.ClusterServerContainer;
-import org.greatfree.dsf.multicast.MulticastConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.framework.multicast.MulticastConfig;
 
 // Created: 02/17/2019, Bing Li
 class BusinessServer

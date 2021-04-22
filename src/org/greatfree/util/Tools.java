@@ -25,12 +25,19 @@ import java.util.UUID;
 import javax.crypto.Mac;
 
 /*
+ * 
+ * The code is updated today. The project, the N3W, has not been updated for more than eight months! 04/10/2021, Bing Li
+ * 
  * The class contains some methods that provide other classes with some generic services. 07/30/2014, Bing Li
  */
 
 // Created: 07/17/2014, Bing Li
-public class Tools
+public final class Tools
 {
+	private Tools()
+	{
+	}
+	
 	/*
 	 * Create a unique key. 07/30/2014, Bing Li
 	 */

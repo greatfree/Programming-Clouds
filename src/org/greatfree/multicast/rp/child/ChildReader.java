@@ -3,8 +3,8 @@ package org.greatfree.multicast.rp.child;
 import java.io.IOException;
 
 import org.greatfree.concurrency.ThreadPool;
-import org.greatfree.dsf.multicast.rp.child.ChildPeer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.framework.multicast.rp.child.ChildPeer;
 import org.greatfree.message.multicast.RPMulticastRequest;
 import org.greatfree.multicast.RendezvousPoint;
 import org.greatfree.util.UtilConfig;

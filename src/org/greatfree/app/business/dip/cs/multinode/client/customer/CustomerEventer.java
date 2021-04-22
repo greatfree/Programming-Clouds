@@ -10,7 +10,7 @@ import org.greatfree.client.AsyncRemoteEventer;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ClientConfig;
-import org.greatfree.dsf.p2p.RegistryConfig;
+import org.greatfree.framework.p2p.RegistryConfig;
 
 /*
  * This is the eventer for a customer to support the online sales. It is implemented over the DIP of the C/S Chatting. 12/21/2017, Bing Li

@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.greatfree.dsf.threading.mrtc.MRConfig;
+import org.greatfree.framework.threading.mrtc.MRConfig;
 import org.greatfree.util.Rand;
 import org.greatfree.util.Tools;
 
