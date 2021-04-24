@@ -14,13 +14,13 @@ import org.greatfree.concurrency.CheckIdleable;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.concurrency.ThreadIdleChecker;
-import org.greatfree.reuse.RunnerDisposable;
 import org.greatfree.util.Builder;
 import org.greatfree.util.Rand;
 import org.greatfree.util.Time;
 
 // Created: 04/23/2018, Bing Li
-public class BalancedDispatcher<Task, Notifier extends ThreadNotifiable<Task>, Function extends BalancedQueue<Task, Notifier>, ThreadCreator extends BalancedThreadCreatable<Task, Notifier, Function>, ThreadDisposer extends RunnerDisposable<Function>> implements CheckIdleable
+// public class BalancedDispatcher<Task, Notifier extends ThreadNotifiable<Task>, Function extends BalancedQueue<Task, Notifier>, ThreadCreator extends BalancedThreadCreatable<Task, Notifier, Function>, ThreadDisposer extends RunnerDisposable<Function>> implements CheckIdleable
+public class BalancedDispatcher<Task, Notifier extends ThreadNotifiable<Task>, Function extends BalancedQueue<Task, Notifier>, ThreadCreator extends BalancedThreadCreatable<Task, Notifier, Function>> implements CheckIdleable
 {
 	private final int fastPoolSize;
 	private final int slowPoolSize;
@@ -35,13 +35,15 @@ public class BalancedDispatcher<Task, Notifier extends ThreadNotifiable<Task>, F
 //	private ThreadDisposer disposer;
 	private Sync collaborator;
 	private ScheduledThreadPoolExecutor scheduler;
-	private ThreadIdleChecker<BalancedDispatcher<Task, Notifier, Function, ThreadCreator, ThreadDisposer>> idleChecker;
+//	private ThreadIdleChecker<BalancedDispatcher<Task, Notifier, Function, ThreadCreator, ThreadDisposer>> idleChecker;
+	private ThreadIdleChecker<BalancedDispatcher<Task, Notifier, Function, ThreadCreator>> idleChecker;
 	private ScheduledFuture<?> idleCheckingTask;
 	// Those Fast threads that encounter long crawling problems have to put into the queue if the Slow pool has no position to take them. They will be placed into the Slow pool when a new position is available. 10/26/2017, Bing Li
 //	private Queue<Runner<Function, ThreadDisposer>> alleviatedThreaderQueue;
 	private Queue<Runner<Function>> alleviatedThreaderQueue;
 
-	public BalancedDispatcher(BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator, ThreadDisposer> builder)
+//	public BalancedDispatcher(BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator, ThreadDisposer> builder)
+	public BalancedDispatcher(BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator> builder)
 	{
 		this.fastPoolSize = builder.getFastPoolSize();
 		this.slowPoolSize = builder.getSlowPoolSize();
@@ -56,12 +58,14 @@ public class BalancedDispatcher<Task, Notifier extends ThreadNotifiable<Task>, F
 //		this.disposer = builder.getDisposer();
 		this.collaborator = new Sync(false);
 		this.scheduler = builder.getScheduler();
-		this.idleChecker = new ThreadIdleChecker<BalancedDispatcher<Task, Notifier, Function, ThreadCreator, ThreadDisposer>>(this);
+//		this.idleChecker = new ThreadIdleChecker<BalancedDispatcher<Task, Notifier, Function, ThreadCreator, ThreadDisposer>>(this);
+		this.idleChecker = new ThreadIdleChecker<BalancedDispatcher<Task, Notifier, Function, ThreadCreator>>(this);
 //		this.alleviatedThreaderQueue = new LinkedBlockingQueue<Runner<Function, ThreadDisposer>>();
 		this.alleviatedThreaderQueue = new LinkedBlockingQueue<Runner<Function>>();
 	}
 
-	public static class BalanceDispatcherBuilder<Task, Notifier extends ThreadNotifiable<Task>, Function extends BalancedQueue<Task, Notifier>, ThreadCreator extends BalancedThreadCreatable<Task, Notifier, Function>, ThreadDisposer extends RunnerDisposable<Function>> implements Builder<BalancedDispatcher<Task, Notifier, Function, ThreadCreator, ThreadDisposer>>
+//	public static class BalanceDispatcherBuilder<Task, Notifier extends ThreadNotifiable<Task>, Function extends BalancedQueue<Task, Notifier>, ThreadCreator extends BalancedThreadCreatable<Task, Notifier, Function>, ThreadDisposer extends RunnerDisposable<Function>> implements Builder<BalancedDispatcher<Task, Notifier, Function, ThreadCreator, ThreadDisposer>>
+	public static class BalanceDispatcherBuilder<Task, Notifier extends ThreadNotifiable<Task>, Function extends BalancedQueue<Task, Notifier>, ThreadCreator extends BalancedThreadCreatable<Task, Notifier, Function>> implements Builder<BalancedDispatcher<Task, Notifier, Function, ThreadCreator>>
 	{
 		private int fastPoolSize;
 		private int slowPoolSize;
@@ -76,60 +80,52 @@ public class BalancedDispatcher<Task, Notifier extends ThreadNotifiable<Task>, F
 		{
 		}
 		
-		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator, ThreadDisposer> fastPoolSize(int fastPoolSize)
+		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator> fastPoolSize(int fastPoolSize)
 		{
 			this.fastPoolSize = fastPoolSize;
 			return this;
 		}
 
-		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator, ThreadDisposer> slowPoolSize(int slowPoolSize)
+		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator> slowPoolSize(int slowPoolSize)
 		{
 			this.slowPoolSize = slowPoolSize;
 			return this;
 		}
 
-		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator, ThreadDisposer> threadQueueSize(int threadQueueSize)
+		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator> threadQueueSize(int threadQueueSize)
 		{
 			this.threadQueueSize = threadQueueSize;
 			return this;
 		}
 		
-		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator, ThreadDisposer> idleTime(long idleTime)
+		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator> idleTime(long idleTime)
 		{
 			this.idleTime = idleTime;
 			return this;
 		}
 		
-		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator, ThreadDisposer> notifier(Notifier notifier)
+		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator> notifier(Notifier notifier)
 		{
 			this.notifier = notifier;
 			return this;
 		}
 		
-		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator, ThreadDisposer> creator(ThreadCreator creator)
+		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator> creator(ThreadCreator creator)
 		{
 			this.creator = creator;
 			return this;
 		}
 
-		/*
-		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator, ThreadDisposer> disposer(ThreadDisposer disposer)
-		{
-			this.disposer = disposer;
-			return this;
-		}
-		*/
-		
-		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator, ThreadDisposer> scheduler(ScheduledThreadPoolExecutor scheduler)
+		public BalanceDispatcherBuilder<Task, Notifier, Function, ThreadCreator> scheduler(ScheduledThreadPoolExecutor scheduler)
 		{
 			this.scheduler = scheduler;
 			return this;
 		}
 		
 		@Override
-		public BalancedDispatcher<Task, Notifier, Function, ThreadCreator, ThreadDisposer> build()
+		public BalancedDispatcher<Task, Notifier, Function, ThreadCreator> build()
 		{
-			return new BalancedDispatcher<Task, Notifier, Function, ThreadCreator, ThreadDisposer>(this);
+			return new BalancedDispatcher<Task, Notifier, Function, ThreadCreator>(this);
 		}
 		
 		public int getFastPoolSize()

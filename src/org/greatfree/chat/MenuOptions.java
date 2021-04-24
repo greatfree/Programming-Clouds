@@ -5,10 +5,10 @@ package org.greatfree.chat;
  */
 
 // Created: 04/23/2017, Bing Li
-public class MenuOptions
+public final class MenuOptions
 {
 	public final static int NO_OPTION = -1;
-	
+
 	public final static int REGISTER_CHATTING = 1;
 	public final static int SEARCH_USER = 2;
 	public final static int ADD_FRIEND = 3;
