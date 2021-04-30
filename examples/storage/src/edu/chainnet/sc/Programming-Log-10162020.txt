@@ -1,0 +1,55 @@
+10/16/2020, Bing Li
+
+Collaboration Level
+
+Four servers
+
+Only one chain (four servers right now)
+
+Username: libing
+PW: 12345678
+
+Node: Servers - Chain
+
+Node categories
+
+	Types: block-chain, smart-contract-node
+	
+	Chain needs to have a name/IP
+	
+	Node: chain, IP/port, name, service name, others
+
+Smart-contract nodes:
+
+	SC execution nodes
+	
+	Multiple nodes
+	
+		Consistency
+		
+		Independent of others
+		
+Oracle nodes:?, single node
+
+Data lake nodes: single node
+
+Current businesses of the block chain nodes
+
+	Accounts - account
+	
+	Transactions - trans
+	
+Registry
+
+Retrieval
+
+	Current registered chains upon account/trans
+	
+	... Upon ID
+
+Synchronization/updates
+
+	History
+
+Cancel
+

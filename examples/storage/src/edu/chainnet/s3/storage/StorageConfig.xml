@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Storage>
+	<SSSPath>/home/libing/Temp/Storage/</SSSPath>
+	<FilePath>/home/libing/Temp/SSFiles/</FilePath>
+	<Replicas>2</Replicas>
+	<Partitions></Partitions>
+</Storage>

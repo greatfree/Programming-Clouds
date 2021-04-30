@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S3Client>
+	<ClientFile>/home/libing/Temp/mov.mp4</ClientFile>
+	<K>5</K>
+	<SliceSize>20000</SliceSize>
+	<PartitionIndex>/home/libing/Temp/Client/PartitionIndexes/</PartitionIndex>
+</S3Client>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S3Config>
+	<RegistryIP>127.0.0.1</RegistryIP>
+	<RegistryPort>8941</RegistryPort>
+</S3Config>

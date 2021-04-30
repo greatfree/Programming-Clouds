@@ -1,0 +1,60 @@
+04/26/2021, Bing Li
+
+Now the crawling is performed on the cluster of the Wind.
+
+The lines of code of the version are 4048.
+
+The number of files is 86.
+
+=======================================================
+
+04/22/2021, Bing Li
+
+I decided to implement the system with Lucene and Wind rather than using any other third party software.
+
+Now Luence is tested successfully.
+
+I need to add the cluster into the version.
+
+=======================================================
+
+Setting up ElasticSearch for initial starting
+
+1) Configure the $ELASTIC_SEARCH_HOME/conf/elasticsearch.yml
+
+	cluster.name: my-application
+	
+	node.name = node-1
+
+	network.host: 0.0.0.0
+	
+	http.port: 9200
+	
+	discovery.seed_hosts: ["127.0.0.1"]
+	
+2) Configure .profile
+
+	ES_JAVA_OPTS="-Xms8192m -Xmx8192m"
+	
+3) Configure /etc/sysctrl.conf
+
+	vm.max_map_count=262144
+	
+4) Run the startup script
+
+	$ELASTIC_SEARCH_HOME/bin/elasticsearch
+	
+5) Access through the browser
+
+	http://IP:9200 (IP = 192.168.1.13 now)
+
+---------------------------------------------------------------------------------
+
+Setting up Kibana
+
+1) server.port: 5601
+
+2) server.host: "192.168.1.13"
+
+3) elasticsearch.hosts: ["http://192.168.1.13:9200"]
+
