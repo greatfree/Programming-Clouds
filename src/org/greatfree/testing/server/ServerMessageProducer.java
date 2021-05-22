@@ -1,6 +1,6 @@
 package org.greatfree.testing.server;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
@@ -64,7 +64,7 @@ class ServerMessageProducer
 	/*
 	 * Assign messages, requests or notifications, to the bound message dispatcher such that they can be responded or dealt with. 09/20/2014, Bing Li
 	 */
-	public void produceMessage(OutMessageStream<ServerMessage> message)
+	public void produceMessage(MessageStream<ServerMessage> message)
 	{
 		this.producerThreader.getFunction().produce(message);
 	}

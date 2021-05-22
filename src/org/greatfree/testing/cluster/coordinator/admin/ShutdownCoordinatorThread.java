@@ -41,7 +41,7 @@ public class ShutdownCoordinatorThread extends NotificationQueue<ShutdownCoordin
 				// Dequeue the notification. 11/27/2014, Bing Li
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Set the coordinator as shutdown. 01/30/2016, Bing Li
 					ServerStatus.FREE().setShutdown(AdminConfig.COORDINATOR);
 					Coordinator.COORDINATOR().stop();

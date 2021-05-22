@@ -27,7 +27,7 @@ class RequestThread extends RequestQueue<Request, RequestStream, ServerMessage>
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 				System.out.println("RequestThread: serverKey = " + super.getServerKey());
 				

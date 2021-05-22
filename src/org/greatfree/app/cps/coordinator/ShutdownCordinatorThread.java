@@ -26,7 +26,7 @@ public class ShutdownCordinatorThread extends NotificationQueue<ShutdownServerNo
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					VendorCoordinator.CPS().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);
 				}

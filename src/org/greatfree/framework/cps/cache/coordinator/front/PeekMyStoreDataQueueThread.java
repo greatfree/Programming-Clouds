@@ -29,7 +29,7 @@ public class PeekMyStoreDataQueueThread extends RequestQueue<PeekMyStoreDataQueu
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					if (request.getMessage().getStartIndex() != UtilConfig.NO_INDEX)

@@ -30,7 +30,7 @@ public class TopCachePointingsThread extends RequestQueue<TopCachePointingsReque
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					if (!request.getMessage().isTiming())

@@ -27,7 +27,7 @@ public class ShutdownTerminalServerThread extends NotificationQueue<ShutdownServ
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					TerminalServer.CPS().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);
 				}

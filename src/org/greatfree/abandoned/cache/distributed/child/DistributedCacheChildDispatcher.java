@@ -9,7 +9,7 @@ import org.greatfree.cache.PersistableMapFactorable;
 import org.greatfree.cache.message.CacheMessageType;
 import org.greatfree.cache.message.PutNotification;
 import org.greatfree.cache.message.UniGetRequest;
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.message.OldRootIPAddressBroadcastNotification;
 import org.greatfree.framework.old.multicast.child.ChildDispatcher;
@@ -89,7 +89,7 @@ public class DistributedCacheChildDispatcher<Key extends CacheKey<String>, Value
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void consume(OutMessageStream<ServerMessage> message)
+	public void consume(MessageStream<ServerMessage> message)
 	{
 		switch (message.getMessage().getType())
 		{
@@ -126,7 +126,7 @@ public class DistributedCacheChildDispatcher<Key extends CacheKey<String>, Value
 	}
 
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		// TODO Auto-generated method stub
 		

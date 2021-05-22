@@ -25,7 +25,7 @@ class DeployEntityBeanNotificationThread extends NotificationQueue<DeployEntityB
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					EnterpriseServer.CPS().forward(notification);
 					this.disposeMessage(notification);
 				}

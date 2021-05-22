@@ -26,7 +26,7 @@ public class ReplicateCachePointingsThread extends NotificationQueue<ReplicateCa
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					if (notification.getPointings() != null)
 					{
 						if (notification.isTerminalMap())

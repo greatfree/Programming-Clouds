@@ -1,6 +1,6 @@
 package org.greatfree.testing.cluster.coordinator.client;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.testing.message.ClientForAnycastRequest;
 import org.greatfree.testing.message.ClientForAnycastResponse;
 import org.greatfree.testing.message.ClientForAnycastStream;
@@ -10,11 +10,11 @@ import org.greatfree.testing.message.ClientForAnycastStream;
  */
 
 // Created: 11/22/2016, Bing Li
-public class ClientForAnycastRequestThreadCreator implements RequestThreadCreatable<ClientForAnycastRequest, ClientForAnycastStream, ClientForAnycastResponse, ClientForAnycastRequestThread>
+public class ClientForAnycastRequestThreadCreator implements RequestQueueCreator<ClientForAnycastRequest, ClientForAnycastStream, ClientForAnycastResponse, ClientForAnycastRequestThread>
 {
 
 	@Override
-	public ClientForAnycastRequestThread createRequestThreadInstance(int taskSize)
+	public ClientForAnycastRequestThread createInstance(int taskSize)
 	{
 		return new ClientForAnycastRequestThread(taskSize);
 	}

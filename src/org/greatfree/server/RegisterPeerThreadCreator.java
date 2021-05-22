@@ -1,6 +1,6 @@
 package org.greatfree.server;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.message.RegisterPeerRequest;
 import org.greatfree.message.RegisterPeerResponse;
 import org.greatfree.message.RegisterPeerStream;
@@ -10,11 +10,11 @@ import org.greatfree.message.RegisterPeerStream;
  */
 
 // Created: 05/01/2017, Bing Li
-public class RegisterPeerThreadCreator implements RequestThreadCreatable<RegisterPeerRequest, RegisterPeerStream, RegisterPeerResponse, RegisterPeerThread>
+public class RegisterPeerThreadCreator implements RequestQueueCreator<RegisterPeerRequest, RegisterPeerStream, RegisterPeerResponse, RegisterPeerThread>
 {
 
 	@Override
-	public RegisterPeerThread createRequestThreadInstance(int taskSize)
+	public RegisterPeerThread createInstance(int taskSize)
 	{
 		return new RegisterPeerThread(taskSize);
 	}

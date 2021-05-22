@@ -24,7 +24,7 @@ public class ReplicateMyPointingThread extends NotificationQueue<ReplicateMyPoin
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MySortedTerminalList.BACKEND().add(notification.getPointing());
 					this.disposeMessage(notification);
 				}

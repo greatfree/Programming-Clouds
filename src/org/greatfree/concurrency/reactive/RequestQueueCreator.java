@@ -1,6 +1,6 @@
 package org.greatfree.concurrency.reactive;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.message.ServerMessage;
 
 /*
@@ -8,8 +8,8 @@ import org.greatfree.message.ServerMessage;
  */
 
 // Created: 11/04/2014, Bing Li
-public interface RequestThreadCreatable<Request extends ServerMessage, Stream extends OutMessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>>
+public interface RequestQueueCreator<Request extends ServerMessage, Stream extends MessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>>
 {
 	// The method signature to create an instance of RequestThread to respond users' requests. 11/04/2014, Bing Li
-	public RequestThread createRequestThreadInstance(int taskSize);
+	public RequestThread createInstance(int taskSize);
 }

@@ -26,7 +26,7 @@ public class ShutdownChattingServerThread extends NotificationQueue<ShutdownServ
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 //					ServerStatus.FREE().setShutdown(ChatConfig.CHAT_SERVER_ID);
 //					ServerStatus.FREE().setShutdown();
 //					ChatServer.CHAT().stop();

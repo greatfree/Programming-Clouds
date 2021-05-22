@@ -26,7 +26,7 @@ public class StreamRequestThread extends RequestQueue<StreamRequest, OutStream, 
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new StreamResponse(StreamRegistry.PUBSUB().getAllStreams());
 				try
 				{

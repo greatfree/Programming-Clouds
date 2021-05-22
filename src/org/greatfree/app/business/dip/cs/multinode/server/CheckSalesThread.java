@@ -26,7 +26,7 @@ public class CheckSalesThread extends RequestQueue<CheckSalesRequest, CheckSales
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new CheckSalesResponse(Businesses.getVendorNames(), Businesses.getSales());
 				try
 				{

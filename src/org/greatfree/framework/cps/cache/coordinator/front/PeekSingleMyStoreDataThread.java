@@ -28,7 +28,7 @@ public class PeekSingleMyStoreDataThread extends RequestQueue<PeekSingleMyStoreD
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (!request.getMessage().isReading())
 				{
 					response = new PeekSingleMyStoreDataResponse(MyDistributedStackStore.MIDDLESTORE().peek(request.getMessage().getStackKey()));

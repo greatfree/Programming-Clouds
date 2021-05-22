@@ -30,7 +30,7 @@ class ChildRequestThread extends NotificationQueue<Request>
 			{
 				try
 				{
-					request = this.getNotification();
+					request = this.dequeue();
 					/*
 					 * I am implementing the root-based intercasting. It seems that the below lines are not necessary temporarily. 02/15/2019, Bing Li
 					 */

@@ -37,7 +37,7 @@ public class ShutdownCrawlServerThread extends NotificationQueue<ShutdownCrawlSe
 				try
 				{
 					// Dequeue the notification. 11/27/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					try
 					{
 						// Disseminate the notification to demand all of the crawlers to stop crawling. 11/27/2014, Bing Li

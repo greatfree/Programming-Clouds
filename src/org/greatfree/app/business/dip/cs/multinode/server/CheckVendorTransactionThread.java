@@ -29,7 +29,7 @@ public class CheckVendorTransactionThread extends RequestQueue<CheckVendorTransa
 			while (!this.isEmpty())
 			{
 				// Get the request out from the message queue. 12/05/2017, Bing Li
-				request = this.getRequest();
+				request = this.dequeue();
 				// Create the response. 12/20/2017, Bing Li
 				response = new CheckVendorTransactionResponse(Businesses.getVendorTransactions(request.getMessage().getVendorKey()));
 				try

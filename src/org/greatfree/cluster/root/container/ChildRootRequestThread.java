@@ -26,7 +26,7 @@ class ChildRootRequestThread extends RequestQueue<ChildRootRequest, ChildRootStr
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = ClusterRoot.CONTAINER().processRequest(request.getMessage());
 				try
 				{

@@ -28,7 +28,7 @@ class IsRootOnlineRequestThread extends RequestQueue<IsRootOnlineRequest, IsRoot
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				rootIP = PeerRegistry.SYSTEM().getAddress(request.getMessage().getRootID());
 				System.out.println("IsRootOnlineRequestThread: root ID = " + request.getMessage().getRootID());
 				if (rootIP != UtilConfig.NO_IP_ADDRESS)

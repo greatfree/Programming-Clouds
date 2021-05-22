@@ -27,7 +27,7 @@ class HeavyWorkloadNotificationThread extends NotificationQueue<HeavyWorkloadNot
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 //					ClusterRoot.CONTAINER().unicastNotify(new SelectedChildNotification(notification.getTaskClusterRootKey(), notification.getTaskClusterRootIP()));
 					ClusterRoot.CONTAINER().broadcastNotifyWithinNChildren(new SelectedChildNotification(notification.getTaskClusterRootKey(), notification.getTaskClusterRootIP(), true), notification.getNodeSize());
 					this.disposeMessage(notification);

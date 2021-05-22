@@ -26,7 +26,7 @@ class DeployEntityBeanNotificationThread extends NotificationQueue<DeployEntityB
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					DBAccessor.ENTERPRISE().initEntityBean(notification.getClientKey(), notification.geClasstName(), notification.getParameterTypes(), notification.getParameterValues(), notification.getClassBytes());
 					this.disposeMessage(notification);
 				}

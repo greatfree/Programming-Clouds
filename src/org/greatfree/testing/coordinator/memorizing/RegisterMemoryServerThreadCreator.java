@@ -1,6 +1,6 @@
 package org.greatfree.testing.coordinator.memorizing;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.RegisterMemoryServerNotification;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.testing.message.RegisterMemoryServerNotification;
  */
 
 // Created: 11/28/2014, Bing Li
-public class RegisterMemoryServerThreadCreator implements NotificationThreadCreatable<RegisterMemoryServerNotification, RegisterMemoryServerThread>
+public class RegisterMemoryServerThreadCreator implements NotificationQueueCreator<RegisterMemoryServerNotification, RegisterMemoryServerThread>
 {
 	@Override
-	public RegisterMemoryServerThread createNotificationThreadInstance(int taskSize)
+	public RegisterMemoryServerThread createInstance(int taskSize)
 	{
 		return new RegisterMemoryServerThread(taskSize);
 	}

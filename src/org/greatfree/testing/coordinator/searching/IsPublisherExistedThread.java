@@ -39,7 +39,7 @@ public class IsPublisherExistedThread extends RequestQueue<IsPublisherExistedReq
 			while (!this.isEmpty())
 			{
 				// Dequeue a request. 11/29/2014, Bing Li
-				request = this.getRequest();
+				request = this.dequeue();
 				// Invoke the multicastor reader to retrieve the data in the cluster of the memory nodes in an anycast manner. 11/29/2014, Bing Li
 				response = new IsPublisherExistedResponse(CoordinatorMulticastReader.COORDINATE().isPublisherExisted(request.getMessage().getURL()));
 				try

@@ -31,7 +31,7 @@ class HelloWorldBroadcastRequestThread extends NotificationQueue<HelloWorldBroad
 			{
 				try
 				{
-					request = this.getNotification();
+					request = this.dequeue();
 					ChildMulticastor.CHILD().asyncRead(request);
 //					ChildMulticastor.CHILD().read(request);
 

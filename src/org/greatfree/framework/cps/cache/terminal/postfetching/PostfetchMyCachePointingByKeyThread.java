@@ -28,7 +28,7 @@ public class PostfetchMyCachePointingByKeyThread extends RequestQueue<PostfetchM
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (!request.getMessage().isTiming())
 				{
 					response = new PostfetchMyCachePointingByKeyResponse(MySortedTerminalMapStore.BACKEND().get(request.getMessage().getMapKey(), request.getMessage().getResourceKey()));

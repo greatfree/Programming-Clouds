@@ -36,7 +36,7 @@ public class RegisterThread extends NotificationQueue<NodeKeyNotification>
 				try
 				{
 					// Dequeue the notification. 11/09/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Set the client key. 11/09/2014, Bing Li
 					NodeID.DISTRIBUTED().setKey(notification.getNodeKey());
 					// Register the client after getting the key. 11/09/2014, Bing Li

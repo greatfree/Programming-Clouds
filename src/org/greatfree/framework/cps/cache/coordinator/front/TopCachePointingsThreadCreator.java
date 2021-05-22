@@ -1,16 +1,16 @@
 package org.greatfree.framework.cps.cache.coordinator.front;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.framework.cps.cache.message.front.TopCachePointingsRequest;
 import org.greatfree.framework.cps.cache.message.front.TopCachePointingsResponse;
 import org.greatfree.framework.cps.cache.message.front.TopCachePointingsStream;
 
 // Created: 07/24/2018, Bing Li
-public class TopCachePointingsThreadCreator implements RequestThreadCreatable<TopCachePointingsRequest, TopCachePointingsStream, TopCachePointingsResponse, TopCachePointingsThread>
+public class TopCachePointingsThreadCreator implements RequestQueueCreator<TopCachePointingsRequest, TopCachePointingsStream, TopCachePointingsResponse, TopCachePointingsThread>
 {
 
 	@Override
-	public TopCachePointingsThread createRequestThreadInstance(int taskSize)
+	public TopCachePointingsThread createInstance(int taskSize)
 	{
 		return new TopCachePointingsThread(taskSize);
 	}

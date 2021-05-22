@@ -28,7 +28,7 @@ public class PopSingleMyStoreDataThread extends RequestQueue<PopSingleMyStoreDat
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (!request.getMessage().isReading())
 				{
 					response = new PopSingleMyStoreDataResponse(MyDistributedStackStore.MIDDLESTORE().pop(request.getMessage().getStackKey()));

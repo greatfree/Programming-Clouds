@@ -6,7 +6,7 @@ import org.greatfree.app.search.dip.multicast.message.CrawledPagesNotification;
 import org.greatfree.app.search.dip.multicast.message.LocationNotification;
 import org.greatfree.app.search.dip.multicast.message.SearchMessageType;
 import org.greatfree.app.search.dip.multicast.message.SearchMultiRequest;
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.message.MulticastDIPMessageType;
@@ -103,7 +103,7 @@ class StorageDispatcher extends ServerDispatcher<ServerMessage>
 	}
 
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		switch (message.getMessage().getType())
 		{

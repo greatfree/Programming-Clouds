@@ -26,7 +26,7 @@ class PartitionSizeRequestThread extends RequestQueue<PartitionSizeRequest, Part
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PartitionSizeResponse(ClusterRoot.CONTAINER().getPartitionSize());
 				try
 				{

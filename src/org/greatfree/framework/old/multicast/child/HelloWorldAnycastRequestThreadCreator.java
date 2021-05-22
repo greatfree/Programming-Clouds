@@ -1,6 +1,6 @@
 package org.greatfree.framework.old.multicast.child;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.framework.multicast.message.HelloWorldAnycastRequest;
 
 /*
@@ -8,11 +8,11 @@ import org.greatfree.framework.multicast.message.HelloWorldAnycastRequest;
  */
 
 // Created: 05/21/2017, Bing Li
-class HelloWorldAnycastRequestThreadCreator implements NotificationThreadCreatable<HelloWorldAnycastRequest, HelloWorldAnycastRequestThread>
+class HelloWorldAnycastRequestThreadCreator implements NotificationQueueCreator<HelloWorldAnycastRequest, HelloWorldAnycastRequestThread>
 {
 
 	@Override
-	public HelloWorldAnycastRequestThread createNotificationThreadInstance(int taskSize)
+	public HelloWorldAnycastRequestThread createInstance(int taskSize)
 	{
 		return new HelloWorldAnycastRequestThread(taskSize);
 	}

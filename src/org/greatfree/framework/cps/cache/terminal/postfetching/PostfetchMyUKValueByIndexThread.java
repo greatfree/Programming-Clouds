@@ -27,7 +27,7 @@ public class PostfetchMyUKValueByIndexThread extends RequestQueue<PostfetchMyUKV
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PostfetchMyUKValueByIndexResponse(MyTerminalList.BACKEND().get(request.getMessage().getIndex()));
 				try
 				{

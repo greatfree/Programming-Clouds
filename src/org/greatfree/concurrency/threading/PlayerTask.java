@@ -176,7 +176,7 @@ public abstract class PlayerTask implements ServerTask
 		}
 	}
 	
-	public ServerMessage processRead(Request request)
+	protected ServerMessage processRead(Request request)
 	{
 		switch (request.getApplicationID())
 		{

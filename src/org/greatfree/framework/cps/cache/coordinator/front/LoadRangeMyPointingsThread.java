@@ -28,7 +28,7 @@ public class LoadRangeMyPointingsThread extends RequestQueue<LoadRangeMyPointing
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					response = new LoadRangeMyPointingsResponse(MySortedDistributedList.MIDDLE().get(request.getMessage().getStartIndex(), request.getMessage().getEndIndex()));

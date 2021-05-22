@@ -10,7 +10,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.ConcurrentDispatcher;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.concurrency.ThreadIdleChecker;
@@ -44,7 +44,7 @@ import org.greatfree.util.UtilConfig;
 
 // Created: 11/04/2014, Bing Li
 // public class RequestDispatcher<Request extends ServerMessage, Stream extends OutMessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>, ThreadCreator extends RequestThreadCreatable<Request, Stream, Response, RequestThread>> extends ConcurrentDispatcher implements Runnable, CheckIdleable
-public class RequestDispatcher<Request extends ServerMessage, Stream extends OutMessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>, ThreadCreator extends RequestThreadCreatable<Request, Stream, Response, RequestThread>> extends ConcurrentDispatcher
+public class RequestDispatcher<Request extends ServerMessage, Stream extends MessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>, ThreadCreator extends RequestQueueCreator<Request, Stream, Response, RequestThread>> extends ConcurrentDispatcher
 {
 	// Declare a map to contain all of the threads. 11/04/2014, Bing Li
 	private Map<String, Runner<RequestThread>> threads;
@@ -89,7 +89,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 	/*
 	 * The builder pattern. 04/15/2017, Bing Li
 	 */
-	public static class RequestDispatcherBuilder<Request extends ServerMessage, Stream extends OutMessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>, ThreadCreator extends RequestThreadCreatable<Request, Stream, Response, RequestThread>> implements Builder<RequestDispatcher<Request, Stream, Response, RequestThread, ThreadCreator>>
+	public static class RequestDispatcherBuilder<Request extends ServerMessage, Stream extends MessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>, ThreadCreator extends RequestQueueCreator<Request, Stream, Response, RequestThread>> implements Builder<RequestDispatcher<Request, Stream, Response, RequestThread, ThreadCreator>>
 	{
 		private String serverKey;
 		private int poolSize;
@@ -423,7 +423,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 		if (this.threads.size() < upperSize)
 		{
 			// Create a new thread. 11/29/2014, Bing Li
-			RequestThread thread = this.threadCreator.createRequestThreadInstance(this.getMaxTaskSizePerThread());
+			RequestThread thread = this.threadCreator.createInstance(this.getMaxTaskSizePerThread());
 			thread.setServerKey(super.getServerKey());
 			// Take the request. 11/29/2014, Bing Li
 			Stream s = this.requestQueue.poll();
@@ -456,7 +456,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Out
 		if (this.threads.size() <= 0)
 		{
 			// Create a new thread. 11/29/2014, Bing Li
-			RequestThread thread = this.threadCreator.createRequestThreadInstance(this.getMaxTaskSizePerThread());
+			RequestThread thread = this.threadCreator.createInstance(this.getMaxTaskSizePerThread());
 			thread.setServerKey(super.getServerKey());
 			Stream s = this.requestQueue.poll();
 			if (s != null)

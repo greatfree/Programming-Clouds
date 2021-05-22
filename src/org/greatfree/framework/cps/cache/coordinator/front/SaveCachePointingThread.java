@@ -25,7 +25,7 @@ public class SaveCachePointingThread extends NotificationQueue<SaveCachePointing
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					if (notification.getPointing() != null)
 					{
 						System.out.println("SaveCachePointingThread: data is saved in MySortedDistributedCacheStore");

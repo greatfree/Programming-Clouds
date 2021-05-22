@@ -28,7 +28,7 @@ class ChildRequestThread extends NotificationQueue<Request>
 			{
 				try
 				{
-					request = this.getNotification();
+					request = this.dequeue();
 					Child.CLUSTER().forward(request);
 					response = ChildServiceProvider.CHILD().processRequest(request);
 					Child.CLUSTER().notifyRoot(response);

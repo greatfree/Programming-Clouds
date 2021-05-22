@@ -24,7 +24,7 @@ class LocationNotificationThread extends NotificationQueue<LocationNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ChildMulticastor.CHILD().asyncNotify(notification);
 					UserPreferences.STORAGE().setLocale(notification.getUserKey(), notification.isInternational());
 					this.disposeMessage(notification);

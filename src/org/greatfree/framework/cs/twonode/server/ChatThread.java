@@ -28,7 +28,7 @@ public class ChatThread extends NotificationQueue<ChatNotification>
 				try
 				{
 					// Dequeue. 02/19/2020, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					// When new messages are available, they are displayed. 06/21/2018, Bing Li
 					System.out.println(notification.getSenderName() + " says, " + notification.getMessage());

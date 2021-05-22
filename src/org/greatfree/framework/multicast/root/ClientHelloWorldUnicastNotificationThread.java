@@ -26,7 +26,7 @@ class ClientHelloWorldUnicastNotificationThread extends NotificationQueue<HelloW
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					RootMulticastor.ROOT().unicastNotify(notification);
 					this.disposeMessage(notification);
 				}

@@ -29,7 +29,7 @@ public class PopMyStoreDataThread extends RequestQueue<PopMyStoreDataRequest, Po
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					System.out.println("PopMyStoreDataThread: stackKey = " + request.getMessage().getStackKey() + ", count = " + request.getMessage().getCount());

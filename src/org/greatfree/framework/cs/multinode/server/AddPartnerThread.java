@@ -27,7 +27,7 @@ class AddPartnerThread extends NotificationQueue<AddPartnerNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 //					PrivateChatSessions.HUNGARY().addMessage(notification.getLocalUserKey(), notification.getFriendKey(), notification.getInvitation());
 					// When the notification is received, a new chatting session is created. 05/25/2017, Bing Li

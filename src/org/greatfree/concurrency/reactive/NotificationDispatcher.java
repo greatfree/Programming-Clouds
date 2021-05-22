@@ -53,7 +53,7 @@ import org.greatfree.util.UtilConfig;
 // Created: 11/04/2014, Bing Li
 //public class NotificationDispatcher<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>, ThreadCreator extends NotificationThreadCreatable<Notification, NotificationThread>> extends ConcurrentDispatcher implements Runnable, CheckIdleable
 // public class NotificationDispatcher<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>> extends ConcurrentDispatcher
-public class NotificationDispatcher<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>, ThreadCreator extends NotificationThreadCreatable<Notification, NotificationThread>> extends ConcurrentDispatcher
+public class NotificationDispatcher<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>, ThreadCreator extends NotificationQueueCreator<Notification, NotificationThread>> extends ConcurrentDispatcher
 {
 	// Declare a map to contain all of the threads. 11/04/2014, Bing Li
 //	private Map<String, NotificationThread> threads;
@@ -116,7 +116,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 	}
 	
 //	public static class NotificationDispatcherBuilder<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>> implements Builder<NotificationDispatcher<Notification, NotificationThread>>
-	public static class NotificationDispatcherBuilder<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>, ThreadCreator extends NotificationThreadCreatable<Notification, NotificationThread>> implements Builder<NotificationDispatcher<Notification, NotificationThread, ThreadCreator>>
+	public static class NotificationDispatcherBuilder<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>, ThreadCreator extends NotificationQueueCreator<Notification, NotificationThread>> implements Builder<NotificationDispatcher<Notification, NotificationThread, ThreadCreator>>
 	{
 		/*
 		 * The server key is updated to be identical to the one of CSServer. 03/30/2020, Bing Li
@@ -487,7 +487,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 		if (this.threads.size() < upperSize)
 		{
 			// Create a new thread. 11/29/2014, Bing Li
-			NotificationThread thread = this.threadCreator.createNotificationThreadInstance(this.getMaxTaskSizePerThread());
+			NotificationThread thread = this.threadCreator.createInstance(this.getMaxTaskSizePerThread());
 			
 			/*
 			 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
@@ -526,7 +526,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 		if (this.threads.size() <= 0)
 		{
 			// Create a new thread. 11/29/2014, Bing Li
-			NotificationThread thread = this.threadCreator.createNotificationThreadInstance(this.getMaxTaskSizePerThread());
+			NotificationThread thread = this.threadCreator.createInstance(this.getMaxTaskSizePerThread());
 			/*
 			 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
 			 */

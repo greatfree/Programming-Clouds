@@ -28,7 +28,7 @@ class SearchBroadcastRequestThread extends NotificationQueue<SearchMultiRequest>
 			{
 				try
 				{
-					request = this.getNotification();
+					request = this.dequeue();
 					ChildMulticastor.CHILD().asyncRead(request);
 					response = new SearchMultiResponse(PageStorage.STORAGE().search(request.getUserKey(), request.getQuery()), request.getCollaboratorKey());
 					StorageNode.STORAGE().notifyRoot(response);

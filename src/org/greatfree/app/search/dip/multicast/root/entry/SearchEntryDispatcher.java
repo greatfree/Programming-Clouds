@@ -11,7 +11,7 @@ import org.greatfree.app.search.dip.multicast.message.SearchResponse;
 import org.greatfree.app.search.dip.multicast.message.SearchStream;
 import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.chat.message.ShutdownServerNotification;
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -121,7 +121,7 @@ class SearchEntryDispatcher extends ServerDispatcher<ServerMessage>
 	}
 
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		switch (message.getMessage().getType())
 		{

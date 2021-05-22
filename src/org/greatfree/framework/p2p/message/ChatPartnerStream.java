@@ -3,14 +3,14 @@ package org.greatfree.framework.p2p.message;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.locks.Lock;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 
 /*
  * The class encloses the output stream to send the response of ChatPartnerResponse to the client. 04/30/2017, Bing Li
  */
 
 // Created: 04/30/2017, Bing Li
-public class ChatPartnerStream extends OutMessageStream<ChatPartnerRequest>
+public class ChatPartnerStream extends MessageStream<ChatPartnerRequest>
 {
 
 	public ChatPartnerStream(ObjectOutputStream out, Lock lock, ChatPartnerRequest message)

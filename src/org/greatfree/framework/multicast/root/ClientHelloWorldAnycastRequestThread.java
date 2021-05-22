@@ -29,7 +29,7 @@ class ClientHelloWorldAnycastRequestThread extends RequestQueue<ClientHelloWorld
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 //					response = new ClientHelloWorldAnycastResponse(Tools.filter(RootClient.ROOT().anycastRead(new HelloWorldAnycastRequest(Tools.generateUniqueKey(), request.getMessage().getHello()), UtilConfig.ONE), HelloWorldAnycastResponse.class));

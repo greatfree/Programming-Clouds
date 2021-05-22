@@ -35,7 +35,7 @@ public class UnregisterCrawlServerThread extends NotificationQueue<UnregisterCra
 				try
 				{
 					// Dequeue the notification. 11/28/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Unregister the crawler from the registry. 11/28/2014, Bing Li
 					CrawlRegistry.COORDINATE().unregister(notification.getDCKey());
 					// Dispose the notification. 11/28/2014, Bing Li

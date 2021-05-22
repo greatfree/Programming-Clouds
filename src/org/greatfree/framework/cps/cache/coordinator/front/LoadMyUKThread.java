@@ -27,7 +27,7 @@ public class LoadMyUKThread extends RequestQueue<LoadMyUKRequest, LoadMyUKStream
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 				response = new LoadMyUKResponse(MyDistributedList.MIDDLE().get(request.getMessage().getIndex()));
 				

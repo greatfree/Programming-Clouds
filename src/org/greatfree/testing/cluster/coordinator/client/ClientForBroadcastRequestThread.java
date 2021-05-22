@@ -43,7 +43,7 @@ public class ClientForBroadcastRequestThread extends RequestQueue<ClientForBroad
 			while (!this.isEmpty())
 			{
 				// Dequeue a request. 02/15/2016, Bing Li
-				request = this.getRequest();
+				request = this.dequeue();
 				
 				// Broadcasting request is performed here ...
 				result = CoordinatorMulticastReader.COORDINATE().broadcastRequest(request.getMessage().getMessage());

@@ -3,7 +3,7 @@ package org.greatfree.testing.cluster.coordinator.admin;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.client.ServerIO;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.message.ServerMessage;
@@ -39,7 +39,7 @@ public class AdminIO extends ServerIO
 			{
 				message = (ServerMessage)super.read();
 				// Convert the received message to OutMessageStream and put it into the relevant dispatcher for concurrent processing. 11/27/2014, Bing Li
-				CoordinatorMessageProducer.SERVER().produceAdminMessage(new OutMessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
+				CoordinatorMessageProducer.SERVER().produceAdminMessage(new MessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
 			}
 			catch (ClassNotFoundException | IOException e)
 			{

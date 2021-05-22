@@ -25,7 +25,7 @@ public class OrderNotificationThread extends NotificationQueue<OrderNotification
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("Order notification: " + notification.getMerchandise() + ", " + notification.getCount());
 					VendorCoordinator.CPS().notify(notification.getMerchandise(), notification.getCount());
 					this.disposeMessage(notification);

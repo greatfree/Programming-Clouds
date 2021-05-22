@@ -24,7 +24,7 @@ class NotificationThread extends NotificationQueue<Notification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ServiceProvider.CS().processNotification(super.getServerKey(), notification);
 					this.disposeMessage(notification);
 				}

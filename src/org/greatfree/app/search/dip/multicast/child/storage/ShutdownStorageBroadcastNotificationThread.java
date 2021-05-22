@@ -29,7 +29,7 @@ class ShutdownStorageBroadcastNotificationThread extends NotificationQueue<Shutd
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ChildMulticastor.CHILD().notify(notification);
 					ServerStatus.FREE().setShutdown();
 					StorageNode.STORAGE().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);

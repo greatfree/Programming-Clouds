@@ -27,7 +27,7 @@ public class LoadMaxMyPointingThread extends RequestQueue<LoadMaxMyPointingReque
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new LoadMaxMyPointingResponse(MySortedDistributedMap.MIDDLE().getMaxPointing());
 				try
 				{

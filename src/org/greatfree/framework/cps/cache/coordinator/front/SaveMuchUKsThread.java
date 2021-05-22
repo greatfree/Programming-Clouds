@@ -24,7 +24,7 @@ public class SaveMuchUKsThread extends NotificationQueue<SaveMuchUKsNotification
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					MyDistributedList.MIDDLE().addAll(notification.getUKs());
 					

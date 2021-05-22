@@ -1,16 +1,16 @@
 package org.greatfree.framework.cps.enterprise.db;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.framework.cps.enterprise.message.EntityBeanRequest;
 import org.greatfree.framework.cps.enterprise.message.EntityBeanResponse;
 import org.greatfree.framework.cps.enterprise.message.EntityBeanStream;
 
 // Created: 04/23/2020, Bing Li
-class EntityBeanRequestThreadCreator implements RequestThreadCreatable<EntityBeanRequest, EntityBeanStream, EntityBeanResponse, EntityBeanRequestThread>
+class EntityBeanRequestThreadCreator implements RequestQueueCreator<EntityBeanRequest, EntityBeanStream, EntityBeanResponse, EntityBeanRequestThread>
 {
 
 	@Override
-	public EntityBeanRequestThread createRequestThreadInstance(int taskSize)
+	public EntityBeanRequestThread createInstance(int taskSize)
 	{
 		return new EntityBeanRequestThread(taskSize);
 	}

@@ -23,7 +23,7 @@ public class RemoveStreamNotificationThread extends NotificationQueue<RemoveStre
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					StreamRegistry.PUBSUB().removeStream(notification.getPublisher(), notification.getTopic());
 					this.disposeMessage(notification);
 				}

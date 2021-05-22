@@ -27,7 +27,7 @@ public class PointingByIndexPrefetchListThread extends RequestQueue<PointingByIn
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PointingByIndexPrefetchListResponse(MySortedPrefetchListStore.MIDDLE().get(request.getMessage().getListKey(), request.getMessage().getIndex()));
 				try
 				{

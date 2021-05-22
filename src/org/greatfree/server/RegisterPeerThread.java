@@ -31,7 +31,7 @@ public class RegisterPeerThread extends RequestQueue<RegisterPeerRequest, Regist
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 //				PeerRegistry.SYSTEM().register(request.getMessage().getPeerKey(), request.getMessage().getPeerName(), request.getMessage().getIP(), request.getMessage().getPort());
 //				account = PeerRegistry.SYSTEM().get(request.getMessage().getPeerKey());
 //				response = new RegisterPeerResponse(account.getPeerPort(), account.getAdminPort());

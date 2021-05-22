@@ -23,7 +23,7 @@ class OrderDecisionNotificationThread extends NotificationQueue<OrderDecisionNot
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("Your decision is: " + notification.isDecided());
 					this.disposeMessage(notification);
 				}

@@ -26,7 +26,7 @@ public class PostMerchandiseThread extends NotificationQueue<PostMerchandiseNoti
 				try
 				{
 					// Get the notification out from the message queue. 12/05/2017, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Save the merchandise. 12/05/2017, Bing Li
 					Businesses.postMerchandise(notification.getVendorKey(), notification.getMerchandise());
 					// Dispose the notification. 12/09/2017, Bing Li

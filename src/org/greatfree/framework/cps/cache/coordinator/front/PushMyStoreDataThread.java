@@ -24,7 +24,7 @@ public class PushMyStoreDataThread extends NotificationQueue<PushMyStoreDataNoti
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyDistributedStackStore.MIDDLESTORE().push(notification.getData());
 					this.disposeMessage(notification);
 				}

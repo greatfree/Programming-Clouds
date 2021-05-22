@@ -1,6 +1,6 @@
 package org.greatfree.framework.p2p.registry;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.framework.p2p.message.ChatRegistryRequest;
 import org.greatfree.framework.p2p.message.ChatRegistryResponse;
 import org.greatfree.framework.p2p.message.ChatRegistryStream;
@@ -10,11 +10,11 @@ import org.greatfree.framework.p2p.message.ChatRegistryStream;
  */
 
 // Created: 04/30/2017, Bing Li
-class ChatRegistryThreadCreator implements RequestThreadCreatable<ChatRegistryRequest, ChatRegistryStream, ChatRegistryResponse, ChatRegistryThread>
+class ChatRegistryThreadCreator implements RequestQueueCreator<ChatRegistryRequest, ChatRegistryStream, ChatRegistryResponse, ChatRegistryThread>
 {
 
 	@Override
-	public ChatRegistryThread createRequestThreadInstance(int taskSize)
+	public ChatRegistryThread createInstance(int taskSize)
 	{
 		return new ChatRegistryThread(taskSize);
 	}

@@ -26,7 +26,7 @@ class ClientHelloWorldBroadcastNotificationThread extends NotificationQueue<Hell
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					RootMulticastor.ROOT().broadcastNotify(notification);
 					this.disposeMessage(notification);
 				}

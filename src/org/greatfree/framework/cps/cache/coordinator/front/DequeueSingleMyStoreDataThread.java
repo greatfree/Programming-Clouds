@@ -27,7 +27,7 @@ public class DequeueSingleMyStoreDataThread extends RequestQueue<DequeueSingleMy
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new DequeueSingleMyStoreDataResponse(MyDistributedQueueStore.MIDDLESTORE().dequeue(request.getMessage().getQueueKey()));
 				try
 				{

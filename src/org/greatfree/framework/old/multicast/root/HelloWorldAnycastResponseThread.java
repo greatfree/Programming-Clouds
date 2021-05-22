@@ -27,7 +27,7 @@ class HelloWorldAnycastResponseThread extends NotificationQueue<HelloWorldAnycas
 			{
 				try
 				{
-					response = this.getNotification();
+					response = this.dequeue();
 					
 					// Collect responses from the children. 05/21/2017, Bing Li
 					ClusterRootSingleton.CLUSTER().anycastResponseReceived(response);

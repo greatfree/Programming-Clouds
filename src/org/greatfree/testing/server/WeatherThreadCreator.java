@@ -1,6 +1,6 @@
 package org.greatfree.testing.server;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.testing.message.WeatherRequest;
 import org.greatfree.testing.message.WeatherResponse;
 import org.greatfree.testing.message.WeatherStream;
@@ -10,10 +10,10 @@ import org.greatfree.testing.message.WeatherStream;
  */
 
 // Created: 02/15/2016, Bing Li
-class WeatherThreadCreator implements RequestThreadCreatable<WeatherRequest, WeatherStream, WeatherResponse, WeatherThread>
+class WeatherThreadCreator implements RequestQueueCreator<WeatherRequest, WeatherStream, WeatherResponse, WeatherThread>
 {
 	@Override
-	public WeatherThread createRequestThreadInstance(int taskSize)
+	public WeatherThread createInstance(int taskSize)
 	{
 		return new WeatherThread(taskSize);
 	}

@@ -1,6 +1,6 @@
 package org.greatfree.testing.coordinator.searching;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.testing.message.IsPublisherExistedRequest;
 import org.greatfree.testing.message.IsPublisherExistedResponse;
 import org.greatfree.testing.message.IsPublisherExistedStream;
@@ -10,10 +10,10 @@ import org.greatfree.testing.message.IsPublisherExistedStream;
  */
 
 // Created: 11/29/2014, Bing Li
-public class IsPublisherExistedThreadCreator implements RequestThreadCreatable<IsPublisherExistedRequest, IsPublisherExistedStream, IsPublisherExistedResponse, IsPublisherExistedThread>
+public class IsPublisherExistedThreadCreator implements RequestQueueCreator<IsPublisherExistedRequest, IsPublisherExistedStream, IsPublisherExistedResponse, IsPublisherExistedThread>
 {
 	@Override
-	public IsPublisherExistedThread createRequestThreadInstance(int taskSize)
+	public IsPublisherExistedThread createInstance(int taskSize)
 	{
 		return new IsPublisherExistedThread(taskSize);
 	}

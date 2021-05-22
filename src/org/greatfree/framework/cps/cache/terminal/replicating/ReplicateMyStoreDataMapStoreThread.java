@@ -24,7 +24,7 @@ public class ReplicateMyStoreDataMapStoreThread extends NotificationQueue<Replic
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyTerminalMapStore.BACKEND().put(notification.getData().getCacheKey(), notification.getData().getKey(), notification.getData());
 					this.disposeMessage(notification);
 				}

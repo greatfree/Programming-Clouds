@@ -28,7 +28,7 @@ class UnsubscribeStreamNotificationThread extends NotificationQueue<UnsubscribeS
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					PubSubServer.UNI_STREAM().unsubscribe(new UnsubscribeNotification(Stream.generateKey(notification.getPublisher(), notification.getTopic()), notification.getSubscriber()));
 					StreamRegistry.PUBSUB().unsubscribe(notification.getPublisher(), notification.getTopic(), notification.getSubscriber());
 					this.disposeMessage(notification);

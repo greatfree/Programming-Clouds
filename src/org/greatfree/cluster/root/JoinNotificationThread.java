@@ -25,7 +25,7 @@ class JoinNotificationThread extends NotificationQueue<JoinNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 //					System.out.println("1) JoinNotificationThread ......");
 					Clustering.addChild(notification.getChildID());
 //					System.out.println("2) JoinNotificationThread ......");

@@ -27,7 +27,7 @@ public class PrefetchMyPointingsRequestThread extends RequestQueue<PrefetchMyPoi
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PrefetchMyPointingsResponse(MySortedTerminalList.BACKEND().getPointings(request.getMessage().getStartIndex(), request.getMessage().getEndIndex()));
 				try
 				{

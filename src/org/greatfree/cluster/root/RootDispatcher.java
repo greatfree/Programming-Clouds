@@ -2,7 +2,7 @@ package org.greatfree.cluster.root;
 
 import java.util.Calendar;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.cluster.message.ClusterMessageType;
 import org.greatfree.cluster.message.JoinNotification;
 import org.greatfree.cluster.message.LeaveNotification;
@@ -118,7 +118,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 	}
 
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		switch (message.getMessage().getType())
 		{

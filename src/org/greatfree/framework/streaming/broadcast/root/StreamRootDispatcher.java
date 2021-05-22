@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.chat.message.ShutdownServerNotification;
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.message.MulticastDIPMessageType;
@@ -71,7 +71,7 @@ class StreamRootDispatcher extends ServerDispatcher<ServerMessage>
 	}
 
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		switch (message.getMessage().getType())
 		{

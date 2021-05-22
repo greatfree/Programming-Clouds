@@ -23,7 +23,7 @@ class PostMerchandiseNotificationThread extends NotificationQueue<PostMerchandis
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MerchandiseDB.CS().saveMerchandise(notification.getVendor(), notification.getMerchandise());
 					this.disposeMessage(notification);
 				}

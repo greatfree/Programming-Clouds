@@ -23,7 +23,7 @@ public class AddStreamNotificationThread extends NotificationQueue<AddStreamNoti
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					StreamRegistry.PUBSUB().addStream(notification.getPublisher(), notification.getTopic());
 					this.disposeMessage(notification);
 				}

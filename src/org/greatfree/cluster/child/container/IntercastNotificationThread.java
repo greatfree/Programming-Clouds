@@ -30,7 +30,7 @@ class IntercastNotificationThread extends NotificationQueue<IntercastNotificatio
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					/*
 					 * An intercast notification is forwarded only once from the source child to the destination child. So if it is forwarded, it indicates that the local child is the destination. 02/10/2019, Bing Li
 					 */

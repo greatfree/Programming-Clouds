@@ -31,7 +31,7 @@ public class ChatRegistryThread extends RequestQueue<ChatRegistryRequest, ChatRe
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 				AccountRegistry.CS().add(new CSAccount(request.getMessage().getUserKey(), request.getMessage().getUserName(), request.getMessage().getDescription()));
 				

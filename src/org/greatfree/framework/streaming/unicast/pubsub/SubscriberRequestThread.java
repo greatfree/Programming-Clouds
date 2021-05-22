@@ -28,7 +28,7 @@ class SubscriberRequestThread extends RequestQueue<SubscriberRequest, Subscriber
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new SubscriberResponse(StreamRegistry.PUBSUB().getAddress(Rand.getRandomListElement(StreamRegistry.PUBSUB().getSubscribers(request.getMessage().getPublisher(), request.getMessage().getTopic()))));
 				try
 				{

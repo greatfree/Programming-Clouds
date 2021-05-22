@@ -28,7 +28,7 @@ public class CachePointingByKeyThread extends RequestQueue<CachePointingByKeyReq
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (!request.getMessage().isTiming())
 				{
 					response = new CachePointingByKeyResponse(MySortedDistributedCacheStore.MIDDLESTORE().get(request.getMessage().getMapKey(), request.getMessage().getResourceKey()));

@@ -54,7 +54,7 @@ public class UniGetRequestThread<Key extends CacheKey<String>, Value extends Cac
 				try
 				{
 					// Dequeue the request. 07/15/2017, Bing Li
-					request = this.getNotification();
+					request = this.dequeue();
 					// Get the instance of distributed map from the registry. 07/15/2017, Bing Li
 					map = this.registry.get(request.getRequestedKey().getCacheKey());
 					// Retrieve the value from the map according to the key. 07/23/2017, Bing Li

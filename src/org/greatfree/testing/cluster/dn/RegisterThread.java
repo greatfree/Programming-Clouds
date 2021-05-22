@@ -40,7 +40,7 @@ public class RegisterThread extends NotificationQueue<NodeKeyNotification>
 				// Dequeue the notification. 11/25/2014, Bing Li
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Set the crawler key. 11/25/2014, Bing Li
 					NodeID.DISTRIBUTED().setKey(notification.getKey());
 					// Register the DN after getting the key. 11/25/2014, Bing Li

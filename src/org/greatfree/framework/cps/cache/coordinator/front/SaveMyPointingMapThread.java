@@ -24,7 +24,7 @@ public class SaveMyPointingMapThread extends NotificationQueue<SaveMyPointingMap
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MySortedDistributedMap.MIDDLE().put(notification.getPointing());
 					this.disposeMessage(notification);
 				}

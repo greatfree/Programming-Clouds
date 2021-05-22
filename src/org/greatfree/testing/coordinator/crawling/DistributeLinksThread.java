@@ -36,7 +36,7 @@ public class DistributeLinksThread extends NotificationQueue<CrawledLinksNotific
 				try
 				{
 					// Dequeue the notification. 11/28/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Distribute the crawled links to distributed memory servers. 11/28/2014, Bing Li
 					MemoryCoordinator.COORDINATOR().distributeCrawledLink(notification.getLinks());
 					// Dispose the notification. 11/28/2014, Bing Li

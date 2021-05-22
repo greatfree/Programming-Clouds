@@ -26,7 +26,7 @@ class SubscribeStreamRequestThread extends RequestQueue<SubscribeStreamRequest, 
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new SubscribeStreamResponse(StreamRegistry.PUBSUB().subscribe(request.getMessage().getPublisher(), request.getMessage().getTopic(), request.getMessage().getSubscriber()));
 				try
 				{

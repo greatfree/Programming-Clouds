@@ -27,7 +27,7 @@ public class TopPointingsPrefetchListThread extends RequestQueue<TopPointingsPre
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new TopPointingsPrefetchListResponse(MySortedPrefetchListStore.MIDDLE().getTop(request.getMessage().getListKey(), request.getMessage().getEndIndex()));
 				try
 				{

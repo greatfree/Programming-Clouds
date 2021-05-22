@@ -27,7 +27,7 @@ public class PostfetchMyUKValuesThread extends RequestQueue<PostfetchMyUKValuesR
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PostfetchMyUKValuesResponse(MyTerminalList.BACKEND().getRange(request.getMessage().getStartIndex(), request.getMessage().getEndIndex()));
 				try
 				{

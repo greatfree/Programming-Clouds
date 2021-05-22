@@ -1,6 +1,6 @@
 package org.greatfree.testing.coordinator.crawling;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.UnregisterCrawlServerNotification;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.testing.message.UnregisterCrawlServerNotification;
  */
 
 // Created: 11/28/2014, Bing Li
-public class UnregisterCrawlServerThreadCreator implements NotificationThreadCreatable<UnregisterCrawlServerNotification, UnregisterCrawlServerThread>
+public class UnregisterCrawlServerThreadCreator implements NotificationQueueCreator<UnregisterCrawlServerNotification, UnregisterCrawlServerThread>
 {
 	@Override
-	public UnregisterCrawlServerThread createNotificationThreadInstance(int taskSize)
+	public UnregisterCrawlServerThread createInstance(int taskSize)
 	{
 		return new UnregisterCrawlServerThread(taskSize);
 	}

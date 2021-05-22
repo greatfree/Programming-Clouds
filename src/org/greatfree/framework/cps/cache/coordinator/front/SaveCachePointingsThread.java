@@ -25,7 +25,7 @@ public class SaveCachePointingsThread extends NotificationQueue<SaveCachePointin
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					if (notification.getPointings() != null)
 					{
 						MySortedDistributedCacheStore.MIDDLESTORE().putAll(notification.getCacheKey(), notification.getPointings());

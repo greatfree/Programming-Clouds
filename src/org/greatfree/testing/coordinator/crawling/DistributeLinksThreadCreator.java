@@ -1,6 +1,6 @@
 package org.greatfree.testing.coordinator.crawling;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.CrawledLinksNotification;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.testing.message.CrawledLinksNotification;
  */
 
 // Created: 11/28/2014, Bing Li
-public class DistributeLinksThreadCreator implements NotificationThreadCreatable<CrawledLinksNotification, DistributeLinksThread>
+public class DistributeLinksThreadCreator implements NotificationQueueCreator<CrawledLinksNotification, DistributeLinksThread>
 {
 	@Override
-	public DistributeLinksThread createNotificationThreadInstance(int taskSize)
+	public DistributeLinksThread createInstance(int taskSize)
 	{
 		return new DistributeLinksThread(taskSize);
 	}

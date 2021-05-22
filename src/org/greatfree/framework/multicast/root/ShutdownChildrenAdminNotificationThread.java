@@ -27,7 +27,7 @@ class ShutdownChildrenAdminNotificationThread extends NotificationQueue<Shutdown
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					RootMulticastor.ROOT().broadcastNotify(new ShutdownChildrenBroadcastNotification());
 					this.disposeMessage(notification);
 				}

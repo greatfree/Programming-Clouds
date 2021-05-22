@@ -45,7 +45,7 @@ public class ClientForUnicastRequestThread extends RequestQueue<ClientForUnicast
 			while (!this.isEmpty())
 			{
 				// Dequeue a request. 02/15/2016, Bing Li
-				request = this.getRequest();
+				request = this.dequeue();
 
 				// Unicasting request is performed here ... 11/25/2016, Bing Li
 				result = CoordinatorMulticastReader.COORDINATE().unicastRequest(request.getMessage().getMessage(), Tools.getRandomSetElement(DNServerClientPool.COORDINATE().getPool().getClientKeys()));

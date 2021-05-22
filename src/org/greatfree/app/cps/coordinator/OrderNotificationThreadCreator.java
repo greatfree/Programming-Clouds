@@ -1,14 +1,14 @@
 package org.greatfree.app.cps.coordinator;
 
 import org.greatfree.app.cps.message.OrderNotification;
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 
 // Created: 08/14/2018, Bing Li
-public class OrderNotificationThreadCreator implements NotificationThreadCreatable<OrderNotification, OrderNotificationThread>
+public class OrderNotificationThreadCreator implements NotificationQueueCreator<OrderNotification, OrderNotificationThread>
 {
 
 	@Override
-	public OrderNotificationThread createNotificationThreadInstance(int taskSize)
+	public OrderNotificationThread createInstance(int taskSize)
 	{
 		return new OrderNotificationThread(taskSize);
 	}

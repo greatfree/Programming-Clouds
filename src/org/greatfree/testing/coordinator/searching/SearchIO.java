@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.client.ServerIO;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.message.ServerMessage;
@@ -37,7 +37,7 @@ public class SearchIO extends ServerIO
 				// Wait and read messages from a search client. 11/29/2014, Bing Li
 				message = (ServerMessage)super.read();
 				// Convert the received message to OutMessageStream and put it into the relevant dispatcher for concurrent processing. 11/29/2014, Bing Li
-				CoordinatorMessageProducer.SERVER().produceSearchMessage(new OutMessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
+				CoordinatorMessageProducer.SERVER().produceSearchMessage(new MessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
 			}
 			catch (SocketException e)
 			{

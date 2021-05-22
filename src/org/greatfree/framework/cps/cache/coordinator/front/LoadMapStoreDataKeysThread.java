@@ -27,7 +27,7 @@ public class LoadMapStoreDataKeysThread extends RequestQueue<LoadMapStoreDataKey
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				/*
 				System.out.println("LoadMapStoreDataKeysThread: mapKey = " + request.getMessage().getMapKey());
 				Set<String> keys = Sets.newHashSet();

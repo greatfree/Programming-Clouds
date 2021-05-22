@@ -26,7 +26,7 @@ class AdditionalChildrenRequestThread extends RequestQueue<AdditionalChildrenReq
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new AdditionalChildrenResponse(ClusterRoot.CONTAINER().getChildrenKeys(request.getMessage().getSize()));
 				try
 				{

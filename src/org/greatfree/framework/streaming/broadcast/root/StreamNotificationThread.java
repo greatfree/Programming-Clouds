@@ -26,7 +26,7 @@ class StreamNotificationThread extends NotificationQueue<StreamNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					String selectedChildKey = RootMulticastor.BROADCAST_STREAM().getRandomChildKey();
 					System.out.println("selectedChildKey = " + selectedChildKey);
 					notification.setChildKey(selectedChildKey);

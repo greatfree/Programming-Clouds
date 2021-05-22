@@ -31,7 +31,7 @@ class ClusterIPRequestThread extends RequestQueue<ClusterIPRequest, ClusterIPStr
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (request.getMessage().getNodes() == null)
 				{
 					// Updated in XTU. 05/17/2017, Bing Li

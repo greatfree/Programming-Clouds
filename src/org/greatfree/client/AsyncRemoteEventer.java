@@ -1,4 +1,4 @@
-  package org.greatfree.client;
+package org.greatfree.client;
 
 import java.util.Map;
 import java.util.Queue;
@@ -506,10 +506,12 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 		this.eventers.clear();
 	}
 	
+	/*
 	public ScheduledThreadPoolExecutor getScheduler()
 	{
 		return this.scheduler;
 	}
+	*/
 
 	/*
 	 * The method is called back by the idle checker periodically to monitor the idle states of eventers within the dispatcher. 11/20/2014, Bing Li

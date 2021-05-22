@@ -38,7 +38,7 @@ public class NotifySearchKeywordThread extends NotificationQueue<SearchKeywordBr
 				try
 				{
 					// Dequeue the response. 11/29/2014, Bing Li
-					response = this.getNotification();
+					response = this.dequeue();
 					// Notify the coordinator multicast reader. 11/29/2014, Bing Li
 					CoordinatorMulticastReader.COORDINATE().notifyResponseReceived(response);
 					// Dispose the response. 11/29/2014, Bing Li

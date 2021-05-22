@@ -3,7 +3,7 @@ package org.greatfree.server;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.client.ServerIO;
 import org.greatfree.client.ServerIORegistry;
 import org.greatfree.concurrency.Sync;
@@ -50,7 +50,7 @@ public class CSServerIO<Dispatcher extends ServerDispatcher<ServerMessage>> exte
 				
 //				System.out.println("CServerIO-run(): message received: type = " + message.getType());
 				
-				this.messageProducer.produceMessage(new OutMessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
+				this.messageProducer.produceMessage(new MessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
 			}
 			catch (ClassNotFoundException | IOException e)
 			{

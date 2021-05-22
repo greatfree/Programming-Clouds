@@ -29,7 +29,7 @@ public class CheckMerchandiseThread extends RequestQueue<CheckMerchandiseRequest
 			while (!this.isEmpty())
 			{
 				// Get the request out from the message queue. 12/05/2017, Bing Li
-				request = this.getRequest();
+				request = this.dequeue();
 				// Create the response by getting all of the merchandises from DB. 12/05/2017, Bing Li
 				response = new CheckMerchandiseResponse(Businesses.checkMerchandise(request.getMessage().getVendorKey()));
 				try

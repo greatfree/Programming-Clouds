@@ -28,7 +28,7 @@ public class LoadMyTopUKsThread extends RequestQueue<LoadTopMyUKsRequest, LoadTo
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					response = new LoadTopMyUKsResponse(MyDistributedList.MIDDLE().getTop(request.getMessage().getEndIndex()));

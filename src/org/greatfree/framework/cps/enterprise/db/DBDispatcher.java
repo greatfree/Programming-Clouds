@@ -2,7 +2,7 @@ package org.greatfree.framework.cps.enterprise.db;
 
 import java.util.Calendar;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -57,7 +57,7 @@ class DBDispatcher extends ServerDispatcher<ServerMessage>
 	}
 
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		switch (message.getMessage().getType())
 		{

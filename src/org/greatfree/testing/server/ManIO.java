@@ -3,7 +3,7 @@ package org.greatfree.testing.server;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.client.ServerIO;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.message.ServerMessage;
@@ -38,7 +38,7 @@ class ManIO extends ServerIO
 			{
 				message = (ServerMessage)super.read();
 				// Convert the received message to OutMessageStream and put it into the relevant dispatcher for concurrent processing. 01/20/2016, Bing Li
-				ServerMessageProducer.SERVER().produceMessage(new OutMessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
+				ServerMessageProducer.SERVER().produceMessage(new MessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
 			}
 			catch (ClassNotFoundException | IOException e)
 			{

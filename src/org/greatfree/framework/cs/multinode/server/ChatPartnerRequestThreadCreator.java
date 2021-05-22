@@ -1,6 +1,6 @@
 package org.greatfree.framework.cs.multinode.server;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.framework.cs.multinode.message.ChatPartnerRequest;
 import org.greatfree.framework.cs.multinode.message.ChatPartnerResponse;
 import org.greatfree.framework.cs.multinode.message.ChatPartnerStream;
@@ -10,11 +10,11 @@ import org.greatfree.framework.cs.multinode.message.ChatPartnerStream;
  */
 
 // Created: 04/16/2017, Bing Li
-class ChatPartnerRequestThreadCreator implements RequestThreadCreatable<ChatPartnerRequest, ChatPartnerStream, ChatPartnerResponse, ChatPartnerRequestThread>
+class ChatPartnerRequestThreadCreator implements RequestQueueCreator<ChatPartnerRequest, ChatPartnerStream, ChatPartnerResponse, ChatPartnerRequestThread>
 {
 
 	@Override
-	public ChatPartnerRequestThread createRequestThreadInstance(int taskSize)
+	public ChatPartnerRequestThread createInstance(int taskSize)
 	{
 		return new ChatPartnerRequestThread(taskSize);
 	}

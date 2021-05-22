@@ -1,6 +1,6 @@
 package org.greatfree.testing.coordinator.searching;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.message.InitReadNotification;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.message.InitReadNotification;
  */
 
 // Created: 11/09/2014, Bing Li
-public class InitReadFeedbackThreadCreator implements NotificationThreadCreatable<InitReadNotification, InitReadFeedbackThread>
+public class InitReadFeedbackThreadCreator implements NotificationQueueCreator<InitReadNotification, InitReadFeedbackThread>
 {
 	@Override
-	public InitReadFeedbackThread createNotificationThreadInstance(int taskSize)
+	public InitReadFeedbackThread createInstance(int taskSize)
 	{
 		return new InitReadFeedbackThread(taskSize);
 	}

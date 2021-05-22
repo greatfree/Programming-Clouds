@@ -23,7 +23,7 @@ public class CoordinatorNotificationThread extends NotificationQueue<Coordinator
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("The coordinator notification: " + notification.getNotification());
 					this.disposeMessage(notification);
 				}

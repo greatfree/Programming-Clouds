@@ -35,7 +35,7 @@ class ChatPartnerRequestThread extends RequestQueue<ChatPartnerRequest, ChatPart
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 				System.out.println("ChatPartnerRequestThread: partnerKey = " + request.getMessage().getPartnerKey());
 	

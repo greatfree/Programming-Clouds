@@ -28,7 +28,7 @@ class ClientHelloWorldBroadcastRequestThread extends RequestQueue<ClientHelloWor
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 //					response = new ClientHelloWorldBroadcastResponse(Tools.filter(RootClient.ROOT().broadcastRead(new HelloWorldBroadcastRequest(Tools.generateUniqueKey(), request.getMessage().getHello())), HelloWorldBroadcastResponse.class));

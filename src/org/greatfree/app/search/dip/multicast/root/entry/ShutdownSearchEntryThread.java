@@ -27,7 +27,7 @@ class ShutdownSearchEntryThread extends NotificationQueue<ShutdownServerNotifica
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ServerStatus.FREE().setShutdown();
 					SearchEntry.SEARCH().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);

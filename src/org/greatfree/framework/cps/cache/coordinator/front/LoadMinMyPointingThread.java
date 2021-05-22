@@ -27,7 +27,7 @@ public class LoadMinMyPointingThread extends RequestQueue<LoadMinMyPointingReque
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new LoadMinMyPointingResponse(MySortedDistributedMap.MIDDLE().getMinPointing());
 				
 				System.out.println("LoadMinMyPointingThread: description = " + response.getPointing().getDescription());

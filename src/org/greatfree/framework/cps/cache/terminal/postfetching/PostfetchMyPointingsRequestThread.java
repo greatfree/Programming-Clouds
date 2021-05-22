@@ -27,7 +27,7 @@ public class PostfetchMyPointingsRequestThread extends RequestQueue<PostfetchMyP
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 //				response = new PostfetchMyPointingsResponse(MyPointingTerminalList.BACKEND().getPointings(request.getMessage().getIndex(), request.getMessage().getIndex() + request.getMessage().getPostfetchCount() - 1));
 				/*
 				List<MyPointing> pointings = MyPointingTerminalList.BACKEND().getPointings(request.getMessage().getStartIndex(), request.getMessage().getEndIndex());

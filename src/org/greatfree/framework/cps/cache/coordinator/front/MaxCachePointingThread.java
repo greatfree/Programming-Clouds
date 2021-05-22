@@ -28,7 +28,7 @@ public class MaxCachePointingThread extends RequestQueue<MaxCachePointingRequest
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (!request.getMessage().isTiming())
 				{
 					response = new MaxCachePointingResponse(MySortedDistributedCacheStore.MIDDLESTORE().getMax(request.getMessage().getMapKey()));

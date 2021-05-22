@@ -31,7 +31,7 @@ public class UnregisterPeerThread extends RequestQueue<UnregisterPeerRequest, Un
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 				// Unregister the peer. 05/20/2017, Bing Li
 

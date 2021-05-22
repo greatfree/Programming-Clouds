@@ -3,7 +3,7 @@ package org.greatfree.concurrency.reactive;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.message.ServerMessage;
 
@@ -43,7 +43,7 @@ public abstract class ServerMessageDispatcher<Message extends ServerMessage>
 	}
 	*/
 	
-	public abstract void consume(OutMessageStream<ServerMessage> msg);
+	public abstract void consume(MessageStream<ServerMessage> msg);
 //	public abstract void dispose(long timeout);
 
 	/*

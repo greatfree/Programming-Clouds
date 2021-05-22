@@ -27,7 +27,7 @@ public class PostfetchMyDataRequestThread extends RequestQueue<PostfetchMyDataRe
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PostfetchMyDataResponse(MyTerminalMap.BACKEND().get(request.getMessage().getMyDataKey()));
 				try
 				{

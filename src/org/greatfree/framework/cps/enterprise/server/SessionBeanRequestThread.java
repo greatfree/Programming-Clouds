@@ -27,7 +27,7 @@ class SessionBeanRequestThread extends RequestQueue<SessionBeanRequest, SessionB
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					response = new SessionBeanResponse(BusinessLogic.ENTERPRISE().invoke(request.getMessage().getClientKey(), request.getMessage().getClassName(), request.getMessage().getMethodName(), request.getMessage().getParameterTypes(), request.getMessage().getParameterValues()));

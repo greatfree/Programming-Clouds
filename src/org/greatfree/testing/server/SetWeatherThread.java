@@ -36,7 +36,7 @@ class SetWeatherThread extends NotificationQueue<WeatherNotification>
 				try
 				{
 					// Dequeue the notification. 02/11/2016, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Set the value of the weather. 02/11/2016, Bing Li
 					WeatherDB.SERVER().setWeather(notification.getWeather());
 					// Collect the resource kept by the notification. 02/11/2016, Bing Li

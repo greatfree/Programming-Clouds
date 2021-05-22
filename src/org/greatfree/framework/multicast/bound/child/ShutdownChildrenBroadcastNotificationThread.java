@@ -34,7 +34,7 @@ public class ShutdownChildrenBroadcastNotificationThread extends NotificationQue
 				try
 				{
 					// Dequeue the notification. 11/26/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 
 					// Disseminate the notification of ShutdownChildrenBroadcastNotification among children. 11/27/2014, Bing Li
 					ChildMulticastor.CHILD().notify(notification);

@@ -23,7 +23,7 @@ class HelloWorldUnicastNotificationThread extends NotificationQueue<HelloWorldUn
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 
 					// Display the message on the screen. 06/17/2017, Bing Li
 					System.out.println("HelloWorldUnicastNotificationThread-notification: " + notification.getHelloWorld().getHelloWorld());

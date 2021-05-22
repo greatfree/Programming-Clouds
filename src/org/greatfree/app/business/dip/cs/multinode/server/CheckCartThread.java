@@ -29,7 +29,7 @@ public class CheckCartThread extends RequestQueue<CheckCartRequest, CheckCartStr
 			while (!this.isEmpty())
 			{
 				// Get the request out from the message queue. 12/05/2017, Bing Li
-				request = this.getRequest();
+				request = this.dequeue();
 				// Create the response. 12/05/2017, Bing Li
 				response = new CheckCartResponse(Businesses.getMerchandises(request.getMessage().getVendorKey(), request.getMessage().getCustomerKey()));
 				try

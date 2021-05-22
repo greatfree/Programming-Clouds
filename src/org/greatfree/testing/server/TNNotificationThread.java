@@ -23,7 +23,7 @@ class TNNotificationThread extends NotificationQueue<TNNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println(notification.getMessage());
 					this.disposeMessage(notification);
 				}

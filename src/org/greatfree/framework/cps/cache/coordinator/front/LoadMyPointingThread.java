@@ -27,7 +27,7 @@ public class LoadMyPointingThread extends RequestQueue<LoadMyPointingRequest, Lo
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new LoadMyPointingResponse(MySortedDistributedList.MIDDLE().get(request.getMessage().getIndex()));
 				try
 				{

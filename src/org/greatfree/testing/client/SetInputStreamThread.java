@@ -34,7 +34,7 @@ public class SetInputStreamThread extends NotificationQueue<InitReadFeedbackNoti
 				try
 				{
 					// Dequeue the notification. 11/07/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Notify the instance of FreeClient that it is time to initialize the ObjectInputStream. 11/07/2014, Bing Li
 					RemoteReader.REMOTE().notifyOutStreamDone();
 					// Dispose the notification. 11/07/2014, Bing Li

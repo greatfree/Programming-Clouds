@@ -27,7 +27,7 @@ class StreamNotificationThread extends NotificationQueue<StreamNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("StreamNotificationThread: stream received: " + notification.getData());
 					RootMulticastor.UNI_STREAM().unicastNotify(Stream.generateKey(notification.getData().getPublisher(), notification.getData().getTopic()), notification);
 					this.disposeMessage(notification);

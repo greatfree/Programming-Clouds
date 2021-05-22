@@ -26,7 +26,7 @@ class DeploySessionBeanNotificationThread extends NotificationQueue<DeploySessio
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					BusinessLogic.ENTERPRISE().initSessionBean(notification.getClientKey(), notification.getClassName(), notification.getParameterTypes(), notification.getParameterValues(), notification.getClassBytes());
 					this.disposeMessage(notification);
 				}

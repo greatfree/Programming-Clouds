@@ -26,7 +26,7 @@ class ClusterSizeRequestThread extends RequestQueue<ClusterSizeRequest, ClusterS
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new ClusterSizeResponse(ClusterRoot.CONTAINER().getChildrenCount());
 				try
 				{

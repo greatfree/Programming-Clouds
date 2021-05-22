@@ -27,7 +27,7 @@ class ChildNotificationThread extends NotificationQueue<Notification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					Child.CLUSTER().forward(notification);
 					ChildServiceProvider.CHILD().processNotification(notification);
 					this.disposeMessage(notification);

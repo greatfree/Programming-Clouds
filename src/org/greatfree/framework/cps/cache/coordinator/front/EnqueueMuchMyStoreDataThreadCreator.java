@@ -1,14 +1,14 @@
 package org.greatfree.framework.cps.cache.coordinator.front;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.framework.cps.cache.message.replicate.EnqueueMuchMyStoreDataNotification;
 
 // Created: 08/13/2018, Bing Li
-public class EnqueueMuchMyStoreDataThreadCreator implements NotificationThreadCreatable<EnqueueMuchMyStoreDataNotification, EnqueueMuchMyStoreDataThread>
+public class EnqueueMuchMyStoreDataThreadCreator implements NotificationQueueCreator<EnqueueMuchMyStoreDataNotification, EnqueueMuchMyStoreDataThread>
 {
 
 	@Override
-	public EnqueueMuchMyStoreDataThread createNotificationThreadInstance(int taskSize)
+	public EnqueueMuchMyStoreDataThread createInstance(int taskSize)
 	{
 		return new EnqueueMuchMyStoreDataThread(taskSize);
 	}

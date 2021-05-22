@@ -27,7 +27,7 @@ class IntercastRequestThread extends RequestQueue<IntercastRequest, IntercastReq
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					response = ClusterRoot.CONTAINER().processIntercastRequest(request.getMessage());

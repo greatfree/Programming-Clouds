@@ -375,7 +375,7 @@ class ClusterRoot
 	
 	public MulticastResponse broadcastReadByPartition(MulticastRequest request, int partitionIndex) throws DistributedNodeFailedException, IOException
 	{
-		log.info("ClusterRoot-broadcastRead(): partitionIndex = " + partitionIndex);
+//		log.info("ClusterRoot-broadcastRead(): partitionIndex = " + partitionIndex);
 		this.printPartition();
 		return this.client.broadcastReadByPartition(request, this.partitionedChildren.get(partitionIndex));
 	}

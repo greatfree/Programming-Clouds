@@ -1,6 +1,6 @@
 package org.greatfree.testing.coordinator.memorizing;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.SearchKeywordBroadcastResponse;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.testing.message.SearchKeywordBroadcastResponse;
  */
 
 // Created: 11/29/2014, Bing Li
-public class NotifySearchKeywordThreadCreator implements NotificationThreadCreatable<SearchKeywordBroadcastResponse, NotifySearchKeywordThread>
+public class NotifySearchKeywordThreadCreator implements NotificationQueueCreator<SearchKeywordBroadcastResponse, NotifySearchKeywordThread>
 {
 	@Override
-	public NotifySearchKeywordThread createNotificationThreadInstance(int taskSize)
+	public NotifySearchKeywordThread createInstance(int taskSize)
 	{
 		return new NotifySearchKeywordThread(taskSize);
 	}

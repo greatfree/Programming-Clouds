@@ -26,7 +26,7 @@ class ShutdownChildrenAdminNotificationThread extends NotificationQueue<Shutdown
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 
 					// Broadcast shutdown notification to all of its children. 05/20/2017, Bing Li
 					ClusterRootSingleton.CLUSTER().broadcastShutdownNotify(MulticastConfig.ROOT_BRANCH_COUNT, MulticastConfig.SUB_BRANCH_COUNT);

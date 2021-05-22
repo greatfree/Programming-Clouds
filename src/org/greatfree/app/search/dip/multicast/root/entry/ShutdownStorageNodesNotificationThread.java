@@ -28,7 +28,7 @@ class ShutdownStorageNodesNotificationThread extends NotificationQueue<ShutdownC
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					RootMulticastor.ROOT().broadcastNotify(new ShutdownChildrenBroadcastNotification());
 					this.disposeMessage(notification);
 				}

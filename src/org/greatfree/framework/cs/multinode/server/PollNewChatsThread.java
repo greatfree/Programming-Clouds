@@ -35,7 +35,7 @@ class PollNewChatsThread extends RequestQueue<PollNewChatsRequest, PollNewChatsS
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 				System.out.println("PollNewChatsThread: " + request.getMessage().getReceiverName() + " is checking new chatting messages ...");
 

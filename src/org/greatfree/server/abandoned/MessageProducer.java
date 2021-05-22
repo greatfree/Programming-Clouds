@@ -3,7 +3,7 @@ package org.greatfree.server.abandoned;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.RunnerTask;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.data.ServerConfig;
@@ -15,7 +15,7 @@ public class MessageProducer<Consumer extends ServerDispatcher<ServerMessage>> e
 	// A dispatcher that processes messages concurrently. 08/04/2014, Bing Li
 	private Consumer consumer;
 	// A queue to schedule messages in the way of first-in-first-out. 08/04/2014, Bing Li
-	private Queue<OutMessageStream<ServerMessage>> queue;
+	private Queue<MessageStream<ServerMessage>> queue;
 	// The collaborator supports the concurrency control. 08/04/2014, Bing Li
 	private Sync collaborator;
 	// Timeout for checking incoming messages. 05/28/2018, Bing Li
@@ -28,7 +28,7 @@ public class MessageProducer<Consumer extends ServerDispatcher<ServerMessage>> e
 		// The consumer is defined and initialized outside the message producer. 08/22/2014, Bing Li
 		this.consumer = consumer;
 		// Initialize a concurrency controlled queue to keep the messages in a thread-safe way. 08/22/2014, Bing Li
-		this.queue = new LinkedBlockingQueue<OutMessageStream<ServerMessage>>();
+		this.queue = new LinkedBlockingQueue<MessageStream<ServerMessage>>();
 		// Initialize a collaborator for the notify-wait mechanism. 08/22/2014, Bing Li
 		this.collaborator = new Sync();
 		// Initialize the timeout. 05/28/2018, Bing Li
@@ -61,7 +61,7 @@ public class MessageProducer<Consumer extends ServerDispatcher<ServerMessage>> e
 	/*
 	 * Push new messages into the queue and notify the associated thread to process. 08/04/2014, Bing Li
 	 */
-	public synchronized void produce(OutMessageStream<ServerMessage> message)
+	public synchronized void produce(MessageStream<ServerMessage> message)
 	{
 		// Push the messages into the queue. 08/22/2014, Bing Li
 		this.queue.add(message);
@@ -74,7 +74,7 @@ public class MessageProducer<Consumer extends ServerDispatcher<ServerMessage>> e
 	 */
 	public void run()
 	{
-		OutMessageStream<ServerMessage> message;
+		MessageStream<ServerMessage> message;
 		// An always running loop to keep the thread alive all the time until it is disposed explicitly. 08/22/2014, Bing Li
 		while (!this.collaborator.isShutdown())
 		{

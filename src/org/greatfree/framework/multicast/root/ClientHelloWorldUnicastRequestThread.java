@@ -28,7 +28,7 @@ class ClientHelloWorldUnicastRequestThread extends RequestQueue<ClientHelloWorld
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 //					response = new ClientHelloWorldUnicastResponse(Tools.filter(RootClient.ROOT().unicastRead(new HelloWorldUnicastRequest(Tools.generateUniqueKey(), request.getMessage().getHello())), HelloWorldUnicastResponse.class));

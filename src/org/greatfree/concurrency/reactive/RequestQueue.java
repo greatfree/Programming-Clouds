@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.RunnerTask;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.message.ServerMessage;
@@ -20,7 +20,7 @@ import org.greatfree.util.Tools;
 
 // Created: 09/22/2014, Bing Li
 // public abstract class RequestQueue<Request extends ServerMessage, Stream extends OutMessageStream<Request>, Response extends ServerMessage> implements Runnable, Comparable<RequestQueue<Request, Stream, Response>>
-public abstract class RequestQueue<Request extends ServerMessage, Stream extends OutMessageStream<Request>, Response extends ServerMessage> extends RunnerTask
+public abstract class RequestQueue<Request extends ServerMessage, Stream extends MessageStream<Request>, Response extends ServerMessage> extends RunnerTask
 {
 	// The unique key of the thread. It is convenient for managing it by a table-like mechanism. 09/22/2014, Bing Li
 	private final String key;
@@ -330,7 +330,7 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 	/*
 	 * Dequeue the request stream from the queue. The stream includes the request, the output stream and the lock. They are dequeued for processing and responding. 09/22/2014, Bing Li
 	 */
-	public Stream getRequest()
+	public Stream dequeue()
 	{
 		this.isHung.set(true);
 		return this.queue.poll();

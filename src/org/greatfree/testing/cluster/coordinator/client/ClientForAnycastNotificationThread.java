@@ -38,7 +38,7 @@ public class ClientForAnycastNotificationThread extends NotificationQueue<Client
 				try
 				{
 					// Dequeue the notification. 11/26/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					// Anycasting must be added here ...
 					CoordinatorMulticastNotifier.COORDINATE().disseminateAnycastNotification(notification.getMessage());

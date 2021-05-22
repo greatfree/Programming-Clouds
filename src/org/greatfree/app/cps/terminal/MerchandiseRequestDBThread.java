@@ -26,7 +26,7 @@ public class MerchandiseRequestDBThread extends RequestQueue<MerchandiseRequest,
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new MerchandiseResponse("iPhoneX", 100);
 				try
 				{

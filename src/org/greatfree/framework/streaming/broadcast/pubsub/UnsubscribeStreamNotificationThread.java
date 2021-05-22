@@ -23,7 +23,7 @@ class UnsubscribeStreamNotificationThread extends NotificationQueue<UnsubscribeS
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					StreamRegistry.PUBSUB().unsubscribe(notification.getPublisher(), notification.getTopic(), notification.getSubscriber());
 					this.disposeMessage(notification);
 				}

@@ -27,7 +27,7 @@ class CrawledPagesNotificationThread extends NotificationQueue<CrawledPagesNotif
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 //					RootMulticastor.ROOT().broadcastNotify(notification);
 					RootMulticastor.ROOT().unicastNotify(notification);
 					this.disposeMessage(notification);

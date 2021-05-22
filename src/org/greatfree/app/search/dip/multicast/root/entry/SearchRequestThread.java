@@ -31,7 +31,7 @@ class SearchRequestThread extends RequestQueue<SearchRequest, SearchStream, Sear
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					// Map/Reduce - Hadoop. 10/07/2018, Bing Li

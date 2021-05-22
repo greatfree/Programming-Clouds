@@ -26,7 +26,7 @@ class MerchandiseRequestThread extends RequestQueue<MerchandiseRequest, Merchand
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				System.out.println("Your query is received: " + request.getMessage().getQuery());
 				response = new MerchandiseResponse("Android Smart Phone: Samsung, $200");
 				try

@@ -1,6 +1,6 @@
 package org.greatfree.testing.coordinator.searching;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.testing.message.SearchKeywordRequest;
 import org.greatfree.testing.message.SearchKeywordResponse;
 import org.greatfree.testing.message.SearchKeywordStream;
@@ -10,10 +10,10 @@ import org.greatfree.testing.message.SearchKeywordStream;
  */
 
 // Created: 11/29/2014, Bing Li
-public class SearchKeywordThreadCreator implements RequestThreadCreatable<SearchKeywordRequest, SearchKeywordStream, SearchKeywordResponse, SearchKeywordThread>
+public class SearchKeywordThreadCreator implements RequestQueueCreator<SearchKeywordRequest, SearchKeywordStream, SearchKeywordResponse, SearchKeywordThread>
 {
 	@Override
-	public SearchKeywordThread createRequestThreadInstance(int taskSize)
+	public SearchKeywordThread createInstance(int taskSize)
 	{
 		return new SearchKeywordThread(taskSize);
 	}

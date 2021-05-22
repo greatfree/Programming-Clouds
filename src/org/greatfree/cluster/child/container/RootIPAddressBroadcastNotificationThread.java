@@ -25,7 +25,7 @@ class RootIPAddressBroadcastNotificationThread extends NotificationQueue<RootIPA
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					Child.CONTAINER().asyncNotify(notification);
 					Child.CONTAINER().setRootIP(notification.getRootAddress());
 					Child.CONTAINER().joinCluster();

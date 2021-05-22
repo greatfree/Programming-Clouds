@@ -1,6 +1,6 @@
 package org.greatfree.testing.cluster.coordinator.client;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.UnregisterClientNotification;
 
 /*
@@ -8,11 +8,11 @@ import org.greatfree.testing.message.UnregisterClientNotification;
  */
 
 // Created: 11/21/2016, Bing Li
-public class UnregisterClientThreadCreator implements NotificationThreadCreatable<UnregisterClientNotification, UnregisterClientThread>
+public class UnregisterClientThreadCreator implements NotificationQueueCreator<UnregisterClientNotification, UnregisterClientThread>
 {
 
 	@Override
-	public UnregisterClientThread createNotificationThreadInstance(int taskSize)
+	public UnregisterClientThread createInstance(int taskSize)
 	{
 		return new UnregisterClientThread(taskSize);
 	}

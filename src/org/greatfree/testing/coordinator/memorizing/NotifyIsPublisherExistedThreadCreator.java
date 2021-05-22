@@ -1,6 +1,6 @@
 package org.greatfree.testing.coordinator.memorizing;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.IsPublisherExistedAnycastResponse;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.testing.message.IsPublisherExistedAnycastResponse;
  */
 
 // Created: 11/29/2014, Bing Li
-public class NotifyIsPublisherExistedThreadCreator implements NotificationThreadCreatable<IsPublisherExistedAnycastResponse, NotifyIsPublisherExistedThread>
+public class NotifyIsPublisherExistedThreadCreator implements NotificationQueueCreator<IsPublisherExistedAnycastResponse, NotifyIsPublisherExistedThread>
 {
 	@Override
-	public NotifyIsPublisherExistedThread createNotificationThreadInstance(int taskSize)
+	public NotifyIsPublisherExistedThread createInstance(int taskSize)
 	{
 		return new NotifyIsPublisherExistedThread(taskSize);
 	}

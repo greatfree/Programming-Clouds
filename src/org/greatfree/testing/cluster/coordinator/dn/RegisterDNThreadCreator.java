@@ -1,6 +1,6 @@
 package org.greatfree.testing.cluster.coordinator.dn;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.RegisterClientNotification;
 
 /*
@@ -8,11 +8,11 @@ import org.greatfree.testing.message.RegisterClientNotification;
  */
 
 // Created: 11/23/2016, Bing Li
-public class RegisterDNThreadCreator implements NotificationThreadCreatable<RegisterClientNotification, RegisterDNThread>
+public class RegisterDNThreadCreator implements NotificationQueueCreator<RegisterClientNotification, RegisterDNThread>
 {
 
 	@Override
-	public RegisterDNThread createNotificationThreadInstance(int taskSize)
+	public RegisterDNThread createInstance(int taskSize)
 	{
 		return new RegisterDNThread(taskSize);
 	}

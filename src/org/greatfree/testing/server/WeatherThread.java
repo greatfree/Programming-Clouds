@@ -40,7 +40,7 @@ class WeatherThread extends RequestQueue<WeatherRequest, WeatherStream, WeatherR
 			while (!this.isEmpty())
 			{
 				// Dequeue a request. 02/15/2016, Bing Li
-				request = this.getRequest();
+				request = this.dequeue();
 				// Initialize an instance of WeatherResponse. 02/15/2016, Bing Li
 				response = new WeatherResponse(WeatherDB.SERVER().getWeather());
 				try

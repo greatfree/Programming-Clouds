@@ -30,7 +30,7 @@ class ChatRegistryThread extends RequestQueue<ChatRegistryRequest, ChatRegistryS
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 				System.out.println("ChatRegistryThread: peerID = " + request.getMessage().getPeerID() + "; peerName = " + request.getMessage().getPeerName());
 

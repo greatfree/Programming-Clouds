@@ -24,7 +24,7 @@ public class PushMuchMyStoreDataThread extends NotificationQueue<PushMuchMyStore
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyDistributedStackStore.MIDDLESTORE().pushAll(notification.getStackKey(), notification.getData());
 					this.disposeMessage(notification);
 				}

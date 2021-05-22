@@ -24,7 +24,7 @@ public class EnqueueMyStoreDataThread extends NotificationQueue<EnqueueMyStoreDa
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyDistributedQueueStore.MIDDLESTORE().enqueue(notification.getData());
 					this.disposeMessage(notification);
 				}

@@ -26,7 +26,7 @@ class UnsubscribeNotificationThread extends NotificationQueue<UnsubscribeNotific
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					RootMulticastor.UNI_STREAM().unicastNotify(notification.getStreamKey(), notification);
 					this.disposeMessage(notification);
 				}

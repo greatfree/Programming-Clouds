@@ -26,7 +26,7 @@ public class PlaceOrderThread extends NotificationQueue<PlaceOrderNotification>
 				try
 				{
 					// Get the notification out from the message queue. 12/05/2017, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Place the order. 12/15/2017, Bing Li
 					Businesses.placeOrder(notification.getVendorKey(), notification.getCustomerKey());
 					// Dispose the notification. 12/09/2017, Bing Li

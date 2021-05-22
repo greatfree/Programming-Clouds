@@ -5,7 +5,7 @@ import java.net.Socket;
 
 import org.greatfree.admin.AdminConfig;
 import org.greatfree.client.ClientPoolSingleton;
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.client.ServerIO;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.message.ServerMessage;
@@ -41,7 +41,7 @@ public class DNIO extends ServerIO
 			{
 				message = (ServerMessage)super.read();
 				// Convert the received message to OutMessageStream and put it into the relevant dispatcher for concurrent processing. 11/23/2014, Bing Li
-				DNMessageProducer.CLUSTER().produceMessage(new OutMessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
+				DNMessageProducer.CLUSTER().produceMessage(new MessageStream<ServerMessage>(super.getOutStream(), super.getLock(), message));
 			}
 			catch (ClassNotFoundException | IOException e)
 			{

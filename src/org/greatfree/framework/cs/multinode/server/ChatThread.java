@@ -27,7 +27,7 @@ class ChatThread extends NotificationQueue<ChatNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					// When new messages are available, they are retained in the server for polling. 05/25/2017, Bing Li
 					PrivateChatSessions.HUNGARY().addMessage(notification.getSessionKey(), notification.getSenderKey(), notification.getReceiverKey(), notification.getMessage());

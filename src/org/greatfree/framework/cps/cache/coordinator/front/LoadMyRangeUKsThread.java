@@ -28,7 +28,7 @@ public class LoadMyRangeUKsThread extends RequestQueue<LoadRangeMyUKsRequest, Lo
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 				try
 				{

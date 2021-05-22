@@ -26,7 +26,7 @@ class ShutdownBusinessServerThread extends NotificationQueue<ShutdownBusinessSer
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					BusinessServer.CS().stop(ServerConfig.SHARED_THREAD_POOL_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);
 				}

@@ -30,7 +30,7 @@ public class PeekMyStoreDataThread extends RequestQueue<PeekMyStoreDataRequest, 
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					if (!request.getMessage().isReading())

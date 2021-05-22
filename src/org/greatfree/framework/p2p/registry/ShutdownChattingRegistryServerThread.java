@@ -31,7 +31,7 @@ class ShutdownChattingRegistryServerThread extends NotificationQueue<ShutdownSer
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ServerStatus.FREE().setShutdown();
 
 					// Stop the registry server. 06/04/2017, Bing Li

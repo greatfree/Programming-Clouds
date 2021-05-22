@@ -26,7 +26,7 @@ class SubscribersRequestThread extends RequestQueue<SubscribersRequest, Subscrib
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (request.getMessage().isAll())
 				{
 					response = new SubscribersResponse(StreamRegistry.PUBSUB().getSubscribers(request.getMessage().getPublisher(), request.getMessage().getTopic()));

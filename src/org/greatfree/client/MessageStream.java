@@ -10,7 +10,7 @@ import org.greatfree.message.ServerMessage;
  */
 
 // Created: 07/30/2014, Bing Li
-public class OutMessageStream<Message extends ServerMessage>
+public class MessageStream<Message extends ServerMessage>
 {
 	// The output stream that is responsible for responding clients. 07/30/2014, Bing Li
 	private ObjectOutputStream out;
@@ -19,7 +19,7 @@ public class OutMessageStream<Message extends ServerMessage>
 	// The message that extends ServerMessage. 07/30/2014, Bing Li
 	private Message message;
 	
-	public OutMessageStream(ObjectOutputStream out, Lock lock, Message message)
+	public MessageStream(ObjectOutputStream out, Lock lock, Message message)
 	{
 		// The output stream is shared by different threads that respond the same client concurrently. 07/30/2014, Bing Li
 		this.out = out;

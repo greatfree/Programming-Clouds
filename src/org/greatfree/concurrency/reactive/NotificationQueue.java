@@ -383,7 +383,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	/*
 	 * Dequeue the notification from the queue. 11/04/2014, Bing Li
 	 */
-	public Notification getNotification() throws InterruptedException
+	public Notification dequeue() throws InterruptedException
 	{
 		this.isHung.set(true);
 		return this.queue.poll();

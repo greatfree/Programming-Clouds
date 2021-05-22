@@ -1,6 +1,6 @@
 package org.greatfree.server;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.MessageProducer;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.message.ServerMessage;
@@ -43,7 +43,7 @@ public class ServerMessageProducer<Dispatcher extends ServerDispatcher<ServerMes
 	/*
 	 * Assign messages, requests or notifications, to the bound message dispatcher such that they can be responded or dealt with. 09/20/2014, Bing Li
 	 */
-	public void produceMessage(OutMessageStream<ServerMessage> message)
+	public void produceMessage(MessageStream<ServerMessage> message)
 	{
 		this.producerThreader.getFunction().produce(message);
 	}

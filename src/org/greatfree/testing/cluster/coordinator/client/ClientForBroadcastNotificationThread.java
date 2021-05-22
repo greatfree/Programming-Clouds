@@ -38,7 +38,7 @@ public class ClientForBroadcastNotificationThread extends NotificationQueue<Clie
 				try
 				{
 					// Dequeue the notification. 11/26/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					// Broadcasting must be added here ...
 					CoordinatorMulticastNotifier.COORDINATE().disseminateBroadcastNotification(notification.getMessage());

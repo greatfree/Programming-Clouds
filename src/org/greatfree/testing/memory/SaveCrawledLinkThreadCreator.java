@@ -1,6 +1,6 @@
 package org.greatfree.testing.memory;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.AddCrawledLinkNotification;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.testing.message.AddCrawledLinkNotification;
  */
 
 // Created: 11/28/2014, Bing Li
-public class SaveCrawledLinkThreadCreator implements NotificationThreadCreatable<AddCrawledLinkNotification, SaveCrawledLinkThread>
+public class SaveCrawledLinkThreadCreator implements NotificationQueueCreator<AddCrawledLinkNotification, SaveCrawledLinkThread>
 {
 	@Override
-	public SaveCrawledLinkThread createNotificationThreadInstance(int taskSize)
+	public SaveCrawledLinkThread createInstance(int taskSize)
 	{
 		return new SaveCrawledLinkThread(taskSize);
 	}

@@ -23,7 +23,7 @@ class HelloWorldAnycastResponseThread extends NotificationQueue<HelloWorldAnycas
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 //					RootClient.ROOT().getMulticastReader().getRP().saveResponse(notification);
 					RootMulticastor.ROOT().getRP().saveResponse(notification);
 					this.disposeMessage(notification);

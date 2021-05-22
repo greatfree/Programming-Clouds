@@ -27,7 +27,7 @@ public class LoadMyPointingMapThread extends RequestQueue<LoadMyPointingMapReque
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new LoadMyPointingMapResponse(MySortedDistributedMap.MIDDLE().getPointing(request.getMessage().getResourceKey()));
 				try
 				{

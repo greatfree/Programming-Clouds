@@ -23,7 +23,7 @@ public class HelloWorldUnicastResponseThread extends NotificationQueue<HelloWorl
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					RootMulticastor.ROOT().getRP().saveResponse(notification);
 					this.disposeMessage(notification);
 				}

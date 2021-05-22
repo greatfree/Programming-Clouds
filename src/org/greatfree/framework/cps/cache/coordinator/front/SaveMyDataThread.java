@@ -25,7 +25,7 @@ public class SaveMyDataThread extends NotificationQueue<SaveMyDataNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					if (notification.getData() != null)
 					{
 						MyDistributedMap.MIDDLE().put(notification.getData().getKey(), notification.getData());

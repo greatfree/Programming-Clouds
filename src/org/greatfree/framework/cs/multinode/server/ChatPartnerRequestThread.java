@@ -34,7 +34,7 @@ class ChatPartnerRequestThread extends RequestQueue<ChatPartnerRequest, ChatPart
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 //				// Generate user key. 04/16/2017, Bing Li
 //				userKey = Tools.getHash(request.getMessage().getUserKey());

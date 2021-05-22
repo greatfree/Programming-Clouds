@@ -25,7 +25,7 @@ class IntercastNotificationThread extends NotificationQueue<IntercastNotificatio
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ClusterRoot.CONTAINER().processIntercastNotification(notification);
 					this.disposeMessage(notification);
 				}

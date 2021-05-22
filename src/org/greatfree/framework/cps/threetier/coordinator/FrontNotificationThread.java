@@ -25,7 +25,7 @@ class FrontNotificationThread extends NotificationQueue<FrontNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("Notification: " + notification.getNotification());
 					Coordinator.CPS().notify(notification.getNotification());
 					this.disposeMessage(notification);

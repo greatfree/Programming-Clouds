@@ -1,6 +1,6 @@
 package org.greatfree.testing.cluster.coordinator;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
@@ -89,7 +89,7 @@ public class CoordinatorMessageProducer
 	/*
 	 * Assign client messages, requests or notifications, to the bound client message dispatcher such that they can be responded or dealt with. 11/24/2014, Bing Li
 	 */
-	public void produceClientMessage(OutMessageStream<ServerMessage> message)
+	public void produceClientMessage(MessageStream<ServerMessage> message)
 	{
 		this.clientProducerThreader.getFunction().produce(message);
 	}
@@ -97,7 +97,7 @@ public class CoordinatorMessageProducer
 	/*
 	 * Assign memory server messages, requests or notifications, to the bound DN server message dispatcher such that they can be responded or dealt with. 11/28/2014, Bing Li
 	 */
-	public void produceDNMessage(OutMessageStream<ServerMessage> message)
+	public void produceDNMessage(MessageStream<ServerMessage> message)
 	{
 		this.dnProducerThreader.getFunction().produce(message);
 	}
@@ -105,7 +105,7 @@ public class CoordinatorMessageProducer
 	/*
 	 * Assign administration messages, requests or notifications, to the bound administration message dispatcher such that they can be responded or dealt with. 11/27/2014, Bing Li
 	 */
-	public void produceAdminMessage(OutMessageStream<ServerMessage> message)
+	public void produceAdminMessage(MessageStream<ServerMessage> message)
 	{
 		this.adminProducerThreader.getFunction().produce(message);
 	}

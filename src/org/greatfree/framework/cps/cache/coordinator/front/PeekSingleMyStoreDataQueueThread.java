@@ -27,7 +27,7 @@ public class PeekSingleMyStoreDataQueueThread extends RequestQueue<PeekSingleMyS
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PeekSingleMyStoreDataQueueResponse(MyDistributedQueueStore.MIDDLESTORE().dequeue(request.getMessage().getQueueKey()));
 				try
 				{

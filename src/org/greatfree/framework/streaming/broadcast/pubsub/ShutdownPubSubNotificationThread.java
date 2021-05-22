@@ -26,7 +26,7 @@ class ShutdownPubSubNotificationThread extends NotificationQueue<ShutdownPubSubN
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					PubSubServer.BROAD_STREAM().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);
 				}

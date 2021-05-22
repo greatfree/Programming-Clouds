@@ -23,7 +23,7 @@ class CrawledPagesNotificationThread extends NotificationQueue<CrawledPagesNotif
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					PageStorage.STORAGE().save(notification.getPage());
 					this.disposeMessage(notification);
 				}

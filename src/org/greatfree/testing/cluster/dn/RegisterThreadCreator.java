@@ -1,6 +1,6 @@
 package org.greatfree.testing.cluster.dn;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.NodeKeyNotification;
 
 /*
@@ -8,11 +8,11 @@ import org.greatfree.testing.message.NodeKeyNotification;
  */
 
 // Created: 11/23/2016, Bing Li
-public class RegisterThreadCreator implements NotificationThreadCreatable<NodeKeyNotification, RegisterThread>
+public class RegisterThreadCreator implements NotificationQueueCreator<NodeKeyNotification, RegisterThread>
 {
 	// Create the instance of RegisterThread. 11/25/2014, Bing Li
 	@Override
-	public RegisterThread createNotificationThreadInstance(int taskSize)
+	public RegisterThread createInstance(int taskSize)
 	{
 		return new RegisterThread(taskSize);
 	}

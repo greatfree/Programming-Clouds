@@ -28,7 +28,7 @@ public class ShutdownChildrenBroadcastNotificationThread extends NotificationQue
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ChildMulticastor.CHILD().notify(notification);
 					ServerStatus.FREE().setShutdown();
 					ChildPeer.CHILD().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);

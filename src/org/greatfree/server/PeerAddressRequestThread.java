@@ -26,7 +26,7 @@ class PeerAddressRequestThread extends RequestQueue<PeerAddressRequest, PeerAddr
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				System.out.println("PeerAddressRequestThread peer ID = " + request.getMessage().getPeerID());
 				response = new PeerAddressResponse(PeerRegistry.SYSTEM().getAddress(request.getMessage().getPeerID()));
 				try

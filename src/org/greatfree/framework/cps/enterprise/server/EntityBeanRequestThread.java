@@ -27,7 +27,7 @@ class EntityBeanRequestThread extends RequestQueue<EntityBeanRequest, EntityBean
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					response = (EntityBeanResponse)EnterpriseServer.CPS().query(request.getMessage());

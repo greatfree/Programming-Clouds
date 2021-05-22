@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.chat.message.ShutdownServerNotification;
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
@@ -57,7 +57,7 @@ class ChatManServerDispatcher extends ServerDispatcher<ServerMessage>
 	 */
 //	public void consume(OutMessageStream<ServerMessage> message)
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		// Check the types of received messages. 04/17/2017, Bing Li
 		switch (message.getMessage().getType())

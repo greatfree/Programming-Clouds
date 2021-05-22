@@ -28,7 +28,7 @@ class RootRequestThread extends RequestQueue<Request, RequestStream, Response>
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					response = ClusterRoot.CONTAINER().processRequest(request.getMessage());

@@ -1,6 +1,6 @@
 package org.greatfree.testing.server;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.testing.message.SignUpRequest;
 import org.greatfree.testing.message.SignUpResponse;
 import org.greatfree.testing.message.SignUpStream;
@@ -10,10 +10,10 @@ import org.greatfree.testing.message.SignUpStream;
  */
 
 // Created: 11/04/2014, Bing Li
-class SignUpThreadCreator implements RequestThreadCreatable<SignUpRequest, SignUpStream, SignUpResponse, SignUpThread>
+class SignUpThreadCreator implements RequestQueueCreator<SignUpRequest, SignUpStream, SignUpResponse, SignUpThread>
 {
 	@Override
-	public SignUpThread createRequestThreadInstance(int taskSize)
+	public SignUpThread createInstance(int taskSize)
 	{
 		return new SignUpThread(taskSize);
 	}

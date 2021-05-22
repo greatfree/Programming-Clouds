@@ -28,7 +28,7 @@ public class SearchRequestThread extends RequestQueue<SearchRequest, SearchStrea
 			{
 				try
 				{
-					request = this.getRequest();
+					request = this.dequeue();
 					response = new SearchResponse(SubscriberDB.DB().search(request.getMessage().getQuery()));
 					this.respond(request.getOutStream(), request.getLock(), response);
 					this.disposeMessage(request, response);

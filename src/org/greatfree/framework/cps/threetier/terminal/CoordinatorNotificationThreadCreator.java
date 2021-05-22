@@ -1,14 +1,14 @@
 package org.greatfree.framework.cps.threetier.terminal;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.framework.cps.threetier.message.CoordinatorNotification;
 
 // Created: 
-class CoordinatorNotificationThreadCreator implements NotificationThreadCreatable<CoordinatorNotification, CoordinatorNotificationThread>
+class CoordinatorNotificationThreadCreator implements NotificationQueueCreator<CoordinatorNotification, CoordinatorNotificationThread>
 {
 
 	@Override
-	public CoordinatorNotificationThread createNotificationThreadInstance(int taskSize)
+	public CoordinatorNotificationThread createInstance(int taskSize)
 	{
 		return new CoordinatorNotificationThread(taskSize);
 	}

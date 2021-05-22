@@ -1,7 +1,7 @@
 package org.greatfree.testing.memory;
 
 import org.greatfree.client.ClientPoolSingleton;
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.AnycastRequestDispatcher;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.OldBoundNotificationDispatcher;
@@ -190,7 +190,7 @@ public class MemoryDispatcher extends ServerDispatcher<ServerMessage>
 	 */
 //	public void consume(OutMessageStream<ServerMessage> message)
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		SearchKeywordBroadcastRequest broadcastRequest;
 		switch (message.getMessage().getType())

@@ -28,7 +28,7 @@ public class LoadRangeReadMyPointingsThread extends RequestQueue<RangeReadCacheP
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					response = new RangeReadCachePointingsResponse(MySortedDistributedReadCacheStore.MIDDLESTORE().getRange(request.getMessage().getMapKey(), request.getMessage().getStartIndex(), request.getMessage().getEndIndex()));

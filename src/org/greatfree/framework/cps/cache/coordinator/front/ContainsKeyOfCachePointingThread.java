@@ -28,7 +28,7 @@ public class ContainsKeyOfCachePointingThread extends RequestQueue<ContainsKeyOf
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (!request.getMessage().isTiming())
 				{
 					response = new ContainsKeyOfCachePointingResponse(MySortedDistributedCacheStore.MIDDLESTORE().containsKey(request.getMessage().getMapKey(), request.getMessage().getResourceKey()));

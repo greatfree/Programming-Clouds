@@ -1,6 +1,6 @@
 package org.greatfree.testing.crawlserver;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.CrawlLoadNotification;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.testing.message.CrawlLoadNotification;
  */
 
 // Created: 11/28/2014, Bing Li
-public class AssignURLLoadThreadCreator implements NotificationThreadCreatable<CrawlLoadNotification, AssignURLLoadThread>
+public class AssignURLLoadThreadCreator implements NotificationQueueCreator<CrawlLoadNotification, AssignURLLoadThread>
 {
 	@Override
-	public AssignURLLoadThread createNotificationThreadInstance(int taskSize)
+	public AssignURLLoadThread createInstance(int taskSize)
 	{
 		return new AssignURLLoadThread(taskSize);
 	}

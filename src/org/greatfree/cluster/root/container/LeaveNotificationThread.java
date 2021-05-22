@@ -26,7 +26,7 @@ class LeaveNotificationThread extends NotificationQueue<LeaveNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					Clustering.removeChild(notification.getChildID());
 					this.disposeMessage(notification);
 				}

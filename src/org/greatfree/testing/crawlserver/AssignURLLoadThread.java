@@ -36,7 +36,7 @@ public class AssignURLLoadThread extends NotificationQueue<CrawlLoadNotification
 				try
 				{
 					// Dequeue the notification. 11/28/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Convert the instances of URLValue to HubURLs and place them into the crawling scheduler. 11/28/2014, Bing Li
 					for (URLValue url : notification.getURLs().values())
 					{

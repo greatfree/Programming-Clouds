@@ -33,7 +33,7 @@ class IntercastRequestThread extends RequestQueue<IntercastRequest, IntercastReq
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				/*
 				 * Now I need to implement the root based intercasting. So the thread is not necessary temporarily. I will implement the children-based intercasing later. 02/15/2019, Bing Li 
 				 */

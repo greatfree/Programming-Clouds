@@ -26,7 +26,7 @@ public class PutIntoCartThread extends NotificationQueue<PutIntoCartNotification
 				// Get the notification out from the message queue. 12/05/2017, Bing Li
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("PutIntoCartThread: " + notification.getMerchandiseKey());
 					// Create the response. 12/07/2017, Bing Li
 					Businesses.putIntoCart(notification.getCustomerKey(), notification.getVendorKey(), notification.getMerchandiseKey(), notification.getCount());

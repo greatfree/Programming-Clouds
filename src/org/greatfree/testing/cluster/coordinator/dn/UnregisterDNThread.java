@@ -35,7 +35,7 @@ public class UnregisterDNThread extends NotificationQueue<UnregisterClientNotifi
 				try
 				{
 					// Dequeue the notification. 11/28/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Unregister the DN from the registry. 11/28/2014, Bing Li
 					DNRegistry.COORDINATE().unregister(notification.getClientKey());
 					// Dispose the notification. 11/28/2014, Bing Li

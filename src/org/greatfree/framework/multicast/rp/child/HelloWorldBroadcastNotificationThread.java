@@ -23,7 +23,7 @@ public class HelloWorldBroadcastNotificationThread extends NotificationQueue<Hel
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Forward the notification asynchronously. 10/22/2018, Bing Li
 					ChildMulticastor.CHILD().asyncNotify(notification);
 					// Blocking solutions ......

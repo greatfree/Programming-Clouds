@@ -27,7 +27,7 @@ public class IsCacheReadExistedInPointingStoreThread extends RequestQueue<IsCach
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new IsCacheReadExistedInPointingStoreResponse(MySortedDistributedReadCacheStore.MIDDLESTORE().isCacheExisted(request.getMessage().getMapKey()));
 				try
 				{

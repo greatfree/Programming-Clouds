@@ -27,7 +27,7 @@ public class PostfetchMuchMyStoreDataThread extends RequestQueue<PostfetchMuchMy
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PostfetchMuchMyStoreDataResponse(MyTerminalMapStore.BACKEND().get(request.getMessage().getMapKey(), request.getMessage().getKeys()));
 				try
 				{

@@ -1,6 +1,6 @@
 package org.greatfree.testing.coordinator;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
@@ -99,7 +99,7 @@ public class CoordinatorMessageProducer
 	/*
 	 * Assign crawling messages, requests or notifications, to the bound crawling message dispatcher such that they can be responded or dealt with. 11/24/2014, Bing Li
 	 */
-	public void produceCrawlingMessage(OutMessageStream<ServerMessage> message)
+	public void produceCrawlingMessage(MessageStream<ServerMessage> message)
 	{
 		this.crawlProducerThreader.getFunction().produce(message);
 	}
@@ -107,7 +107,7 @@ public class CoordinatorMessageProducer
 	/*
 	 * Assign memory server messages, requests or notifications, to the bound memory server message dispatcher such that they can be responded or dealt with. 11/28/2014, Bing Li
 	 */
-	public void produceMemoryMessage(OutMessageStream<ServerMessage> message)
+	public void produceMemoryMessage(MessageStream<ServerMessage> message)
 	{
 		this.memoryProducerThreader.getFunction().produce(message);
 	}
@@ -115,7 +115,7 @@ public class CoordinatorMessageProducer
 	/*
 	 * Assign administration messages, requests or notifications, to the bound administration message dispatcher such that they can be responded or dealt with. 11/27/2014, Bing Li
 	 */
-	public void produceAdminMessage(OutMessageStream<ServerMessage> message)
+	public void produceAdminMessage(MessageStream<ServerMessage> message)
 	{
 		this.adminProducerThreader.getFunction().produce(message);
 	}
@@ -123,7 +123,7 @@ public class CoordinatorMessageProducer
 	/*
 	 * Assign search messages, requests or notifications, to the bound search message dispatcher such that they can be responded or dealt with. 11/29/2014, Bing Li
 	 */
-	public void produceSearchMessage(OutMessageStream<ServerMessage> message)
+	public void produceSearchMessage(MessageStream<ServerMessage> message)
 	{
 		this.searchProducerThreader.getFunction().produce(message);
 	}

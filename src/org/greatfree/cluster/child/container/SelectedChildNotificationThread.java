@@ -27,7 +27,7 @@ class SelectedChildNotificationThread extends NotificationQueue<SelectedChildNot
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					Child.CONTAINER().leaveCluster();
 //					System.out.println("SelectedChildNotificationThread: cluster root IP = " + notification.getClusterRootIP());
 					Child.CONTAINER().reset(notification.getRootKey(), notification.getClusterRootIP());

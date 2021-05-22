@@ -27,7 +27,7 @@ public class PostfetchMinMyPointingRequestThread extends RequestQueue<PostfetchM
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PostfetchMinMyPointingResponse(MySortedTerminalList.BACKEND().getMinPointing());
 				try
 				{

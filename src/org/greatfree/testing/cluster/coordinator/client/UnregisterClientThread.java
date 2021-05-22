@@ -29,7 +29,7 @@ public class UnregisterClientThread extends NotificationQueue<UnregisterClientNo
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ClientRegistry.MANAGEMENT().unregister(notification.getClientKey());
 					this.disposeMessage(notification);
 				}

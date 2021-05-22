@@ -36,7 +36,7 @@ public class RegisterClientThread extends NotificationQueue<RegisterClientNotifi
 				try
 				{
 					// Dequeue the notification. 11/09/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Register the client. 11/09/2014, Bing Li
 					ClientRegistry.MANAGEMENT().register(notification.getClientKey());
 					// Dispose the notification. 11/09/2014, Bing Li

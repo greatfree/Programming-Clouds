@@ -26,7 +26,7 @@ class TestRequestThread extends RequestQueue<TestRequest, TestStream, TestRespon
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 
 				System.out.println(request.getMessage().getRequest());
 				

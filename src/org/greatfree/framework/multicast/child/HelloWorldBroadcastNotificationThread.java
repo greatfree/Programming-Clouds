@@ -23,7 +23,7 @@ class HelloWorldBroadcastNotificationThread extends NotificationQueue<HelloWorld
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ChildMulticastor.CHILD().asyncNotify(notification);
 //					ChildMulticastor.CHILD().notify(notification);
 

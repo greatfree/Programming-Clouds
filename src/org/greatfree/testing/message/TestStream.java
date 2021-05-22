@@ -3,10 +3,10 @@ package org.greatfree.testing.message;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.locks.Lock;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 
 // Created: 12/10/2016, Bing Li
-public class TestStream extends OutMessageStream<TestRequest>
+public class TestStream extends MessageStream<TestRequest>
 {
 
 	public TestStream(ObjectOutputStream out, Lock lock, TestRequest message)

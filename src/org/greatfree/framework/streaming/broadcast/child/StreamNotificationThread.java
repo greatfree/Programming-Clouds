@@ -28,7 +28,7 @@ class StreamNotificationThread extends NotificationQueue<StreamNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("StreamNotificationThread: stream received: " + notification.getData());
 					ChildMulticastor.CHILD().asyncNotify(notification);
 

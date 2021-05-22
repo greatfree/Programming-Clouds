@@ -3,10 +3,10 @@ package org.greatfree.framework.multicast.message;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.locks.Lock;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 
 // Created: 08/26/2018, Bing Li
-public class ClientHelloWorldBroadcastStream extends OutMessageStream<ClientHelloWorldBroadcastRequest>
+public class ClientHelloWorldBroadcastStream extends MessageStream<ClientHelloWorldBroadcastRequest>
 {
 
 	public ClientHelloWorldBroadcastStream(ObjectOutputStream out, Lock lock, ClientHelloWorldBroadcastRequest message)

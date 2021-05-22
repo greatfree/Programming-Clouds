@@ -1,6 +1,6 @@
 package org.greatfree.testing.crawlserver;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.OldBoundNotificationDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -181,7 +181,7 @@ public class CrawlDispatcher extends ServerDispatcher<ServerMessage>
 	 */
 //	public void consume(OutMessageStream<ServerMessage> message)
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		// The notification is shared by multiple threads. 11/27/2014, Bing Li
 		StartCrawlMultiNotification startCrawlMultiNotification;

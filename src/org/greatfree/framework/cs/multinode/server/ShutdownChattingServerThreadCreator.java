@@ -1,14 +1,14 @@
 package org.greatfree.framework.cs.multinode.server;
 
 import org.greatfree.chat.message.ShutdownServerNotification;
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 
 // Created: 04/18/2017, Bing Li
-class ShutdownChattingServerThreadCreator implements NotificationThreadCreatable<ShutdownServerNotification, ShutdownChattingServerThread>
+class ShutdownChattingServerThreadCreator implements NotificationQueueCreator<ShutdownServerNotification, ShutdownChattingServerThread>
 {
 
 	@Override
-	public ShutdownChattingServerThread createNotificationThreadInstance(int taskSize)
+	public ShutdownChattingServerThread createInstance(int taskSize)
 	{
 		return new ShutdownChattingServerThread(taskSize);
 	}

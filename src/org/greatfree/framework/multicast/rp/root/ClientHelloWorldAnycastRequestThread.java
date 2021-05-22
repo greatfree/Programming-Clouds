@@ -31,7 +31,7 @@ public class ClientHelloWorldAnycastRequestThread extends RequestQueue<ClientHel
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 //					response = new ClientHelloWorldAnycastResponse(Tools.filter(RootMulticastor.ROOT().anycastRead(new HelloWorldAnycastRequest(Tools.getLocalIP(ChatConfig.CHAT_SERVER_PORT), request.getMessage().getHello()), UtilConfig.ONE), HelloWorldAnycastResponse.class));

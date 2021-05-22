@@ -1,14 +1,14 @@
 package org.greatfree.cluster.root;
 
 import org.greatfree.cluster.message.JoinNotification;
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 
 // Created: 10/01/2018, Bing Li
-class JoinNotificationThreadCreator implements NotificationThreadCreatable<JoinNotification, JoinNotificationThread>
+class JoinNotificationThreadCreator implements NotificationQueueCreator<JoinNotification, JoinNotificationThread>
 {
 
 	@Override
-	public JoinNotificationThread createNotificationThreadInstance(int taskSize)
+	public JoinNotificationThread createInstance(int taskSize)
 	{
 		return new JoinNotificationThread(taskSize);
 	}

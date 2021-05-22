@@ -34,7 +34,7 @@ public class HelloWorldBroadcastRequestThread extends NotificationQueue<HelloWor
 			{
 				try
 				{
-					request = this.getNotification();
+					request = this.dequeue();
 
 					// Blocking solution ......
 					// Print the query on the screen. 06/17/2017, Bing Li

@@ -26,7 +26,7 @@ class RootNotificationThread extends NotificationQueue<Notification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ClusterRoot.CONTAINER().processNotification(notification);
 					this.disposeMessage(notification);
 				}

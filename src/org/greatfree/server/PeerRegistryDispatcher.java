@@ -2,7 +2,7 @@ package org.greatfree.server;
 
 import java.util.Calendar;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.cluster.message.ClusterMessageType;
 import org.greatfree.cluster.message.IsRootOnlineRequest;
 import org.greatfree.cluster.message.IsRootOnlineResponse;
@@ -160,7 +160,7 @@ public class PeerRegistryDispatcher extends ServerDispatcher<ServerMessage>
 	 */
 //	public void consume(OutMessageStream<ServerMessage> message)
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		// Check the types of received messages. 04/17/2017, Bing Li
 		switch (message.getMessage().getType())

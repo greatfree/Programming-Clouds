@@ -1,6 +1,6 @@
 package org.greatfree.testing.server;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.ShutdownServerNotification;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.testing.message.ShutdownServerNotification;
  */
 
 // Created: 01/20/2016, Bing Li
-public class ShutdownThreadCreator implements NotificationThreadCreatable<ShutdownServerNotification, ShutdownThread>
+public class ShutdownThreadCreator implements NotificationQueueCreator<ShutdownServerNotification, ShutdownThread>
 {
 	@Override
-	public ShutdownThread createNotificationThreadInstance(int taskSize)
+	public ShutdownThread createInstance(int taskSize)
 	{
 		return new ShutdownThread(taskSize);
 	}

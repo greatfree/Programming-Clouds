@@ -26,7 +26,7 @@ class CoordinatorRequestThread extends RequestQueue<CoordinatorRequest, Coordina
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				System.out.println("Coordinator query: " + request.getMessage().getQuery());
 				response = new CoordinatorResponse("Terminal server says: Cloud programming is the technique to implement tough systems!");
 				try

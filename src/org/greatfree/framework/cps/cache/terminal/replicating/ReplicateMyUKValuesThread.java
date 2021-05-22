@@ -24,7 +24,7 @@ public class ReplicateMyUKValuesThread extends NotificationQueue<ReplicateMyUKVa
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					if (notification.getValue() != null)
 					{

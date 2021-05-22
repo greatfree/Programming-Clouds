@@ -3,10 +3,10 @@ package org.greatfree.chat.message.cs.business;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.locks.Lock;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 
 // Created: 12/20/2017, Bing Li
-public class CheckCustomerTransactionStream extends OutMessageStream<CheckCustomerTransactionRequest>
+public class CheckCustomerTransactionStream extends MessageStream<CheckCustomerTransactionRequest>
 {
 
 	public CheckCustomerTransactionStream(ObjectOutputStream out, Lock lock, CheckCustomerTransactionRequest message)

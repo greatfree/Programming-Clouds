@@ -23,7 +23,7 @@ public class ChildRPMulticastResponseThread extends NotificationQueue<RPMulticas
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					ChildMulticastor.CHILD().getRP().saveResponse(notification);
 					this.disposeMessage(notification);
 				}

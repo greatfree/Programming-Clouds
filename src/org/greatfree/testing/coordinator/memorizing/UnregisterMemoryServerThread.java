@@ -35,7 +35,7 @@ public class UnregisterMemoryServerThread extends NotificationQueue<UnregisterMe
 				try
 				{
 					// Dequeue the notification. 11/28/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Unregister the memory server from the registry. 11/28/2014, Bing Li
 					MemoryRegistry.COORDINATE().unregister(notification.getDCKey());
 					// Dispose the notification. 11/28/2014, Bing Li

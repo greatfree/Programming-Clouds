@@ -24,7 +24,7 @@ public class SaveMyUKThread extends NotificationQueue<SaveMyUKNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyDistributedList.MIDDLE().add(notification.getUK());
 					this.disposeMessage(notification);
 				}

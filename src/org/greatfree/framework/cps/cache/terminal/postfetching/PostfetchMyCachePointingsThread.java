@@ -30,7 +30,7 @@ public class PostfetchMyCachePointingsThread extends RequestQueue<PostfetchMyCac
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (!request.getMessage().isTiming())
 				{
 					if (request.getMessage().isTerminalMap())

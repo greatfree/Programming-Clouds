@@ -31,7 +31,7 @@ class ShutdownChattingPeerThread extends NotificationQueue<ShutdownServerNotific
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Set the server is shut down. 05/01/2017, Bing Li
 					ServerStatus.FREE().setShutdown();
 					

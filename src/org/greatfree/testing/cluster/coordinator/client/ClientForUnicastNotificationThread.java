@@ -40,7 +40,7 @@ public class ClientForUnicastNotificationThread extends NotificationQueue<Client
 				try
 				{
 					// Dequeue the notification. 11/26/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 
 					// Unicasting must be added here ... 11/25/2016, Bing Li
 					CoordinatorMulticastNotifier.COORDINATE().disseminateUnicastNotification(notification.getMessage(), Tools.getRandomSetElement(DNServerClientPool.COORDINATE().getPool().getClientKeys()));

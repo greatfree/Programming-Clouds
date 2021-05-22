@@ -28,7 +28,7 @@ public class IsCacheEmptyInPointingStoreThread extends RequestQueue<IsCacheEmpty
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (!request.getMessage().isTiming())
 				{
 					response = new IsCacheEmptyInPointingStoreResponse(MySortedDistributedCacheStore.MIDDLESTORE().isCacheEmpty(request.getMessage().getMapKey()));

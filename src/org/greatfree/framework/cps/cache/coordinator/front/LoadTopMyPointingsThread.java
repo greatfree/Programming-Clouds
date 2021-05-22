@@ -28,7 +28,7 @@ public class LoadTopMyPointingsThread extends RequestQueue<LoadTopMyPointingsReq
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				/*
 				List<MyPointing> pointings = MyPointingDistributedList.MIDDLE().getTop(request.getMessage().getEndIndex());
 				for (MyPointing entry : pointings)

@@ -35,7 +35,7 @@ public class RegisterMemoryServerThread extends NotificationQueue<RegisterMemory
 				try
 				{
 					// Dequeue the notification. 11/29/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Register the memory server. 11/29/2014, Bing Li
 					MemoryRegistry.COORDINATE().register(notification.getDCKey());
 					// Dispose the notification. 11/29/2014, Bing Li

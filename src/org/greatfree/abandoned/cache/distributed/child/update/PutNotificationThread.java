@@ -24,7 +24,7 @@ public class PutNotificationThread extends NotificationQueue<PutNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					map = ChildMapRegistry.CACHE().getMap(notification.getValue().getCacheKey());
 					if (map != null)

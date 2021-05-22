@@ -39,7 +39,7 @@ public class RegisterCrawlServerThread extends NotificationQueue<RegisterCrawlSe
 				try
 				{
 					// Dequeue the notification. 11/26/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Register the crawler. 11/26/2014, Bing Li
 					CrawlRegistry.COORDINATE().register(notification.getDCKey(), notification.getURLCount());
 					// Check whether the count of registered crawlers is equal to that of predefined ones. 11/26/2014, Bing Li

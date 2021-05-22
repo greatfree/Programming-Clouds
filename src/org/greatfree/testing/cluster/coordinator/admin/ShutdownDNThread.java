@@ -40,7 +40,7 @@ public class ShutdownDNThread extends NotificationQueue<ShutdownDNNotification>
 				// Dequeue the notification. 11/27/2014, Bing Li
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Set the DN as shutdown. 01/30/2016, Bing Li
 					ServerStatus.FREE().setShutdown(AdminConfig.DN);
 					// Disseminate the notification to demand all of the DNs to stop them. 11/27/2014, Bing Li

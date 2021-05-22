@@ -28,7 +28,7 @@ public class IsCacheExistedInPointingStoreThread extends RequestQueue<IsCacheExi
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (!request.getMessage().isTiming())
 				{
 					response = new IsCacheExistedInPointingStoreResponse(MySortedDistributedCacheStore.MIDDLESTORE().isCacheExisted(request.getMessage().getMapKey()));

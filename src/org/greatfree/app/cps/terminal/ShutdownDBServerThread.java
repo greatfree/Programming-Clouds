@@ -26,7 +26,7 @@ public class ShutdownDBServerThread extends NotificationQueue<ShutdownServerNoti
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					DBServer.CPS().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);
 				}

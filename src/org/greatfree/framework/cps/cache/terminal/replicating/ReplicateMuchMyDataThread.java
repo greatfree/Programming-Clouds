@@ -24,7 +24,7 @@ public class ReplicateMuchMyDataThread extends NotificationQueue<ReplicateMuchMy
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 //					MyTerminalMap.BACKEND().addKeys(notification.getData().keySet());
 					MyTerminalMap.BACKEND().putAll(notification.getData());
 					this.disposeMessage(notification);

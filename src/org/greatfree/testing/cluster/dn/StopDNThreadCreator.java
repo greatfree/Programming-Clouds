@@ -1,6 +1,6 @@
 package org.greatfree.testing.cluster.dn;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.StopDNMultiNotification;
 
 /*
@@ -8,11 +8,11 @@ import org.greatfree.testing.message.StopDNMultiNotification;
  */
 
 // Created: 11/30/2016, Bing Li
-public class StopDNThreadCreator implements NotificationThreadCreatable<StopDNMultiNotification, StopDNThread>
+public class StopDNThreadCreator implements NotificationQueueCreator<StopDNMultiNotification, StopDNThread>
 {
 
 	@Override
-	public StopDNThread createNotificationThreadInstance(int taskSize)
+	public StopDNThread createInstance(int taskSize)
 	{
 		return new StopDNThread(taskSize);
 	}

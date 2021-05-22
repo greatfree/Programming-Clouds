@@ -30,7 +30,7 @@ class PollNewSessionsThread extends RequestQueue<PollNewSessionsRequest, PollNew
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 //				System.out.println(request.getMessage().getUsername() + " is checking new chatting sessions ...");
 				

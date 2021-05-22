@@ -26,7 +26,7 @@ public class RemoveFromCartThread extends NotificationQueue<RemoveFromCartNotifi
 				try
 				{
 					// Get the notification out from the message queue. 12/05/2017, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Remove merchandises from the cart. 12/09/2017, Bing Li
 					Businesses.removeFromCart(notification.getCustomerKey(), notification.getVendorKey(), notification.getMerchandiseKey(), notification.getCount());
 					// Dispose the notification. 12/09/2017, Bing Li

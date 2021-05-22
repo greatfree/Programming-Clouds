@@ -37,7 +37,7 @@ public class StopCrawlThread extends NotificationQueue<StopCrawlMultiNotificatio
 				try
 				{
 					// Dequeue the notification. 11/27/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					try
 					{
 						// Disseminate the stop notification to all of the current crawler's children nodes. 11/27/2014, Bing Li

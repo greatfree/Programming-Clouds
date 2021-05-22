@@ -24,7 +24,7 @@ public class EnqueueMyStoreDataThread extends NotificationQueue<EnqueueMyStoreDa
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyTerminalQueueStore.BACKEND().enqueue(notification.getData());
 					this.disposeMessage(notification);
 				}

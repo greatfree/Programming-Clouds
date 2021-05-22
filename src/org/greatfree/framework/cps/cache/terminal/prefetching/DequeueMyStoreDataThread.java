@@ -28,7 +28,7 @@ public class DequeueMyStoreDataThread extends RequestQueue<DequeueMyStoreDataReq
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					if (!request.getMessage().isPeeking())

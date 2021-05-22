@@ -1,14 +1,14 @@
 package org.greatfree.app.cs.twonode.server;
 
 import org.greatfree.app.cs.twonode.message.PostMerchandiseNotification;
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 
 // Created: 07/31/2018, Bing Li
-class PostMerchandiseNotificationThreadCreator implements NotificationThreadCreatable<PostMerchandiseNotification, PostMerchandiseNotificationThread>
+class PostMerchandiseNotificationThreadCreator implements NotificationQueueCreator<PostMerchandiseNotification, PostMerchandiseNotificationThread>
 {
 
 	@Override
-	public PostMerchandiseNotificationThread createNotificationThreadInstance(int taskSize)
+	public PostMerchandiseNotificationThread createInstance(int taskSize)
 	{
 		return new PostMerchandiseNotificationThread(taskSize);
 	}

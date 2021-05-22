@@ -26,7 +26,7 @@ class ShutdownServerThread extends NotificationQueue<ShutdownServerNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 //					ServerStatus.FREE().setShutdown();
 					RootPeer.ROOT().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);

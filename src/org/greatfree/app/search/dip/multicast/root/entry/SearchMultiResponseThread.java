@@ -24,7 +24,7 @@ class SearchMultiResponseThread extends NotificationQueue<SearchMultiResponse>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					RootMulticastor.ROOT().getRP().saveResponse(notification);
 					this.disposeMessage(notification);
 				}

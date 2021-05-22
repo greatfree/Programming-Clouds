@@ -30,7 +30,7 @@ public class RangeCachePointingsThread extends RequestQueue<RangeCachePointingsR
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					if (!request.getMessage().isTiming())

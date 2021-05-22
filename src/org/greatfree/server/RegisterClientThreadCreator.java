@@ -1,6 +1,6 @@
 package org.greatfree.server;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.RegisterClientNotification;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.testing.message.RegisterClientNotification;
  */
 
 // Created: 11/30/2014, Bing Li
-public class RegisterClientThreadCreator implements NotificationThreadCreatable<RegisterClientNotification, RegisterClientThread>
+public class RegisterClientThreadCreator implements NotificationQueueCreator<RegisterClientNotification, RegisterClientThread>
 {
 	@Override
-	public RegisterClientThread createNotificationThreadInstance(int taskSize)
+	public RegisterClientThread createInstance(int taskSize)
 	{
 		return new RegisterClientThread(taskSize);
 	}

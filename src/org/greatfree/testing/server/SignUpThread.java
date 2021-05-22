@@ -45,7 +45,7 @@ class SignUpThread extends RequestQueue<SignUpRequest, SignUpStream, SignUpRespo
 			while (!this.isEmpty())
 			{
 				// Dequeue a request. 11/04/2014, Bing Li
-				request = this.getRequest();
+				request = this.dequeue();
 				// Persist the node locally. 11/04/2014, Bing Li
 				db.saveNode(new Node(Tools.getHash(request.getMessage().getUserName()), request.getMessage().getUserName(), request.getMessage().getPassword()));
 				// Initialize a new response. 11/04/2014, Bing Li

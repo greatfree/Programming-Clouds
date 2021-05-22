@@ -2,7 +2,7 @@ package org.greatfree.server.container;
 
 import java.util.Calendar;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -103,7 +103,7 @@ class CSDispatcher extends ServerDispatcher<ServerMessage>
 	 * The keyword, synchronized, is required. When the server dispatcher is being shutdown, no incoming messages should be processed. Otherwise, the system cannot be closed normally because the notification dispatcher or the request dispatcher is still alive for incoming messages. 11/17/2019, Bing Li
 	 */
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		switch (message.getMessage().getType())
 		{

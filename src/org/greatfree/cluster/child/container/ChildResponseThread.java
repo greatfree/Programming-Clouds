@@ -22,7 +22,7 @@ class ChildResponseThread extends NotificationQueue<ChildResponse>
 			{
 				try
 				{
-					response = this.getNotification();
+					response = this.dequeue();
 					Child.CONTAINER().saveResponse(response);
 					this.disposeMessage(response);
 				}

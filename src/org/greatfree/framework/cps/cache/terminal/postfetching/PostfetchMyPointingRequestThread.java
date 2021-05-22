@@ -27,7 +27,7 @@ public class PostfetchMyPointingRequestThread extends RequestQueue<PostfetchMyPo
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PostfetchMyPointingByKeyResponse(MySortedTerminalList.BACKEND().getPointing(request.getMessage().getResourceKey()));
 				try
 				{

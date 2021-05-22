@@ -1,14 +1,14 @@
 package org.greatfree.app.business.dip.cs.multinode.server;
 
 import org.greatfree.chat.message.cs.business.PostMerchandiseNotification;
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 
 // Created: 12/05/2017, Bing Li
-public class PostMerchandiseThreadCreator implements NotificationThreadCreatable<PostMerchandiseNotification, PostMerchandiseThread>
+public class PostMerchandiseThreadCreator implements NotificationQueueCreator<PostMerchandiseNotification, PostMerchandiseThread>
 {
 
 	@Override
-	public PostMerchandiseThread createNotificationThreadInstance(int taskSize)
+	public PostMerchandiseThread createInstance(int taskSize)
 	{
 		return new PostMerchandiseThread(taskSize);
 	}

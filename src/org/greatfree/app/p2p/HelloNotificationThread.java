@@ -23,7 +23,7 @@ class HelloNotificationThread extends NotificationQueue<HelloNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println(notification.getHelloWorld());
 					this.disposeMessage(notification);
 				}

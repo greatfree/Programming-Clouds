@@ -1,14 +1,14 @@
 package org.greatfree.framework.cs.multinode.server;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.framework.cs.multinode.message.AddPartnerNotification;
 
 // Created: 04/23/2017, Bing Li
-class AddPartnerThreadCreator implements NotificationThreadCreatable<AddPartnerNotification, AddPartnerThread>
+class AddPartnerThreadCreator implements NotificationQueueCreator<AddPartnerNotification, AddPartnerThread>
 {
 
 	@Override
-	public AddPartnerThread createNotificationThreadInstance(int taskSize)
+	public AddPartnerThread createInstance(int taskSize)
 	{
 		return new AddPartnerThread(taskSize);
 	}

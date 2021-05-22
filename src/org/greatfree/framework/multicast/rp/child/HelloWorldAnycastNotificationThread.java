@@ -23,7 +23,7 @@ public class HelloWorldAnycastNotificationThread extends NotificationQueue<Hello
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 
 					// Display the message on the screen. 06/17/2017, Bing Li
 					System.out.println("HelloWorldAnycastNotificationThread-notification: " + notification.getHelloWorld().getHelloWorld());

@@ -1,6 +1,6 @@
 package org.greatfree.testing.cluster.coordinator.admin;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.ShutdownDNNotification;
 
 /*
@@ -8,11 +8,11 @@ import org.greatfree.testing.message.ShutdownDNNotification;
  */
 
 // Created: 11/30/2016, Bing Li
-public class ShutdownDNThreadCreator implements NotificationThreadCreatable<ShutdownDNNotification, ShutdownDNThread>
+public class ShutdownDNThreadCreator implements NotificationQueueCreator<ShutdownDNNotification, ShutdownDNThread>
 {
 
 	@Override
-	public ShutdownDNThread createNotificationThreadInstance(int taskSize)
+	public ShutdownDNThread createInstance(int taskSize)
 	{
 		return new ShutdownDNThread(taskSize);
 	}

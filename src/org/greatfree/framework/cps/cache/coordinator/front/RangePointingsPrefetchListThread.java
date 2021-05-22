@@ -27,7 +27,7 @@ public class RangePointingsPrefetchListThread extends RequestQueue<RangePointing
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new RangePointingsPrefetchListResponse(MySortedPrefetchListStore.MIDDLE().getRange(request.getMessage().getMapKey(), request.getMessage().getStartIndex(), request.getMessage().getEndIndex()));
 				try
 				{

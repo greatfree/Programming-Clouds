@@ -28,7 +28,7 @@ public class CachePointingByIndexThread extends RequestQueue<CachePointingByInde
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				if (!request.getMessage().isTiming())
 				{
 					response = new CachePointingByIndexResponse(MySortedDistributedCacheStore.MIDDLESTORE().get(request.getMessage().getMapKey(), request.getMessage().getIndex()));

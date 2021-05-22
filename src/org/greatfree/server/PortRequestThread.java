@@ -30,7 +30,7 @@ public class PortRequestThread extends RequestQueue<PortRequest, PortStream, Por
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				
 				System.out.println("PortRequestThread: peerKey = " + request.getMessage().getPeerKey());
 				System.out.println("PortRequestThread: ip = " + request.getMessage().getIP());

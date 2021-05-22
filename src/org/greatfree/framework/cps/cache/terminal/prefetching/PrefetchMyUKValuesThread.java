@@ -27,7 +27,7 @@ public class PrefetchMyUKValuesThread extends RequestQueue<PrefetchMyUKValuesReq
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PrefetchMyUKValuesResponse(MyTerminalList.BACKEND().getRange(request.getMessage().getStartIndex(), request.getMessage().getEndIndex()));
 				try
 				{

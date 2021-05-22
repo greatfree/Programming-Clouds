@@ -26,7 +26,7 @@ class MerchandisePollRequestThread extends RequestQueue<MerchandisePollRequest, 
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new MerchandisePollResponse(MerchandiseDB.CS().isAvailable(request.getMessage().getMerchandise(), request.getMessage().getQuantity()));
 				try
 				{

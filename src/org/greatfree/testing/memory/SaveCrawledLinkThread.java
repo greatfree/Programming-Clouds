@@ -35,7 +35,7 @@ public class SaveCrawledLinkThread extends NotificationQueue<AddCrawledLinkNotif
 				try
 				{
 					// Dequeue the notification. 11/28/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Save the crawled link into the memory cache. 11/28/2014, Bing Li
 					LinkPond.STORE().save(notification.getLink());
 					// Dispose the notification. 11/28/2014, Bing Li

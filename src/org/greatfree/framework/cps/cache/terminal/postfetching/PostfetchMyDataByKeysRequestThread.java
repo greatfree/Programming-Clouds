@@ -27,7 +27,7 @@ public class PostfetchMyDataByKeysRequestThread extends RequestQueue<PostfetchMy
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new PostfetchMyDataByKeysResponse(MyTerminalMap.BACKEND().get(request.getMessage().getResourceKeys()));
 				
 				System.out.println("PostfetchMyDataByKeysRequestThread: retrieved data size = " + response.getData().size());

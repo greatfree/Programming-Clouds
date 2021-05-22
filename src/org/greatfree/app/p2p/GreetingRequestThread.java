@@ -26,7 +26,7 @@ class GreetingRequestThread extends RequestQueue<GreetingRequest, GreetingStream
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				response = new GreetingResponse("Fine! How are you?");
 				try
 				{

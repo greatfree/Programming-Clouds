@@ -40,7 +40,7 @@ public class StopDNThread extends NotificationQueue<StopDNMultiNotification>
 				try
 				{
 					// Dequeue the notification. 11/27/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					try
 					{
 						// Disseminate the stop notification to all of the current DN's children nodes. 11/27/2014, Bing Li

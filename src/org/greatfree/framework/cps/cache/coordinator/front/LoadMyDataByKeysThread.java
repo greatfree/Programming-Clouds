@@ -31,7 +31,7 @@ public class LoadMyDataByKeysThread extends RequestQueue<LoadMyDataByKeysRequest
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					if (!request.getMessage().isPostMap())

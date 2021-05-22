@@ -11,7 +11,7 @@ import org.greatfree.app.cs.twonode.message.MerchandiseResponse;
 import org.greatfree.app.cs.twonode.message.MerchandiseStream;
 import org.greatfree.app.cs.twonode.message.OrderDecisionNotification;
 import org.greatfree.app.cs.twonode.message.PostMerchandiseNotification;
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -152,7 +152,7 @@ class BusinessServerDispatcher extends ServerDispatcher<ServerMessage>
 	}
 
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		switch (message.getMessage().getType())
 		{

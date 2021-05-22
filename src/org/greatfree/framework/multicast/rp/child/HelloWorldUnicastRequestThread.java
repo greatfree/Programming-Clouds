@@ -30,7 +30,7 @@ public class HelloWorldUnicastRequestThread extends NotificationQueue<HelloWorld
 				try
 				{
 					// Dequeue the request. 11/29/2014, Bing Li
-					request = this.getNotification();
+					request = this.dequeue();
 
 					// Print the query on the screen. 06/17/2017, Bing Li
 					System.out.println("Query: " + request.getHelloWorld().getHelloWorld());

@@ -7,7 +7,7 @@ import org.greatfree.app.cps.message.MerchandiseRequest;
 import org.greatfree.app.cps.message.MerchandiseResponse;
 import org.greatfree.app.cps.message.MerchandiseStream;
 import org.greatfree.app.cps.message.OrderNotification;
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -58,7 +58,7 @@ public class VendorCoordinatorDispatcher extends ServerDispatcher<ServerMessage>
 	}
 
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		switch (message.getMessage().getType())
 		{

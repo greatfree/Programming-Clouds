@@ -24,7 +24,7 @@ public class SaveMyPointingsListThread extends NotificationQueue<SaveMyPointings
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MySortedDistributedList.MIDDLE().addAll(notification.getPointings());
 					this.disposeMessage(notification);
 				}

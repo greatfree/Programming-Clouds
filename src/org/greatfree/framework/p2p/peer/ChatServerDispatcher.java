@@ -3,7 +3,7 @@ package org.greatfree.framework.p2p.peer;
 import java.util.Calendar;
 
 import org.greatfree.chat.message.ChatMessageType;
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.p2p.message.AddPartnerNotification;
@@ -115,7 +115,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 	}
 
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		// Check the types of received messages. 04/17/2017, Bing Li
 		switch (message.getMessage().getType())

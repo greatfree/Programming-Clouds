@@ -27,7 +27,7 @@ public class PostfetchMyPointingByIndexRequestThread extends RequestQueue<Postfe
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				System.out.println("PostfetchMyPointingByIndexRequestThread: index = " + request.getMessage().getIndex());
 				response = new PostfetchMyPointingByIndexResponse(MySortedTerminalList.BACKEND().getPointing(request.getMessage().getIndex()));
 				if (response.getPointing() != null)

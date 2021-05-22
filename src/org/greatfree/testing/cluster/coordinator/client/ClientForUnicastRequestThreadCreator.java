@@ -1,6 +1,6 @@
 package org.greatfree.testing.cluster.coordinator.client;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.testing.message.ClientForUnicastRequest;
 import org.greatfree.testing.message.ClientForUnicastResponse;
 import org.greatfree.testing.message.ClientForUnicastStream;
@@ -10,12 +10,12 @@ import org.greatfree.testing.message.ClientForUnicastStream;
  */
 
 // Created: 11/22/2016, Bing Li
-public class ClientForUnicastRequestThreadCreator implements RequestThreadCreatable<ClientForUnicastRequest, ClientForUnicastStream, ClientForUnicastResponse, ClientForUnicastRequestThread>
+public class ClientForUnicastRequestThreadCreator implements RequestQueueCreator<ClientForUnicastRequest, ClientForUnicastStream, ClientForUnicastResponse, ClientForUnicastRequestThread>
 
 {
 
 	@Override
-	public ClientForUnicastRequestThread createRequestThreadInstance(int taskSize)
+	public ClientForUnicastRequestThread createInstance(int taskSize)
 	{
 		return new ClientForUnicastRequestThread(taskSize);
 	}

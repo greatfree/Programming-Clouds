@@ -29,7 +29,7 @@ class FrontRequestThread extends RequestQueue<FrontRequest, FrontStream, FrontRe
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					System.out.println("The query from front end: " + request.getMessage().getQuery());

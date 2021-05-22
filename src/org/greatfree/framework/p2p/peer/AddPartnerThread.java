@@ -27,7 +27,7 @@ class AddPartnerThread extends NotificationQueue<AddPartnerNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Just show the invitation on the screen. 06/11/2017, Bing Li
 					System.out.println(notification.getLocalUserName() + " says: " + notification.getInvitation());
 					this.disposeMessage(notification);

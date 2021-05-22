@@ -28,7 +28,7 @@ public class DequeueMyStoreDataThread extends RequestQueue<DequeueMyStoreDataReq
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					response = new DequeueMyStoreDataResponse(MyDistributedQueueStore.MIDDLESTORE().dequeueAll(request.getMessage().getQueueKey(), request.getMessage().getCount()));

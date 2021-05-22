@@ -43,7 +43,7 @@ public class ClientForAnycastRequestThread extends RequestQueue<ClientForAnycast
 			while (!this.isEmpty())
 			{
 				// Dequeue a request. 02/15/2016, Bing Li
-				request = this.getRequest();
+				request = this.dequeue();
 
 				// Anycasting request is performed here ...
 				result = CoordinatorMulticastReader.COORDINATE().anycastRequest(request.getMessage().getMessage());

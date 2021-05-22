@@ -39,7 +39,7 @@ public class SearchKeywordThread extends RequestQueue<SearchKeywordRequest, Sear
 			while (!this.isEmpty())
 			{
 				// Dequeue a request. 11/29/2014, Bing Li
-				request = this.getRequest();
+				request = this.dequeue();
 				// Invoke the multicastor reader to retrieve the data in the cluster of the memory nodes in an anycast manner. 11/29/2014, Bing Li
 				response = new SearchKeywordResponse(request.getMessage().getKeyword(), CoordinatorMulticastReader.COORDINATE().searchKeyword(request.getMessage().getKeyword()));
 				try

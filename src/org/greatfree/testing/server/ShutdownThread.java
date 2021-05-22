@@ -38,7 +38,7 @@ public class ShutdownThread extends NotificationQueue<ShutdownServerNotification
 				try
 				{
 					// Dequeue the notification. 01/20/2016, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Set the server as shutdown. 01/30/2016, Bing Li
 					ServerStatus.FREE().setShutdown(AdminConfig.SERVER_ID);
 					try

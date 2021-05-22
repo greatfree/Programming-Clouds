@@ -1,6 +1,6 @@
 package org.greatfree.testing.cluster.coordinator.client;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.ClientForAnycastNotification;
 
 /*
@@ -8,11 +8,11 @@ import org.greatfree.testing.message.ClientForAnycastNotification;
  */
 
 // Created: 11/21/2016, Bing Li
-public class ClientForAnycastNotificationThreadCreator implements NotificationThreadCreatable<ClientForAnycastNotification, ClientForAnycastNotificationThread>
+public class ClientForAnycastNotificationThreadCreator implements NotificationQueueCreator<ClientForAnycastNotification, ClientForAnycastNotificationThread>
 {
 
 	@Override
-	public ClientForAnycastNotificationThread createNotificationThreadInstance(int taskSize)
+	public ClientForAnycastNotificationThread createInstance(int taskSize)
 	{
 		return new ClientForAnycastNotificationThread(taskSize);
 	}

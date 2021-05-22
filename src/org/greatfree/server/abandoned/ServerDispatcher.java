@@ -3,7 +3,7 @@ package org.greatfree.server.abandoned;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -84,7 +84,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 				.build();
 	}
 	public abstract void dispose(long timeout) throws InterruptedException;
-	public abstract void process(OutMessageStream<ServerMessage> message);
+	public abstract void process(MessageStream<ServerMessage> message);
 	
 	/*
 	 * Shut down the server message dispatcher. 09/20/2014, Bing Li
@@ -105,7 +105,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 	/*
 	 * Process the available messages in a concurrent way. 09/20/2014, Bing Li
 	 */
-	public void consume(OutMessageStream<ServerMessage> message)
+	public void consume(MessageStream<ServerMessage> message)
 	{
 		// Check the types of received messages. 11/09/2014, Bing Li
 		switch (message.getMessage().getType())

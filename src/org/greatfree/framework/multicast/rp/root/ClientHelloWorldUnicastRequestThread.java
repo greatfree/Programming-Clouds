@@ -30,7 +30,7 @@ public class ClientHelloWorldUnicastRequestThread extends RequestQueue<ClientHel
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					response = new ClientHelloWorldUnicastResponse(Tools.filter(RootMulticastor.ROOT().unicastRead(new HelloWorldUnicastRequest(RootPeer.ROOT().getLocalIP(), request.getMessage().getHello())), HelloWorldUnicastResponse.class));

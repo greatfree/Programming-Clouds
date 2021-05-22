@@ -23,7 +23,7 @@ public class RootRPMulticastResponseThread extends NotificationQueue<RPMulticast
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					if (notification.getResponses() != null)
 					{

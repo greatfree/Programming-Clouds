@@ -23,7 +23,7 @@ public class OrderNotificationDBThread extends NotificationQueue<OrderNotificati
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("The coordinator notification: " + notification.getMerchandise() + ", " + notification.getCount());
 					this.disposeMessage(notification);
 				}

@@ -29,7 +29,7 @@ class StreamNotificationThread extends NotificationQueue<StreamNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("StreamNotificationThread: stream received: " + notification.getData());
 					if (RootMulticastor.CHILD_STREAM().resetChildren(StreamRegistry.UNICAST().getSubscriberIPs(Stream.generateKey(notification.getData().getPublisher(), notification.getData().getTopic()))))
 					{

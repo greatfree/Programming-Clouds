@@ -23,7 +23,7 @@ class RootIPAddressBroadcastNotificationThread extends NotificationQueue<RootIPA
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 //					System.out.println("RootIPAddressBroadcastNotificationThread: root Address: " + notification.getRootAddress().getIP() + ":" + notification.getRootAddress().getPort());
 					

@@ -2,7 +2,7 @@ package org.greatfree.testing.client;
 
 import java.util.Calendar;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.InitReadFeedbackNotification;
@@ -95,7 +95,7 @@ public class ClientServerDispatcher extends ServerDispatcher<ServerMessage>
 	 */
 //	public void consume(OutMessageStream<ServerMessage> message)
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		// Detect the message type. 11/07/2014, Bing Li
 		switch (message.getMessage().getType())

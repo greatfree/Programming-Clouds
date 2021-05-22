@@ -1,6 +1,6 @@
 package org.greatfree.testing.crawlserver;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.StopCrawlMultiNotification;
 
 /*
@@ -8,11 +8,11 @@ import org.greatfree.testing.message.StopCrawlMultiNotification;
  */
 
 // Created: 11/27/2014, Bing Li
-public class StopCrawlThreadCreator implements NotificationThreadCreatable<StopCrawlMultiNotification, StopCrawlThread>
+public class StopCrawlThreadCreator implements NotificationQueueCreator<StopCrawlMultiNotification, StopCrawlThread>
 {
 	// Create the instance of StopCrawlThread. 11/27/2014, Bing Li
 	@Override
-	public StopCrawlThread createNotificationThreadInstance(int taskSize)
+	public StopCrawlThread createInstance(int taskSize)
 	{
 		return new StopCrawlThread(taskSize);
 	}

@@ -3,10 +3,10 @@ package org.greatfree.framework.cps.cache.message.prefetch;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.locks.Lock;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 
 // Created: 07/24/2018, Bing Li
-public class PrefetchMyCachePointingsStream extends OutMessageStream<PrefetchMyCachePointingsRequest>
+public class PrefetchMyCachePointingsStream extends MessageStream<PrefetchMyCachePointingsRequest>
 {
 
 	public PrefetchMyCachePointingsStream(ObjectOutputStream out, Lock lock, PrefetchMyCachePointingsRequest message)

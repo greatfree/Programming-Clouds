@@ -3,10 +3,10 @@ package org.greatfree.framework.cps.cache.message.front;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.locks.Lock;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 
 // Created: 07/20/2018, Bing Li
-public class LoadMinMyPointingStream extends OutMessageStream<LoadMinMyPointingRequest>
+public class LoadMinMyPointingStream extends MessageStream<LoadMinMyPointingRequest>
 {
 
 	public LoadMinMyPointingStream(ObjectOutputStream out, Lock lock, LoadMinMyPointingRequest message)

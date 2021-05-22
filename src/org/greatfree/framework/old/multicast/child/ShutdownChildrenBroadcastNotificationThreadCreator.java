@@ -1,6 +1,6 @@
 package org.greatfree.framework.old.multicast.child;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.framework.multicast.message.OldShutdownChildrenBroadcastNotification;
 
 /*
@@ -9,11 +9,11 @@ import org.greatfree.framework.multicast.message.OldShutdownChildrenBroadcastNot
 
 // Created: 05/19/2017, Bing Li
 //public class ShutdownChildrenBroadcastNotificationThreadCreator implements BoundNotificationThreadCreatable<ShutdownChildrenBroadcastNotification, ClusterMessageDisposer<ShutdownChildrenBroadcastNotification>, ShutdownChildrenBroadcastNotificationThread>
-class ShutdownChildrenBroadcastNotificationThreadCreator implements NotificationThreadCreatable<OldShutdownChildrenBroadcastNotification, ShutdownChildrenBroadcastNotificationThread>
+class ShutdownChildrenBroadcastNotificationThreadCreator implements NotificationQueueCreator<OldShutdownChildrenBroadcastNotification, ShutdownChildrenBroadcastNotificationThread>
 {
 
 	@Override
-	public ShutdownChildrenBroadcastNotificationThread createNotificationThreadInstance(int taskSize)
+	public ShutdownChildrenBroadcastNotificationThread createInstance(int taskSize)
 	{
 		return new ShutdownChildrenBroadcastNotificationThread(taskSize);
 	}

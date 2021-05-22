@@ -47,7 +47,7 @@ public class PutUnicastNotificationThread<Key extends CacheKey<String>, Value ex
 				try
 				{
 					// Dequeue the notification. 07/15/2017, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Get the instance of distributed map from the registry. 07/15/2017, Bing Li
 					map = this.registry.get(notification.getValue().getCacheKey());
 					// Put the value into the map. 07/15/2017, Bing Li

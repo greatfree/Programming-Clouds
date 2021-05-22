@@ -1,6 +1,6 @@
 package org.greatfree.testing.server;
 
-import org.greatfree.concurrency.reactive.NotificationThreadCreatable;
+import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.testing.message.WeatherNotification;
 
 /*
@@ -8,10 +8,10 @@ import org.greatfree.testing.message.WeatherNotification;
  */
 
 // Created: 02/15/2016, Bing Li
-class SetWeatherThreadCreator implements NotificationThreadCreatable<WeatherNotification, SetWeatherThread>
+class SetWeatherThreadCreator implements NotificationQueueCreator<WeatherNotification, SetWeatherThread>
 {
 	@Override
-	public SetWeatherThread createNotificationThreadInstance(int taskSize)
+	public SetWeatherThread createInstance(int taskSize)
 	{
 		return new SetWeatherThread(taskSize);
 	}

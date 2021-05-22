@@ -2,7 +2,7 @@ package org.greatfree.framework.multicast.bound.child;
 
 import java.util.Calendar;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.BoundNotificationDispatcher;
 import org.greatfree.concurrency.reactive.BoundRequestDispatcher;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
@@ -281,7 +281,7 @@ public class ChildDispatcher extends ServerDispatcher<ServerMessage>
 	}
 
 	@Override
-	public void process(OutMessageStream<ServerMessage> message)
+	public void process(MessageStream<ServerMessage> message)
 	{
 		OldHelloWorldBroadcastNotification helloWorldNotification;
 //		ShutdownChildrenBroadcastNotification shutdownNotification;

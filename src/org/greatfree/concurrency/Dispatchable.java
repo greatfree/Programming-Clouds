@@ -1,6 +1,6 @@
 package org.greatfree.concurrency;
 
-import org.greatfree.client.OutMessageStream;
+import org.greatfree.client.MessageStream;
 import org.greatfree.message.ServerMessage;
 
 /*
@@ -8,7 +8,7 @@ import org.greatfree.message.ServerMessage;
  */
 
 // Created: 11/07/2014, Bing Li
-public interface Dispatchable<Message extends OutMessageStream<ServerMessage>>
+public interface Dispatchable<Message extends MessageStream<ServerMessage>>
 {
 	// The interface to shutdown the dispatcher. 11/07/2014, Bing Li
 	public void shutdown(long timeout) throws InterruptedException;

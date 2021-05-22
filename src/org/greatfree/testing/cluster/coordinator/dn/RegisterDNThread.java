@@ -36,7 +36,7 @@ public class RegisterDNThread extends NotificationQueue<RegisterClientNotificati
 				try
 				{
 					// Dequeue the notification. 11/26/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Register the DN. 11/26/2014, Bing Li
 					DNRegistry.COORDINATE().register(notification.getClientKey());
 					// Check whether the count of registered DNs is equal to that of predefined ones. 11/26/2014, Bing Li

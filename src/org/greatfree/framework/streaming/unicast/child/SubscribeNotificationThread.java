@@ -23,7 +23,7 @@ public class SubscribeNotificationThread extends NotificationQueue<SubscribeNoti
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("SubscribeNotificationThread: sKey = " + notification.getStreamKey());
 					StreamRegistry.UNICAST().addSubscriber(notification.getStreamKey(), notification.getSubscriber(), notification.getSubscriberIP());
 					this.disposeMessage(notification);

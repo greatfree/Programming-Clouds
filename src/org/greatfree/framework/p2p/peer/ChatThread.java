@@ -27,7 +27,7 @@ class ChatThread extends NotificationQueue<ChatNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					// Show the chatting message on the screen. 06/11/2017, Bing Li
 					System.out.println(notification.getSenderName() + " says, " + notification.getMessage());
 					this.disposeMessage(notification);

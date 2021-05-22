@@ -23,7 +23,7 @@ public class UnsubscribeNotificationThread extends NotificationQueue<Unsubscribe
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("UnsubscribeNotificationThread: streamKey = " + notification.getStreamKey());
 					System.out.println("UnsubscribeNotificationThread: subscriber = " + notification.getSubscriber());
 					StreamRegistry.UNICAST().removeSubscriber(notification.getStreamKey(), notification.getSubscriber());

@@ -28,7 +28,7 @@ public class TopCacheReadPointingsThread extends RequestQueue<TopReadCachePointi
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 					response = new TopReadCachePointingsResponse(MySortedDistributedReadCacheStore.MIDDLESTORE().getTop(request.getMessage().getMapKey(), request.getMessage().getEndIndex()));

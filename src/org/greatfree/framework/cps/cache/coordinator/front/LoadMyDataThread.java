@@ -29,7 +29,7 @@ public class LoadMyDataThread extends RequestQueue<LoadMyDataRequest, LoadMyData
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 //				System.out.println("1) LoadMyDataThread: " + request.getMessage().getMyDataKey());
 				if (!request.getMessage().isPostMap())
 				{

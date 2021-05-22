@@ -30,7 +30,7 @@ public class ClientHelloWorldBroadcastRequestThread extends RequestQueue<ClientH
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				try
 				{
 //					response = new ClientHelloWorldBroadcastResponse(Tools.filter(RootMulticastor.ROOT().broadcastRead(new HelloWorldBroadcastRequest(Tools.getLocalIP(ChatConfig.CHAT_SERVER_PORT), request.getMessage().getHello())), HelloWorldBroadcastResponse.class));

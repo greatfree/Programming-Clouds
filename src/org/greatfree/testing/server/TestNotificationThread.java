@@ -22,7 +22,7 @@ class TestNotificationThread extends NotificationQueue<TestNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 
 					// Process the received notification here. 12/10/2016, Bing Li
 					System.out.println(notification.getMessage());

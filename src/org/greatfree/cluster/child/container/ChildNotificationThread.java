@@ -34,7 +34,7 @@ class ChildNotificationThread extends NotificationQueue<Notification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					/*
 					 * The condition line is added to forward intercasting notifications. 04/26/2019, Bing Li
 					 */

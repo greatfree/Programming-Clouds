@@ -23,7 +23,7 @@ class ChildResponseThread extends NotificationQueue<ChildResponse>
 			{
 				try
 				{
-					response = this.getNotification();
+					response = this.dequeue();
 					
 //					System.out.println("ChildResponseThread-run(): collaboratorKey = " + response.getResponse().getCollaboratorKey());
 					

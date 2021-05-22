@@ -1,6 +1,6 @@
 package org.greatfree.server;
 
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.message.multicast.ClusterIPStream;
@@ -10,11 +10,11 @@ import org.greatfree.message.multicast.ClusterIPStream;
  */
 
 // Created: 05/08/2017, Bing Li
-class ClusterIPRequestThreadCreator implements RequestThreadCreatable<ClusterIPRequest, ClusterIPStream, ClusterIPResponse, ClusterIPRequestThread>
+class ClusterIPRequestThreadCreator implements RequestQueueCreator<ClusterIPRequest, ClusterIPStream, ClusterIPResponse, ClusterIPRequestThread>
 {
 
 	@Override
-	public ClusterIPRequestThread createRequestThreadInstance(int taskSize)
+	public ClusterIPRequestThread createInstance(int taskSize)
 	{
 		return new ClusterIPRequestThread(taskSize);
 	}

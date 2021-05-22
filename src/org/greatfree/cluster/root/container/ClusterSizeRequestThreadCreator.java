@@ -3,14 +3,14 @@ package org.greatfree.cluster.root.container;
 import org.greatfree.cluster.message.ClusterSizeRequest;
 import org.greatfree.cluster.message.ClusterSizeResponse;
 import org.greatfree.cluster.message.ClusterSizeStream;
-import org.greatfree.concurrency.reactive.RequestThreadCreatable;
+import org.greatfree.concurrency.reactive.RequestQueueCreator;
 
 // Created: 09/12/2020, Bing Li
-class ClusterSizeRequestThreadCreator implements RequestThreadCreatable<ClusterSizeRequest, ClusterSizeStream, ClusterSizeResponse, ClusterSizeRequestThread>
+class ClusterSizeRequestThreadCreator implements RequestQueueCreator<ClusterSizeRequest, ClusterSizeStream, ClusterSizeResponse, ClusterSizeRequestThread>
 {
 
 	@Override
-	public ClusterSizeRequestThread createRequestThreadInstance(int taskSize)
+	public ClusterSizeRequestThread createInstance(int taskSize)
 	{
 		return new ClusterSizeRequestThread(taskSize);
 	}

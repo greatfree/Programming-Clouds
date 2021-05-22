@@ -39,7 +39,7 @@ public class InitReadFeedbackThread extends NotificationQueue<InitReadNotificati
 				try
 				{
 					// Dequeue the notification. 11/09/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					try
 					{
 						// Send the instance of InitReadFeedbackNotification to the client which needs to initialize the ObjectInputStream of an instance of FreeClient. 11/09/2014, Bing Li

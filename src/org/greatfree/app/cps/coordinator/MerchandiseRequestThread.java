@@ -28,7 +28,7 @@ public class MerchandiseRequestThread extends RequestQueue<MerchandiseRequest, M
 		{
 			while (!this.isEmpty())
 			{
-				request = this.getRequest();
+				request = this.dequeue();
 				System.out.println("Merchandise query: " + request.getMessage().getQuery());
 				try
 				{
