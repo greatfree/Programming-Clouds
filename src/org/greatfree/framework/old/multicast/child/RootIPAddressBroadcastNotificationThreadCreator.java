@@ -1,8 +1,8 @@
 package org.greatfree.framework.old.multicast.child;
 
 import org.greatfree.concurrency.reactive.BoundNotificationThreadCreatable;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldRootIPAddressBroadcastNotification;
+import org.greatfree.message.MessageDisposer;
 
 /*
  * This is an implementation of the interface BoundNotificationThreadCreatable to create the instance of RootIPAddressBroadcastNotificationThread inside the pool, BoundNotificationDispatcher. 11/26/2014, Bing Li

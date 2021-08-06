@@ -5,7 +5,7 @@ import java.util.Set;
 import org.greatfree.util.Tools;
 
 // Created: 10/01/2019, Bing Li
-public abstract class TaskInvokeRequest extends InstructNotification
+public abstract class TaskInvokeRequest extends ATMNotification
 {
 	private static final long serialVersionUID = 7373558250318366504L;
 	
@@ -23,14 +23,14 @@ public abstract class TaskInvokeRequest extends InstructNotification
 
 	public TaskInvokeRequest(String threadKey, String taskKey)
 	{
-		super(threadKey, ThreadingMessageType.TASK_INVOKE_REQUEST);
+		super(threadKey, ATMMessageType.TASK_INVOKE_REQUEST);
 		this.taskKey = taskKey;
 		this.collaboratorKey = Tools.generateUniqueKey();
 	}
 
 	public TaskInvokeRequest(Set<String> threadKeys, String taskKey)
 	{
-		super(threadKeys, ThreadingMessageType.TASK_INVOKE_REQUEST);
+		super(threadKeys, ATMMessageType.TASK_INVOKE_REQUEST);
 		this.taskKey = taskKey;
 		this.collaboratorKey = Tools.generateUniqueKey();
 	}

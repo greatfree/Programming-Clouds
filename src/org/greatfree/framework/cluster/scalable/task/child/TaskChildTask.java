@@ -12,9 +12,9 @@ import org.greatfree.message.multicast.container.InterChildrenNotification;
 import org.greatfree.message.multicast.container.InterChildrenRequest;
 import org.greatfree.message.multicast.container.IntercastNotification;
 import org.greatfree.message.multicast.container.IntercastRequest;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 
 /*
  * The program defines the task of a child of the task cluster to be accomplished. 09/06/2020, Bing Li
@@ -25,7 +25,7 @@ class TaskChildTask implements ChildTask
 {
 
 	@Override
-	public void processNotification(Notification notification)
+	public void processNotification(ClusterNotification notification)
 	{
 		switch (notification.getApplicationID())
 		{
@@ -57,7 +57,7 @@ class TaskChildTask implements ChildTask
 	}
 
 	@Override
-	public MulticastResponse processRequest(Request request)
+	public MulticastResponse processRequest(ClusterRequest request)
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -85,7 +85,7 @@ class TaskChildTask implements ChildTask
 	}
 
 	@Override
-	public void processResponse(Response response)
+	public void processResponse(CollectedClusterResponse response)
 	{
 		// TODO Auto-generated method stub
 		

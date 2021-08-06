@@ -1,8 +1,8 @@
 package org.greatfree.framework.old.multicast.child;
 
 import org.greatfree.concurrency.reactive.BoundNotificationThreadCreatable;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldRootIPAddressBroadcastNotification;
+import org.greatfree.message.MessageDisposer;
 
 // Created: 05/20/2017, Bing Li
 class BroadcastRootIPAddressNotificationThreadCreator implements BoundNotificationThreadCreatable<OldRootIPAddressBroadcastNotification, MessageDisposer<OldRootIPAddressBroadcastNotification>, BroadcastRootIPAddressNotificationThread>

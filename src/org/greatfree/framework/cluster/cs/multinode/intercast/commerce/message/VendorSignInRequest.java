@@ -1,6 +1,6 @@
 package org.greatfree.framework.cluster.cs.multinode.intercast.commerce.message;
 
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 /*
  * The previous new features are interesting. But for the sign-in request, they might not be used. I need to consider for other messages. 07/22/2019, Bing Li
@@ -13,7 +13,7 @@ import org.greatfree.message.multicast.container.Request;
 
 // Created: 07/22/2019, Bing Li
 // public class VendorSignInRequest extends IntercastRequest
-public class VendorSignInRequest extends Request
+public class VendorSignInRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = 9027919166310115788L;
 

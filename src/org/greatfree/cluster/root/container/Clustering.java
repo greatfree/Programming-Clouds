@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
-import org.greatfree.framework.multicast.message.PeerAddressResponse;
+import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.util.TerminateSignal;
 
 // Created; 01/13/2019, Bing Li

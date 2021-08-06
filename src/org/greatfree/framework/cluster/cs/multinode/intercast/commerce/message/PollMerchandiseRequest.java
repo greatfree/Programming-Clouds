@@ -1,9 +1,9 @@
 package org.greatfree.framework.cluster.cs.multinode.intercast.commerce.message;
 
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 // Created: 07/14/2019, Bing Li
-public class PollMerchandiseRequest extends Request
+public class PollMerchandiseRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = -9177376895223023863L;
 	

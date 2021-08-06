@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import org.greatfree.concurrency.threading.Player;
-import org.greatfree.concurrency.threading.PlayerTask;
+import org.greatfree.concurrency.threading.ATMTask;
 import org.greatfree.concurrency.threading.message.TaskStateNotification;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.exceptions.ThreadAssignmentException;
@@ -16,7 +16,7 @@ import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
 
 // Created: 09/30/2019, Bing Li
-class MasterTask extends PlayerTask
+class MasterTask extends ATMTask
 {
 	private Player p1;
 	private Player p2;

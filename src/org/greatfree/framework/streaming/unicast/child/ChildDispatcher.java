@@ -6,7 +6,6 @@ import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.message.MulticastDIPMessageType;
-import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.framework.multicast.message.ShutdownChildrenBroadcastNotification;
 import org.greatfree.framework.streaming.message.StreamMessageType;
 import org.greatfree.framework.streaming.message.StreamNotification;
@@ -14,12 +13,13 @@ import org.greatfree.framework.streaming.message.SubscribeNotification;
 import org.greatfree.framework.streaming.message.UnsubscribeNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
+import org.greatfree.message.multicast.container.RootAddressNotification;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 03/22/2020, Bing Li
 class ChildDispatcher extends ServerDispatcher<ServerMessage>
 {
-	private NotificationDispatcher<RootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator> rootIPBroadcastNotificationDispatcher;
+	private NotificationDispatcher<RootAddressNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator> rootIPBroadcastNotificationDispatcher;
 
 	private NotificationDispatcher<SubscribeNotification, SubscribeNotificationThread, SubscribeNotificationThreadCreator> subscribeNotificationDispatcher;
 
@@ -33,7 +33,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 	{
 		super(serverThreadPoolSize, serverThreadKeepAliveTime, schedulerPoolSize, schedulerKeepAliveTime);
 
-		this.rootIPBroadcastNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<RootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator>()
+		this.rootIPBroadcastNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<RootAddressNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new RootIPAddressBroadcastNotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
@@ -111,7 +111,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				{
 					super.execute(this.rootIPBroadcastNotificationDispatcher);
 				}
-				this.rootIPBroadcastNotificationDispatcher.enqueue((RootIPAddressBroadcastNotification)message.getMessage());
+				this.rootIPBroadcastNotificationDispatcher.enqueue((RootAddressNotification)message.getMessage());
 				break;
 
 			case StreamMessageType.SUBSCRIBE_NOTIFICATION:

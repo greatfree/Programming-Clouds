@@ -7,10 +7,10 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.multicast.container.IntercastRequest;
 import org.greatfree.message.multicast.container.IntercastRequestStream;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 
 // Created: 03/04/2019, Bing Li
-class IntercastRequestThread extends RequestQueue<IntercastRequest, IntercastRequestStream, Response>
+class IntercastRequestThread extends RequestQueue<IntercastRequest, IntercastRequestStream, CollectedClusterResponse>
 {
 
 	public IntercastRequestThread(int notificationQueueSize)
@@ -22,7 +22,7 @@ class IntercastRequestThread extends RequestQueue<IntercastRequest, IntercastReq
 	public void run()
 	{
 		IntercastRequestStream request;
-		Response response;
+		CollectedClusterResponse response;
 		while (!this.isShutdown())
 		{
 			while (!this.isEmpty())

@@ -2,8 +2,8 @@ package org.greatfree.framework.old.multicast.child;
 
 import org.greatfree.concurrency.reactive.BoundNotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldRootIPAddressBroadcastNotification;
+import org.greatfree.message.MessageDisposer;
 
 /*
  * The thread processes the instances of RootIPAddressBroadcastNotification from the root. Since the notification is shared by the one that needs to forward it, both of them are derived from BoundNotificationQueue for synchronization. 11/26/2014, Bing Li

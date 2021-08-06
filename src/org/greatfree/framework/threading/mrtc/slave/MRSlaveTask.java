@@ -3,17 +3,17 @@ package org.greatfree.framework.threading.mrtc.slave;
 import java.util.Calendar;
 import java.util.Map;
 
-import org.greatfree.concurrency.threading.PlayerTask;
+import org.greatfree.concurrency.threading.ATMTask;
 import org.greatfree.concurrency.threading.message.AllSlavesNotification;
 import org.greatfree.concurrency.threading.message.AllSlaveIPsNotification;
-import org.greatfree.concurrency.threading.message.ThreadingMessageType;
+import org.greatfree.concurrency.threading.message.ATMMessageType;
 import org.greatfree.framework.threading.mrtc.NodeIDs;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
 
 // Created: 09/22/2019, Bing Li
-class MRSlaveTask extends PlayerTask
+class MRSlaveTask extends ATMTask
 {
 
 	@Override
@@ -21,14 +21,14 @@ class MRSlaveTask extends PlayerTask
 	{
 		switch (notification.getApplicationID())
 		{
-			case ThreadingMessageType.TASK_STATE_NOTIFICATION:
+			case ATMMessageType.TASK_STATE_NOTIFICATION:
 				System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				return;
 				
 			/*
 			 * The message is sent from the master when the MR is initialized. It let all of the slaves know about the threads of each slave such that they can perform Map/Reduce among them. 12/19/2019, Bing Li
 			 */
-			case ThreadingMessageType.ALL_SLAVES_NOTIFICATION:
+			case ATMMessageType.ALL_SLAVES_NOTIFICATION:
 				System.out.println("ALL_SLAVES_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				AllSlavesNotification ann = (AllSlavesNotification)notification;
 				// Keep the master name. 01/08/2020, Bing Li
@@ -48,7 +48,7 @@ class MRSlaveTask extends PlayerTask
 				/*
 				 * The message is sent by Distributer. When it is started as a master, the slaves IPs are obtained from the registry server and sent to the slaves for possible concurrent tasks. 01/08/2020, Bing Li
 				 */
-			case ThreadingMessageType.ALL_SLAVE_IPS_NOTIFICATION:
+			case ATMMessageType.ALL_SLAVE_IPS_NOTIFICATION:
 				System.out.println("ALL_SLAVE_IPS_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				AllSlaveIPsNotification asin = (AllSlaveIPsNotification)notification;
 				// Keep the IP addresses. 01/08/2020, Bing Li

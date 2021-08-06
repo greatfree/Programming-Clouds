@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.message.multicast.container.RootAddressNotification;
 
 // Created: 09/23/2018, Bing Li
-class RootIPAddressBroadcastNotificationThread extends NotificationQueue<RootIPAddressBroadcastNotification>
+class RootIPAddressBroadcastNotificationThread extends NotificationQueue<RootAddressNotification>
 {
 
 	public RootIPAddressBroadcastNotificationThread(int taskSize)
@@ -18,7 +18,7 @@ class RootIPAddressBroadcastNotificationThread extends NotificationQueue<RootIPA
 	@Override
 	public void run()
 	{
-		RootIPAddressBroadcastNotification notification;
+		RootAddressNotification notification;
 		while (!this.isShutdown())
 		{
 			while (!this.isEmpty())

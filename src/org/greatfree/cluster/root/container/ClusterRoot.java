@@ -14,7 +14,6 @@ import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.ClusterIPRequest;
-import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.message.multicast.MulticastNotification;
@@ -26,9 +25,10 @@ import org.greatfree.message.multicast.container.ChildRootRequest;
 import org.greatfree.message.multicast.container.ChildRootResponse;
 import org.greatfree.message.multicast.container.IntercastNotification;
 import org.greatfree.message.multicast.container.IntercastRequest;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
+import org.greatfree.message.multicast.container.RootAddressNotification;
 import org.greatfree.multicast.root.RootClient;
 import org.greatfree.server.container.Peer;
 import org.greatfree.server.container.Peer.PeerBuilder;
@@ -119,7 +119,7 @@ class ClusterRoot
 //				this.partitionChild(ip.getIPKey());
 			}
 			
-			this.broadcastNotify(new RootIPAddressBroadcastNotification(new IPAddress(this.root.getPeerID(), this.root.getPeerIP(), this.root.getPort())));
+			this.broadcastNotify(new RootAddressNotification(new IPAddress(this.root.getPeerID(), this.root.getPeerIP(), this.root.getPort())));
 		}
 	
 //		int partitionSize = ipResponse.getIPs().size() / this.replicas + 1;
@@ -410,7 +410,7 @@ class ClusterRoot
 		return this.client.asyncUnicastRead(request);
 	}
 
-	public void processNotification(Notification notification) throws IOException, DistributedNodeFailedException
+	public void processNotification(ClusterNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		switch (notification.getNotificationType())
 		{
@@ -575,7 +575,7 @@ class ClusterRoot
 		}
 	}
 	
-	public Response processRequest(Request request) throws DistributedNodeFailedException, IOException, ClassNotFoundException, RemoteReadException
+	public CollectedClusterResponse processRequest(ClusterRequest request) throws DistributedNodeFailedException, IOException, ClassNotFoundException, RemoteReadException
 	{
 		switch (request.getRequestType())
 		{
@@ -586,15 +586,15 @@ class ClusterRoot
 //					if (request.getPartitionIndex() == ClusterConfig.NO_PARTITION_INDEX)
 					if (request.getChildrenKeys() != ClusterConfig.NO_CHILDREN_KEYS)
 					{
-						return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.client.broadcastRead(request, request.getChildrenKeys()));
+						return new CollectedClusterResponse(MulticastMessageType.BROADCAST_RESPONSE, this.client.broadcastRead(request, request.getChildrenKeys()));
 					}
 					else if (request.getPartitionIndex() != ClusterConfig.NO_PARTITION_INDEX)
 					{
-						return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.broadcastReadByPartition(request, request.getPartitionIndex()));
+						return new CollectedClusterResponse(MulticastMessageType.BROADCAST_RESPONSE, this.broadcastReadByPartition(request, request.getPartitionIndex()));
 					}
 					else
 					{
-						return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.client.broadcastRead(request));
+						return new CollectedClusterResponse(MulticastMessageType.BROADCAST_RESPONSE, this.client.broadcastRead(request));
 					}
 				}
 				else
@@ -606,7 +606,7 @@ class ClusterRoot
 			case MulticastMessageType.ANYCAST_REQUEST:
 				if (this.children.size() > 0)
 				{
-					return new Response(MulticastMessageType.ANYCAST_RESPONSE, this.client.anycastRead(request, ClusterConfig.ANYCAST_REQUEST_LEAST_COUNT));
+					return new CollectedClusterResponse(MulticastMessageType.ANYCAST_RESPONSE, this.client.anycastRead(request, ClusterConfig.ANYCAST_REQUEST_LEAST_COUNT));
 				}
 				else
 				{
@@ -620,11 +620,11 @@ class ClusterRoot
 					// This key is important. Developers can set the value. So they can decide how to balance the load. For example, in the case of S3, all of the encoded data slices for the same encoding block can be sent to a unique child for merging. The client key can be the ID of the encoding block. 07/11/2020, Bing Li
 					if (request.getClientKey() != null)
 					{
-						return new Response(MulticastMessageType.UNICAST_RESPONSE, this.client.unicastNearestRead(request.getClientKey(), request));
+						return new CollectedClusterResponse(MulticastMessageType.UNICAST_RESPONSE, this.client.unicastNearestRead(request.getClientKey(), request));
 					}
 					else
 					{
-						return new Response(MulticastMessageType.UNICAST_RESPONSE, this.client.unicastRead(request));
+						return new CollectedClusterResponse(MulticastMessageType.UNICAST_RESPONSE, this.client.unicastRead(request));
 					}
 				}
 				else
@@ -779,7 +779,7 @@ class ClusterRoot
 		}
 	}
 
-	public Response processIntercastRequest(IntercastRequest ir) throws ClassNotFoundException, RemoteReadException, IOException
+	public CollectedClusterResponse processIntercastRequest(IntercastRequest ir) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		if (this.children.size() > 0)
 		{
@@ -829,7 +829,7 @@ class ClusterRoot
 //			return this.client.unicastNearestRead(ir.getSourceKey(), ir);
 //			IPAddress sourceIP = this.root.getIP(this.children.get(ir.getSourceKey()));
 			IPAddress sourceIP = this.root.getIP(this.client.getNearestChildKey(ir.getSourceKey()));
-			return (Response)this.root.read(sourceIP.getIP(), sourceIP.getPort(), ir);
+			return (CollectedClusterResponse)this.root.read(sourceIP.getIP(), sourceIP.getPort(), ir);
 		}
 		else
 		{
@@ -840,6 +840,6 @@ class ClusterRoot
 	
 	public ChildRootResponse processRequest(ChildRootRequest request)
 	{
-		return RootServiceProvider.ROOT().processChildRequst(request);
+		return RootServiceProvider.ROOT().processChildRequest(request);
 	}
 }

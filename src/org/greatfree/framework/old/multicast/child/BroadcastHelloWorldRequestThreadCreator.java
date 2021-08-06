@@ -1,8 +1,8 @@
 package org.greatfree.framework.old.multicast.child;
 
 import org.greatfree.concurrency.reactive.BoundNotificationThreadCreatable;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldHelloWorldBroadcastRequest;
+import org.greatfree.message.MessageDisposer;
 
 /*
  * The creator initialize the instance of the thread, TransmitBroadcastRequestThread. The BoundNotificationDispatcher can schedule tasks to the thread. 11/29/2014, Bing Li

@@ -3,9 +3,9 @@ package org.greatfree.cluster.root.container;
 import org.greatfree.cluster.RootTask;
 import org.greatfree.message.multicast.container.ChildRootRequest;
 import org.greatfree.message.multicast.container.ChildRootResponse;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 
 // Created: 01/27/2019, Bing Li
 public class RootServiceProvider
@@ -36,17 +36,17 @@ public class RootServiceProvider
 		this.task = task;
 	}
 	
-	public void processNotification(Notification notification)
+	public void processNotification(ClusterNotification notification)
 	{
 		this.task.processNotification(notification);
 	}
 
-	public Response processRequest(Request request)
+	public CollectedClusterResponse processRequest(ClusterRequest request)
 	{
 		return this.task.processRequest(request);
 	}
 	
-	public ChildRootResponse processChildRequst(ChildRootRequest request)
+	public ChildRootResponse processChildRequest(ChildRootRequest request)
 	{
 		return this.task.processChildRequest(request);
 	}

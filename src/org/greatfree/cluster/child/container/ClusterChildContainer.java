@@ -11,7 +11,7 @@ import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.message.multicast.container.ChildRootRequest;
 import org.greatfree.message.multicast.container.ChildRootResponse;
-import org.greatfree.message.multicast.container.Notification;
+import org.greatfree.message.multicast.container.ClusterNotification;
 import org.greatfree.server.container.PeerProfile;
 import org.greatfree.server.container.ServerProfile;
 import org.greatfree.util.IPAddress;
@@ -129,7 +129,7 @@ public class ClusterChildContainer
 	/*
 	 * The child is enabled to interact with the root through notification synchronously. 09/14/2020, Bing Li
 	 */
-	public void syncNotifyRoot(Notification notification) throws IOException, InterruptedException
+	public void syncNotifyRoot(ClusterNotification notification) throws IOException, InterruptedException
 	{
 		this.child.syncNotifyRoot(notification);
 	}
@@ -137,7 +137,7 @@ public class ClusterChildContainer
 	/*
 	 * The child is enabled to interact with the root through notification asynchronously. 09/14/2020, Bing Li
 	 */
-	public void asyncNotifyRoot(Notification notification)
+	public void asyncNotifyRoot(ClusterNotification notification)
 	{
 		this.child.asyncNotifyRoot(notification);
 	}

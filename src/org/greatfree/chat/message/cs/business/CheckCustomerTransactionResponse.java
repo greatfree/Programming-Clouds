@@ -2,7 +2,7 @@ package org.greatfree.chat.message.cs.business;
 
 import java.util.Map;
 
-import org.greatfree.app.business.dip.cs.multinode.server.Transaction;
+import org.greatfree.app.business.cs.multinode.server.Transaction;
 import org.greatfree.message.ServerMessage;
 
 // Created: 12/20/2017, Bing Li

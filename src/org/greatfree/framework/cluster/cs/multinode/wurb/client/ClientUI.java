@@ -14,7 +14,7 @@ import org.greatfree.framework.cluster.cs.multinode.wurb.message.ChatPartnerResp
 import org.greatfree.framework.cluster.cs.multinode.wurb.message.ChatRegistryRequest;
 import org.greatfree.framework.cluster.cs.multinode.wurb.message.ChatRegistryResponse;
 import org.greatfree.framework.cluster.cs.twonode.client.ChatClient;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Tools;
 
 // Created: 02/04/2019, Bing Li
@@ -71,12 +71,12 @@ class ClientUI
 	{
 		List<ChatRegistryResponse> crReses;
 		List<ChatPartnerResponse> cpReses;
-		Response response;
+		CollectedClusterResponse response;
 		
 		switch (option)
 		{
 			case MenuOptions.REGISTER_CHATTING:
-				response = (Response)ChatClient.CONTAINER().read(new ChatRegistryRequest(ChatMaintainer.CLUSTER_CONTAINER().getLocalUserKey(), ChatMaintainer.CLUSTER_CONTAINER().getLocalUsername(), ChatMaintainer.CLUSTER_CONTAINER().getLocalUsername() + " is a great & free guy!"));
+				response = (CollectedClusterResponse)ChatClient.CONTAINER().read(new ChatRegistryRequest(ChatMaintainer.CLUSTER_CONTAINER().getLocalUserKey(), ChatMaintainer.CLUSTER_CONTAINER().getLocalUsername(), ChatMaintainer.CLUSTER_CONTAINER().getLocalUsername() + " is a great & free guy!"));
 				crReses = Tools.filter(response.getResponses(), ChatRegistryResponse.class);
 				for (ChatRegistryResponse entry : crReses)
 				{
@@ -85,7 +85,7 @@ class ClientUI
 				break;
 				
 			case MenuOptions.SEARCH_USER:
-				response = (Response)ChatClient.CONTAINER().read(new ChatPartnerRequest(ChatMaintainer.CLUSTER_CONTAINER().getPartnerKey()));
+				response = (CollectedClusterResponse)ChatClient.CONTAINER().read(new ChatPartnerRequest(ChatMaintainer.CLUSTER_CONTAINER().getPartnerKey()));
 				cpReses = Tools.filter(response.getResponses(), ChatPartnerResponse.class);
 				for (ChatPartnerResponse entry : cpReses)
 				{

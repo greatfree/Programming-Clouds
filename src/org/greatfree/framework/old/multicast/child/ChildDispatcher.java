@@ -2,8 +2,8 @@ package org.greatfree.framework.old.multicast.child;
 
 import org.greatfree.concurrency.reactive.BoundNotificationDispatcher;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldRootIPAddressBroadcastNotification;
+import org.greatfree.message.MessageDisposer;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.server.ServerDispatcher;
 

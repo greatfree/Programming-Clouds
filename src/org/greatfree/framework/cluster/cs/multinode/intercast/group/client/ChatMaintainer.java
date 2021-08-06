@@ -11,7 +11,7 @@ import org.greatfree.framework.cluster.cs.multinode.intercast.group.message.Poll
 import org.greatfree.framework.cluster.cs.multinode.intercast.group.message.PollGroupChatResponse;
 import org.greatfree.framework.cluster.cs.twonode.client.ChatClient;
 import org.greatfree.framework.cs.multinode.server.CSAccount;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Tools;
 
 import com.google.common.collect.Sets;
@@ -134,7 +134,7 @@ class ChatMaintainer
 	{
 		List<PollGroupChatResponse> responses;
 		PollGroupChatRequest request = new PollGroupChatRequest(this.localUserKey, this.groupKey, ChatConfig.MESSAGE_COUNT, ChatConfig.CHAT_MESSAGE_OBTAINED_PERIOD, this.localUsername);
-		Response response = (Response)ChatClient.CONTAINER().read(request);
+		CollectedClusterResponse response = (CollectedClusterResponse)ChatClient.CONTAINER().read(request);
 		responses = Tools.filter(response.getResponses(), PollGroupChatResponse.class);
 		for (PollGroupChatResponse entry : responses)
 		{

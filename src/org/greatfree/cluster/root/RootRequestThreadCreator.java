@@ -1,12 +1,12 @@
 package org.greatfree.cluster.root;
 
 import org.greatfree.concurrency.reactive.RequestQueueCreator;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.RequestStream;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.ClusterRequestStream;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 
 // Created: 09/23/2018, Bing Li
-class RootRequestThreadCreator implements RequestQueueCreator<Request, RequestStream, Response, RootRequestThread>
+class RootRequestThreadCreator implements RequestQueueCreator<ClusterRequest, ClusterRequestStream, CollectedClusterResponse, RootRequestThread>
 {
 
 	@Override

@@ -11,7 +11,7 @@ public abstract class TaskResponse extends Notification
 
 	public TaskResponse(String collaboratorKey)
 	{
-		super(ThreadingMessageType.TASK_RESPONSE);
+		super(ATMMessageType.TASK_RESPONSE);
 		this.collaboratorKey = collaboratorKey;
 	}
 

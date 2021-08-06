@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.greatfree.concurrency.reactive.BoundNotificationQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.MulticastConfig;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldHelloWorldBroadcastRequest;
+import org.greatfree.message.MessageDisposer;
 
 /*
  * The thread broadcasts the instance of HelloWorldBroadcastRequest to the local node's children. 11/29/2014, Bing Li

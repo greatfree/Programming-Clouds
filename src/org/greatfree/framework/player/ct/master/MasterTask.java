@@ -3,10 +3,10 @@ package org.greatfree.framework.player.ct.master;
 import java.io.IOException;
 import java.util.Calendar;
 
-import org.greatfree.concurrency.threading.PlayerTask;
+import org.greatfree.concurrency.threading.ATMTask;
 import org.greatfree.concurrency.threading.Player;
 import org.greatfree.concurrency.threading.message.TaskStateNotification;
-import org.greatfree.concurrency.threading.message.ThreadingMessageType;
+import org.greatfree.concurrency.threading.message.ATMMessageType;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.exceptions.ThreadAssignmentException;
 import org.greatfree.framework.threading.TaskConfig;
@@ -16,7 +16,7 @@ import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
 
 // Created: 09/29/2019, Bing Li
-class MasterTask extends PlayerTask
+class MasterTask extends ATMTask
 {
 	private Player p;
 	
@@ -34,7 +34,7 @@ class MasterTask extends PlayerTask
 	{
 		switch (notification.getApplicationID())
 		{
-			case ThreadingMessageType.TASK_STATE_NOTIFICATION:
+			case ATMMessageType.TASK_STATE_NOTIFICATION:
 				System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				TaskStateNotification rst = (TaskStateNotification)notification;
 				if (rst.getTaskKey().equals(TaskConfig.PRINT_TASK_KEY))

@@ -2,8 +2,8 @@ package org.greatfree.framework.multicast.bound.child;
 
 import org.greatfree.concurrency.reactive.BoundNotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldHelloWorldBroadcastNotification;
+import org.greatfree.message.MessageDisposer;
 
 // Created: 08/26/2018, Bing Li
 public class HelloWorldBroadcastNotificationThread extends BoundNotificationQueue<OldHelloWorldBroadcastNotification, MessageDisposer<OldHelloWorldBroadcastNotification>>

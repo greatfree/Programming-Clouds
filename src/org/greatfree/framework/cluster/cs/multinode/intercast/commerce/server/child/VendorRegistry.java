@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.greatfree.app.business.dip.cs.multinode.server.CSAccount;
+import org.greatfree.app.business.cs.multinode.server.CSAccount;
 
 // Created: 07/21/2019, Bing Li
 class VendorRegistry

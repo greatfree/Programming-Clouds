@@ -1,10 +1,10 @@
 package org.greatfree.demo.cluster.mncs.message;
 
 import org.greatfree.message.multicast.MulticastMessageType;
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 // Created: 02/17/2019, Bing Li
-public class MerchandiseRequest extends Request
+public class MerchandiseRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = 1542695247585948242L;
 

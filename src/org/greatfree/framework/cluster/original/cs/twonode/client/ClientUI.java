@@ -11,7 +11,7 @@ import org.greatfree.framework.cluster.original.cs.twonode.message.ChatRegistryR
 import org.greatfree.framework.cs.twonode.client.ChatMaintainer;
 import org.greatfree.framework.cs.twonode.client.ClientMenu;
 import org.greatfree.framework.cs.twonode.client.MenuOptions;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Tools;
 
 // Created: 10/24/2018, Bing Li
@@ -67,13 +67,13 @@ class ClientUI
 	 */
 	public void send(int option) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		Response response;
+		CollectedClusterResponse response;
 		List<ChatRegistryResponse> registryResponses;
 		// Check the option to interact with the chatting server. 04/23/2017, Bing Li
 		switch (option)
 		{
 			case MenuOptions.REGISTER_CHATTING:
-				response = (Response)ChatClient.CLUSTER_FRONT().read(new ChatRegistryRequest(ChatMaintainer.CS().getLocalUserKey(), ChatMaintainer.CS().getLocalUsername(), ChatMaintainer.CS().getLocalUsername() + " is a great & free guy!"));
+				response = (CollectedClusterResponse)ChatClient.CLUSTER_FRONT().read(new ChatRegistryRequest(ChatMaintainer.CS().getLocalUserKey(), ChatMaintainer.CS().getLocalUsername(), ChatMaintainer.CS().getLocalUsername() + " is a great & free guy!"));
 				registryResponses = Tools.filter(response.getResponses(), ChatRegistryResponse.class);
 				for (ChatRegistryResponse entry : registryResponses)
 				{

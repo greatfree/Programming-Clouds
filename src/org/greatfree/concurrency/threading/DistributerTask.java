@@ -7,7 +7,7 @@ import java.util.Map;
 import org.greatfree.concurrency.threading.message.AllSlaveIPsNotification;
 import org.greatfree.concurrency.threading.message.AllSlavesNotification;
 import org.greatfree.concurrency.threading.message.ExecuteNotification;
-import org.greatfree.concurrency.threading.message.InstructNotification;
+import org.greatfree.concurrency.threading.message.ATMNotification;
 import org.greatfree.concurrency.threading.message.InteractNotification;
 import org.greatfree.concurrency.threading.message.InteractRequest;
 import org.greatfree.concurrency.threading.message.IsAliveRequest;
@@ -15,13 +15,13 @@ import org.greatfree.concurrency.threading.message.IsAliveResponse;
 import org.greatfree.concurrency.threading.message.KillAllNotification;
 import org.greatfree.concurrency.threading.message.KillNotification;
 import org.greatfree.concurrency.threading.message.MasterNotification;
-import org.greatfree.concurrency.threading.message.NotificationThreadRequest;
-import org.greatfree.concurrency.threading.message.NotificationThreadResponse;
-import org.greatfree.concurrency.threading.message.ShutdownNotification;
+import org.greatfree.concurrency.threading.message.ATMThreadRequest;
+import org.greatfree.concurrency.threading.message.ATMThreadResponse;
+import org.greatfree.concurrency.threading.message.ShutdownSlaveNotification;
 import org.greatfree.concurrency.threading.message.TaskInvokeNotification;
 import org.greatfree.concurrency.threading.message.TaskInvokeRequest;
 import org.greatfree.concurrency.threading.message.TaskResponse;
-import org.greatfree.concurrency.threading.message.ThreadingMessageType;
+import org.greatfree.concurrency.threading.message.ATMMessageType;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.container.Notification;
@@ -45,7 +45,7 @@ class DistributerTask implements ServerTask
 	{
 		switch (notification.getApplicationID())
 		{
-			case ThreadingMessageType.ALL_SLAVES_NOTIFICATION:
+			case ATMMessageType.ALL_SLAVES_NOTIFICATION:
 				System.out.println("ALL_SLAVES_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				AllSlavesNotification ann = (AllSlavesNotification)notification;
 				PlayerSystem.THREADING().setMasterName(ann.getMasterName());
@@ -57,14 +57,14 @@ class DistributerTask implements ServerTask
 				}
 				break;
 	
-			case ThreadingMessageType.ALL_SLAVE_IPS_NOTIFICATION:
+			case ATMMessageType.ALL_SLAVE_IPS_NOTIFICATION:
 				System.out.println("ALL_SLAVE_IPS_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				AllSlaveIPsNotification asin = (AllSlaveIPsNotification)notification;
 				PlayerSystem.THREADING().addSlaveIPs(asin.getIPs());
 				PlayerSystem.THREADING().setMasterIP(asin.getRendezvousPoint());
 				break;
 				
-			case ThreadingMessageType.MASTER_NOTIFICATION:
+			case ATMMessageType.MASTER_NOTIFICATION:
 				System.out.println("MASTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				MasterNotification mn = (MasterNotification)notification;
 				System.out.println("DistributerTask-processNotification(): master name = " + mn.getMasterName());
@@ -73,13 +73,13 @@ class DistributerTask implements ServerTask
 				PlayerSystem.THREADING().addSlaveIP(mn.getMasterKey(), new IPPort(mn.getMasterIP(), mn.getMasterPort()));
 				break;
 	
-			case ThreadingMessageType.EXECUTE_NOTIFICATION:
+			case ATMMessageType.EXECUTE_NOTIFICATION:
 				System.out.println("EXECUTE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ExecuteNotification en = (ExecuteNotification)notification;
 				DistributerPool.POOL().execute(en.getThreadKey());
 				break;
 				
-			case ThreadingMessageType.KILL_NOTIFICATION:
+			case ATMMessageType.KILL_NOTIFICATION:
 				System.out.println("KILL_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				KillNotification kn = (KillNotification)notification;
 				try
@@ -92,7 +92,7 @@ class DistributerTask implements ServerTask
 				}
 				break;
 
-			case ThreadingMessageType.KILL_ALL_NOTIFICATION:
+			case ATMMessageType.KILL_ALL_NOTIFICATION:
 				System.out.println("KILL_ALL_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				KillAllNotification kan = (KillAllNotification)notification;
 				try
@@ -105,12 +105,12 @@ class DistributerTask implements ServerTask
 				}
 				break;
 				
-			case ThreadingMessageType.SHUTDOWN_NOTIFICATION:
+			case ATMMessageType.SHUTDOWN_SLAVE_NOTIFICATION:
 				System.out.println("SHUTDOWN_NOTIFICATION received @" + Calendar.getInstance().getTime());
-				ShutdownNotification sn = (ShutdownNotification)notification;
+				ShutdownSlaveNotification sn = (ShutdownSlaveNotification)notification;
 				try
 				{
-					Worker.THREADING().shutdown(sn.getTimeout());
+					Worker.ATM().shutdown(sn.getTimeout());
 				}
 				catch (ClassNotFoundException | InterruptedException | IOException | RemoteReadException e)
 				{
@@ -118,37 +118,37 @@ class DistributerTask implements ServerTask
 				}
 				break;
 				
-			case ThreadingMessageType.TASK_RESPONSE:
+			case ATMMessageType.TASK_RESPONSE:
 				System.out.println("TASK_RESPONSE received @" + Calendar.getInstance().getTime());
-				Worker.THREADING().addResponse((TaskResponse)notification);
+				Worker.ATM().addResponse((TaskResponse)notification);
 				break;
 				
-			case ThreadingMessageType.TASK_INVOKE_NOTIFICATION:
+			case ATMMessageType.TASK_INVOKE_NOTIFICATION:
 				System.out.println("TASK_INVOKE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				DistributerPool.POOL().invoke((TaskInvokeNotification)notification);
 				break;
 				
-			case ThreadingMessageType.TASK_INVOKE_REQUEST:
+			case ATMMessageType.TASK_INVOKE_REQUEST:
 				System.out.println("TASK_INVOKE_REQUEST received @" + Calendar.getInstance().getTime());
 				DistributerPool.POOL().invoke((TaskInvokeRequest)notification);
 				break;
 
-			case ThreadingMessageType.TASK_NOTIFICATION:
+			case ATMMessageType.TASK_NOTIFICATION:
 				System.out.println("TASK_NOTIFICATION received @" + Calendar.getInstance().getTime());
-				DistributerPool.POOL().enqueueInstruction((InstructNotification)notification);
+				DistributerPool.POOL().enqueueInstruction((ATMNotification)notification);
 				break;
 				
-			case ThreadingMessageType.TASK_REQUEST:
+			case ATMMessageType.TASK_REQUEST:
 				System.out.println("TASK_REQUEST received @" + Calendar.getInstance().getTime());
-				DistributerPool.POOL().enqueueInstruction((InstructNotification)notification);
+				DistributerPool.POOL().enqueueInstruction((ATMNotification)notification);
 				break;
 				
-			case ThreadingMessageType.INTERACT_NOTIFICATION:
+			case ATMMessageType.INTERACT_NOTIFICATION:
 				System.out.println("INTERACT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				DistributerPool.POOL().invoke((InteractNotification)notification);
 				break;
 				
-			case ThreadingMessageType.INTERACT_REQUEST:
+			case ATMMessageType.INTERACT_REQUEST:
 				System.out.println("INTERACT_REQUEST received @" + Calendar.getInstance().getTime());
 				DistributerPool.POOL().invoke((InteractRequest)notification);
 				break;
@@ -160,19 +160,19 @@ class DistributerTask implements ServerTask
 	{
 		switch (request.getApplicationID())
 		{
-			case ThreadingMessageType.NOTIFICATION_THREAD_REQUEST:
+			case ATMMessageType.ATM_THREAD_REQUEST:
 				System.out.println("NOTIFICATION_THREAD_REQUEST received @" + Calendar.getInstance().getTime());
-				NotificationThreadRequest ntr = (NotificationThreadRequest)request;
+				ATMThreadRequest ntr = (ATMThreadRequest)request;
 				if (ntr.getCount() <= 1)
 				{
-					return new NotificationThreadResponse(DistributerPool.POOL().generateThread());
+					return new ATMThreadResponse(DistributerPool.POOL().generateThread());
 				}
 				else
 				{
-					return new NotificationThreadResponse(DistributerPool.POOL().generateThreads(ntr.getCount()));
+					return new ATMThreadResponse(DistributerPool.POOL().generateThreads(ntr.getCount()));
 				}
 				
-			case ThreadingMessageType.IS_ALIVE_REQUEST:
+			case ATMMessageType.IS_ALIVE_REQUEST:
 				System.out.println("IS_ALIVE_REQUEST received @" + Calendar.getInstance().getTime());
 				IsAliveRequest iar = (IsAliveRequest)request;
 				return new IsAliveResponse(DistributerPool.POOL().isAlive(iar.getThreadKey()));

@@ -16,8 +16,8 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.FutureExceptionHandler;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
-import org.greatfree.framework.multicast.message.PeerAddressResponse;
 import org.greatfree.framework.p2p.RegistryConfig;
+import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.IPAddress;
 

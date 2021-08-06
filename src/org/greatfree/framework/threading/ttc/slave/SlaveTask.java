@@ -7,9 +7,9 @@ import org.greatfree.concurrency.threading.message.ExecuteNotification;
 import org.greatfree.concurrency.threading.message.IsAliveRequest;
 import org.greatfree.concurrency.threading.message.IsAliveResponse;
 import org.greatfree.concurrency.threading.message.KillNotification;
-import org.greatfree.concurrency.threading.message.NotificationThreadResponse;
-import org.greatfree.concurrency.threading.message.ShutdownNotification;
-import org.greatfree.concurrency.threading.message.ThreadingMessageType;
+import org.greatfree.concurrency.threading.message.ATMThreadResponse;
+import org.greatfree.concurrency.threading.message.ShutdownSlaveNotification;
+import org.greatfree.concurrency.threading.message.ATMMessageType;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.message.PrintTaskNotification;
 import org.greatfree.message.ServerMessage;
@@ -27,7 +27,7 @@ class SlaveTask implements ServerTask
 		switch (notification.getApplicationID())
 		{
 //			case TaskMessageType.PRINT_TASK_NOTIFICATION:
-			case ThreadingMessageType.TASK_NOTIFICATION:
+			case ATMMessageType.TASK_NOTIFICATION:
 				System.out.println("PRINT_TASK_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				PrintTaskNotification ptn = (PrintTaskNotification)notification;
 				DistributedThreadPool.POOL().enqueueInstruction(ptn);
@@ -56,7 +56,7 @@ class SlaveTask implements ServerTask
 				break;
 				*/
 				
-			case ThreadingMessageType.EXECUTE_NOTIFICATION:
+			case ATMMessageType.EXECUTE_NOTIFICATION:
 				System.out.println("EXECUTE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ExecuteNotification en = (ExecuteNotification)notification;
 				System.out.println("SlaveTask-processNotification(): starting to execute one thread ...");
@@ -64,7 +64,7 @@ class SlaveTask implements ServerTask
 				System.out.println("SlaveTask-processNotification(): one thread is executed ...");
 				break;
 				
-			case ThreadingMessageType.KILL_NOTIFICATION:
+			case ATMMessageType.KILL_NOTIFICATION:
 				System.out.println("KILL_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				KillNotification kn = (KillNotification)notification;
 				try
@@ -86,9 +86,9 @@ class SlaveTask implements ServerTask
 				break;
 				*/
 				
-			case ThreadingMessageType.SHUTDOWN_NOTIFICATION:
+			case ATMMessageType.SHUTDOWN_SLAVE_NOTIFICATION:
 				System.out.println("SHUTDOWN_NOTIFICATION received @" + Calendar.getInstance().getTime());
-				ShutdownNotification sn = (ShutdownNotification)notification;
+				ShutdownSlaveNotification sn = (ShutdownSlaveNotification)notification;
 				ServerStatus.FREE().setShutdown();
 				try
 				{
@@ -107,7 +107,7 @@ class SlaveTask implements ServerTask
 	{
 		switch (request.getApplicationID())
 		{
-			case ThreadingMessageType.NOTIFICATION_THREAD_REQUEST:
+			case ATMMessageType.ATM_THREAD_REQUEST:
 				System.out.println("NOTIFICATION_THREAD_REQUEST received @" + Calendar.getInstance().getTime());
 				/*
 				String threadKey = DistributedThreadPool.POOL().generateThread();
@@ -120,9 +120,9 @@ class SlaveTask implements ServerTask
 					return new NotificationThreadResponse(threadKey, false);
 				}
 				*/
-				return new NotificationThreadResponse(DistributedThreadPool.POOL().generateThread());
+				return new ATMThreadResponse(DistributedThreadPool.POOL().generateThread());
 				
-			case ThreadingMessageType.IS_ALIVE_REQUEST:
+			case ATMMessageType.IS_ALIVE_REQUEST:
 				System.out.println("IS_ALIVE_REQUEST received @" + Calendar.getInstance().getTime());
 				IsAliveRequest iar = (IsAliveRequest)request;
 				return new IsAliveResponse(DistributedThreadPool.POOL().isAlive(iar.getThreadKey()));

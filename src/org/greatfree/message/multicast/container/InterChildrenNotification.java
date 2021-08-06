@@ -15,7 +15,7 @@ import org.greatfree.message.multicast.MulticastMessageType;
  */
 
 // Created: 02/23/2019, Bing Li
-public abstract class InterChildrenNotification extends Notification
+public abstract class InterChildrenNotification extends ClusterNotification
 {
 	private static final long serialVersionUID = -6646920185310225985L;
 	

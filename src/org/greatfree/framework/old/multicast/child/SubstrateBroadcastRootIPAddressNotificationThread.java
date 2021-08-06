@@ -2,8 +2,8 @@ package org.greatfree.framework.old.multicast.child;
 
 import org.greatfree.concurrency.reactive.BoundNotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldRootIPAddressBroadcastNotification;
+import org.greatfree.message.MessageDisposer;
 
 // Created: 07/19/2017, Bing Li
 class SubstrateBroadcastRootIPAddressNotificationThread extends BoundNotificationQueue<OldRootIPAddressBroadcastNotification, MessageDisposer<OldRootIPAddressBroadcastNotification>>

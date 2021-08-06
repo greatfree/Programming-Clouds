@@ -12,7 +12,7 @@ import org.greatfree.framework.cluster.cs.multinode.unifirst.message.PollNewSess
 import org.greatfree.framework.cluster.cs.multinode.wurb.message.PollNewChatsResponse;
 import org.greatfree.framework.cluster.cs.multinode.wurb.message.PollNewSessionsResponse;
 import org.greatfree.framework.cluster.cs.twonode.client.ChatClient;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Tools;
 
 import com.google.common.collect.Sets;
@@ -96,7 +96,7 @@ public class ChatMaintainer
 
 	public void checkNewSessions() throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		Response response = (Response)ChatClient.CONTAINER().read(new PollNewSessionsRequest(this.localUserKey, this.localUsername));
+		CollectedClusterResponse response = (CollectedClusterResponse)ChatClient.CONTAINER().read(new PollNewSessionsRequest(this.localUserKey, this.localUsername));
 		List<PollNewSessionsResponse> responses = Tools.filter(response.getResponses(), PollNewSessionsResponse.class);
 		for (PollNewSessionsResponse entry : responses)
 		{
@@ -115,12 +115,12 @@ public class ChatMaintainer
   	public void checkNewChats() throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		List<PollNewChatsResponse> responses;
-		Response response;
+		CollectedClusterResponse response;
 		PollNewChatsRequest request;
 		for (String sessionKey : this.participatedSessions)
 		{
 			request = new PollNewChatsRequest(sessionKey, this.localUserKey, this.localUsername);
-			response = (Response)ChatClient.CONTAINER().read(request);
+			response = (CollectedClusterResponse)ChatClient.CONTAINER().read(request);
 			responses = Tools.filter(response.getResponses(), PollNewChatsResponse.class);
 			
 			for (PollNewChatsResponse entry : responses)

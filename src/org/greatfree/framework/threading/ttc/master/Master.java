@@ -7,9 +7,9 @@ import org.greatfree.concurrency.threading.message.ExecuteNotification;
 import org.greatfree.concurrency.threading.message.IsAliveRequest;
 import org.greatfree.concurrency.threading.message.IsAliveResponse;
 import org.greatfree.concurrency.threading.message.KillNotification;
-import org.greatfree.concurrency.threading.message.NotificationThreadRequest;
-import org.greatfree.concurrency.threading.message.NotificationThreadResponse;
-import org.greatfree.concurrency.threading.message.ShutdownNotification;
+import org.greatfree.concurrency.threading.message.ATMThreadRequest;
+import org.greatfree.concurrency.threading.message.ATMThreadResponse;
+import org.greatfree.concurrency.threading.message.ShutdownSlaveNotification;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.ChatPartnerRequest;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -72,8 +72,8 @@ class Master
 	public void assignTasks() throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
 	{
 		System.out.println("Thread master assigning tasks ...");
-		String t1 = ((NotificationThreadResponse)this.master.read(ChatMaintainer.PEER().getPartnerIP(), ChatMaintainer.PEER().getPartnerPort(), new NotificationThreadRequest())).getThreadKey();
-		String t2 = ((NotificationThreadResponse)this.master.read(ChatMaintainer.PEER().getPartnerIP(), ChatMaintainer.PEER().getPartnerPort(), new NotificationThreadRequest())).getThreadKey();
+		String t1 = ((ATMThreadResponse)this.master.read(ChatMaintainer.PEER().getPartnerIP(), ChatMaintainer.PEER().getPartnerPort(), new ATMThreadRequest())).getThreadKey();
+		String t2 = ((ATMThreadResponse)this.master.read(ChatMaintainer.PEER().getPartnerIP(), ChatMaintainer.PEER().getPartnerPort(), new ATMThreadRequest())).getThreadKey();
 
 		ThreadInfo.ASYNC().init(t1, t2);
 
@@ -148,7 +148,7 @@ class Master
 	
 	public void shutdown() throws IOException, InterruptedException
 	{
-		this.master.syncNotify(ChatMaintainer.PEER().getPartnerIP(), ChatMaintainer.PEER().getPartnerPort(), new ShutdownNotification(ThreadConfig.TIMEOUT));
+		this.master.syncNotify(ChatMaintainer.PEER().getPartnerIP(), ChatMaintainer.PEER().getPartnerPort(), new ShutdownSlaveNotification(ThreadConfig.TIMEOUT));
 	}
 }
 

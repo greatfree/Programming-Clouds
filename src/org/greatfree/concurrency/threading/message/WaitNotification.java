@@ -7,7 +7,7 @@ package org.greatfree.concurrency.threading.message;
  */
 
 // Created: 09/12/2019, Bing Li
-class WaitNotification extends InstructNotification
+class WaitNotification extends ATMNotification
 {
 	private static final long serialVersionUID = -4733372720567316434L;
 	

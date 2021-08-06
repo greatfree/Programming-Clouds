@@ -12,16 +12,16 @@ import org.greatfree.framework.multicast.message.HelloWorldBroadcastRequest;
 import org.greatfree.framework.multicast.message.HelloWorldUnicastNotification;
 import org.greatfree.framework.multicast.message.HelloWorldUnicastRequest;
 import org.greatfree.framework.multicast.message.MulticastDIPMessageType;
-import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.framework.multicast.message.ShutdownChildrenBroadcastNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
+import org.greatfree.message.multicast.container.RootAddressNotification;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 09/08/2018, Bing Li
 class ChildDispatcher extends ServerDispatcher<ServerMessage>
 {
-	private NotificationDispatcher<RootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator> rootIPBroadcastNotificationDispatcher;
+	private NotificationDispatcher<RootAddressNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator> rootIPBroadcastNotificationDispatcher;
 	
 	private NotificationDispatcher<HelloWorldBroadcastNotification, HelloWorldBroadcastNotificationThread, HelloWorldBroadcastNotificationThreadCreator> helloWorldBroadcastNotificationDispatcher;
 
@@ -44,7 +44,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 //		super(schedulerPoolSize, schedulerKeepAliveTime);
 		
 		// Initialize the notification dispatcher for the notification, ChatNotification
-		this.rootIPBroadcastNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<RootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator>()
+		this.rootIPBroadcastNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<RootAddressNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new RootIPAddressBroadcastNotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
@@ -161,7 +161,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				{
 					super.execute(this.rootIPBroadcastNotificationDispatcher);
 				}
-				this.rootIPBroadcastNotificationDispatcher.enqueue((RootIPAddressBroadcastNotification)message.getMessage());
+				this.rootIPBroadcastNotificationDispatcher.enqueue((RootAddressNotification)message.getMessage());
 				break;
 				
 			// Process the notification of HelloWorldBroadcastNotification. 11/27/2014, Bing Li

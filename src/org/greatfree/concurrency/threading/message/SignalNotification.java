@@ -6,7 +6,7 @@ package org.greatfree.concurrency.threading.message;
  * The class is not necessary since the thread is signaled when new messages are received. 09/18/2019, Bing Li
  */
 // Created: 09/12/2019, Bing Li
-class SignalNotification extends InstructNotification
+class SignalNotification extends ATMNotification
 {
 	private static final long serialVersionUID = 5757265600834171905L;
 

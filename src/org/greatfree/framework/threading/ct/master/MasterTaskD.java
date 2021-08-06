@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import org.greatfree.concurrency.threading.message.TaskStateNotification;
-import org.greatfree.concurrency.threading.message.ThreadingMessageType;
+import org.greatfree.concurrency.threading.message.ATMMessageType;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.TaskConfig;
 import org.greatfree.framework.threading.ThreadInfo;
@@ -31,7 +31,7 @@ class MasterTaskD implements ServerTask
 		System.out.println("It takes " + Time.getTimespanInMilliSecond(Master.MASTER().getEndTime(), Master.MASTER().getStartTime()) + " ms");
 		switch (notification.getApplicationID())
 		{
-			case ThreadingMessageType.TASK_STATE_NOTIFICATION:
+			case ATMMessageType.TASK_STATE_NOTIFICATION:
 				System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				TaskStateNotification rst = (TaskStateNotification)notification;
 				if (rst.getTaskKey().equals(TaskConfig.PRINT_TASK_KEY))

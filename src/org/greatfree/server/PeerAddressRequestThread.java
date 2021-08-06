@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.framework.multicast.message.PeerAddressRequest;
-import org.greatfree.framework.multicast.message.PeerAddressResponse;
-import org.greatfree.framework.multicast.message.PeerAddressStream;
+import org.greatfree.message.PeerAddressRequest;
+import org.greatfree.message.PeerAddressResponse;
+import org.greatfree.message.PeerAddressStream;
 
 // Created: 09/11/2018, Bing Li
 class PeerAddressRequestThread extends RequestQueue<PeerAddressRequest, PeerAddressStream, PeerAddressResponse>

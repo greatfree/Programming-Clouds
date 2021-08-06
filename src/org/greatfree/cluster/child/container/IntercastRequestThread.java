@@ -7,7 +7,7 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.multicast.container.IntercastRequest;
 import org.greatfree.message.multicast.container.IntercastRequestStream;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 
 /*
  * Now I need to implement the root based intercasting. So the thread is not necessary temporarily. I will implement the children-based intercasing later. 02/15/2019, Bing Li 
@@ -15,7 +15,7 @@ import org.greatfree.message.multicast.container.Response;
 
 // Created: 01/26/2019, Bing Li
 // class IntercastRequestThread extends RequestQueue<IntercastRequest, IntercastRequestStream, ServerMessage>
-class IntercastRequestThread extends RequestQueue<IntercastRequest, IntercastRequestStream, Response>
+class IntercastRequestThread extends RequestQueue<IntercastRequest, IntercastRequestStream, CollectedClusterResponse>
 {
 
 	public IntercastRequestThread(int maxTaskSize)
@@ -28,7 +28,7 @@ class IntercastRequestThread extends RequestQueue<IntercastRequest, IntercastReq
 	{
 		IntercastRequestStream request;
 //		ServerMessage response = null;
-		Response response;
+		CollectedClusterResponse response;
 		while (!this.isShutdown())
 		{
 			while (!this.isEmpty())

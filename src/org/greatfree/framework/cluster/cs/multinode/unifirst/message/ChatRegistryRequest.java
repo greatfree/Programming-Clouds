@@ -2,10 +2,10 @@ package org.greatfree.framework.cluster.cs.multinode.unifirst.message;
 
 import org.greatfree.framework.cluster.cs.multinode.wurb.message.ChatApplicationID;
 import org.greatfree.message.multicast.MulticastMessageType;
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 // Created: 02/15/2019, Bing Li
-public class ChatRegistryRequest extends Request
+public class ChatRegistryRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = 9027572619056937516L;
 

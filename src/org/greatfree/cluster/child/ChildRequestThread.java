@@ -6,10 +6,10 @@ import org.greatfree.cluster.child.container.ChildServiceProvider;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.multicast.MulticastResponse;
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 // Created: 09/23/2018, Bing Li
-class ChildRequestThread extends NotificationQueue<Request>
+class ChildRequestThread extends NotificationQueue<ClusterRequest>
 {
 
 	public ChildRequestThread(int maxTaskSize)
@@ -20,7 +20,7 @@ class ChildRequestThread extends NotificationQueue<Request>
 	@Override
 	public void run()
 	{
-		Request request;
+		ClusterRequest request;
 		MulticastResponse response;
 		while (!this.isShutdown())
 		{

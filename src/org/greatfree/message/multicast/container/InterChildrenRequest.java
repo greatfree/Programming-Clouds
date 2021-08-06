@@ -8,7 +8,7 @@ import org.greatfree.message.multicast.MulticastMessageType;
 
 // Created: 02/23/2019, Bing Li
 // public abstract class IntercastChildRequest extends Notification
-public abstract class InterChildrenRequest extends Request
+public abstract class InterChildrenRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = -975750061521485612L;
 	

@@ -1,10 +1,10 @@
 package org.greatfree.demo.cluster.mncs.message;
 
 import org.greatfree.app.container.cs.multinode.business.message.Merchandise;
-import org.greatfree.message.multicast.container.Notification;
+import org.greatfree.message.multicast.container.ClusterNotification;
 
 // Created: 02/17/2019, Bing Li
-public class PostMerchandiseNotification extends Notification
+public class PostMerchandiseNotification extends ClusterNotification
 {
 	private static final long serialVersionUID = 7615143610646373449L;
 	

@@ -1,10 +1,10 @@
 package org.greatfree.framework.cluster.scalable.message;
 
 import org.greatfree.message.multicast.MulticastMessageType;
-import org.greatfree.message.multicast.container.Notification;
+import org.greatfree.message.multicast.container.ClusterNotification;
 
 // Created: 09/06/2020, Bing Li
-public class StopTaskClusterNotification extends Notification
+public class StopTaskClusterNotification extends ClusterNotification
 {
 	private static final long serialVersionUID = -4193180604103762257L;
 

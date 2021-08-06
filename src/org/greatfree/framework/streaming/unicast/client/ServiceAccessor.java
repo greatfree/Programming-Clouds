@@ -6,14 +6,14 @@ import java.util.List;
 import org.greatfree.client.CSClient;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.exceptions.RemoteReadException;
-import org.greatfree.framework.multicast.message.PeerAddressRequest;
-import org.greatfree.framework.multicast.message.PeerAddressResponse;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.streaming.StreamConfig;
 import org.greatfree.framework.streaming.message.SearchRequest;
 import org.greatfree.framework.streaming.message.SearchResponse;
 import org.greatfree.framework.streaming.message.SubscriberRequest;
 import org.greatfree.framework.streaming.message.SubscriberResponse;
+import org.greatfree.message.PeerAddressRequest;
+import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.Tools;
 

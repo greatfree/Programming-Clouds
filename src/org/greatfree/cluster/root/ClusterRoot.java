@@ -9,7 +9,6 @@ import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.cluster.root.container.RootServiceProvider;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
-import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
@@ -17,9 +16,10 @@ import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
+import org.greatfree.message.multicast.container.RootAddressNotification;
 import org.greatfree.multicast.root.RootClient;
 import org.greatfree.multicast.root.RootRendezvousPoint;
 import org.greatfree.server.Peer;
@@ -98,7 +98,7 @@ class ClusterRoot
 				this.root.addPartners(ip.getIP(), ip.getPort());
 			}
 			
-			this.broadcastNotify(new RootIPAddressBroadcastNotification(new IPAddress(this.root.getPeerID(), this.root.getPeerIP(), this.root.getPort())));
+			this.broadcastNotify(new RootAddressNotification(new IPAddress(this.root.getPeerID(), this.root.getPeerIP(), this.root.getPort())));
 		}
 	}
 
@@ -178,7 +178,7 @@ class ClusterRoot
 		return this.client.unicastRead(request);
 	}
 
-	public void processNotification(Notification notification) throws IOException, DistributedNodeFailedException
+	public void processNotification(ClusterNotification notification) throws IOException, DistributedNodeFailedException
 	{
 		switch (notification.getNotificationType())
 		{
@@ -235,15 +235,15 @@ class ClusterRoot
 		}
 	}
 	
-	public Response processRequest(Request request) throws DistributedNodeFailedException, IOException
+	public CollectedClusterResponse processRequest(ClusterRequest request) throws DistributedNodeFailedException, IOException
 	{
 		switch (request.getRequestType())
 		{
 			case MulticastMessageType.BROADCAST_REQUEST:
-				return new Response(MulticastMessageType.BROADCAST_RESPONSE, this.client.broadcastRead(request));
+				return new CollectedClusterResponse(MulticastMessageType.BROADCAST_RESPONSE, this.client.broadcastRead(request));
 
 			case MulticastMessageType.ANYCAST_REQUEST:
-				return new Response(MulticastMessageType.ANYCAST_RESPONSE, this.client.anycastRead(request, ClusterConfig.ANYCAST_REQUEST_LEAST_COUNT));
+				return new CollectedClusterResponse(MulticastMessageType.ANYCAST_RESPONSE, this.client.anycastRead(request, ClusterConfig.ANYCAST_REQUEST_LEAST_COUNT));
 				
 			case MulticastMessageType.UNICAST_REQUEST:
 //				return new Response(this.client.unicastRead(request));
@@ -251,11 +251,11 @@ class ClusterRoot
 				{
 					if (request.getClientKey() != null)
 					{
-						return new Response(MulticastMessageType.UNICAST_RESPONSE, this.client.unicastNearestRead(request.getClientKey(), request));
+						return new CollectedClusterResponse(MulticastMessageType.UNICAST_RESPONSE, this.client.unicastNearestRead(request.getClientKey(), request));
 					}
 					else
 					{
-						return new Response(MulticastMessageType.UNICAST_RESPONSE, this.client.unicastRead(request));
+						return new CollectedClusterResponse(MulticastMessageType.UNICAST_RESPONSE, this.client.unicastRead(request));
 					}
 				}
 				

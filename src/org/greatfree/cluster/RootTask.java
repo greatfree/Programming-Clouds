@@ -2,15 +2,15 @@ package org.greatfree.cluster;
 
 import org.greatfree.message.multicast.container.ChildRootRequest;
 import org.greatfree.message.multicast.container.ChildRootResponse;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 
 // Created: 01/27/2019, Bing Li
 public interface RootTask
 {
-	public void processNotification(Notification notification);
-	public Response processRequest(Request request);
+	public void processNotification(ClusterNotification notification);
+	public CollectedClusterResponse processRequest(ClusterRequest request);
 	public ChildRootResponse processChildRequest(ChildRootRequest request);
 }
 

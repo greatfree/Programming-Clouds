@@ -24,9 +24,9 @@ import org.greatfree.message.multicast.container.ChildRootRequest;
 import org.greatfree.message.multicast.container.ChildRootResponse;
 import org.greatfree.message.multicast.container.InterChildrenNotification;
 import org.greatfree.message.multicast.container.InterChildrenRequest;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.multicast.child.ChildClient;
 import org.greatfree.multicast.root.RootClient;
 import org.greatfree.server.container.Peer;
@@ -204,7 +204,7 @@ class Child
 	/*
 	 * The child is enabled to interact with the root through notification synchronously. 09/14/2020, Bing Li
 	 */
-	public void syncNotifyRoot(Notification notification) throws IOException, InterruptedException
+	public void syncNotifyRoot(ClusterNotification notification) throws IOException, InterruptedException
 	{
 		this.child.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
 	}
@@ -212,7 +212,7 @@ class Child
 	/*
 	 * The child is enabled to interact with the root through notification asynchronously. 09/14/2020, Bing Li
 	 */
-	public void asyncNotifyRoot(Notification notification)
+	public void asyncNotifyRoot(ClusterNotification notification)
 	{
 		this.child.asyncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
 	}
@@ -286,7 +286,7 @@ class Child
 		}
 	}
 	
-	public void forward(Notification notification)
+	public void forward(ClusterNotification notification)
 	{
 		if (notification.getNotificationType() == MulticastMessageType.BROADCAST_NOTIFICATION)
 		{
@@ -305,7 +305,7 @@ class Child
 		}
 	}
 	
-	public void forward(Request request)
+	public void forward(ClusterRequest request)
 	{
 		if (request.getRequestType() == MulticastMessageType.BROADCAST_REQUEST || request.getRequestType() == MulticastMessageType.INTER_BROADCAST_REQUEST)
 		{
@@ -383,7 +383,7 @@ class Child
 	/*
 	 * The method notifies the root for the intercasting responses. 03/02/2019, Bing Li
 	 */
-	public void notifyRoot(Response response) throws IOException, InterruptedException
+	public void notifyRoot(CollectedClusterResponse response) throws IOException, InterruptedException
 	{
 		this.child.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), response);
 	}
@@ -510,7 +510,7 @@ class Child
 	}
 	*/
 	
-	public Response interUnicastRead(InterChildrenRequest icr) throws IOException, DistributedNodeFailedException
+	public CollectedClusterResponse interUnicastRead(InterChildrenRequest icr) throws IOException, DistributedNodeFailedException
 	{
 		String childIPKey = UtilConfig.EMPTY_STRING;
 		for (Map.Entry<String, Set<String>> entry : icr.getIntercastRequest().getChildDestinations().entrySet())
@@ -521,20 +521,20 @@ class Child
 		if (!childIPKey.equals(UtilConfig.EMPTY_STRING))
 		{
 //			return new Response(this.subRootClient.unicastRead(icr, childIPKey));
-			return new Response(icr.getApplicationID(), this.subRootClient.unicastRead(icr, childIPKey));
+			return new CollectedClusterResponse(icr.getApplicationID(), this.subRootClient.unicastRead(icr, childIPKey));
 		}
 		return SystemMessageConfig.NO_RESPONSE;
 	}
 	
-	public Response interBroadcastRead(InterChildrenRequest icr) throws DistributedNodeFailedException, IOException
+	public CollectedClusterResponse interBroadcastRead(InterChildrenRequest icr) throws DistributedNodeFailedException, IOException
 	{
 //		return new Response(this.subRootClient.broadcastRead(icr, icr.getIntercastRequest().getChildDestinations().keySet()));
-		return new Response(icr.getApplicationID(), this.subRootClient.broadcastRead(icr, icr.getIntercastRequest().getChildDestinations().keySet()));
+		return new CollectedClusterResponse(icr.getApplicationID(), this.subRootClient.broadcastRead(icr, icr.getIntercastRequest().getChildDestinations().keySet()));
 	}
 	
-	public Response interAnycastRead(InterChildrenRequest icr) throws DistributedNodeFailedException, IOException
+	public CollectedClusterResponse interAnycastRead(InterChildrenRequest icr) throws DistributedNodeFailedException, IOException
 	{
 //		return new Response(this.subRootClient.anycastRead(icr, icr.getIntercastRequest().getChildDestinations().keySet()));
-		return new Response(icr.getApplicationID(), this.subRootClient.anycastRead(icr, icr.getIntercastRequest().getChildDestinations().keySet()));
+		return new CollectedClusterResponse(icr.getApplicationID(), this.subRootClient.anycastRead(icr, icr.getIntercastRequest().getChildDestinations().keySet()));
 	}
 }

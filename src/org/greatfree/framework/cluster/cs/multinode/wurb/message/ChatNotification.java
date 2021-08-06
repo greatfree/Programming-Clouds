@@ -1,9 +1,9 @@
 package org.greatfree.framework.cluster.cs.multinode.wurb.message;
 
-import org.greatfree.message.multicast.container.Notification;
+import org.greatfree.message.multicast.container.ClusterNotification;
 
 // Created: 01/27/2019, Bing Li
-public class ChatNotification extends Notification
+public class ChatNotification extends ClusterNotification
 {
 	private static final long serialVersionUID = -7461193784824612539L;
 

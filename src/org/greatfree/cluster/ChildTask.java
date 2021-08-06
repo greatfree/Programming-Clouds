@@ -5,15 +5,15 @@ import org.greatfree.message.multicast.container.InterChildrenNotification;
 import org.greatfree.message.multicast.container.InterChildrenRequest;
 import org.greatfree.message.multicast.container.IntercastNotification;
 import org.greatfree.message.multicast.container.IntercastRequest;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 
 // Created: 10/01/2018, Bing Li
 public interface ChildTask
 {
-	public void processNotification(Notification notification);
-	public MulticastResponse processRequest(Request request);
+	public void processNotification(ClusterNotification notification);
+	public MulticastResponse processRequest(ClusterRequest request);
 
 	public InterChildrenNotification prepareNotification(IntercastNotification notification);
 //	public InterChildrenRequest prepareRequest(IntercastRequest request);
@@ -23,6 +23,6 @@ public interface ChildTask
 	
 //	public Response processRequestAtRoot(Request request);
 	public MulticastResponse processRequest(InterChildrenRequest request);
-	public void processResponse(Response response);
+	public void processResponse(CollectedClusterResponse response);
 }
 

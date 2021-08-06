@@ -11,7 +11,7 @@ public class IsAliveRequest extends Request
 
 	public IsAliveRequest(String threadKey)
 	{
-		super(ThreadingMessageType.IS_ALIVE_REQUEST);
+		super(ATMMessageType.IS_ALIVE_REQUEST);
 		this.threadKey = threadKey;
 	}
 

@@ -5,7 +5,7 @@ import java.util.Set;
 import org.greatfree.util.Tools;
 
 // Created: 10/03/2019, Bing Li
-public abstract class InteractRequest extends InstructNotification
+public abstract class InteractRequest extends ATMNotification
 {
 	private static final long serialVersionUID = -7125354711233302309L;
 	
@@ -16,7 +16,7 @@ public abstract class InteractRequest extends InstructNotification
 
 	public InteractRequest(String srcSlaveKey, String dstSlaveKey, String threadKey, String taskKey)
 	{
-		super(threadKey, ThreadingMessageType.INTERACT_REQUEST);
+		super(threadKey, ATMMessageType.INTERACT_REQUEST);
 		this.srcSlaveKey = srcSlaveKey;
 		this.dstSlaveKey = dstSlaveKey;
 		this.taskKey = taskKey;
@@ -25,7 +25,7 @@ public abstract class InteractRequest extends InstructNotification
 
 	public InteractRequest(String srcSlaveKey, String dstSlaveKey, Set<String> threadKeys, String taskKey)
 	{
-		super(threadKeys, ThreadingMessageType.INTERACT_REQUEST);
+		super(threadKeys, ATMMessageType.INTERACT_REQUEST);
 		this.srcSlaveKey = srcSlaveKey;
 		this.dstSlaveKey = dstSlaveKey;
 		this.taskKey = taskKey;

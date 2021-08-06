@@ -1,10 +1,10 @@
 package org.greatfree.framework.cluster.cs.multinode.unifirst.message;
 
 import org.greatfree.framework.cluster.cs.multinode.wurb.message.ChatApplicationID;
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 // Created: 02/10/2019, Bing Li
-public class PollNewSessionsRequest extends Request
+public class PollNewSessionsRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = -2451839264635831681L;
 

@@ -15,8 +15,8 @@ import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.message.multicast.container.ChildResponse;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
 import org.greatfree.multicast.child.ChildClient;
 import org.greatfree.server.Peer;
 import org.greatfree.server.Peer.PeerBuilder;
@@ -114,7 +114,7 @@ class Child
 		return this.rootAddress;
 	}
 	
-	public void forward(Notification notification)
+	public void forward(ClusterNotification notification)
 	{
 		/*
 		if (notification.getNotificationType() == ClusterMessageType.BROADCAST_NOTIFICATION)
@@ -125,7 +125,7 @@ class Child
 		this.asyncNotify(notification);
 	}
 	
-	public void forward(Request request)
+	public void forward(ClusterRequest request)
 	{
 		/*
 		if (request.getRequestType() == ClusterMessageType.BROADCAST_REQUEST)

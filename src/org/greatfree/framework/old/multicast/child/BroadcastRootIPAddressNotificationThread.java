@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.greatfree.concurrency.reactive.BoundNotificationQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.MulticastConfig;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldRootIPAddressBroadcastNotification;
+import org.greatfree.message.MessageDisposer;
 
 /*
  * The thread processes the notification of RootIPAddressBroadcastNotification concurrently. Since it shares the notifications with other threads, i.e., BroadcastRootIPAddressNotificationThread, it must have the mechanism of synchronization. Therefore, it derives the BoundNotificationQueue rather than NotificationQueue. 11/27/2014, Bing Li

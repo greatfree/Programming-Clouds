@@ -128,7 +128,7 @@ public class Player
 	 */
 	public void notifyThreads(TaskNotification notification) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, ThreadAssignmentException
 	{
-		if (!notification.getThreadKey().equals(notification.getThreadKey()))
+		if (!notification.getThreadKey().equals(ThreadConfig.NO_THREAD_KEY))
 		{
 			if (!this.dt.isAlive(this.slaveKey, notification.getThreadKey()))
 			{

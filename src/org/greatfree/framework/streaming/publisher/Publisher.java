@@ -6,14 +6,14 @@ import org.greatfree.client.CSClient;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
-import org.greatfree.framework.multicast.message.PeerAddressRequest;
-import org.greatfree.framework.multicast.message.PeerAddressResponse;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.streaming.StreamConfig;
 import org.greatfree.framework.streaming.StreamData;
 import org.greatfree.framework.streaming.message.AddStreamNotification;
 import org.greatfree.framework.streaming.message.RemoveStreamNotification;
 import org.greatfree.framework.streaming.message.StreamNotification;
+import org.greatfree.message.PeerAddressRequest;
+import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.Tools;
 

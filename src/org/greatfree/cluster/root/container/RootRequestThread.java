@@ -6,12 +6,12 @@ import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.RequestStream;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.ClusterRequestStream;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 
 // Created: 01/13/2019, Bing Li
-class RootRequestThread extends RequestQueue<Request, RequestStream, Response>
+class RootRequestThread extends RequestQueue<ClusterRequest, ClusterRequestStream, CollectedClusterResponse>
 {
 
 	public RootRequestThread(int maxTaskSize)
@@ -22,8 +22,8 @@ class RootRequestThread extends RequestQueue<Request, RequestStream, Response>
 	@Override
 	public void run()
 	{
-		RequestStream request;
-		Response response;
+		ClusterRequestStream request;
+		CollectedClusterResponse response;
 		while (!this.isShutdown())
 		{
 			while (!this.isEmpty())

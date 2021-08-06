@@ -35,7 +35,7 @@ class Worker
 	
 	private static Worker instance = new Worker();
 	
-	public static Worker THREADING()
+	public static Worker ATM()
 	{
 		if (instance == null)
 		{

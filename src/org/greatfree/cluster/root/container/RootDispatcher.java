@@ -30,10 +30,10 @@ import org.greatfree.message.multicast.container.ChildRootStream;
 import org.greatfree.message.multicast.container.IntercastNotification;
 import org.greatfree.message.multicast.container.IntercastRequest;
 import org.greatfree.message.multicast.container.IntercastRequestStream;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.RequestStream;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.ClusterRequestStream;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 01/13/2019, Bing Li
@@ -58,11 +58,11 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 	/*
 	 * These messages are in the application level ones, which should be processed as tasks which programmers need to take care of. 09/12/2020, Bing Li
 	 */
-	private NotificationDispatcher<Notification, RootNotificationThread, RootNotificationThreadCreator> notificationDispatcher;
-	private RequestDispatcher<Request, RequestStream, Response, RootRequestThread, RootRequestThreadCreator> requestDispatcher;
+	private NotificationDispatcher<ClusterNotification, RootNotificationThread, RootNotificationThreadCreator> notificationDispatcher;
+	private RequestDispatcher<ClusterRequest, ClusterRequestStream, CollectedClusterResponse, RootRequestThread, RootRequestThreadCreator> requestDispatcher;
 	
 	private NotificationDispatcher<IntercastNotification, IntercastNotificationThread, IntercastNotificationThreadCreator> intercastNotificationDispatcher;
-	private RequestDispatcher<IntercastRequest, IntercastRequestStream, Response, IntercastRequestThread, IntercastRequestThreadCreator> intercastRequestDispatcher;
+	private RequestDispatcher<IntercastRequest, IntercastRequestStream, CollectedClusterResponse, IntercastRequestThread, IntercastRequestThreadCreator> intercastRequestDispatcher;
 
 	private NotificationDispatcher<ChildResponse, ChildResponseThread, ChildResponseThreadCreator> multicastResponseDispatcher;
 
@@ -162,7 +162,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				.scheduler(super.getScheduler())
 				.build();
 
-		this.notificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<Notification, RootNotificationThread, RootNotificationThreadCreator>()
+		this.notificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<ClusterNotification, RootNotificationThread, RootNotificationThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new RootNotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
@@ -173,7 +173,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				.scheduler(super.getScheduler())
 				.build();
 
-		this.requestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<Request, RequestStream, Response, RootRequestThread, RootRequestThreadCreator>()
+		this.requestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<ClusterRequest, ClusterRequestStream, CollectedClusterResponse, RootRequestThread, RootRequestThreadCreator>()
 				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
 				.threadCreator(new RootRequestThreadCreator())
 				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
@@ -206,7 +206,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				.scheduler(super.getScheduler())
 				.build();
 
-		this.intercastRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<IntercastRequest, IntercastRequestStream, Response, IntercastRequestThread, IntercastRequestThreadCreator>()
+		this.intercastRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<IntercastRequest, IntercastRequestStream, CollectedClusterResponse, IntercastRequestThread, IntercastRequestThreadCreator>()
 				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
 				.threadCreator(new IntercastRequestThreadCreator())
 				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
@@ -333,7 +333,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 					super.execute(this.notificationDispatcher);
 				}
 				// Enqueue the instance of Notification into the dispatcher for concurrent processing. 02/15/2016, Bing Li
-				this.notificationDispatcher.enqueue((Notification)message.getMessage());
+				this.notificationDispatcher.enqueue((ClusterNotification)message.getMessage());
 				break;
 
 			case MulticastMessageType.REQUEST:
@@ -345,7 +345,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 					super.execute(this.requestDispatcher);
 				}
 				// Enqueue the instance of Request into the dispatcher for concurrent processing. 02/15/2016, Bing Li
-				this.requestDispatcher.enqueue(new RequestStream(message.getOutStream(), message.getLock(), (Request)message.getMessage()));
+				this.requestDispatcher.enqueue(new ClusterRequestStream(message.getOutStream(), message.getLock(), (ClusterRequest)message.getMessage()));
 				break;
 
 			case ClusterMessageType.CHILD_RESPONSE:

@@ -2,10 +2,10 @@ package org.greatfree.framework.container.multicast.message;
 
 import org.greatfree.framework.multicast.HelloWorld;
 import org.greatfree.message.multicast.MulticastMessageType;
-import org.greatfree.message.multicast.container.Notification;
+import org.greatfree.message.multicast.container.ClusterNotification;
 
 // Created: 01/12/2019, Bing Li
-public class HelloWorldUnicastNotification extends Notification
+public class HelloWorldUnicastNotification extends ClusterNotification
 {
 	private static final long serialVersionUID = -3094558159374744982L;
 

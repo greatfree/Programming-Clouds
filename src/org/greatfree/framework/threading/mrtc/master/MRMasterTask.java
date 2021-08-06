@@ -3,8 +3,8 @@ package org.greatfree.framework.threading.mrtc.master;
 import java.io.IOException;
 import java.util.Calendar;
 
-import org.greatfree.concurrency.threading.PlayerTask;
-import org.greatfree.concurrency.threading.message.ThreadingMessageType;
+import org.greatfree.concurrency.threading.ATMTask;
+import org.greatfree.concurrency.threading.message.ATMMessageType;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.MRStates;
 import org.greatfree.framework.threading.message.MRFinalNotification;
@@ -15,7 +15,7 @@ import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
 
 // Created: 09/22/2019, Bing Li
-class MRMasterTask extends PlayerTask
+class MRMasterTask extends ATMTask
 {
 
 	@Override
@@ -24,7 +24,7 @@ class MRMasterTask extends PlayerTask
 		switch (notification.getApplicationID())
 		{
 			// The case is not used in the MR game. 01/08/2020, Bing Li
-			case ThreadingMessageType.TASK_STATE_NOTIFICATION:
+			case ATMMessageType.TASK_STATE_NOTIFICATION:
 				System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				return;
 				

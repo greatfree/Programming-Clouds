@@ -2,14 +2,14 @@ package org.greatfree.framework.player.mnti.master;
 
 import java.util.Calendar;
 
-import org.greatfree.concurrency.threading.PlayerTask;
-import org.greatfree.concurrency.threading.message.ThreadingMessageType;
+import org.greatfree.concurrency.threading.ATMTask;
+import org.greatfree.concurrency.threading.message.ATMMessageType;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
 
 // Created: 10/07/2019, Bing Li
-class MasterTask extends PlayerTask
+class MasterTask extends ATMTask
 {
 
 	@Override
@@ -17,7 +17,7 @@ class MasterTask extends PlayerTask
 	{
 		switch (notification.getApplicationID())
 		{
-			case ThreadingMessageType.TASK_STATE_NOTIFICATION:
+			case ATMMessageType.TASK_STATE_NOTIFICATION:
 				System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				return;
 		}

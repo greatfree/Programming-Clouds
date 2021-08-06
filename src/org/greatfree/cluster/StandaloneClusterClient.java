@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.greatfree.client.StandaloneClient;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
-import org.greatfree.framework.multicast.message.PeerAddressResponse;
+import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.IPAddress;
 

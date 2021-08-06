@@ -14,7 +14,7 @@ public class MasterNotification extends Notification
 
 	public MasterNotification(String masterName, String masterKey, String masterIP, int masterPort)
 	{
-		super(ThreadingMessageType.MASTER_NOTIFICATION);
+		super(ATMMessageType.MASTER_NOTIFICATION);
 		this.masterName = masterName;
 		this.masterKey = masterKey;
 		this.masterIP = masterIP;

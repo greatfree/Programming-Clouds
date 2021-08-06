@@ -2,13 +2,13 @@ package org.greatfree.framework.threading.ct.slave;
 
 import org.greatfree.concurrency.Scheduler;
 import org.greatfree.concurrency.threading.NotificationDispatcher;
-import org.greatfree.concurrency.threading.message.InstructNotification;
+import org.greatfree.concurrency.threading.message.ATMNotification;
 import org.greatfree.data.ServerConfig;
 
 // Created: 09/11/2019, Bing Li
 class DistributedThreadPool
 {
-	private NotificationDispatcher<InstructNotification, NotificationThread, NotificationThreadCreator> pool;
+	private NotificationDispatcher<ATMNotification, NotificationThread, NotificationThreadCreator> pool;
 //	private NotificationDispatcher<SyncInstructNotification, FreeThread, FreeThread> pool;
 	
 //	private Map<String, ReentrantLock> syncs;
@@ -45,7 +45,7 @@ class DistributedThreadPool
 		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 
 //		this.pool = new NotificationDispatcher.NotificationDispatcherBuilder<SyncInstructNotification, FreeThread, FreeThreadCreator>()
-		this.pool = new NotificationDispatcher.NotificationDispatcherBuilder<InstructNotification, NotificationThread, NotificationThreadCreator>()
+		this.pool = new NotificationDispatcher.NotificationDispatcherBuilder<ATMNotification, NotificationThread, NotificationThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new NotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
@@ -69,7 +69,7 @@ class DistributedThreadPool
 		return this.pool.generateThread();
 	}
 
-	public void enqueueInstruction(InstructNotification notification)
+	public void enqueueInstruction(ATMNotification notification)
 	{
 //		this.pool.enqueueInstruction(notification.getThreadKey(), new SyncInstructNotification(notification, this.syncs.get(notification.getThreadKey())));
 		this.pool.enqueueInstruction(notification.getThreadKey(), notification);

@@ -16,9 +16,9 @@ import org.greatfree.concurrency.threading.message.IsAliveResponse;
 import org.greatfree.concurrency.threading.message.KillAllNotification;
 import org.greatfree.concurrency.threading.message.KillNotification;
 import org.greatfree.concurrency.threading.message.MasterNotification;
-import org.greatfree.concurrency.threading.message.NotificationThreadRequest;
-import org.greatfree.concurrency.threading.message.NotificationThreadResponse;
-import org.greatfree.concurrency.threading.message.ShutdownNotification;
+import org.greatfree.concurrency.threading.message.ATMThreadRequest;
+import org.greatfree.concurrency.threading.message.ATMThreadResponse;
+import org.greatfree.concurrency.threading.message.ShutdownSlaveNotification;
 import org.greatfree.concurrency.threading.message.TaskInvokeNotification;
 import org.greatfree.concurrency.threading.message.TaskInvokeRequest;
 import org.greatfree.concurrency.threading.message.TaskNotification;
@@ -420,7 +420,7 @@ public class Distributer
 				ServerStatus.FREE().addServerID(this.peer.getPeerID());
 			}
 		}
-		Worker.THREADING().init(this);
+		Worker.ATM().init(this);
 	}
 
 	/*
@@ -537,17 +537,17 @@ public class Distributer
 	/*
 	 * Different from reusing threads methods, the method creates new threads after it is invoked. 09/30/2019, Bing Li
 	 */
-	public Map<String, Set<String>> createThreads(Map<String, Integer> slaveThreadNumbers) throws ClassNotFoundException, RemoteReadException, IOException
+	public Map<String, Set<String>> createThreads(Map<String, Integer> slaveThreadSizes) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		Set<String> threadKeys;
 		IPPort ip;
 		Map<String, Set<String>> createdThreadKeys = new HashMap<String, Set<String>>();
-		for (Map.Entry<String, Integer> entry : slaveThreadNumbers.entrySet())
+		for (Map.Entry<String, Integer> entry : slaveThreadSizes.entrySet())
 		{
 			ip = this.slaves.get(entry.getKey());
-			threadKeys = ((NotificationThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new NotificationThreadRequest(entry.getValue()))).getThreadKeys();
+			threadKeys = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest(entry.getValue()))).getThreadKeys();
 			
-			System.out.println("Distributer-createThreads(): threadKeys size = " + threadKeys.size());
+//			System.out.println("Distributer-createThreads(): threadKeys size = " + threadKeys.size());
 			
 			if (!this.slaveThreadKeys.containsKey(entry.getKey()))
 			{
@@ -568,7 +568,7 @@ public class Distributer
 	public Set<String> createThreads(int size) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		IPPort ip = this.slaves.get(this.slaveKey);
-		Set<String> threadKeys = ((NotificationThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new NotificationThreadRequest(size))).getThreadKeys();
+		Set<String> threadKeys = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest(size))).getThreadKeys();
 		if (!this.slaveThreadKeys.containsKey(this.slaveKey))
 		{
 			this.slaveThreadKeys.put(this.slaveKey, threadKeys);
@@ -583,7 +583,7 @@ public class Distributer
 	public Set<String> createThreads(String slaveKey, int size) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		IPPort ip = this.slaves.get(slaveKey);
-		Set<String> threadKeys = ((NotificationThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new NotificationThreadRequest(size))).getThreadKeys();
+		Set<String> threadKeys = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest(size))).getThreadKeys();
 		if (!this.slaveThreadKeys.containsKey(slaveKey))
 		{
 			this.slaveThreadKeys.put(slaveKey, threadKeys);
@@ -601,7 +601,7 @@ public class Distributer
 	public String createThread(String slaveKey) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		IPPort ip = this.slaves.get(slaveKey);
-		String threadKey = ((NotificationThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new NotificationThreadRequest())).getThreadKey();
+		String threadKey = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest())).getThreadKey();
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
 		{
 			if (!this.slaveThreadKeys.containsKey(slaveKey))
@@ -618,7 +618,7 @@ public class Distributer
 	public String createThread() throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		IPPort ip = this.slaves.get(this.slaveKey);
-		String threadKey = ((NotificationThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new NotificationThreadRequest())).getThreadKey();
+		String threadKey = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest())).getThreadKey();
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
 		{
 			if (!this.slaveThreadKeys.containsKey(this.slaveKey))
@@ -635,13 +635,13 @@ public class Distributer
 	/*
 	 * To avoid the method is invoked many times, it is necessary to reuse existing threads. That is why the method is upgraded compared with the old version. 09/29/2019, Bing Li
 	 */
-	public Map<String, Set<String>> reuseThreads(Map<String, Integer> slaveThreadNumbers) throws ClassNotFoundException, RemoteReadException, IOException
+	public Map<String, Set<String>> reuseThreads(Map<String, Integer> slaveThreadSizes) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		Set<String> threadKeys;
 		IPPort ip;
 		Map<String, Set<String>> createdThreadKeys = new HashMap<String, Set<String>>();
 		Map<String, Integer> updatedRequirements = new HashMap<String, Integer>();
-		for (Map.Entry<String, Integer> entry : slaveThreadNumbers.entrySet())
+		for (Map.Entry<String, Integer> entry : slaveThreadSizes.entrySet())
 		{
 			if (this.slaveThreadKeys.containsKey(entry.getKey()))
 			{
@@ -663,7 +663,7 @@ public class Distributer
 		for (Map.Entry<String, Integer> entry : updatedRequirements.entrySet())
 		{
 			ip = this.slaves.get(entry.getKey());
-			threadKeys = ((NotificationThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new NotificationThreadRequest(entry.getValue()))).getThreadKeys();
+			threadKeys = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest(entry.getValue()))).getThreadKeys();
 			if (!this.slaveThreadKeys.containsKey(entry.getKey()))
 			{
 				this.slaveThreadKeys.put(entry.getKey(), threadKeys);
@@ -706,7 +706,7 @@ public class Distributer
 			updatedSize = size;
 		}
 		IPPort ip = this.slaves.get(this.slaveKey);
-		Set<String> threadKeys = ((NotificationThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new NotificationThreadRequest(updatedSize))).getThreadKeys();
+		Set<String> threadKeys = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest(updatedSize))).getThreadKeys();
 //		System.out.println("Distributer-reuseThreads(): threadKeys = " + threadKeys);
 		if (!this.slaveThreadKeys.containsKey(this.slaveKey))
 		{
@@ -734,7 +734,7 @@ public class Distributer
 		}
 		Set<String> threadKeys = Sets.newHashSet();
 		this.slaveThreadKeys.put(slaveKey, threadKeys);
-		String threadKey = ((NotificationThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new NotificationThreadRequest())).getThreadKey();
+		String threadKey = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest())).getThreadKey();
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
 		{
 			this.slaveThreadKeys.get(slaveKey).add(threadKey);
@@ -758,7 +758,7 @@ public class Distributer
 		}
 		Set<String> threadKeys = Sets.newHashSet();
 		this.slaveThreadKeys.put(this.slaveKey, threadKeys);
-		String threadKey = ((NotificationThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new NotificationThreadRequest())).getThreadKey();
+		String threadKey = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest())).getThreadKey();
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
 		{
 			this.slaveThreadKeys.get(this.slaveKey).add(threadKey);
@@ -786,11 +786,11 @@ public class Distributer
 	{
 		if (!task.getThreadKey().equals(ThreadConfig.NO_THREAD_KEY))
 		{
-			Worker.THREADING().addSync(task.getCollaboratorKey());
+			Worker.ATM().addSync(task.getCollaboratorKey());
 			IPPort ip = this.slaves.get(slaveKey);
 			this.peer.asyncNotify(ip.getIP(), ip.getPort(), task);
-			Worker.THREADING().holdOn(task.getCollaboratorKey(), timeout);
-			return Worker.THREADING().getResponse(task.getCollaboratorKey());
+			Worker.ATM().holdOn(task.getCollaboratorKey(), timeout);
+			return Worker.ATM().getResponse(task.getCollaboratorKey());
 		}
 		else
 		{
@@ -802,11 +802,11 @@ public class Distributer
 	{
 		if (task.getThreadKeys() != ThreadConfig.NO_THREAD_KEYS)
 		{
-			Worker.THREADING().addSync(task.getCollaboratorKey(), task.getThreadKeys().size());
+			Worker.ATM().addSync(task.getCollaboratorKey(), task.getThreadKeys().size());
 			IPPort ip = this.slaves.get(slaveKey);
 			this.peer.asyncNotify(ip.getIP(), ip.getPort(), task);
-			Worker.THREADING().holdOn(task.getCollaboratorKey(), timeout);
-			return Worker.THREADING().getResponses(task.getCollaboratorKey());
+			Worker.ATM().holdOn(task.getCollaboratorKey(), timeout);
+			return Worker.ATM().getResponses(task.getCollaboratorKey());
 		}
 		else
 		{
@@ -818,11 +818,11 @@ public class Distributer
 	{
 		if (!task.getThreadKey().equals(ThreadConfig.NO_THREAD_KEY))
 		{
-			Worker.THREADING().addSync(task.getCollaboratorKey());
+			Worker.ATM().addSync(task.getCollaboratorKey());
 			IPPort ip = this.slaves.get(this.slaveKey);
 			this.peer.asyncNotify(ip.getIP(), ip.getPort(), task);
-			Worker.THREADING().holdOn(task.getCollaboratorKey(), timeout);
-			return Worker.THREADING().getResponse(task.getCollaboratorKey());
+			Worker.ATM().holdOn(task.getCollaboratorKey(), timeout);
+			return Worker.ATM().getResponse(task.getCollaboratorKey());
 		}
 		else
 		{
@@ -834,11 +834,11 @@ public class Distributer
 	{
 		if (task.getThreadKeys() != ThreadConfig.NO_THREAD_KEYS)
 		{
-			Worker.THREADING().addSync(task.getCollaboratorKey(), task.getThreadKeys().size());
+			Worker.ATM().addSync(task.getCollaboratorKey(), task.getThreadKeys().size());
 			IPPort ip = this.slaves.get(this.slaveKey);
 			this.peer.asyncNotify(ip.getIP(), ip.getPort(), task);
-			Worker.THREADING().holdOn(task.getCollaboratorKey(), timeout);
-			return Worker.THREADING().getResponses(task.getCollaboratorKey());
+			Worker.ATM().holdOn(task.getCollaboratorKey(), timeout);
+			return Worker.ATM().getResponses(task.getCollaboratorKey());
 		}
 		else
 		{
@@ -862,11 +862,11 @@ public class Distributer
 	{
 		if (!task.getThreadKey().equals(ThreadConfig.NO_THREAD_KEY))
 		{
-			Worker.THREADING().addSync(task.getCollaboratorKey());
+			Worker.ATM().addSync(task.getCollaboratorKey());
 			IPPort ip = this.slaves.get(slaveKey);
 			this.peer.asyncNotify(ip.getIP(), ip.getPort(), task);
-			Worker.THREADING().holdOn(task.getCollaboratorKey(), timeout);
-			return Worker.THREADING().getResponse(task.getCollaboratorKey());
+			Worker.ATM().holdOn(task.getCollaboratorKey(), timeout);
+			return Worker.ATM().getResponse(task.getCollaboratorKey());
 		}
 		else
 		{
@@ -878,11 +878,11 @@ public class Distributer
 	{
 		if (task.getThreadKeys() != ThreadConfig.NO_THREAD_KEYS)
 		{
-			Worker.THREADING().addSync(task.getCollaboratorKey(), task.getThreadKeys().size());
+			Worker.ATM().addSync(task.getCollaboratorKey(), task.getThreadKeys().size());
 			IPPort ip = this.slaves.get(slaveKey);
 			this.peer.asyncNotify(ip.getIP(), ip.getPort(), task);
-			Worker.THREADING().holdOn(task.getCollaboratorKey(), timeout);
-			return Worker.THREADING().getResponses(task.getCollaboratorKey());
+			Worker.ATM().holdOn(task.getCollaboratorKey(), timeout);
+			return Worker.ATM().getResponses(task.getCollaboratorKey());
 		}
 		else
 		{
@@ -894,11 +894,11 @@ public class Distributer
 	{
 		if (!task.getThreadKey().equals(ThreadConfig.NO_THREAD_KEY))
 		{
-			Worker.THREADING().addSync(task.getCollaboratorKey());
+			Worker.ATM().addSync(task.getCollaboratorKey());
 			IPPort ip = this.slaves.get(this.slaveKey);
 			this.peer.asyncNotify(ip.getIP(), ip.getPort(), task);
-			Worker.THREADING().holdOn(task.getCollaboratorKey(), timeout);
-			return Worker.THREADING().getResponse(task.getCollaboratorKey());
+			Worker.ATM().holdOn(task.getCollaboratorKey(), timeout);
+			return Worker.ATM().getResponse(task.getCollaboratorKey());
 		}
 		else
 		{
@@ -916,7 +916,7 @@ public class Distributer
 	{
 		if (!request.getThreadKey().equals(ThreadConfig.NO_THREAD_KEY))
 		{
-			Worker.THREADING().addSync(request.getCollaboratorKey());
+			Worker.ATM().addSync(request.getCollaboratorKey());
 			if (!this.slaves.containsKey(request.getDestinationSlaveKey()))
 			{
 				System.out.println("Distributer-readThread(): try to obtain destination slave IP address ...");
@@ -925,8 +925,8 @@ public class Distributer
 			IPPort ip = this.slaves.get(request.getDestinationSlaveKey());
 			System.out.println("Distributer-readThread(): ip = " + ip.getIP() + ", port = " + ip.getPort());
 			this.peer.asyncNotify(ip.getIP(), ip.getPort(), request);
-			Worker.THREADING().holdOn(request.getCollaboratorKey(), timeout);
-			return Worker.THREADING().getResponse(request.getCollaboratorKey());
+			Worker.ATM().holdOn(request.getCollaboratorKey(), timeout);
+			return Worker.ATM().getResponse(request.getCollaboratorKey());
 		}
 		else
 		{
@@ -938,15 +938,15 @@ public class Distributer
 	{
 		if (request.getThreadKeys() != ThreadConfig.NO_THREAD_KEYS)
 		{
-			Worker.THREADING().addSync(request.getCollaboratorKey(), request.getThreadKeys().size());
+			Worker.ATM().addSync(request.getCollaboratorKey(), request.getThreadKeys().size());
 			if (!this.slaves.containsKey(request.getDestinationSlaveKey()))
 			{
 				this.obtainSlaveAddress(request.getDestinationSlaveKey());
 			}
 			IPPort ip = this.slaves.get(request.getDestinationSlaveKey());
 			this.peer.asyncNotify(ip.getIP(), ip.getPort(), request);
-			Worker.THREADING().holdOn(request.getCollaboratorKey(), timeout);
-			return Worker.THREADING().getResponses(request.getCollaboratorKey());
+			Worker.ATM().holdOn(request.getCollaboratorKey(), timeout);
+			return Worker.ATM().getResponses(request.getCollaboratorKey());
 		}
 		else
 		{
@@ -1045,7 +1045,7 @@ public class Distributer
 	}
 	*/
 	
-	public void addSlaveIPs(String slaveKey, IPPort ip)
+	public void addSlave(String slaveKey, IPPort ip)
 	{
 		this.slaves.put(slaveKey, ip);
 	}
@@ -1084,9 +1084,9 @@ public class Distributer
 		this.peer.syncNotify(ip.getIP(), ip.getPort(), new KillAllNotification(timeout));
 	}
 	
-	public void syncNotifySlave(String nodeKey, Notification notification) throws IOException, InterruptedException
+	public void syncNotifySlave(String slaveKey, Notification notification) throws IOException, InterruptedException
 	{
-		IPPort ip = this.slaves.get(nodeKey);
+		IPPort ip = this.slaves.get(slaveKey);
 		this.peer.syncNotify(ip.getIP(), ip.getPort(), notification);
 	}
 	
@@ -1136,18 +1136,18 @@ public class Distributer
 	public void shutdownSlave(String slaveKey, long timeout) throws IOException, InterruptedException
 	{
 		IPPort ip = this.slaves.get(slaveKey);
-		this.peer.syncNotify(ip.getIP(), ip.getPort(), new ShutdownNotification(timeout));
+		this.peer.syncNotify(ip.getIP(), ip.getPort(), new ShutdownSlaveNotification(timeout));
 	}
 	
 	public void shutdownSlave(long timeout) throws IOException, InterruptedException
 	{
 		IPPort ip = this.slaves.get(this.slaveKey);
-		this.peer.syncNotify(ip.getIP(), ip.getPort(), new ShutdownNotification(timeout));
+		this.peer.syncNotify(ip.getIP(), ip.getPort(), new ShutdownSlaveNotification(timeout));
 	}
 	
 	public void addTask(ThreadTask t)
 	{
-		Worker.THREADING().addTask(t);
+		Worker.ATM().addTask(t);
 	}
 	
 	private void obtainMasterAddress() throws ClassNotFoundException, RemoteReadException, IOException

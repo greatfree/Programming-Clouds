@@ -10,7 +10,7 @@ import org.greatfree.framework.cluster.replication.message.ReplicationTaskNotifi
 import org.greatfree.framework.cluster.replication.message.ReplicationTaskRequest;
 import org.greatfree.framework.cluster.replication.message.ReplicationTaskResponse;
 import org.greatfree.framework.p2p.RegistryConfig;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
@@ -33,7 +33,7 @@ class StartClient
 		
 		String option = UtilConfig.EMPTY_STRING;
 //		List<ReplicationTaskResponse> responses;
-		Response response;
+		CollectedClusterResponse response;
 		ReplicationTaskResponse rtr;
 		String message = "Hello";
 		String msgKey = Tools.getHash(message);
@@ -52,7 +52,7 @@ class StartClient
 			System.out.println("Press Enter to send ReplicationTaskRequest to the Replication cluster ...");
 			option = in.nextLine();
 //			response = (Response)StandaloneClient.CS().read(rootIP.getIP(), rootIP.getPort(), new ReplicationTaskRequest(msgKey, message, 0));
-			response = (Response)StandaloneClient.CS().read(rootIP.getIP(), rootIP.getPort(), new ReplicationTaskRequest(msgKey, message, partitionIndex));
+			response = (CollectedClusterResponse)StandaloneClient.CS().read(rootIP.getIP(), rootIP.getPort(), new ReplicationTaskRequest(msgKey, message, partitionIndex));
 			/*
 			responses = Tools.filter(response.getResponses(), ReplicationTaskResponse.class);
 			for (ReplicationTaskResponse entry : responses)

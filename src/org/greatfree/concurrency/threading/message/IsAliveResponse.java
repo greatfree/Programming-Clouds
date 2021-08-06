@@ -11,7 +11,7 @@ public class IsAliveResponse extends ServerMessage
 
 	public IsAliveResponse(boolean isAlive)
 	{
-		super(ThreadingMessageType.IS_ALIVE_RESPONSE);
+		super(ATMMessageType.IS_ALIVE_RESPONSE);
 		this.isAlive = isAlive;
 	}
 

@@ -7,8 +7,8 @@ import org.greatfree.data.Constants;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.HelloWorld;
 import org.greatfree.framework.multicast.message.HelloWorldBroadcastResponse;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldHelloWorldBroadcastRequest;
+import org.greatfree.message.MessageDisposer;
 
 // Created: 08/26/2018, Bing Li
 public class HelloWorldBroadcastRequestThread extends BoundRequestQueue<OldHelloWorldBroadcastRequest, HelloWorldBroadcastResponse, MessageDisposer<OldHelloWorldBroadcastRequest>>

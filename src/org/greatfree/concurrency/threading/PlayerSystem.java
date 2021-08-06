@@ -73,7 +73,7 @@ public class PlayerSystem
 	/*
 	 * When multiple slaves serve, the startup method is invoked. 09/29/2019, Bing Li
 	 */
-	public void startSlave(int port, PlayerTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void startSlave(int port, ATMTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
 	{
 		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		this.dt = new Distributer.DistributerBuilder()
@@ -107,7 +107,7 @@ public class PlayerSystem
 	 * When a master manages multiple slaves, the startup method is invoked. 09/29/2019, Bing Li
 	 */
 //	public void startMaster(String masterName, int port, PlayerTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
-	public void startMaster(int port, PlayerTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void startMaster(int port, ATMTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
 	{
 		this.dt = new Distributer.DistributerBuilder()
 			.name(DistributerIDs.ID().getNickName())
@@ -125,7 +125,7 @@ public class PlayerSystem
 	/*
 	 * When one master manages one slave only, the startup method is invoked. 09/29/2019, Bing Li
 	 */
-	public void startMaster(String masterName, int port, String slaveName, PlayerTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void startMaster(String masterName, int port, String slaveName, ATMTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
 	{
 		this.dt = new Distributer.DistributerBuilder()
 				.name(masterName)
@@ -332,13 +332,13 @@ public class PlayerSystem
 	{
 		for (Map.Entry<String, IPPort> entry : ips.entrySet())
 		{
-			this.dt.addSlaveIPs(entry.getKey(), entry.getValue());
+			this.dt.addSlave(entry.getKey(), entry.getValue());
 		}
 	}
 	
 	public void addSlaveIP(String slaveKey, IPPort ip)
 	{
-		this.dt.addSlaveIPs(slaveKey, ip);
+		this.dt.addSlave(slaveKey, ip);
 	}
 	
 	public void setMasterIP(IPPort ip)

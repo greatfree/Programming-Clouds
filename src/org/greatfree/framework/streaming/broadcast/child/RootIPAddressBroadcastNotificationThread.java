@@ -3,10 +3,10 @@ package org.greatfree.framework.streaming.broadcast.child;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.child.ChildMulticastor;
-import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.message.multicast.container.RootAddressNotification;
 
 // Created: 03/19/2020, Bing Li
-class RootIPAddressBroadcastNotificationThread extends NotificationQueue<RootIPAddressBroadcastNotification>
+class RootIPAddressBroadcastNotificationThread extends NotificationQueue<RootAddressNotification>
 {
 
 	public RootIPAddressBroadcastNotificationThread(int taskSize)
@@ -17,7 +17,7 @@ class RootIPAddressBroadcastNotificationThread extends NotificationQueue<RootIPA
 	@Override
 	public void run()
 	{
-		RootIPAddressBroadcastNotification notification;
+		RootAddressNotification notification;
 		while (!this.isShutdown())
 		{
 			while (!this.isEmpty())

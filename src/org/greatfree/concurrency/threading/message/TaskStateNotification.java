@@ -15,7 +15,7 @@ public class TaskStateNotification extends Notification
 
 	public TaskStateNotification(String threadKey, String taskKey, int instructType, String instructKey, boolean isDone)
 	{
-		super(ThreadingMessageType.TASK_STATE_NOTIFICATION);
+		super(ATMMessageType.TASK_STATE_NOTIFICATION);
 		this.threadKey = threadKey;
 		this.taskKey = taskKey;
 		this.instructType = instructType;

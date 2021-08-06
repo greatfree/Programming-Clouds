@@ -1,7 +1,7 @@
 package org.greatfree.concurrency.threading.message;
 
 // Created: 09/12/2019, Bing Li
-public class KillNotification extends InstructNotification
+public class KillNotification extends ATMNotification
 {
 	private static final long serialVersionUID = 3291382608698421753L;
 	
@@ -9,7 +9,7 @@ public class KillNotification extends InstructNotification
 
 	public KillNotification(String threadKey, long timeout)
 	{
-		super(threadKey, ThreadingMessageType.KILL_NOTIFICATION);
+		super(threadKey, ATMMessageType.KILL_NOTIFICATION);
 		this.timeout = timeout;
 	}
 

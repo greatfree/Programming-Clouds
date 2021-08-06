@@ -15,7 +15,7 @@ public class AllSlaveIPsNotification extends Notification
 
 	public AllSlaveIPsNotification(IPPort rp, Map<String, IPPort> ips)
 	{
-		super(ThreadingMessageType.ALL_SLAVE_IPS_NOTIFICATION);
+		super(ATMMessageType.ALL_SLAVE_IPS_NOTIFICATION);
 		this.rendezvousPoint = rp;
 		this.ips = ips;
 	}

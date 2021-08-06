@@ -2,7 +2,7 @@ package org.greatfree.chat.client.business.dip;
 
 import java.util.Scanner;
 
-import org.greatfree.app.business.dip.cs.multinode.client.customer.BusinessCustomerOptions;
+import org.greatfree.app.business.cs.multinode.client.customer.BusinessCustomerOptions;
 import org.greatfree.chat.ChatOptions;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;

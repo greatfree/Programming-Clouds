@@ -3,7 +3,7 @@ package org.greatfree.concurrency.threading;
 import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-import org.greatfree.concurrency.threading.message.InstructNotification;
+import org.greatfree.concurrency.threading.message.ATMNotification;
 import org.greatfree.concurrency.threading.message.InteractNotification;
 import org.greatfree.concurrency.threading.message.InteractRequest;
 import org.greatfree.concurrency.threading.message.TaskInvokeNotification;
@@ -15,7 +15,7 @@ import com.google.common.collect.Sets;
 // Created: 09/13/2019, Bing Li
 class DistributerPool
 {
-	private NotificationDispatcher<InstructNotification, FreeThread, FreeThreadCreator> pool;
+	private NotificationDispatcher<ATMNotification, ATMThread, ATMThreadCreator> pool;
 
 	private DistributerPool()
 	{
@@ -43,9 +43,9 @@ class DistributerPool
 	
 	public void init(ScheduledThreadPoolExecutor scheduler)
 	{
-		this.pool = new NotificationDispatcher.NotificationDispatcherBuilder<InstructNotification, FreeThread, FreeThreadCreator>()
+		this.pool = new NotificationDispatcher.NotificationDispatcherBuilder<ATMNotification, ATMThread, ATMThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
-				.threadCreator(new FreeThreadCreator())
+				.threadCreator(new ATMThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
 				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
@@ -76,7 +76,7 @@ class DistributerPool
 		return keys;
 	}
 	
-	public void enqueueInstruction(InstructNotification notification)
+	public void enqueueInstruction(ATMNotification notification)
 	{
 		if (!notification.getThreadKey().equals(ThreadConfig.NO_THREAD_KEY))
 		{
@@ -129,7 +129,7 @@ class DistributerPool
 				}
 			}
 		}
-		this.enqueueInstruction((InstructNotification)notification);
+		this.enqueueInstruction((ATMNotification)notification);
 	}
 	
 	public void invoke(TaskInvokeRequest request)
@@ -151,7 +151,7 @@ class DistributerPool
 				}
 			}
 		}
-		this.enqueueInstruction((InstructNotification)request);
+		this.enqueueInstruction((ATMNotification)request);
 	}
 	
 	public void invoke(InteractNotification notification)
@@ -173,7 +173,7 @@ class DistributerPool
 				}
 			}
 		}
-		this.enqueueInstruction((InstructNotification)notification);
+		this.enqueueInstruction((ATMNotification)notification);
 	}
 	
 	public void invoke(InteractRequest request)
@@ -205,7 +205,7 @@ class DistributerPool
 				}
 			}
 		}
-		this.enqueueInstruction((InstructNotification)request);
+		this.enqueueInstruction((ATMNotification)request);
 	}
 	
 	public void kill(String threadKey, long timeout) throws InterruptedException

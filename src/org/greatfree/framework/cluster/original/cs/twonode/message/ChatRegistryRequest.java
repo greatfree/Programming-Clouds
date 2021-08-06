@@ -1,9 +1,9 @@
 package org.greatfree.framework.cluster.original.cs.twonode.message;
 
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 // Created: 10/24/2108, Bing Li
-public class ChatRegistryRequest extends Request
+public class ChatRegistryRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = -216824394677822287L;
 	

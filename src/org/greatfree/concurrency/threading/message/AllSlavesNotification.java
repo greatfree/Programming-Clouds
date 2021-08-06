@@ -15,11 +15,11 @@ public class AllSlavesNotification extends Notification
 	private Map<String, Set<String>> threadKeys;
 	private Map<String, String> allSlaveNames;
 
-	public AllSlavesNotification(String masterName, Set<String> allNodeKeys, Map<String, Set<String>> threadKeys, Map<String, String> allSlaveNames)
+	public AllSlavesNotification(String masterName, Set<String> allSlaveKeys, Map<String, Set<String>> threadKeys, Map<String, String> allSlaveNames)
 	{
-		super(ThreadingMessageType.ALL_SLAVES_NOTIFICATION);
+		super(ATMMessageType.ALL_SLAVES_NOTIFICATION);
 		this.masterName = masterName;
-		this.allSlaveKeys = allNodeKeys;
+		this.allSlaveKeys = allSlaveKeys;
 		this.threadKeys = threadKeys;
 		this.allSlaveNames = allSlaveNames;
 	}

@@ -1,7 +1,7 @@
 package org.greatfree.cluster.message;
 
 import org.greatfree.message.multicast.MulticastMessageType;
-import org.greatfree.message.multicast.container.Notification;
+import org.greatfree.message.multicast.container.ClusterNotification;
 import org.greatfree.util.IPAddress;
 
 /*
@@ -10,7 +10,7 @@ import org.greatfree.util.IPAddress;
 
 // Created: 09/06/2020, Bing Li
 // public class SelectedChildNotification extends MulticastNotification
-public class SelectedChildNotification extends Notification
+public class SelectedChildNotification extends ClusterNotification
 {
 	private static final long serialVersionUID = -3217627295663136280L;
 

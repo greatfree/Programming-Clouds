@@ -12,9 +12,9 @@ import org.greatfree.message.multicast.container.InterChildrenNotification;
 import org.greatfree.message.multicast.container.InterChildrenRequest;
 import org.greatfree.message.multicast.container.IntercastNotification;
 import org.greatfree.message.multicast.container.IntercastRequest;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.UtilConfig;
 
@@ -50,7 +50,7 @@ public class ChildServiceProvider
 	/*
 	 * The method is revised in the aircraft from Zhuhai to Xi'An. 03/02/2019, Bing Li
 	 */
-	public void processNotification(Notification notification) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException
+	public void processNotification(ClusterNotification notification) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException
 	{
 		/*
 		 * The intercasting has to be implemented again with the child-based approach. The below code is not useful. 02/26/2019, Bing Li
@@ -113,7 +113,7 @@ public class ChildServiceProvider
 	/*
 	 * The method is revised in the aircraft from Zhuhai to Xi'An. 03/02/2019, Bing Li
 	 */
-	public MulticastResponse processRequest(Request request)
+	public MulticastResponse processRequest(ClusterRequest request)
 	{
 		/*
 		else if (request.getRequestType() == MulticastMessageType.INTER_CHILD_UNICAST_REQUEST || request.getRequestType() == MulticastMessageType.INTER_CHILD_ANYCAST_REQUEST || request.getRequestType() == MulticastMessageType.INTER_CHILD_BROADCAST_REQUEST)
@@ -158,7 +158,7 @@ public class ChildServiceProvider
 		}
 	}
 	
-	public Response processIntercastRequest(IntercastRequest ir) throws DistributedNodeFailedException, IOException
+	public CollectedClusterResponse processIntercastRequest(IntercastRequest ir) throws DistributedNodeFailedException, IOException
 	{
 //		InterChildrenRequest icr = this.task.prepareRequest(Child.CONTAINER().getChildIP(), Child.CONTAINER().getChildPort(), ir);
 		InterChildrenRequest icr = this.task.prepareRequest(ir);
@@ -196,7 +196,7 @@ public class ChildServiceProvider
 		return this.task.processRequest(request);
 	}
 	
-	public void processIntercastResponse(Response res)
+	public void processIntercastResponse(CollectedClusterResponse res)
 	{
 		this.task.processResponse(res);
 	}

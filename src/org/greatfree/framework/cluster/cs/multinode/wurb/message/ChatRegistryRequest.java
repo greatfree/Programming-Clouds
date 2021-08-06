@@ -1,9 +1,9 @@
 package org.greatfree.framework.cluster.cs.multinode.wurb.message;
 
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 // Created: 01/28/2019, Bing Li
-public class ChatRegistryRequest extends Request
+public class ChatRegistryRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = -7754259473082789038L;
 

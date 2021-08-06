@@ -3,8 +3,8 @@ package org.greatfree.cluster.root;
 import java.io.IOException;
 
 import org.greatfree.exceptions.RemoteReadException;
-import org.greatfree.framework.multicast.message.PeerAddressRequest;
-import org.greatfree.framework.multicast.message.PeerAddressResponse;
+import org.greatfree.message.PeerAddressRequest;
+import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 10/01/2018, Bing Li

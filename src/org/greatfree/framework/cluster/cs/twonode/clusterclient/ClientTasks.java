@@ -15,7 +15,7 @@ import org.greatfree.framework.cluster.original.cs.twonode.message.ChatRegistryR
 import org.greatfree.framework.cs.twonode.client.ChatMaintainer;
 import org.greatfree.framework.cs.twonode.client.ClientMenu;
 import org.greatfree.framework.cs.twonode.client.MenuOptions;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Rand;
 import org.greatfree.util.Tools;
 
@@ -24,7 +24,7 @@ class ClientTasks
 {
 	public static void register() throws ClassNotFoundException, RemoteReadException, IOException, DistributedNodeFailedException
 	{
-		Response response = (Response)ChatClient.CCC().read(new ChatRegistryRequest(ChatMaintainer.CS().getLocalUserKey(), ChatMaintainer.CS().getLocalUsername(), ChatMaintainer.CS().getLocalUsername() + " is a great & free guy!"));
+		CollectedClusterResponse response = (CollectedClusterResponse)ChatClient.CCC().read(new ChatRegistryRequest(ChatMaintainer.CS().getLocalUserKey(), ChatMaintainer.CS().getLocalUsername(), ChatMaintainer.CS().getLocalUsername() + " is a great & free guy!"));
 		List<ChatRegistryResponse> registryResponses = Tools.filter(response.getResponses(), ChatRegistryResponse.class);
 		boolean isSucceeded = true;
 		for (ChatRegistryResponse entry : registryResponses)

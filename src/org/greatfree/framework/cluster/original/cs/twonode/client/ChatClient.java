@@ -8,9 +8,9 @@ import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
-import org.greatfree.framework.multicast.message.PeerAddressRequest;
-import org.greatfree.framework.multicast.message.PeerAddressResponse;
 import org.greatfree.framework.p2p.RegistryConfig;
+import org.greatfree.message.PeerAddressRequest;
+import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.IPAddress;
 

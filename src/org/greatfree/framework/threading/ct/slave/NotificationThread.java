@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.concurrent.RejectedExecutionException;
 
 import org.greatfree.concurrency.threading.NotificationQueue;
-import org.greatfree.concurrency.threading.message.InstructNotification;
+import org.greatfree.concurrency.threading.message.ATMNotification;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.message.PrintTaskNotification;
@@ -12,7 +12,7 @@ import org.greatfree.util.ServerStatus;
 
 // Created: 09/11/2019, Bing Li
 //class FreeThread extends NotificationQueue<SyncInstructNotification>
-class NotificationThread extends NotificationQueue<InstructNotification>
+class NotificationThread extends NotificationQueue<ATMNotification>
 {
 	public NotificationThread(int taskSize)
 	{
@@ -22,7 +22,7 @@ class NotificationThread extends NotificationQueue<InstructNotification>
 	@Override
 	public void run()
 	{
-		InstructNotification notification;
+		ATMNotification notification;
 //		SyncInstructNotification notification;
 		PrintTaskNotification ptn;
 //		TimeoutNotification tmn;

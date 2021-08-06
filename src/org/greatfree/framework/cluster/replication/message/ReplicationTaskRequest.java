@@ -1,10 +1,10 @@
 package org.greatfree.framework.cluster.replication.message;
 
 import org.greatfree.message.multicast.MulticastMessageType;
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 // Created: 09/07/2020, Bing Li
-public class ReplicationTaskRequest extends Request
+public class ReplicationTaskRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = -5059343893634360277L;
 	

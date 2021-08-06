@@ -3,8 +3,8 @@ package org.greatfree.framework.container.cs.twonode.server;
 import java.io.IOException;
 import java.util.Calendar;
 
-import org.greatfree.app.business.dip.cs.multinode.server.AccountRegistry;
-import org.greatfree.app.business.dip.cs.multinode.server.CSAccount;
+import org.greatfree.app.business.cs.multinode.server.AccountRegistry;
+import org.greatfree.app.business.cs.multinode.server.CSAccount;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.cs.twonode.message.ApplicationID;

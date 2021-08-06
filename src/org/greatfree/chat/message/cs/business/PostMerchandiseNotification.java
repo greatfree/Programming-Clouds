@@ -1,6 +1,6 @@
 package org.greatfree.chat.message.cs.business;
 
-import org.greatfree.app.business.dip.cs.multinode.server.Merchandise;
+import org.greatfree.app.business.cs.multinode.server.Merchandise;
 import org.greatfree.message.ServerMessage;
 
 // Created: 12/04/2017, Bing Li

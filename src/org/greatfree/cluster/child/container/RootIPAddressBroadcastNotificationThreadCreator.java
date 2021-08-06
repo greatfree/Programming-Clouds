@@ -1,10 +1,10 @@
 package org.greatfree.cluster.child.container;
 
 import org.greatfree.concurrency.reactive.NotificationQueueCreator;
-import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
+import org.greatfree.message.multicast.container.RootAddressNotification;
 
 // Created: 01/13/2019, Bing Li
-class RootIPAddressBroadcastNotificationThreadCreator implements NotificationQueueCreator<RootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationThread>
+class RootIPAddressBroadcastNotificationThreadCreator implements NotificationQueueCreator<RootAddressNotification, RootIPAddressBroadcastNotificationThread>
 {
 
 	@Override

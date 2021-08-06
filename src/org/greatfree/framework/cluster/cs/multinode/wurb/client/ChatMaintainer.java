@@ -12,7 +12,7 @@ import org.greatfree.framework.cluster.cs.multinode.wurb.message.PollNewChatsRes
 import org.greatfree.framework.cluster.cs.multinode.wurb.message.PollNewSessionsRequest;
 import org.greatfree.framework.cluster.cs.multinode.wurb.message.PollNewSessionsResponse;
 import org.greatfree.framework.cluster.cs.twonode.client.ChatClient;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Tools;
 
 import com.google.common.collect.Sets;
@@ -97,7 +97,7 @@ class ChatMaintainer
 
 	public void checkNewSessions() throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		Response response = (Response)ChatClient.CONTAINER().read(new PollNewSessionsRequest(this.localUserKey, this.localUsername));
+		CollectedClusterResponse response = (CollectedClusterResponse)ChatClient.CONTAINER().read(new PollNewSessionsRequest(this.localUserKey, this.localUsername));
 		List<PollNewSessionsResponse> responses = Tools.filter(response.getResponses(), PollNewSessionsResponse.class);
 		for (PollNewSessionsResponse entry : responses)
 		{
@@ -116,7 +116,7 @@ class ChatMaintainer
   	public void checkNewChats() throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		List<PollNewChatsResponse> responses;
-		Response response;
+		CollectedClusterResponse response;
 		PollNewChatsRequest request;
 		for (String sessionKey : this.participatedSessions)
 		{
@@ -125,7 +125,7 @@ class ChatMaintainer
 			
 //			System.out.println("1) ChatMaintainer-checkNewChats(): collaboratorKey = " + request.getCollaboratorKey());
 			
-			response = (Response)ChatClient.CONTAINER().read(request);
+			response = (CollectedClusterResponse)ChatClient.CONTAINER().read(request);
 //			System.out.println("2) ChatMaintainer-checkNewChats(): collaboratorKey = " + request.getCollaboratorKey() + "'s response is received!");
 //			System.out.println("1) ChatMaintainer-checkNewChats(): collaboratorKey = " + request.getCollaboratorKey() + "'s response.getResponses() size = " + response.getResponses().size());
 			responses = Tools.filter(response.getResponses(), PollNewChatsResponse.class);

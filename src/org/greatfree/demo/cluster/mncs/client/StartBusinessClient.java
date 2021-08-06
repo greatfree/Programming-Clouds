@@ -10,7 +10,7 @@ import org.greatfree.demo.cluster.mncs.message.MerchandiseResponse;
 import org.greatfree.demo.cluster.mncs.message.PostMerchandiseNotification;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.cs.twonode.client.ChatClient;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Tools;
 
 // Created: 02/17/2019, Bing Li
@@ -37,7 +37,7 @@ public class StartBusinessClient
 		}
 		else
 		{
-			Response r = (Response)ChatClient.CONTAINER().read(new MerchandiseRequest(vn, "Phone"));
+			CollectedClusterResponse r = (CollectedClusterResponse)ChatClient.CONTAINER().read(new MerchandiseRequest(vn, "Phone"));
 			List<MerchandiseResponse> rs = Tools.filter(r.getResponses(), MerchandiseResponse.class);
 			for (MerchandiseResponse entry : rs)
 			{

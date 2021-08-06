@@ -7,7 +7,7 @@ package org.greatfree.concurrency.threading.message;
  */
 
 // Created: 09/11/2019, Bing Li
-class TimeoutNotification extends InstructNotification
+class TimeoutNotification extends ATMNotification
 {
 	private static final long serialVersionUID = -1050391014580722165L;
 	

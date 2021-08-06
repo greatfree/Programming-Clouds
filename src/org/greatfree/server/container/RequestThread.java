@@ -46,13 +46,13 @@ class RequestThread extends RequestQueue<Request, RequestStream, ServerMessage>
 				*/
 				try
 				{
-					this.respond(request.getOutStream(), request.getLock(), response);
+					super.respond(request.getOutStream(), request.getLock(), response);
 				}
 				catch (IOException e)
 				{
 					ServerStatus.FREE().printException(e);
 				}
-				this.disposeMessage(request, response);
+				super.disposeMessage(request, response);
 			}
 			try
 			{

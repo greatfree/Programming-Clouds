@@ -1,10 +1,10 @@
 package org.greatfree.cluster.root;
 
 import org.greatfree.concurrency.reactive.NotificationQueueCreator;
-import org.greatfree.message.multicast.container.Notification;
+import org.greatfree.message.multicast.container.ClusterNotification;
 
 // Created: 09/23/2018, Bing Li
-class RootNotificationThreadCreator implements NotificationQueueCreator<Notification, RootNotificationThread>
+class RootNotificationThreadCreator implements NotificationQueueCreator<ClusterNotification, RootNotificationThread>
 {
 
 	@Override

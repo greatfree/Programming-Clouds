@@ -5,10 +5,10 @@ import java.io.IOException;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.message.multicast.container.Notification;
+import org.greatfree.message.multicast.container.ClusterNotification;
 
 // Created: 09/23/2018, Bing Li
-class RootNotificationThread extends NotificationQueue<Notification>
+class RootNotificationThread extends NotificationQueue<ClusterNotification>
 {
 
 	public RootNotificationThread(int taskSize)
@@ -19,7 +19,7 @@ class RootNotificationThread extends NotificationQueue<Notification>
 	@Override
 	public void run()
 	{
-		Notification notification;
+		ClusterNotification notification;
 		while (!this.isShutdown())
 		{
 			while (!this.isEmpty())

@@ -1,14 +1,14 @@
 package org.greatfree.framework.cluster.cs.multinode.wurb.message;
 
 import org.greatfree.message.multicast.MulticastMessageType;
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 /*
  * The counterpart, PollNewChatsResponse, is the one org.greatfree.chat.message.cs.PollNewChatsResponse. It is a reused one. 01/27/2019, Bing Li
  */
 
 // Created: 01/27/2019, Bing Li
-public class PollNewChatsRequest extends Request
+public class PollNewChatsRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = 7803751537905084693L;
 	

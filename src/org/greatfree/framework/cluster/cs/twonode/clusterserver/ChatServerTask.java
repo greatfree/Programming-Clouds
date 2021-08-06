@@ -9,16 +9,16 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.multicast.container.ChildRootRequest;
 import org.greatfree.message.multicast.container.ChildRootResponse;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 
 // Created: 01/13/2019, Bing Li
 public class ChatServerTask implements RootTask
 {
 
 	@Override
-	public void processNotification(Notification notification)
+	public void processNotification(ClusterNotification notification)
 	{
 		switch (notification.getApplicationID())
 		{
@@ -47,7 +47,7 @@ public class ChatServerTask implements RootTask
 	}
 
 	@Override
-	public Response processRequest(Request request)
+	public CollectedClusterResponse processRequest(ClusterRequest request)
 	{
 		// TODO Auto-generated method stub
 		return null;

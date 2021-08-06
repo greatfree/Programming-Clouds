@@ -22,7 +22,7 @@ import org.greatfree.framework.cluster.cs.multinode.intercast.group.message.User
 import org.greatfree.framework.cluster.cs.multinode.intercast.group.message.UserSearchResponse;
 import org.greatfree.framework.cluster.cs.twonode.client.ChatClient;
 import org.greatfree.framework.cs.multinode.server.CSAccount;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Tools;
 
 // Created: 04/06/2019, Bing Li
@@ -91,12 +91,12 @@ class ClientUI
 		List<GroupSearchResponse> gsReses;
 		List<UserSearchResponse> usReses;
 		List<GroupMembersResponse> gmReses;
-		Response response;
+		CollectedClusterResponse response;
 		
 		switch (option)
 		{
 			case MenuOptions.REGISTER_USER:
-				response = (Response)ChatClient.CONTAINER().read(new UserRegistryRequest(ChatMaintainer.GROUP().getLocalUserKey(), ChatMaintainer.GROUP().getLocalUsername(), ChatMaintainer.GROUP().getLocalUsername() + " is a great & free guy!", ChatMaintainer.GROUP().getLocalUsername()));
+				response = (CollectedClusterResponse)ChatClient.CONTAINER().read(new UserRegistryRequest(ChatMaintainer.GROUP().getLocalUserKey(), ChatMaintainer.GROUP().getLocalUsername(), ChatMaintainer.GROUP().getLocalUsername() + " is a great & free guy!", ChatMaintainer.GROUP().getLocalUsername()));
 				crReses = Tools.filter(response.getResponses(), UserRegistryResponse.class);
 				for (UserRegistryResponse entry : crReses)
 				{
@@ -105,7 +105,7 @@ class ClientUI
 				break;
 
 			case MenuOptions.REGISTER_GROUP:
-				response = (Response)ChatClient.CONTAINER().read(new GroupRegistryRequest(ChatMaintainer.GROUP().getLocalUserKey(), ChatMaintainer.GROUP().getGroupKey(), ChatMaintainer.GROUP().getGroupName(), ChatMaintainer.GROUP().getGroupName() + " is a great & free group!", ChatMaintainer.GROUP().getLocalUsername(), ChatMaintainer.GROUP().getLocalUsername() + " is a great & free guy!"));
+				response = (CollectedClusterResponse)ChatClient.CONTAINER().read(new GroupRegistryRequest(ChatMaintainer.GROUP().getLocalUserKey(), ChatMaintainer.GROUP().getGroupKey(), ChatMaintainer.GROUP().getGroupName(), ChatMaintainer.GROUP().getGroupName() + " is a great & free group!", ChatMaintainer.GROUP().getLocalUsername(), ChatMaintainer.GROUP().getLocalUsername() + " is a great & free guy!"));
 				grReses = Tools.filter(response.getResponses(), GroupRegistryResponse.class);
 				for (GroupRegistryResponse entry : grReses)
 				{
@@ -114,7 +114,7 @@ class ClientUI
 				break;
 				
 			case MenuOptions.SEARCH_GROUP:
-				response = (Response)ChatClient.CONTAINER().read(new GroupSearchRequest(ChatMaintainer.GROUP().getLocalUserKey(), ChatMaintainer.GROUP().getGroupKey(), ChatMaintainer.GROUP().getLocalUsername()));
+				response = (CollectedClusterResponse)ChatClient.CONTAINER().read(new GroupSearchRequest(ChatMaintainer.GROUP().getLocalUserKey(), ChatMaintainer.GROUP().getGroupKey(), ChatMaintainer.GROUP().getLocalUsername()));
 				gsReses = Tools.filter(response.getResponses(), GroupSearchResponse.class);
 				for (GroupSearchResponse entry : gsReses)
 				{
@@ -123,7 +123,7 @@ class ClientUI
 				break;
 				
 			case MenuOptions.SEARCH_USER:
-				response = (Response)ChatClient.CONTAINER().read(new UserSearchRequest(ChatMaintainer.GROUP().getGroupKey(), ChatMaintainer.GROUP().getOneMemberKey(), ChatMaintainer.GROUP().getLocalUsername()));
+				response = (CollectedClusterResponse)ChatClient.CONTAINER().read(new UserSearchRequest(ChatMaintainer.GROUP().getGroupKey(), ChatMaintainer.GROUP().getOneMemberKey(), ChatMaintainer.GROUP().getLocalUsername()));
 				usReses = Tools.filter(response.getResponses(), UserSearchResponse.class);
 				for (UserSearchResponse entry : usReses)
 				{
@@ -148,7 +148,7 @@ class ClientUI
 				break;
 				
 			case MenuOptions.SEARCH_GROUP_MEMBERS:
-				response = (Response)ChatClient.CONTAINER().read(new GroupMembersRequest(ChatMaintainer.GROUP().getLocalUserKey(), ChatMaintainer.GROUP().getGroupKey(), ChatMaintainer.GROUP().getLocalUsername()));
+				response = (CollectedClusterResponse)ChatClient.CONTAINER().read(new GroupMembersRequest(ChatMaintainer.GROUP().getLocalUserKey(), ChatMaintainer.GROUP().getGroupKey(), ChatMaintainer.GROUP().getLocalUsername()));
 				gmReses = Tools.filter(response.getResponses(), GroupMembersResponse.class);
 				for (GroupMembersResponse entry : gmReses)
 				{

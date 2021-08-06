@@ -7,8 +7,8 @@ import org.greatfree.data.Constants;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.HelloWorld;
 import org.greatfree.framework.multicast.message.HelloWorldBroadcastResponse;
-import org.greatfree.framework.multicast.message.MessageDisposer;
 import org.greatfree.framework.multicast.message.OldHelloWorldBroadcastRequest;
+import org.greatfree.message.MessageDisposer;
 
 /*
  * The thread deals with the request and responds to the broadcast request initiator that sends the request. Since the request that contains the message must be broadcast to the local node's children, the disposal of the request must be controlled by the binder. 11/29/2014, Bing Li

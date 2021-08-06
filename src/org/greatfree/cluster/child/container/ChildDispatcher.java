@@ -8,33 +8,33 @@ import org.greatfree.cluster.message.ClusterMessageType;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.container.ChildResponse;
 import org.greatfree.message.multicast.container.IntercastNotification;
 import org.greatfree.message.multicast.container.IntercastRequest;
 import org.greatfree.message.multicast.container.IntercastRequestStream;
-import org.greatfree.message.multicast.container.Notification;
-import org.greatfree.message.multicast.container.Request;
-import org.greatfree.message.multicast.container.Response;
+import org.greatfree.message.multicast.container.ClusterNotification;
+import org.greatfree.message.multicast.container.ClusterRequest;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
+import org.greatfree.message.multicast.container.RootAddressNotification;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 01/13/2019, Bing Li
 class ChildDispatcher extends ServerDispatcher<ServerMessage>
 {
-	private NotificationDispatcher<RootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator> rootIPBroadcastNotificationDispatcher;
+	private NotificationDispatcher<RootAddressNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator> rootIPBroadcastNotificationDispatcher;
 	
 	// Since the message, SelectedChildNotification, needs to be forwarded/broadcast, it inherits Notification. The message is processed in the thread,  ChildNotificationThread. So the below lines is NOT useful. 09/12/2020, Bing Li
 //	private NotificationDispatcher<SelectedChildNotification, SelectedChildNotificationThread, SelectedChildNotificationThreadCreator> selectedChildNotificationDispatcher;
 
-	private NotificationDispatcher<Notification, ChildNotificationThread, ChildNotificationThreadCreator> notificationDispatcher;
-	private NotificationDispatcher<Request, ChildRequestThread, ChildRequestThreadCreator> requestDispatcher;
+	private NotificationDispatcher<ClusterNotification, ChildNotificationThread, ChildNotificationThreadCreator> notificationDispatcher;
+	private NotificationDispatcher<ClusterRequest, ChildRequestThread, ChildRequestThreadCreator> requestDispatcher;
 	
 	private NotificationDispatcher<ChildResponse, ChildResponseThread, ChildResponseThreadCreator> multicastResponseDispatcher;
 	
 	private NotificationDispatcher<IntercastNotification, IntercastNotificationThread, IntercastNotificationThreadCreator> intercastNotificationDispatcher;
-	private RequestDispatcher<IntercastRequest, IntercastRequestStream, Response, IntercastRequestThread, IntercastRequestThreadCreator> intercastRequestDispatcher;
+	private RequestDispatcher<IntercastRequest, IntercastRequestStream, CollectedClusterResponse, IntercastRequestThread, IntercastRequestThreadCreator> intercastRequestDispatcher;
 
 	private final static Logger log = Logger.getLogger("org.greatfree.cluster.child.container");
 
@@ -56,7 +56,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 		super(serverThreadPoolSize, serverThreadKeepAliveTime, schedulerPoolSize, schedulerKeepAliveTime);
 
 		// Initialize the notification dispatcher for the notification, ChatNotification
-		this.rootIPBroadcastNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<RootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator>()
+		this.rootIPBroadcastNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<RootAddressNotification, RootIPAddressBroadcastNotificationThread, RootIPAddressBroadcastNotificationThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new RootIPAddressBroadcastNotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
@@ -81,7 +81,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.build();
 				*/
 
-		this.notificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<Notification, ChildNotificationThread, ChildNotificationThreadCreator>()
+		this.notificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<ClusterNotification, ChildNotificationThread, ChildNotificationThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new ChildNotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
@@ -92,7 +92,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.scheduler(super.getScheduler())
 				.build();
 		
-		this.requestDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<Request, ChildRequestThread, ChildRequestThreadCreator>()
+		this.requestDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<ClusterRequest, ChildRequestThread, ChildRequestThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new ChildRequestThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
@@ -152,7 +152,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.scheduler(super.getScheduler())
 				.build();
 
-		this.intercastRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<IntercastRequest, IntercastRequestStream, Response, IntercastRequestThread, IntercastRequestThreadCreator>()
+		this.intercastRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<IntercastRequest, IntercastRequestStream, CollectedClusterResponse, IntercastRequestThread, IntercastRequestThreadCreator>()
 				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
 				.threadCreator(new IntercastRequestThreadCreator())
 				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
@@ -191,7 +191,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				{
 					super.execute(this.rootIPBroadcastNotificationDispatcher);
 				}
-				this.rootIPBroadcastNotificationDispatcher.enqueue((RootIPAddressBroadcastNotification)message.getMessage());
+				this.rootIPBroadcastNotificationDispatcher.enqueue((RootAddressNotification)message.getMessage());
 				break;
 
 				// Since the message, SelectedChildNotification, needs to be forwarded/broadcast, it inherits Notification. The message is processed in the thread,  ChildNotificationThread. So the below lines is NOT useful. 09/12/2020, Bing Li
@@ -214,7 +214,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 					super.execute(this.notificationDispatcher);
 				}
 				// Enqueue the instance of Notification into the dispatcher for concurrent processing. 02/15/2016, Bing Li
-				this.notificationDispatcher.enqueue((Notification)message.getMessage());
+				this.notificationDispatcher.enqueue((ClusterNotification)message.getMessage());
 				break;
 				
 			case MulticastMessageType.REQUEST:
@@ -225,7 +225,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 					super.execute(this.requestDispatcher);
 				}
 				// Enqueue the instance of Notification into the dispatcher for concurrent processing. 02/15/2016, Bing Li
-				this.requestDispatcher.enqueue((Request)message.getMessage());
+				this.requestDispatcher.enqueue((ClusterRequest)message.getMessage());
 				break;
 
 				/*

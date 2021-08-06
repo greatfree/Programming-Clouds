@@ -1,9 +1,9 @@
 package org.greatfree.framework.cluster.cs.multinode.intercast.group.message;
 
-import org.greatfree.message.multicast.container.Request;
+import org.greatfree.message.multicast.container.ClusterRequest;
 
 // Created: 04/02/2019, Bing Li
-public class UserRegistryRequest extends Request
+public class UserRegistryRequest extends ClusterRequest
 {
 	private static final long serialVersionUID = 7199185898495150877L;
 

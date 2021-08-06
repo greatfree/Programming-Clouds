@@ -7,10 +7,10 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
-import org.greatfree.framework.multicast.message.RootIPAddressBroadcastNotification;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
+import org.greatfree.message.multicast.container.RootAddressNotification;
 import org.greatfree.server.Peer;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.TerminateSignal;
@@ -97,7 +97,7 @@ class RootPeer
 			}
 			
 			RootMulticastor.ROOT().start(this.peer.getClientPool(), MulticastConfig.ROOT_BRANCH_COUNT, MulticastConfig.SUB_BRANCH_COUNT, MulticastConfig.BROADCAST_REQUEST_WAIT_TIME, this.peer.getPool());
-			RootMulticastor.ROOT().broadcastNotify(new RootIPAddressBroadcastNotification(new IPAddress(this.peer.getPeerID(), this.peer.getPeerIP(), this.peer.getPort())));
+			RootMulticastor.ROOT().broadcastNotify(new RootAddressNotification(new IPAddress(this.peer.getPeerID(), this.peer.getPeerIP(), this.peer.getPort())));
 		}
 		else
 		{

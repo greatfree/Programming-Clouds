@@ -88,7 +88,7 @@ class Slave
 	{
 		for (Map.Entry<String, IPPort> entry : ips.entrySet())
 		{
-			this.dt.addSlaveIPs(entry.getKey(), entry.getValue());
+			this.dt.addSlave(entry.getKey(), entry.getValue());
 		}
 	}
 

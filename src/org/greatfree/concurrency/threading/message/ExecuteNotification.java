@@ -1,7 +1,7 @@
 package org.greatfree.concurrency.threading.message;
 
 // Created: 09/12/2019, Bing Li
-public class ExecuteNotification extends InstructNotification
+public class ExecuteNotification extends ATMNotification
 {
 	private static final long serialVersionUID = -152948645428150485L;
 
@@ -17,7 +17,7 @@ public class ExecuteNotification extends InstructNotification
 	 */
 	public ExecuteNotification(String threadKey)
 	{
-		super(threadKey, ThreadingMessageType.EXECUTE_NOTIFICATION);
+		super(threadKey, ATMMessageType.EXECUTE_NOTIFICATION);
 	}
 }
 
