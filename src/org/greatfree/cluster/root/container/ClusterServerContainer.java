@@ -21,6 +21,8 @@ public class ClusterServerContainer
 
 	public ClusterServerContainer(int port, String rootName, String registryServerIP, int registryServerPort, RootTask task) throws IOException
 	{
+		ClusterProfile.CLUSTER().init(registryServerIP, registryServerPort);
+
 		this.server = new ClusterServer.ServerOnClusterBuilder()
 				.peerPort(port)
 				.peerName(rootName)
@@ -176,8 +178,13 @@ public class ClusterServerContainer
 		{
 			TerminateSignal.SIGNAL().waitTermination(timeout);
 		}
+		
+		// With the updating of notify/wait, the line is not needed. But to keep compatible, just leave it here for some time. 08/25/2021, Bing Li
 		// Set the terminating signal. 11/25/2014, Bing Li
 		TerminateSignal.SIGNAL().setTerminated();
+		
+		// I attempt to change the SP pattern to replace the while-true loop with the notify/wait structure. 08/25/2021, Bing Li
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 

@@ -46,7 +46,7 @@ public class PeerProfile
 	
 	public void init(String path)
 	{
-		ServerProfile.CS().init(path);
+//		ServerProfile.CS().init(path);
 		XPathOnDiskReader reader = new XPathOnDiskReader(path, true);
 		
 		this.peerName = reader.read(ContainerXML.SELECT_PEER_NAME);
@@ -69,6 +69,13 @@ public class PeerProfile
 		this.schedulerKeepAliveTime = new Integer(reader.read(ContainerXML.SELECT_EVENT_SCHEDULER_KEEP_ALIVE_TIME));
 
 		reader.close();
+	}
+	
+	public void init(String registryIP, int registryPort)
+	{
+//		ServerProfile.CS().setDefault(false);
+		this.registryServerIP = registryIP;
+		this.registryServerPort = registryPort;
 	}
 
 	public String getPeerName()

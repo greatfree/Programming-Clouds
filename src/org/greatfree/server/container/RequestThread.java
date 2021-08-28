@@ -29,7 +29,7 @@ class RequestThread extends RequestQueue<Request, RequestStream, ServerMessage>
 			{
 				request = this.dequeue();
 				
-				System.out.println("RequestThread: serverKey = " + super.getServerKey());
+//				System.out.println("RequestThread: serverKey = " + super.getServerKey());
 				
 				response = ServiceProvider.CS().processRequest(super.getServerKey(), request.getMessage());
 

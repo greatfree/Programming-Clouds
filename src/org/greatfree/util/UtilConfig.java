@@ -34,6 +34,7 @@ public class UtilConfig
 	
 	public final static int NO_TYPE = 0;
 	public final static String NO_IP = "";
+	public final static int NO_PORT = -1;
 	public final static String LOCAL_IP = "127.0.0.1";
 	public final static String COLON = ":";
 	public final static String SEMI_COLON = ";";
@@ -88,6 +89,8 @@ public class UtilConfig
 	public final static String NUX = "nux";
 	public final static String AIX = "aix";
 	public final static String SUN_OS = "sunos";
+
+	public final static String USER_HOME = "user.home";
 	
 	public final static int ZERO = 0;
 	public final static int ONE = 1;

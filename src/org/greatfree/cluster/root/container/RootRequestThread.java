@@ -24,20 +24,20 @@ class RootRequestThread extends RequestQueue<ClusterRequest, ClusterRequestStrea
 	{
 		ClusterRequestStream request;
 		CollectedClusterResponse response;
-		while (!this.isShutdown())
+		while (!super.isShutdown())
 		{
-			while (!this.isEmpty())
+			while (!super.isEmpty())
 			{
-				request = this.dequeue();
+				request = super.dequeue();
 				try
 				{
 					response = ClusterRoot.CONTAINER().processRequest(request.getMessage());
 					
-//					System.out.println("RootRequestThread-run(): " + request.getMessage().getCollaboratorKey() + "'s response is obtained and to be sent back to the client ...");
+					System.out.println("RootRequestThread-run(): " + request.getMessage().getCollaboratorKey() + "'s response is obtained and to be sent back to the client ...");
 					
-					this.respond(request.getOutStream(), request.getLock(), response);
-//					System.out.println("RootRequestThread-run(): " + request.getMessage().getCollaboratorKey() + "'s response is done to send back to the client ...");
-					this.disposeMessage(request, response);
+					super.respond(request.getOutStream(), request.getLock(), response);
+					System.out.println("RootRequestThread-run(): " + request.getMessage().getCollaboratorKey() + "'s response is done to send back to the client ...");
+					super.disposeMessage(request, response);
 				}
 				catch (IOException | DistributedNodeFailedException | ClassNotFoundException | RemoteReadException e)
 				{
@@ -46,7 +46,7 @@ class RootRequestThread extends RequestQueue<ClusterRequest, ClusterRequestStrea
 			}
 			try
 			{
-				this.holdOn(ServerConfig.REQUEST_THREAD_WAIT_TIME);
+				super.holdOn(ServerConfig.REQUEST_THREAD_WAIT_TIME);
 			}
 			catch (InterruptedException e)
 			{

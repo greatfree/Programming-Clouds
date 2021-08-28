@@ -41,8 +41,8 @@ public class ClusterProfile
 	{
 		ServerProfile.CS().init(path);
 		PeerProfile.P2P().init(path);
-		XPathOnDiskReader reader = new XPathOnDiskReader(path, true);
 
+		XPathOnDiskReader reader = new XPathOnDiskReader(path, true);
 		this.schedulerPoolSize = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_POOL_SIZE));
 		this.schedulerKeepAliveTime = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_KEEP_ALIVE_TIME));
 		this.schedulerShutdownTimeout = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_SHUTDOWN_TIME_OUT));
@@ -52,6 +52,12 @@ public class ClusterProfile
 		this.rootKey = Tools.getHash(reader.read(ContainerXML.SELECT_ROOT_NAME));
 		
 		reader.close();
+	}
+	
+	public void init(String registryIP, int registryPort)
+	{
+		ServerProfile.CS().setDefault(false);
+		PeerProfile.P2P().init(registryIP, registryPort);
 	}
 	
 	public int getSchedulerPoolSize()

@@ -620,6 +620,11 @@ class ClusterRoot
 					// This key is important. Developers can set the value. So they can decide how to balance the load. For example, in the case of S3, all of the encoded data slices for the same encoding block can be sent to a unique child for merging. The client key can be the ID of the encoding block. 07/11/2020, Bing Li
 					if (request.getClientKey() != null)
 					{
+						log.info("ClusterRoot-processRequest(): clientKey = " + request.getClientKey());
+						
+//						List<MulticastResponse> res = this.client.unicastNearestRead(request.getClientKey(), request);
+//						log.info("ClusterRoot-processRequest(): res received (size) = " + res.size());
+//						return new CollectedClusterResponse(MulticastMessageType.UNICAST_RESPONSE, res);
 						return new CollectedClusterResponse(MulticastMessageType.UNICAST_RESPONSE, this.client.unicastNearestRead(request.getClientKey(), request));
 					}
 					else

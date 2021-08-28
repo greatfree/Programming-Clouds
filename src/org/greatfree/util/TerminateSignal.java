@@ -48,9 +48,19 @@ public class TerminateSignal
 		this.collaborator.holdOn(timeout);
 	}
 	
+	public void waitTermination()
+	{
+		this.collaborator.holdOn();
+	}
+	
 	public void notifyTermination()
 	{
 		this.collaborator.signal();
+	}
+	
+	public void notifyAllTermination()
+	{
+		this.collaborator.signalAll();
 	}
 	
 	public boolean isTerminated()

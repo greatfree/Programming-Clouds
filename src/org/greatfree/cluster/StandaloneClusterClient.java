@@ -1,6 +1,7 @@
 package org.greatfree.cluster;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.greatfree.client.StandaloneClient;
 import org.greatfree.exceptions.RemoteReadException;
@@ -12,6 +13,8 @@ import org.greatfree.util.IPAddress;
 // Created: 01/14/2019, Bing Li
 public class StandaloneClusterClient
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster");
+
 	private IPAddress rootAddress;
 	private String registryIP;
 	private int registryPort;
@@ -79,7 +82,10 @@ public class StandaloneClusterClient
 	
 	public ServerMessage readRoot(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		return StandaloneClient.CS().read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
+//		return StandaloneClient.CS().read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
+		ServerMessage msg = StandaloneClient.CS().read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
+		log.info("StandaloneClusterClient-readRoot(): response received!");
+		return msg;
 	}
 
 	public void syncNotifyRegistry(ServerMessage notification) throws IOException, InterruptedException
