@@ -1,12 +1,15 @@
 package org.greatfree.server.container;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import org.greatfree.util.XPathOnDiskReader;
 
 // Created: 01/09/2019, Bing Li
 public class ServerProfile
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.server.container");
+
 	/*
 	 * The server parameters. 01/09/2019, Bing Li
 	 */
@@ -89,6 +92,7 @@ public class ServerProfile
 	public void setDefault(boolean isDefault)
 	{
 		this.isDefault.set(isDefault);
+		log.info("ServerProfile-setDefault(): isDefault = " + this.isDefault);
 	}
 	
 	public boolean isDefault()

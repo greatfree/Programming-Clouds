@@ -26,6 +26,8 @@ public class ClusterChildContainer
 
 	public ClusterChildContainer(String registryServerIP, int registryServerPort, ChildTask task) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException
 	{
+		ClusterProfile.CLUSTER().init(registryServerIP, registryServerPort);
+
 		this.child = new ClusterChild.ClusterChildBuilder()
 				.peerPort(ChatConfig.CHAT_SERVER_PORT)
 				.peerName(Tools.generateUniqueKey())

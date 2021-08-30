@@ -26,7 +26,7 @@ public class PeerProfile
 	
 	private PeerProfile()
 	{
-		ServerProfile.CS().setDefault(true);
+//		ServerProfile.CS().setDefault(true);
 	}
 	
 	private static PeerProfile instance = new PeerProfile();

@@ -26,6 +26,16 @@ public class Rand
 		return (char)((int)UtilConfig.CHAR_A_UPPERCASE + Math.random() * ((int)UtilConfig.CHAR_Z_UPPERCASE - (int)UtilConfig.CHAR_A_UPPERCASE + 1));
 	}
 	
+	public static String getRandomUpperCharToString()
+	{
+		return Character.toString(getRandomUpperChar());
+	}
+	
+	public static String getRandomLowerCharToString()
+	{
+		return Character.toString(getRandomLowerChar());
+	}
+	
 	public static String getRandomUpperString(int length)
 	{
 		String str = UtilConfig.EMPTY_STRING;
