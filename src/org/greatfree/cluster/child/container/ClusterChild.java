@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.message.ServerMessage;
+import org.greatfree.message.container.Notification;
+import org.greatfree.message.container.Request;
 import org.greatfree.message.multicast.container.ChildRootRequest;
 import org.greatfree.message.multicast.container.ChildRootResponse;
 import org.greatfree.message.multicast.container.ClusterNotification;
@@ -414,6 +417,38 @@ class ClusterChild
 		{
 			return this.requestWaitTime;
 		}
+	}
+	
+	/*
+	 * The method is able to get the IP address of any node. 09/22/2021, Bing Li
+	 */
+	public IPAddress getIPAddress(String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return Child.CONTAINER().getIPAddress(nodeKey);
+	}
+
+	/*
+	 * It allows the child to interact with any nodes through notifying synchronously. 09/22/2021, Bing Li
+	 */
+	public void syncNotify(IPAddress ip, Notification notification) throws IOException, InterruptedException
+	{
+		Child.CONTAINER().syncNotify(ip, notification);
+	}
+	
+	/*
+	 * It allows the child to interact with any nodes through notifying asynchronously. 09/22/2021, Bing Li
+	 */
+	public void asyncNotify(IPAddress ip, Notification notification)
+	{
+		Child.CONTAINER().asyncNotify(ip, notification);
+	}
+
+	/*
+	 * It allows the child to interact with any nodes through reading. 09/22/2021, Bing Li
+	 */
+	public ServerMessage read(IPAddress ip, Request request) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return Child.CONTAINER().read(ip, request);
 	}
 	
 	/*

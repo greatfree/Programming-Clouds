@@ -63,6 +63,16 @@ public class Rand
 	{
 		return random.nextInt(max);
 	}
+	
+	public static double getDRandom(double max)
+	{
+		return max * getDRandom();
+	}
+	
+	public static float getFRandom(float max)
+	{
+		return max * getFRandom();
+	}
 
 	public static long getNextLong()
 	{

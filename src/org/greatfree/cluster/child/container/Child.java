@@ -13,8 +13,13 @@ import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.ChatRegistryRequest;
 import org.greatfree.framework.container.p2p.message.IsRootOnlineRequest;
 import org.greatfree.framework.container.p2p.message.LeaveClusterNotification;
+import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
 import org.greatfree.framework.p2p.RegistryConfig;
+import org.greatfree.message.PeerAddressResponse;
+import org.greatfree.message.ServerMessage;
 import org.greatfree.message.SystemMessageConfig;
+import org.greatfree.message.container.Notification;
+import org.greatfree.message.container.Request;
 import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.MulticastRequest;
@@ -355,6 +360,45 @@ class Child
 	public void asyncRead(MulticastRequest request)
 	{
 		this.client.asyncRead(request);
+	}
+	
+	/*
+	 * It allows the child to interact with any nodes through notifying synchronously. 09/22/2021, Bing Li
+	 */
+	public void syncNotify(IPAddress ip, Notification notification) throws IOException, InterruptedException
+	{
+		this.child.syncNotify(ip.getIP(), ip.getPort(), notification);
+	}
+	
+	/*
+	 * It allows the child to interact with any nodes through notifying asynchronously. 09/22/2021, Bing Li
+	 */
+	public void asyncNotify(IPAddress ip, Notification notification)
+	{
+		this.child.asyncNotify(ip.getIP(), ip.getPort(), notification);
+	}
+
+	/*
+	 * It allows the child to interact with any nodes through reading. 09/22/2021, Bing Li
+	 */
+	public ServerMessage read(IPAddress ip, Request request) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return this.child.read(ip.getIP(), ip.getPort(), request);
+	}
+
+	/*
+	 * The method reads from the registry server to get the IP address of any node. 09/21/2021, Bing Li
+	 */
+	public IPAddress getIPAddress(String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		if (!ServerProfile.CS().isDefault())
+		{
+			return ((PeerAddressResponse)this.child.read(PeerProfile.P2P().getRegistryServerIP(),  PeerProfile.P2P().getRegistryServerPort(), new PeerAddressRequest(nodeKey))).getPeerAddress();
+		}
+		else
+		{
+			return ((PeerAddressResponse)this.child.read(RegistryConfig.PEER_REGISTRY_ADDRESS, RegistryConfig.PEER_REGISTRY_PORT, new PeerAddressRequest(nodeKey))).getPeerAddress();
+		}
 	}
 
 	/*

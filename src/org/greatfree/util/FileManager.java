@@ -495,6 +495,16 @@ public class FileManager
 	{
 		FileUtils.writeByteArrayToFile(new File(filePath), bytes);
 	}
+	
+	public static void removeDir(String directory) throws IOException
+	{
+		FileUtils.deleteDirectory(new File(directory));
+	}
+
+	public static boolean removeFile(String file)
+	{
+		return (new File(file)).delete();
+	}
 
 	public static void saveFile(String filePath, byte[] bytes, boolean isAppend) throws IOException
 	{

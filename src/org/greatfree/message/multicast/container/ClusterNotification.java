@@ -36,6 +36,19 @@ public abstract class ClusterNotification extends MulticastNotification
 	}
 
 	/*
+	 * The constructor is usually used for the random unicasting. 09/21/2021, Bing Li 
+	 */
+	public ClusterNotification(int applicationID)
+	{
+		super(MulticastMessageType.NOTIFICATION);
+		this.notificationType = MulticastMessageType.UNICAST_NOTIFICATION;
+		this.applicationID = applicationID;
+		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
+		this.childrenKeys = null;
+	}
+	
+
+	/*
 	 * The below two constructors are used together for the root and the children, respectively. 10/28/2018, Bing Li
 	 */
 
