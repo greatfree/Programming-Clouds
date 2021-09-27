@@ -50,8 +50,10 @@ public class Profile
 	{
 		// An XML reader is defined to retrieved predefined information from the XML file, which is managed by the administrator manually. 11/25/2014, Bing Li
 		XMLReader reader = new XMLReader(path, true);
-		this.crawlServerCount = new Integer(reader.read(CoorConfig.SELECT_CRAWLSERVER_COUNT));
-		this.memoryServerCount = new Integer(reader.read(CoorConfig.SELECT_MEMORYSERVER_COUNT));
+//		this.crawlServerCount = new Integer(reader.read(CoorConfig.SELECT_CRAWLSERVER_COUNT));
+		this.crawlServerCount = Integer.valueOf(reader.read(CoorConfig.SELECT_CRAWLSERVER_COUNT));
+//		this.memoryServerCount = new Integer(reader.read(CoorConfig.SELECT_MEMORYSERVER_COUNT));
+		this.memoryServerCount = Integer.valueOf(reader.read(CoorConfig.SELECT_MEMORYSERVER_COUNT));
 		reader.close();
 	}
 

@@ -65,26 +65,44 @@ public class ServerProfile
 	{
 		this.isDefault.set(false);
 		XPathOnDiskReader reader = new XPathOnDiskReader(path, true);
-		this.port = new Integer(reader.read(ContainerXML.SELECT_SERVER_PORT));
-		this.listeningThreadCount = new Integer(reader.read(ContainerXML.SELECT_LISTENING_THREAD_COUNT));
-		this.serverThreadPoolSize = new Integer(reader.read(ContainerXML.SELECT_SERVER_THREAD_POOL_SIZE));
-		this.serverThreadKeepAliveTime = new Integer(reader.read(ContainerXML.SELECT_SERVER_THREAD_KEEP_ALIVE_TIME));
-		this.schedulerThreadPoolSize = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_THREAD_POOL_SIZE));
-		this.schedulerThreadPoolKeepAliveTime = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_THERAD_KEEP_ALIVE_TIME));
+//		this.port = new Integer(reader.read(ContainerXML.SELECT_SERVER_PORT));
+		this.port = Integer.valueOf(reader.read(ContainerXML.SELECT_SERVER_PORT));
+//		this.listeningThreadCount = new Integer(reader.read(ContainerXML.SELECT_LISTENING_THREAD_COUNT));
+		this.listeningThreadCount = Integer.valueOf(reader.read(ContainerXML.SELECT_LISTENING_THREAD_COUNT));
+//		this.serverThreadPoolSize = new Integer(reader.read(ContainerXML.SELECT_SERVER_THREAD_POOL_SIZE));
+		this.serverThreadPoolSize = Integer.valueOf(reader.read(ContainerXML.SELECT_SERVER_THREAD_POOL_SIZE));
+//		this.serverThreadKeepAliveTime = new Integer(reader.read(ContainerXML.SELECT_SERVER_THREAD_KEEP_ALIVE_TIME));
+		this.serverThreadKeepAliveTime = Integer.valueOf(reader.read(ContainerXML.SELECT_SERVER_THREAD_KEEP_ALIVE_TIME));
+//		this.schedulerThreadPoolSize = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_THREAD_POOL_SIZE));
+		this.schedulerThreadPoolSize = Integer.valueOf(reader.read(ContainerXML.SELECT_SCHEDULER_THREAD_POOL_SIZE));
+//		this.schedulerThreadPoolKeepAliveTime = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_THERAD_KEEP_ALIVE_TIME));
+		this.schedulerThreadPoolKeepAliveTime = Integer.valueOf(reader.read(ContainerXML.SELECT_SCHEDULER_THERAD_KEEP_ALIVE_TIME));
 		
-		this.notificationDispatcherPoolSize = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_POOL_SIZE));
-		this.notificationQueueSize = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_QUEUE_SIZE));
-		this.notificationDispatcherWaitTime = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_TIME));
-		this.notificationDispatcherWaitRound = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_ROUND));
-		this.notificationDispatcherIdleCheckDelay = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY));
-		this.notificationDispatcherIdleCheckPeriod = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD));
+//		this.notificationDispatcherPoolSize = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_POOL_SIZE));
+		this.notificationDispatcherPoolSize = Integer.valueOf(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_POOL_SIZE));
+//		this.notificationQueueSize = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_QUEUE_SIZE));
+		this.notificationQueueSize = Integer.valueOf(reader.read(ContainerXML.SELECT_NOTIFICATION_QUEUE_SIZE));
+//		this.notificationDispatcherWaitTime = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_TIME));
+		this.notificationDispatcherWaitTime = Integer.valueOf(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_TIME));
+//		this.notificationDispatcherWaitRound = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_ROUND));
+		this.notificationDispatcherWaitRound = Integer.valueOf(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_ROUND));
+//		this.notificationDispatcherIdleCheckDelay = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY));
+		this.notificationDispatcherIdleCheckDelay = Integer.valueOf(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY));
+//		this.notificationDispatcherIdleCheckPeriod = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD));
+		this.notificationDispatcherIdleCheckPeriod = Integer.valueOf(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD));
 		
-		this.requestDispatcherPoolSize = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_POOL_SIZE));
-		this.requestQueueSize = new Integer(reader.read(ContainerXML.SELECT_REQUEST_QUEUE_SIZE));
-		this.requestDispatcherWaitTime = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_TIME));
-		this.requestDispatcherWaitRound = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_ROUND));
-		this.requestDispatcherIdleCheckDelay = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_IDLE_CHECK_DELAY));
-		this.requestDispatcherIdleCheckPeriod = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_IDLE_CHECK_PERIOD));
+//		this.requestDispatcherPoolSize = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_POOL_SIZE));
+		this.requestDispatcherPoolSize = Integer.valueOf(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_POOL_SIZE));
+//		this.requestQueueSize = new Integer(reader.read(ContainerXML.SELECT_REQUEST_QUEUE_SIZE));
+		this.requestQueueSize = Integer.valueOf(reader.read(ContainerXML.SELECT_REQUEST_QUEUE_SIZE));
+//		this.requestDispatcherWaitTime = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_TIME));
+		this.requestDispatcherWaitTime = Integer.valueOf(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_TIME));
+//		this.requestDispatcherWaitRound = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_ROUND));
+		this.requestDispatcherWaitRound = Integer.valueOf(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_ROUND));
+//		this.requestDispatcherIdleCheckDelay = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_IDLE_CHECK_DELAY));
+		this.requestDispatcherIdleCheckDelay = Integer.valueOf(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_IDLE_CHECK_DELAY));
+//		this.requestDispatcherIdleCheckPeriod = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_IDLE_CHECK_PERIOD));
+		this.requestDispatcherIdleCheckPeriod = Integer.valueOf(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_IDLE_CHECK_PERIOD));
 		
 		reader.close();
 	}

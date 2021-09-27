@@ -148,7 +148,7 @@ public class PeerContainer
 	{
 		this.peer.start();
 	}
-	
+
 	public void syncNotify(String ip, int port, ServerMessage notification) throws IOException, InterruptedException
 	{
 		this.peer.syncNotify(ip, port, notification);

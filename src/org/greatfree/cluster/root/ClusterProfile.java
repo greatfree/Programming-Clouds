@@ -47,12 +47,18 @@ public class ClusterProfile
 		PeerProfile.P2P().init(path);
 
 		XPathOnDiskReader reader = new XPathOnDiskReader(path, true);
-		this.schedulerPoolSize = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_POOL_SIZE));
-		this.schedulerKeepAliveTime = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_KEEP_ALIVE_TIME));
-		this.schedulerShutdownTimeout = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_SHUTDOWN_TIME_OUT));
-		this.rootBranchCount = new Integer(reader.read(ContainerXML.SELECT_ROOT_BRANCH_COUNT));
-		this.subBranchCount = new Integer(reader.read(ContainerXML.SELECT_SUB_BRANCH_COUNT));
-		this.broadcastRequestWaitTime = new Integer(reader.read(ContainerXML.SELECT_BROADCAST_REQUEST_WAIT_TIME));
+//		this.schedulerPoolSize = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_POOL_SIZE));
+		this.schedulerPoolSize = Integer.valueOf(reader.read(ContainerXML.SELECT_SCHEDULER_POOL_SIZE));
+//		this.schedulerKeepAliveTime = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_KEEP_ALIVE_TIME));
+		this.schedulerKeepAliveTime = Integer.valueOf(reader.read(ContainerXML.SELECT_SCHEDULER_KEEP_ALIVE_TIME));
+//		this.schedulerShutdownTimeout = new Integer(reader.read(ContainerXML.SELECT_SCHEDULER_SHUTDOWN_TIME_OUT));
+		this.schedulerShutdownTimeout = Integer.valueOf(reader.read(ContainerXML.SELECT_SCHEDULER_SHUTDOWN_TIME_OUT));
+//		this.rootBranchCount = new Integer(reader.read(ContainerXML.SELECT_ROOT_BRANCH_COUNT));
+		this.rootBranchCount = Integer.valueOf(reader.read(ContainerXML.SELECT_ROOT_BRANCH_COUNT));
+//		this.subBranchCount = new Integer(reader.read(ContainerXML.SELECT_SUB_BRANCH_COUNT));
+		this.subBranchCount = Integer.valueOf(reader.read(ContainerXML.SELECT_SUB_BRANCH_COUNT));
+//		this.broadcastRequestWaitTime = new Integer(reader.read(ContainerXML.SELECT_BROADCAST_REQUEST_WAIT_TIME));
+		this.broadcastRequestWaitTime = Integer.valueOf(reader.read(ContainerXML.SELECT_BROADCAST_REQUEST_WAIT_TIME));
 		this.rootKey = Tools.getHash(reader.read(ContainerXML.SELECT_ROOT_NAME));
 		
 		reader.close();

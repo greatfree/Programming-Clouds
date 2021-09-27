@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.cluster.ChildTask;
+import org.greatfree.cluster.message.PathRequest;
+import org.greatfree.cluster.message.PathResponse;
 import org.greatfree.cluster.root.ClusterProfile;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
@@ -139,7 +141,23 @@ public class ClusterChildContainer
 	{
 		return this.child.getIPAddress(nodeKey);
 	}
-	
+
+	/*
+	 * The method is added to increase the flexibility for the child to interact with any distributed nodes. When designing it, the method is called to send a multicasting message to a cluster. 09/24/2021, Bing Li
+	 */
+	public void syncNotify(IPAddress ip, ServerMessage notification) throws IOException, InterruptedException
+	{
+		this.child.syncNotify(ip, notification);
+	}
+
+	/*
+	 * The method is added to increase the flexibility for the child to interact with any distributed nodes. When designing it, the method is called to send a multicasting message to a cluster. 09/24/2021, Bing Li
+	 */
+	public void asyncNotify(IPAddress ip, ServerMessage notification) throws IOException, InterruptedException
+	{
+		this.child.asyncNotify(ip, notification);
+	}
+
 	/*
 	 * It allows the child to interact with any nodes through notifying synchronously. 09/22/2021, Bing Li
 	 */
@@ -178,6 +196,19 @@ public class ClusterChildContainer
 	public void asyncNotifyRoot(ClusterNotification notification)
 	{
 		this.child.asyncNotifyRoot(notification);
+	}
+
+	/*
+	 * The method is not so useful. But sometimes when testing a cluster in a single machine, it makes sense. The children needs to get independent absolute paths on the same disk. So it is necessary to synchronize the paths with the root of the cluster. 09/23/2021, Bing Li
+	 */
+	public String getAbsolutePath(String relativePath) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		PathResponse pr = (PathResponse)this.readRoot(new PathRequest(relativePath));
+		if (pr != null)
+		{
+			return pr.getAbsolutePath();
+		}
+		return null;
 	}
 	
 	/*

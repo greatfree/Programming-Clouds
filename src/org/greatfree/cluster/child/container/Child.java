@@ -363,6 +363,22 @@ class Child
 	}
 	
 	/*
+	 * The method is added to increase the flexibility for the child to interact with any distributed nodes. When designing it, the method is called to send a multicasting message to a cluster. 09/24/2021, Bing Li
+	 */
+	public void syncNotify(IPAddress ip, ServerMessage notification) throws IOException, InterruptedException
+	{
+		this.child.syncNotify(ip.getIP(), ip.getPort(), notification);
+	}
+	
+	/*
+	 * The method is added to increase the flexibility for the child to interact with any distributed nodes. When designing it, the method is called to send a multicasting message to a cluster. 09/24/2021, Bing Li
+	 */
+	public void asyncNotify(IPAddress ip, ServerMessage notification) throws IOException, InterruptedException
+	{
+		this.child.asyncNotify(ip.getIP(), ip.getPort(), notification);
+	}
+	
+	/*
 	 * It allows the child to interact with any nodes through notifying synchronously. 09/22/2021, Bing Li
 	 */
 	public void syncNotify(IPAddress ip, Notification notification) throws IOException, InterruptedException

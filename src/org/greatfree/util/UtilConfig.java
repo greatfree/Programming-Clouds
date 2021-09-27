@@ -36,6 +36,7 @@ public class UtilConfig
 	public final static String NO_IP = "";
 	public final static int NO_PORT = -1;
 	public final static String LOCAL_IP = "127.0.0.1";
+	public final static int DEFAULT_REGISTRY_PORT = 8941;
 	public final static String COLON = ":";
 	public final static String SEMI_COLON = ";";
 
@@ -116,4 +117,10 @@ public class UtilConfig
 	public final static String BAR = "|";
 	public final static String NEW_LINE = "\n";
 	public final static String DOT = ".";
+	
+	public final static String REGISTRY_IP_CONFIG = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<GreatFree>\n\t<RegistryIP>127.0.0.1</RegistryIP>\n\t<RegistryPort>8941</RegistryPort>\n</GreatFree>\n";
+	public final static String SELECT_REGISTRY_SERVER_IP = "/GreatFree/RegistryIP/text()";
+	public final static String SELECT_REGISTRY_SERVER_PORT = "/GreatFree/RegistryPort/text()";
+	
+	public final static String CONFIG_FILE = Env.GREATFREE_HOME + "config.xml";
 }

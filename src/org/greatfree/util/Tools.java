@@ -106,7 +106,8 @@ public final class Tools
 	{
 		String ipPort = clientSocket.getRemoteSocketAddress().toString();
 		ipPort = ipPort.substring(ipPort.indexOf(Symbols.COLON) + 1);
-		return (new Integer(ipPort)).intValue();
+//		return (new Integer(ipPort)).intValue();
+		return Integer.valueOf(ipPort);
 	}
 
 	/*

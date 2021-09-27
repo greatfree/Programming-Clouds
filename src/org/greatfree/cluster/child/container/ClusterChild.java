@@ -426,6 +426,22 @@ class ClusterChild
 	{
 		return Child.CONTAINER().getIPAddress(nodeKey);
 	}
+	
+	/*
+	 * The method is added to increase the flexibility for the child to interact with any distributed nodes. When designing it, the method is called to send a multicasting message to a cluster. 09/24/2021, Bing Li
+	 */
+	public void syncNotify(IPAddress ip, ServerMessage notification) throws IOException, InterruptedException
+	{
+		Child.CONTAINER().syncNotify(ip, notification);
+	}
+
+	/*
+	 * The method is added to increase the flexibility for the child to interact with any distributed nodes. When designing it, the method is called to send a multicasting message to a cluster. 09/24/2021, Bing Li
+	 */
+	public void asyncNotify(IPAddress ip, ServerMessage notification) throws IOException, InterruptedException
+	{
+		Child.CONTAINER().asyncNotify(ip, notification);
+	}
 
 	/*
 	 * It allows the child to interact with any nodes through notifying synchronously. 09/22/2021, Bing Li

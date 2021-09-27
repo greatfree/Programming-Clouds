@@ -1,7 +1,7 @@
 package org.greatfree.cluster.message;
 
 // Created: 09/23/2018, Bing Li
-public class ClusterMessageType
+public final class ClusterMessageType
 {
 	public final static int JOIN_NOTIFICATION = 24;
 	public final static int LEAVE_NOTIFICATION = 25;
@@ -25,4 +25,7 @@ public class ClusterMessageType
 	
 	public final static int ADDITIONAL_CHILDREN_REQUEST = 227;
 	public final static int ADDITIONAL_CHILDREN_RESPONSE = 228;
+	
+	public final static int PATH_REQUEST = 229;
+	public final static int PATH_RESPONSE = 230;
 }
