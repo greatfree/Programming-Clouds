@@ -1,5 +1,7 @@
 # Wind
 
+[中文](/doc_cn/README.md)
+
 GreatFree as a Generic Distributed Programming Paradigm for the Internet-Oriented Computing Environment
 
 (To access those videos, traversing the firewall is required if you are in China)
