@@ -455,10 +455,12 @@ class ClusterRoot
 				{
 					if (notification.getClientKey() != null)
 					{
+						log.info("unicastNearestNotify ...");
 						this.client.unicastNearestNotify(notification.getClientKey(), notification);
 					}
 					else
 					{
+						log.info("unicastNotify ...");
 						this.client.unicastNotify(notification);
 					}
 				}

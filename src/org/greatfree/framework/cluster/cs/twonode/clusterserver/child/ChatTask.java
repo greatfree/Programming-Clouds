@@ -2,6 +2,7 @@ package org.greatfree.framework.cluster.cs.twonode.clusterserver.child;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.message.ClusterApplicationID;
@@ -26,6 +27,7 @@ import org.greatfree.message.multicast.container.CollectedClusterResponse;
 // Created: 01/13/2019, Bing Li
 class ChatTask implements ChildTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.cluster.cs.twonode.clusterserver.child");
 
 	@Override
 	public void processNotification(ClusterNotification notification)
@@ -33,13 +35,13 @@ class ChatTask implements ChildTask
 		switch (notification.getApplicationID())
 		{
 			case ChatApplicationID.CHAT_NOTIFICATION:
-				System.out.println("CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ChatNotification cn = (ChatNotification)notification;
 				System.out.println(cn.getSenderName() + " says " + cn.getMessage());
 				break;
 				
 			case ClusterApplicationID.STOP_CHAT_CLUSTER_NOTIFICATION:
-				System.out.println("STOP_CHAT_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("STOP_CHAT_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				try
 				{
 					ChatChild.CONTAINER().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
@@ -51,7 +53,7 @@ class ChatTask implements ChildTask
 				break;
 				
 			case ClusterApplicationID.STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION:
-				System.out.println("STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				try
 				{
 					ChatChild.CONTAINER().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
@@ -70,7 +72,7 @@ class ChatTask implements ChildTask
 		switch (request.getApplicationID())
 		{
 			case ChatApplicationID.CHAT_REGISTRY_REQUEST:
-				System.out.println("CHAT_REGISTRY_REQUEST received @" + Calendar.getInstance().getTime());
+				log.info("CHAT_REGISTRY_REQUEST received @" + Calendar.getInstance().getTime());
 				ChatRegistryRequest crr = (ChatRegistryRequest)request;
 				
 				System.out.println(crr.getUserKey() + ", " + crr.getUserName() + ", " + crr.getDescription());

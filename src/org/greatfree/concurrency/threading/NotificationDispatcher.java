@@ -500,90 +500,88 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 		// The dispatcher usually runs all of the time unless the server is shutdown. To shutdown the dispatcher, the shutdown flag of the collaborator is set to true. 11/05/2014, Bing Li
 		while (!this.isShutdown())
 		{
-			try
+			// Check whether notifications are received and saved in the queue. 11/05/2014, Bing Li
+			while (!this.notificationQueue.isEmpty())
 			{
-				// Check whether notifications are received and saved in the queue. 11/05/2014, Bing Li
-				while (!this.notificationQueue.isEmpty())
+				// Since all of the threads created by the dispatcher are saved in the map by their unique keys, it is necessary to check whether any alive threads are available. If so, it is possible to assign tasks to them if they are not so busy. 11/05/2014, Bing Li
+				while (this.threads.size() > 0)
 				{
-					// Since all of the threads created by the dispatcher are saved in the map by their unique keys, it is necessary to check whether any alive threads are available. If so, it is possible to assign tasks to them if they are not so busy. 11/05/2014, Bing Li
-					while (this.threads.size() > 0)
+					// Select the thread whose load is the least and keep the key of the thread. 11/05/2014, Bing Li
+					selectedThreadKey = CollectionSorter.minValueKey(this.threads);
+					// Since no concurrency is applied here, it is possible that the key is invalid. Thus, just check here. 11/19/2014, Bing Li
+					if (selectedThreadKey != null)
 					{
-						// Select the thread whose load is the least and keep the key of the thread. 11/05/2014, Bing Li
-						selectedThreadKey = CollectionSorter.minValueKey(this.threads);
-						// Since no concurrency is applied here, it is possible that the key is invalid. Thus, just check here. 11/19/2014, Bing Li
-						if (selectedThreadKey != null)
+						// Since no concurrency is applied here, it is possible that the key is out of the map. Thus, just check here. 11/19/2014, Bing Li
+						if (this.threads.containsKey(selectedThreadKey))
 						{
-							// Since no concurrency is applied here, it is possible that the key is out of the map. Thus, just check here. 11/19/2014, Bing Li
-							if (this.threads.containsKey(selectedThreadKey))
+							try
 							{
-								try
+								// Check whether the thread's load reaches the maximum value. 11/05/2014, Bing Li
+								if (this.threads.get(selectedThreadKey).getFunction().isFull())
 								{
-									// Check whether the thread's load reaches the maximum value. 11/05/2014, Bing Li
-									if (this.threads.get(selectedThreadKey).getFunction().isFull())
-									{
-										// Check if the pool is full. If the least load thread is full as checked by the above condition, it denotes that all of the current alive threads are full. So it is required to create a thread to respond the newly received notifications if the thread count of the pool does not reach the maximum. 11/05/2014, Bing Li
-										if (!this.createThread(super.getPoolSize()))
-										{
-											// Since the thread might be disposed when the notification is enqueued, it needs to check. 02/22/2016, Bing Li
-											// Force to put the notification into the queue when the count of threads reaches the upper limit and each of the thread's queue is full. 11/05/2014, Bing Li
-											this.threads.get(selectedThreadKey).getFunction().enqueue(this.notificationQueue.poll());
-										}
-									}
-									else
+									// Check if the pool is full. If the least load thread is full as checked by the above condition, it denotes that all of the current alive threads are full. So it is required to create a thread to respond the newly received notifications if the thread count of the pool does not reach the maximum. 11/05/2014, Bing Li
+									if (!this.createThread(super.getPoolSize()))
 									{
 										// Since the thread might be disposed when the notification is enqueued, it needs to check. 02/22/2016, Bing Li
-										// If the least load thread's queue is not full, just put the notification into the queue. 11/05/2014, Bing Li
+										// Force to put the notification into the queue when the count of threads reaches the upper limit and each of the thread's queue is full. 11/05/2014, Bing Li
 										this.threads.get(selectedThreadKey).getFunction().enqueue(this.notificationQueue.poll());
 									}
-									
-									// Jump out from the loop since the notification is put into a thread. 11/05/2014, Bing Li
-									break;
 								}
-								catch (NullPointerException e)
+								else
 								{
-									// Since no concurrency is applied here, it is possible that a NullPointerException is raised. If so, it means that the selected thread is not available. Just continue to select anther one. 11/19/2014, Bing Li
-									continue;
+									// Since the thread might be disposed when the notification is enqueued, it needs to check. 02/22/2016, Bing Li
+									// If the least load thread's queue is not full, just put the notification into the queue. 11/05/2014, Bing Li
+									this.threads.get(selectedThreadKey).getFunction().enqueue(this.notificationQueue.poll());
 								}
+								
+								// Jump out from the loop since the notification is put into a thread. 11/05/2014, Bing Li
+								break;
+							}
+							catch (NullPointerException e)
+							{
+								// Since no concurrency is applied here, it is possible that a NullPointerException is raised. If so, it means that the selected thread is not available. Just continue to select anther one. 11/19/2014, Bing Li
+								continue;
 							}
 						}
-					}
-					// If no threads are available, it needs to create a new one to take the notification. 11/05/2014, Bing Li
-					this.createThread();
-	
-					// If the dispatcher is shutdown, it is not necessary to keep processing the notifications. So, jump out the loop and the thread is dead. 11/05/2014, Bing Li
-					if (super.isShutdown())
-					{
-						break;
 					}
 				}
-	
-				// Check whether the dispatcher is shutdown or not. 11/05/2014, Bing Li
-				if (!super.isShutdown())
+				// If no threads are available, it needs to create a new one to take the notification. 11/05/2014, Bing Li
+				this.createThread();
+
+				// If the dispatcher is shutdown, it is not necessary to keep processing the notifications. So, jump out the loop and the thread is dead. 11/05/2014, Bing Li
+				if (super.isShutdown())
 				{
-					// If the dispatcher is still alive, it denotes that no notifications are available temporarily. Just wait for a while. 11/05/2014, Bing Li
-					if (super.holdOn())
-					{
-						// Check whether the request queue is empty. 01/14/2016, Bing Li
-						if (this.notificationQueue.size() <= 0)
-						{
-							// Check whether the count of the loops exceeds the predefined value. 01/14/2016, Bing Li
-							if (currentRound.getAndIncrement() >= super.getWaitRound())
-							{
-								// Check whether the threads are all disposed. 01/14/2016, Bing Li
-								if (this.threads.isEmpty())
-								{
-									// Dispose the dispatcher. 01/14/2016, Bing Li
-									this.dispose();
-									break;
-								}
-							}
-						}
-					}
+					break;
 				}
 			}
-			catch (InterruptedException e)
+
+			// Check whether the dispatcher is shutdown or not. 11/05/2014, Bing Li
+			if (!super.isShutdown())
 			{
-				e.printStackTrace();
+				// If the dispatcher is still alive, it denotes that no notifications are available temporarily. Just wait for a while. 11/05/2014, Bing Li
+				if (super.holdOn())
+				{
+					// Check whether the request queue is empty. 01/14/2016, Bing Li
+					if (this.notificationQueue.size() <= 0)
+					{
+						// Check whether the count of the loops exceeds the predefined value. 01/14/2016, Bing Li
+						if (currentRound.getAndIncrement() >= super.getWaitRound())
+						{
+							// Check whether the threads are all disposed. 01/14/2016, Bing Li
+							if (this.threads.isEmpty())
+							{
+								/*
+								 * 
+								 * The run() method is critical. It should NOT be shutdown by the dispatcher itself. It can only be shutdown by outside managers. Otherwise, new messages might NOT be processed because no new threads are created for the run() is returned and the dispatcher is dead. 11/07/2021, Bing Li
+								 * 
+								 */
+								// Dispose the dispatcher. 01/14/2016, Bing Li
+//									this.dispose();
+//									break;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
