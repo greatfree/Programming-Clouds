@@ -45,6 +45,12 @@ public class FileManager
 		return d.exists();
 	}
 
+	public static boolean isFileExisted(String file)
+	{
+		File d = new File(file);
+		return d.exists();
+	}
+
 	/*
 	 * Create a directory in a file system. 11/03/2014, Bing Li
 	 */
@@ -451,11 +457,12 @@ public class FileManager
 		}
 	}
 
-	public static byte[] loadFile(String filePath, int startIndex, int endIndex) throws IOException
+//	public static byte[] loadFile(String filePath, int startIndex, int endIndex) throws IOException
+	public static byte[] loadFile(String filePath, long startIndex, long endIndex) throws IOException
 	{
 		RandomAccessFile f = new RandomAccessFile(filePath, "r");
 		f.seek(startIndex);
-		byte[] bytes = new byte[endIndex - startIndex + 1];
+		byte[] bytes = new byte[(int)(endIndex - startIndex) + 1];
 		f.read(bytes);
 		f.close();
 		return bytes;

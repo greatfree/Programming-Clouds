@@ -10,6 +10,8 @@ import org.greatfree.message.multicast.MulticastNotification;
 // Created: 08/26/2018, Bing Li
 class RootEventer
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.multicast.root");
+
 	// The multicastor to send data to children originally. 09/17/2018, Bing Li
 	private RootSyncMulticastor multicastor;
 	// The instance of the asynchronous based on ActorPool. 09/14/2018, Bing Li
@@ -132,6 +134,8 @@ class RootEventer
 	 */
 	public void syncRandomNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
+//		StressNotification sn = (StressNotification)notification;
+//		log.info(sn.toString());
 		this.multicastor.randomNotify(notification);
 	}
 }

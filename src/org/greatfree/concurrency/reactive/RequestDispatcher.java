@@ -503,7 +503,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Mes
 		// The value is used to count the count of loops for the dispatcher when no tasks are available. 01/13/2016, Bing Li
 		AtomicInteger currentRound = new AtomicInteger(0);
 		// The dispatcher usually runs all of the time unless the server is shutdown. To shutdown the dispatcher, the shutdown flag of the collaborator is set to true. 11/04/2014, Bing Li
-		while (!this.isShutdown())
+		while (!super.isShutdown())
 		{
 			// Check whether requests are received and saved in the queue. 11/04/2014, Bing Li
 			while (!this.requestQueue.isEmpty())
@@ -558,14 +558,14 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Mes
 				this.createThread();
 
 				// If the dispatcher is shutdown, it is not necessary to keep processing the requests. So, jump out the loop and the thread is dead. 11/04/2014, Bing Li
-				if (this.isShutdown())
+				if (super.isShutdown())
 				{
 					break;
 				}
 			}
 
 			// Check whether the dispatcher is shutdown or not. 11/04/2014, Bing Li
-			if (!this.isShutdown())
+			if (!super.isShutdown())
 			{
 				// If the dispatcher is still alive, it denotes that no requests are available temporarily. Just wait for a while. 11/04/2014, Bing Li
 				if (super.holdOn())
@@ -573,13 +573,24 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Mes
 					// Check whether the request queue is empty. 01/13/2016, Bing Li
 					if (this.requestQueue.size() <= 0)
 					{
+						/*
+						 * 
+						 * The run() method is critical. It should NOT be shutdown by the dispatcher itself. It can only be shutdown by outside managers. Otherwise, new messages might NOT be processed because no new threads are created for the run() is returned and the dispatcher is dead. 11/07/2021, Bing Li
+						 * 
+						 */
 						// Check whether the count of the loops exceeds the predefined value. 01/13/2016, Bing Li
 						if (currentRound.getAndIncrement() >= this.getWaitRound())
 						{
 							// Check whether the threads are all disposed. 01/13/2016, Bing Li
 							if (this.threads.isEmpty())
 							{
+								/*
+								 * 
+								 * The run() method is critical. It should NOT be shutdown by the dispatcher itself. It can only be shutdown by outside managers. Otherwise, new messages might NOT be processed because no new threads are created for the run() is returned and the dispatcher is dead. 11/07/2021, Bing Li
+								 * 
+								 */
 								// Dispose the dispatcher. 01/13/2016, Bing Li
+								/*
 								try
 								{
 									this.dispose();
@@ -589,6 +600,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Mes
 									e.printStackTrace();
 								}
 								break;
+								*/
 							}
 						}
 					}

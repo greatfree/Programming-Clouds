@@ -30,6 +30,8 @@ import org.greatfree.util.Tools;
 // public abstract class NotificationQueue<Notification extends ServerMessage> extends DisposableRunner implements Comparable<NotificationQueue<Notification>>
 public abstract class NotificationQueue<Notification extends ServerMessage> extends RunnerTask
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.concurrency.reactive");
+
 	// Declare the key for the notification thread. 11/04/2014, Bing Li
 	private final String key;
 	// Declare an instance of LinkedBlockingQueue to take received notifications. 11/04/2014, Bing Li
@@ -296,6 +298,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 			// Only when the queue is empty, the thread is set to be busy. 02/07/2016, Bing Li
 			if (this.queue.size() <= 0)
 			{
+				System.out.println("one notification queue is set to be idle ...");
 				// Set the state of the thread to be idle after waiting for some time. 11/04/2014, Bing Li
 				this.isIdle = true;
 				// If the thread is idle before holding on and the queue is empty after the waiting, it really indicates the thread is idle. So, it can dispose itself at this moment. 02/22/2016, Bing Li
@@ -357,6 +360,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 		this.idleLock.lock();
 		try
 		{
+			System.out.println("NotificationQueue-isIdle(): queue size = " + this.queue.size());
 //			System.out.println("NotificationQueue: this.queue size = " + this.queue.size());
 //			System.out.println("NotificationQueue: this.isIdle = " + this.isIdle);
 			// The thread is believed to be idle only when the notification queue is empty and the idle is set to be true. The lock mechanism prevents one possibility that the queue gets new messages and the idle is set to be true. The situation occurs when the size of the queue and the idle value are checked asynchronously. Both of them being detected are a better solution. The idle guarantees the sufficient time has been waited and the queue size indicates that the thread is really not busy. 02/07/2016, Bing Li

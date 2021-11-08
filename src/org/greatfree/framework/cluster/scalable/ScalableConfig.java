@@ -2,6 +2,14 @@ package org.greatfree.framework.cluster.scalable;
 
 import org.greatfree.util.Tools;
 
+/**
+ * 
+ * The design attempts to prepare a pool of distributed nodes such that a busy pool can exploit the nodes if needed. 11/07/2021, Bing Li
+ * 
+ * @author libing
+ *
+ */
+
 // Created: 09/05/2020, Bing Li
 public class ScalableConfig
 {

@@ -3,6 +3,7 @@ package org.greatfree.multicast.root;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
@@ -10,11 +11,14 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.message.multicast.MulticastResponse;
+import org.greatfree.testing.stress.cluster.message.StressNotification;
 import org.greatfree.util.Tools;
 
 // Created: 09/03/2018, Bing Li
 public class RootClient
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.multicast.root");
+
 	private RootEventer eventer;
 	private RootReader reader;
 	private RootSyncMulticastor multicastor;
@@ -170,6 +174,8 @@ public class RootClient
 	 */
 	public void unicastNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
 	{
+		StressNotification sn = (StressNotification)notification;
+		log.info(sn.toString());
 		this.eventer.syncRandomNotify(notification);
 	}
 	

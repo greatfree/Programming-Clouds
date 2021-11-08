@@ -1,7 +1,6 @@
 package org.greatfree.cluster;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import org.greatfree.client.StandaloneClient;
 import org.greatfree.exceptions.RemoteReadException;
@@ -13,7 +12,7 @@ import org.greatfree.util.IPAddress;
 // Created: 01/14/2019, Bing Li
 public class StandaloneClusterClient
 {
-	private final static Logger log = Logger.getLogger("org.greatfree.cluster");
+//	private final static Logger log = Logger.getLogger("org.greatfree.cluster");
 
 	private IPAddress rootAddress;
 	private String registryIP;
@@ -54,6 +53,11 @@ public class StandaloneClusterClient
 		PeerAddressResponse response = (PeerAddressResponse)StandaloneClient.CS().read(registryIP,  registryPort, new PeerAddressRequest(rootKey));
 		this.rootAddress = response.getPeerAddress();
 	}
+	
+	public IPAddress getRootAddress()
+	{
+		return this.rootAddress;
+	}
 
 	public void syncNotify(String ip, int port, ServerMessage notification) throws IOException, InterruptedException
 	{
@@ -84,7 +88,7 @@ public class StandaloneClusterClient
 	{
 //		return StandaloneClient.CS().read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
 		ServerMessage msg = StandaloneClient.CS().read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
-		log.info("StandaloneClusterClient-readRoot(): response received!");
+//		log.info("StandaloneClusterClient-readRoot(): response received!");
 		return msg;
 	}
 

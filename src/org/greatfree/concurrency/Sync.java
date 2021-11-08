@@ -256,7 +256,7 @@ public class Sync
 				try
 				{
 //					System.out.println("Sync is waiting ...");
-					return this.waitCondition.await(waitTime, TimeUnit.MILLISECONDS);
+					return !this.waitCondition.await(waitTime, TimeUnit.MILLISECONDS);
 				}
 				catch (InterruptedException e)
 				{

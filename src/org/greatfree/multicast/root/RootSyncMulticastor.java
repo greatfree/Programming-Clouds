@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.client.SyncRemoteEventer;
@@ -24,6 +25,8 @@ import com.google.common.collect.Sets;
 // Created: 09/16/2018, Bing Li
 class RootSyncMulticastor
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.multicast.root");
+
 	private SyncRemoteEventer<ServerMessage> eventer;
 	
 	// The root node's branch count, which can be understood as the capacity of the root node to send messages concurrently. The root is the broadcast request initial sender. 11/28/2014, Bing Li
@@ -78,6 +81,9 @@ class RootSyncMulticastor
 		/*
 		 * If the root has sufficient capacity to send the message concurrently, i.e., the root branch count being greater than that of its immediate children, it is not necessary to construct a tree to lower the load. 11/10/2014, Bing Li
 		 */
+
+//		StressNotification sn = (StressNotification)notification;
+//		log.info(sn.toString());
 		
 		// Create the message without children's IPs. 11/10/2014, Bing Li
 //		Message msg = this.messageCreator.createInstanceWithoutChildren(obj);
@@ -441,6 +447,7 @@ class RootSyncMulticastor
 //			msg = this.messageCreator.createInstanceWithoutChildren(obj);
 //			notification.setChildrenNodes(null);
 //			System.out.println("1) RootSyncMulticastor-notify(): notification is sent without children");
+			log.info("1) RootSyncMulticastor-notify(): notification is sent without children");
 			notification.setChildrenNodes(UtilConfig.NO_IPS);
 			// Send the message one by one to the immediate nodes of the root. 11/10/2014, Bing Li
 			for (String childClientKey : this.eventer.getClientKeys())
@@ -448,6 +455,7 @@ class RootSyncMulticastor
 				try
 				{
 //					System.out.println("2) RootSyncMulticastor: notify(): notification to be sent ...");
+					log.info("2) RootSyncMulticastor: notify(): notification to be sent ...");
 					// Send the message to the immediate node of the root. 11/10/2014, Bing Li
 					this.eventer.notify(childClientKey, notification);
 //					System.out.println("3) RootSyncMulticastor: notify(): notification is sent ...");
@@ -459,6 +467,7 @@ class RootSyncMulticastor
 					 */
 					
 //					System.out.println("4) RootSyncMulticastor: notify(): notification is sent with exception ...");
+					log.info("3) RootSyncMulticastor: notify(): notification is sent with exception ...");
 					// Remove the instance of FreeClient. 11/10/2014, Bing Li
 					this.eventer.removeClient(childClientKey);
 					throw new DistributedNodeFailedException(childClientKey);

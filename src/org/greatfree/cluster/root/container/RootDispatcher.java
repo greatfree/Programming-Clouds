@@ -326,7 +326,7 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 
 			case MulticastMessageType.NOTIFICATION:
-				log.info("NOTIFICATION received @" + Calendar.getInstance().getTime());
+//				log.info("NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.notificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
