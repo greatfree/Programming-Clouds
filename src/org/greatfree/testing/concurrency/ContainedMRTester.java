@@ -30,8 +30,10 @@ class ContainedMRTester
 				.poolSize(100)
 				.scheduler(Scheduler.GREATFREE().getScheduler())
 				.queueSize(1)
-				.waitTime(20000)
+//				.waitTime(20000)
+				.waitTime(2000)
 				.shutdownTime(100000)
+//				.shutdownTime(100)
 				.schedulerDelay(2000)
 				.schedulerPeriod(4000)
 				.build();

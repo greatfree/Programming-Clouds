@@ -2,7 +2,6 @@ package org.greatfree.testing.concurrency;
 
 import org.greatfree.concurrency.mapreduce.MRService;
 import org.greatfree.concurrency.mapreduce.Sequence;
-import org.greatfree.util.Rand;
 
 // Created: 01/27/2019, Bing Li
 // class MyMRService implements MRService
@@ -19,8 +18,10 @@ class MyMRService extends MRService
 		MyTask myTask = (MyTask)task;
 		try
 		{
-			System.out.println("MyMRService-compute(): " + myTask.getTaskKey() + ", " + myTask.getSequence());
-			Thread.sleep(Rand.getRandom(1000));
+			System.out.println("MyMRService-compute(): starting ..., " + myTask.getTaskKey() + ", " + myTask.getSequence());
+//			Thread.sleep(Rand.getRandom(10000));
+			Thread.sleep(20000);
+			System.out.println("MyMRService-compute(): started ..., " + myTask.getTaskKey() + ", " + myTask.getSequence());
 		}
 		catch (InterruptedException e)
 		{

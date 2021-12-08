@@ -18,15 +18,15 @@ class NotificationThread extends NotificationQueue<Notification>
 	public void run()
 	{
 		Notification notification;
-		while (!this.isShutdown())
+		while (!super.isShutdown())
 		{
-			while (!this.isEmpty())
+			while (!super.isEmpty())
 			{
 				try
 				{
-					notification = this.dequeue();
+					notification = super.dequeue();
 					ServiceProvider.CS().processNotification(super.getServerKey(), notification);
-					this.disposeMessage(notification);
+					super.disposeMessage(notification);
 				}
 				catch (InterruptedException e)
 				{
@@ -35,7 +35,19 @@ class NotificationThread extends NotificationQueue<Notification>
 			}
 			try
 			{
-				this.holdOn(ServerConfig.NOTIFICATION_THREAD_WAIT_TIME);
+				/*
+				 * It is not necessary since the shutdown state is judged in the loop immediately. 12/01/2021, Bing Li
+				 * 
+				 * I modified the code. If the thread needs to be shutdown, it is not necessary to keep it in the loops. 12/01/2021, Bing Li
+				 */
+				
+				/*
+				if (!super.holdOn(ServerConfig.NOTIFICATION_THREAD_WAIT_TIME))
+				{
+					return;
+				}
+				*/
+				super.holdOn(ServerConfig.NOTIFICATION_THREAD_WAIT_TIME);
 			}
 			catch (InterruptedException e)
 			{

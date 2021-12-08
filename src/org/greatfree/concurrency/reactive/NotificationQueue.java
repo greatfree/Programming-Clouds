@@ -274,9 +274,21 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 		return this.queue.size();
 	}
 
+
 	/*
+	 * It is not necessary since the shutdown state is judged in the loop immediately. 12/01/2021, Bing Li
+	 * 
+	 * I modified the code. If the thread needs to be shutdown, a false value needs to be returned. 12/01/2021, Bing Li
+	 */
+
+	/*
+	 * It is not necessary since the shutdown state is judged in the loop immediately. 12/01/2021, Bing Li
+	 * 
+	 * I modified the code. If the thread needs to be shutdown, a false value needs to be returned. 12/01/2021, Bing Li
+	 * 
 	 * The method intends to stop the thread temporarily when no notifications are available. A thread is identified as being idle immediately after the temporary waiting is finished. 11/04/2014, Bing Li
 	 */
+//	public boolean holdOn(long waitTime) throws InterruptedException
 	public void holdOn(long waitTime) throws InterruptedException
 	{
 //		System.out.println("NotificationQueue-holdOn(): waitTime = " + waitTime);
@@ -293,14 +305,18 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 		// Wait for some time, which is determined by the value of waitTime. 11/04/2014, Bing Li
 		if (this.collaborator.holdOn(waitTime))
 		{
-//			this.setIdle();
+//			log.info("before the lock ...");
+//				this.setIdle();
 			this.idleLock.lock();
+//			log.info("after the lock ...");
 			// Only when the queue is empty, the thread is set to be busy. 02/07/2016, Bing Li
 			if (this.queue.size() <= 0)
 			{
-				System.out.println("one notification queue is set to be idle ...");
+//					System.out.println("one notification queue is set to be idle ...");
+//				log.info("one notification queue is set to be idle ...");
 				// Set the state of the thread to be idle after waiting for some time. 11/04/2014, Bing Li
 				this.isIdle = true;
+//				log.info("one notification queue is set idle ...");
 				// If the thread is idle before holding on and the queue is empty after the waiting, it really indicates the thread is idle. So, it can dispose itself at this moment. 02/22/2016, Bing Li
 				/*
 				if (isIdleBeforeHoldOn)
@@ -309,11 +325,14 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 					this.dispose();
 				}
 				*/
-//				this.dispose();
+//					this.dispose();
 			}
 			this.idleLock.unlock();
 		}
-		
+
+//		log.info("hold on stopped ... " + this.hashCode());
+//			return true;
+
 		// To be continued. A severe bug exists here. If the isIdle is true at the line, it is possible to dispose the current thread by itself. If the thread needs to be disposed by the idleChecker, it is possible to the value of isIdle is reset to be false. Thus, the thread cannot be disposed for ever. 02/21/2016, Bing Li
 //		System.out.println("2) NotificationQueue-holdOn(): this.isIdle = " + this.isIdle);
 	}
@@ -360,7 +379,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 		this.idleLock.lock();
 		try
 		{
-			System.out.println("NotificationQueue-isIdle(): queue size = " + this.queue.size());
+//			System.out.println("NotificationQueue-isIdle(): queue size = " + this.queue.size());
 //			System.out.println("NotificationQueue: this.queue size = " + this.queue.size());
 //			System.out.println("NotificationQueue: this.isIdle = " + this.isIdle);
 			// The thread is believed to be idle only when the notification queue is empty and the idle is set to be true. The lock mechanism prevents one possibility that the queue gets new messages and the idle is set to be true. The situation occurs when the size of the queue and the idle value are checked asynchronously. Both of them being detected are a better solution. The idle guarantees the sufficient time has been waited and the queue size indicates that the thread is really not busy. 02/07/2016, Bing Li

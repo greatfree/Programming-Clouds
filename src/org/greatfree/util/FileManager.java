@@ -39,13 +39,13 @@ public class FileManager
 	 * Detect whether a path or a directory exists in a specific file system, such
 	 * as Windows, Linux or Unix. 11/03/2014, Bing Li
 	 */
-	public static boolean isDirExisted(String directory)
+	public synchronized static boolean isDirExisted(String directory)
 	{
 		File d = new File(directory);
 		return d.exists();
 	}
 
-	public static boolean isFileExisted(String file)
+	public synchronized static boolean isFileExisted(String file)
 	{
 		File d = new File(file);
 		return d.exists();
@@ -54,7 +54,7 @@ public class FileManager
 	/*
 	 * Create a directory in a file system. 11/03/2014, Bing Li
 	 */
-	public static boolean makeDir(String directory)
+	public synchronized static boolean makeDir(String directory)
 	{
 		String parentDir = getParentDir(directory);
 		if (!isDirExisted(parentDir))
@@ -88,7 +88,7 @@ public class FileManager
 	/*
 	 * Remote a directory. 11/04/2014, Bing Li
 	 */
-	public static void removeFiles(String path)
+	public synchronized static void removeFiles(String path)
 	{
 		File directory = new File(path);
 		if (directory.exists())
@@ -107,7 +107,7 @@ public class FileManager
 	/*
 	 * Create a text file that is made up with the text. 11/23/2014, Bing Li
 	 */
-	public static void createTextFile(String fileName, String text) throws IOException
+	public synchronized static void createTextFile(String fileName, String text) throws IOException
 	{
 		Writer writer = null;
 		try
@@ -125,7 +125,7 @@ public class FileManager
 	 * Create a text file that is made up with the text synchronously among
 	 * processes. 11/23/2014, Bing Li
 	 */
-	public static void createTextFileSync(String fileName, String text, boolean isAppended) throws IOException
+	public synchronized static void createTextFileSync(String fileName, String text, boolean isAppended) throws IOException
 	{
 		ByteBuffer buffer = ByteBuffer.wrap(text.getBytes());
 		Path path = Paths.get(fileName);
@@ -319,7 +319,7 @@ public class FileManager
 		}
 	}
 
-	public static boolean writeObject(String objectPath, Object object) throws IOException
+	public synchronized static boolean writeObject(String objectPath, Object object) throws IOException
 	{
 		FileOutputStream fos = null;
 		ObjectOutputStream out = null;
@@ -488,32 +488,32 @@ public class FileManager
 		return FileUtils.listFiles(FileUtils.getFile(path), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
 	}
 
-	public static void moveFile(File sourceFile, String destinationFile) throws IOException
+	public synchronized static void moveFile(File sourceFile, String destinationFile) throws IOException
 	{
 		FileUtils.moveFile(sourceFile, FileUtils.getFile(destinationFile));
 	}
 
-	public static void moveFile(String sourceFile, String destinationFile) throws IOException
+	public synchronized static void moveFile(String sourceFile, String destinationFile) throws IOException
 	{
 		FileUtils.moveFile(FileUtils.getFile(sourceFile), FileUtils.getFile(destinationFile));
 	}
 
-	public static void saveFile(String filePath, byte[] bytes) throws IOException
+	public synchronized static void saveFile(String filePath, byte[] bytes) throws IOException
 	{
 		FileUtils.writeByteArrayToFile(new File(filePath), bytes);
 	}
 	
-	public static void removeDir(String directory) throws IOException
+	public synchronized static void removeDir(String directory) throws IOException
 	{
 		FileUtils.deleteDirectory(new File(directory));
 	}
 
-	public static boolean removeFile(String file)
+	public synchronized static boolean removeFile(String file)
 	{
 		return (new File(file)).delete();
 	}
 
-	public static void saveFile(String filePath, byte[] bytes, boolean isAppend) throws IOException
+	public synchronized static void saveFile(String filePath, byte[] bytes, boolean isAppend) throws IOException
 	{
 		FileUtils.writeByteArrayToFile(new File(filePath), bytes, isAppend);
 	}

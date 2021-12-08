@@ -23,11 +23,11 @@ class RequestThread extends RequestQueue<Request, RequestStream, ServerMessage>
 	{
 		RequestStream request;
 		ServerMessage response;
-		while (!this.isShutdown())
+		while (!super.isShutdown())
 		{
-			while (!this.isEmpty())
+			while (!super.isEmpty())
 			{
-				request = this.dequeue();
+				request = super.dequeue();
 				
 //				System.out.println("RequestThread: serverKey = " + super.getServerKey());
 				
@@ -56,7 +56,17 @@ class RequestThread extends RequestQueue<Request, RequestStream, ServerMessage>
 			}
 			try
 			{
-				this.holdOn(ServerConfig.REQUEST_THREAD_WAIT_TIME);
+				/*
+				 * It is not necessary since the shutdown state is judged in the loop immediately. 12/01/2021, Bing Li
+				 * I modified the code. If the thread needs to be shutdown, it is not necessary to keep it in the loops. 12/01/2021, Bing Li
+				 */
+				/*
+				if (!super.holdOn(ServerConfig.REQUEST_THREAD_WAIT_TIME))
+				{
+					return;
+				}
+				*/
+				super.holdOn(ServerConfig.REQUEST_THREAD_WAIT_TIME);
 			}
 			catch (InterruptedException e)
 			{

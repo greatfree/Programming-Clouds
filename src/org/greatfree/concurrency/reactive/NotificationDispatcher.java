@@ -9,7 +9,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
 import org.greatfree.concurrency.ConcurrentDispatcher;
 import org.greatfree.concurrency.Runner;
@@ -56,7 +55,7 @@ import org.greatfree.util.UtilConfig;
 // public class NotificationDispatcher<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>> extends ConcurrentDispatcher
 public class NotificationDispatcher<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>, ThreadCreator extends NotificationQueueCreator<Notification, NotificationThread>> extends ConcurrentDispatcher
 {
-	private final static Logger log = Logger.getLogger("org.greatfree.concurrency.reactive");
+//	private final static Logger log = Logger.getLogger("org.greatfree.concurrency.reactive");
 
 	// Declare a map to contain all of the threads. 11/04/2014, Bing Li
 //	private Map<String, NotificationThread> threads;
@@ -441,7 +440,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 			// If the thread is empty and idle, it is the one to be checked. 11/04/2014, Bing Li
 			if (thread.getFunction().isIdle())
 			{
-				System.out.println("one thread is idle ...");
+//				System.out.println("one thread is idle ...");
 //				System.out.println("NotificationDispatcher-checkIdle(): thread is to be Killed!");
 				// The algorithm to determine whether a thread should be disposed or not is simple. When it is checked to be idle, it is time to dispose it. 11/04/2014, Bing Li
 				this.threads.remove(thread.getFunction().getKey());
@@ -450,19 +449,19 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 				if (!thread.getFunction().isHung())
 				{
 					thread.stop();
-					System.out.println("one thread is stopped ...");
+//					System.out.println("one thread is stopped ...");
 				}
 				else
 				{
 					thread.interrupt();
-					System.out.println("one thread is interrupted ...");
+//					System.out.println("one thread is interrupted ...");
 				}
 				// Collect the resource of the thread. 11/04/2014, Bing Li
 				thread = null;
 			}
 			else
 			{
-				System.out.println("one thread is NOT idle ...");
+//				System.out.println("one thread is NOT idle ...");
 			}
 			/*
 			 * The below lines result in busy threads are killed such that more threads are created! That is a bug. 04/10/2020, Bing Li
@@ -486,7 +485,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 	{
 		// Enqueue the notification into the queue. 11/04/2014, Bing Li
 		this.notificationQueue.add(notification);
-		log.info("The size of notifications to be processed: " + this.notificationQueue.size());
+//		log.info("The size of notifications to be processed: " + this.notificationQueue.size());
 		// Notify the dispatcher thread, which is possibly blocked when no notifications are available, to keep working. 11/04/2014, Bing Li
 		super.signal();
 	}
@@ -536,13 +535,13 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 //	private synchronized boolean createThread(Notification notification)
 	private synchronized boolean createThread()
 	{
-		log.info("one thread is to be created");
+//		log.info("one thread is to be created");
 		// Check whether the thread pool is empty. 12/03/2016, Bing Li
 		if (this.threads.size() <= 0)
 		{
 			// Create a new thread. 11/29/2014, Bing Li
 			NotificationThread thread = this.threadCreator.createInstance(this.getMaxTaskSizePerThread());
-			log.info("One new thread is created ...");
+//			log.info("One new thread is created ...");
 			/*
 			 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
 			 */
@@ -584,11 +583,11 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 		// The dispatcher usually runs all of the time unless the server is shutdown. To shutdown the dispatcher, the shutdown flag of the collaborator is set to true. 11/05/2014, Bing Li
 		while (!super.isShutdown())
 		{
-			log.info("NotificationDispatcher is not shutdown ...");
+//			log.info("NotificationDispatcher is not shutdown ...");
 			// Check whether notifications are received and saved in the queue. 11/05/2014, Bing Li
 			while (!this.notificationQueue.isEmpty())
 			{
-				log.info("The size of notificationQueue is " + this.notificationQueue.size());
+//				log.info("The size of notificationQueue is " + this.notificationQueue.size());
 				// Dequeue the notification from the queue of the dispatcher. 11/05/2014, Bing Li
 				// If the notification is dequeued before the thread is available, it is possible the dequeued notification is lost without being assigned to any threads. 04/20/2018, Bing Li
 //					notification = this.notificationQueue.poll();
@@ -598,7 +597,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 				// Since all of the threads created by the dispatcher are saved in the map by their unique keys, it is necessary to check whether any alive threads are available. If so, it is possible to assign tasks to them if they are not so busy. 11/05/2014, Bing Li
 				while (this.threads.size() > 0)
 				{
-					log.info("The size of threads is " + this.threads.size());
+//					log.info("The size of threads is " + this.threads.size());
 					// Select the thread whose load is the least and keep the key of the thread. 11/05/2014, Bing Li
 					selectedThreadKey = CollectionSorter.minValueKey(this.threads);
 					// Since no concurrency management is applied here, it is possible that the key is invalid. Thus, just check here. 11/19/2014, Bing Li

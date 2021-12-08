@@ -256,12 +256,20 @@ public class Sync
 				try
 				{
 //					System.out.println("Sync is waiting ...");
+					
+					// That is a problem. I made a mistake on the boolean value. 11/30/2021, Bing Li 
+//					return this.waitCondition.await(waitTime, TimeUnit.MILLISECONDS);
 					return !this.waitCondition.await(waitTime, TimeUnit.MILLISECONDS);
 				}
 				catch (InterruptedException e)
 				{
 					Thread.currentThread().interrupt();
 				}
+			}
+			else
+			{
+//				Thread.currentThread().interrupt();
+				return true;
 			}
 			return false;
 		}

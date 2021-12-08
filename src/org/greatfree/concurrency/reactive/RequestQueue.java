@@ -227,8 +227,15 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 	*/
 
 	/*
+	 * It is not necessary since the shutdown state is judged in the loop immediately. 12/01/2021, Bing Li
+	 * 
+	 * I modified the code. If the thread needs to be shutdown, a false value needs to be returned. 12/01/2021, Bing Li
+	 */
+
+	/*
 	 * The method intends to stop the thread temporarily when no requests are available. A thread is identified as being idle immediately after the temporary waiting is finished. 09/22/2014, Bing Li
 	 */
+//	public boolean holdOn(long waitTime) throws InterruptedException
 	public void holdOn(long waitTime) throws InterruptedException
 	{
 		/*
@@ -261,7 +268,14 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 				*/
 			}
 			this.idleLock.unlock();
+//			return true;
 		}
+		/*
+		else
+		{
+			return false;
+		}
+		*/
 	}
 
 	/*
