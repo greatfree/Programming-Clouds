@@ -64,7 +64,7 @@ class ClientUI
 	/*
 	 * Send the users' option to the chatting server. 04/23/2017, Bing Li
 	 */
-	public void send(org.greatfree.server.ChatPeer peer, int option) throws ClassNotFoundException, RemoteReadException, IOException
+	public void send(org.greatfree.testing.server.ChatPeer peer, int option) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		ChatRegistryResponse chatRegistryResponse;
 		ChatPartnerResponse chatPartnerResponse = null;

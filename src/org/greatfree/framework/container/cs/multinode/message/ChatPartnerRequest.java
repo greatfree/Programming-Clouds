@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.cs.multinode.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 12/31/2018, Bing Li
@@ -11,7 +12,7 @@ public class ChatPartnerRequest extends Request
 
 	public ChatPartnerRequest(String userKey)
 	{
-		super(ChatApplicationID.CHAT_PARTNER_REQUEST);
+		super(SystemMessageType.CHAT_PARTNER_REQUEST);
 		this.userKey = userKey;
 	}
 

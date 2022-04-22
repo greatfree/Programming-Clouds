@@ -3,7 +3,7 @@ package org.greatfree.multicast.root;
 import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 09/16/2018, Bing Li
-class NearestKeyMulticastRequest
+public final class NearestKeyMulticastRequest
 {
 	private MulticastRequest request;
 	private String dataKey;

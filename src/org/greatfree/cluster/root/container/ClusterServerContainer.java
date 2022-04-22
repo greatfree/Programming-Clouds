@@ -181,10 +181,10 @@ public class ClusterServerContainer
 		
 		// With the updating of notify/wait, the line is not needed. But to keep compatible, just leave it here for some time. 08/25/2021, Bing Li
 		// Set the terminating signal. 11/25/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
 		
 		// I attempt to change the SP pattern to replace the while-true loop with the notify/wait structure. 08/25/2021, Bing Li
-		TerminateSignal.SIGNAL().notifyAllTermination();
+//		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 

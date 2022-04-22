@@ -7,7 +7,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 08/26/2018, Bing Li
-class ChildReader
+final class ChildReader
 {
 	private ChildSyncMulticastor multicastor;
 	// The actor to perform multicasting asynchronously. 09/10/2018, Bing Li

@@ -2,7 +2,6 @@ package org.greatfree.app.business.cs.multinode.server;
 
 import java.util.Calendar;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.chat.message.cs.business.BusinessMessageType;
 import org.greatfree.chat.message.cs.business.CheckCartRequest;
 import org.greatfree.chat.message.cs.business.CheckCartResponse;
@@ -26,7 +25,6 @@ import org.greatfree.chat.message.cs.business.PlaceOrderNotification;
 import org.greatfree.chat.message.cs.business.PostMerchandiseNotification;
 import org.greatfree.chat.message.cs.business.PutIntoCartNotification;
 import org.greatfree.chat.message.cs.business.RemoveFromCartNotification;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -34,6 +32,8 @@ import org.greatfree.framework.cs.multinode.message.ChatRegistryRequest;
 import org.greatfree.framework.cs.multinode.message.ChatRegistryResponse;
 import org.greatfree.framework.cs.multinode.message.ChatRegistryStream;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 /*
@@ -285,7 +285,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 		// Check the types of received messages. 04/17/2017, Bing Li
 		switch (message.getMessage().getType())
 		{
-			case ChatMessageType.CS_CHAT_REGISTRY_REQUEST:
+			case SystemMessageType.CS_CHAT_REGISTRY_REQUEST:
 				System.out.println("CS_CHAT_REGISTRY_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the registry dispatcher is ready. 04/17/2017, Bing Li
 				if (!this.registryRequestDispatcher.isReady())

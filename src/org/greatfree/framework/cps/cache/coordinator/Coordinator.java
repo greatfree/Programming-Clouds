@@ -102,7 +102,8 @@ public class Coordinator
 	
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		
 		Scheduler.GREATFREE().shutdown(ServerConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
 		SharedThreadPool.SHARED().dispose(ServerConfig.MR_SHUTDOWN_TIME);

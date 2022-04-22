@@ -3,6 +3,10 @@ package org.greatfree.framework.container.p2p.message;
 // Created: 01/12/2019, Bing Li
 public class P2PChatApplicationID
 {
+	/*
+	 * All the below messages are categorized into org.greatfree.message.SystemMessageType. 04/13/2022, Bing Li
+	 */
+	/*
 	public final static int PEER_CHAT_REGISTRY_REQUEST = 90001;
 	public final static int PEER_CHAT_REGISTRY_RESPONSE = 90002;
 	
@@ -46,4 +50,5 @@ public class P2PChatApplicationID
 
 	public final static int SELF_REQUEST = 90027;
 	public final static int SELF_RESPONSE = 90028;
+	*/
 }

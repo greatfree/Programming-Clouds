@@ -3,7 +3,6 @@ package org.greatfree.server.abandoned;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -12,6 +11,7 @@ import org.greatfree.message.ServerMessage;
 import org.greatfree.message.SystemMessageType;
 import org.greatfree.server.InitReadFeedbackThread;
 import org.greatfree.server.InitReadFeedbackThreadCreator;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.RegisterClientThread;
 import org.greatfree.server.RegisterClientThreadCreator;
 import org.greatfree.testing.message.MessageType;

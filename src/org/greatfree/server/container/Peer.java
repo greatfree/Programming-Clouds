@@ -1,10 +1,12 @@
 package org.greatfree.server.container;
 
 import java.io.IOException;
+import java.util.concurrent.Future;
 
 import org.greatfree.client.CSClient;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
+import org.greatfree.exceptions.FutureExceptionHandler;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.server.AbstractCSServer;
@@ -45,6 +47,7 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 				.readerClientSize(builder.getReaderClientSize())
 				.schedulerPoolSize(builder.getSchedulerPoolSize())
 				.schedulerKeepAliveTime(builder.getSchedulerKeepAliveTime())
+				.readTimeoutExceptionHandler(builder.getReadExceptionHandler())
 				.build();
 	}
 
@@ -79,7 +82,9 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		private long asyncEventIdleCheckPeriod;
 		private int schedulerPoolSize;
 		private long schedulerKeepAliveTime;
-		
+
+		private FutureExceptionHandler futureHandler;
+
 		public PeerBuilder()
 		{
 		}
@@ -223,6 +228,12 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 			this.schedulerKeepAliveTime = scheulerKeepAliveTime;
 			return this;
 		}
+		
+		public PeerBuilder<Dispatcher> futureHandler(FutureExceptionHandler futureHandler)
+		{
+			this.futureHandler = futureHandler;
+			return this;
+		}
 
 		@Override
 		public Peer<Dispatcher> build() throws IOException
@@ -346,6 +357,11 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		{
 			return this.schedulerKeepAliveTime;
 		}
+		
+		public FutureExceptionHandler getReadExceptionHandler()
+		{
+			return this.futureHandler;
+		}
 	}
 
 	/*
@@ -454,6 +470,22 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		super.stop(timeout);
 //		System.out.println("===> Peer-stop(): done ...");
 	}
+	
+	public Future<ServerMessage> futureRead(String ip, int port, ServerMessage request)
+	{
+		return super.getThreadPool().getPool().submit(() ->
+		{
+			return this.read(ip, port, request);
+		});
+	}
+	
+	public Future<ServerMessage> futureRead(String ip, int port, ServerMessage request, int timeout)
+	{
+		return super.getThreadPool().getPool().submit(() ->
+		{
+			return this.read(ip, port, request, timeout);
+		});
+	}
 
 	/*
 	 * Send notifications synchronously. 05/01/2017, Bing Li
@@ -461,6 +493,11 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 	public void syncNotify(String ip, int port, ServerMessage notification) throws IOException, InterruptedException
 	{
 		this.client.syncNotify(ip, port, notification);
+	}
+	
+	public void syncNotify(String clientKey, ServerMessage notification) throws IOException
+	{
+		this.client.syncNotify(clientKey, notification);
 	}
 
 	/*
@@ -477,6 +514,11 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		return this.client.read(ip, port, request);
+	}
+
+	public ServerMessage read(String ip, int port, ServerMessage request, int timeout) throws ClassNotFoundException, RemoteReadException, IOException
+	{
+		return this.client.read(ip, port, request, timeout);
 	}
 
 	/*
@@ -499,6 +541,13 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 	{
 		this.client.getClientPool().addIP(ip, port);
 	}
+
+	/*
+	public void addPartners(String peerKey, String peerName, String ip, int port)
+	{
+		this.client.getClientPool().addIP(peerKey, peerName, ip, port);
+	}
+	*/
 	
 	public IPAddress getIP(String ipKey)
 	{

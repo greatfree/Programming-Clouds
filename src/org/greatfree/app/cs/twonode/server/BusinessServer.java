@@ -36,7 +36,8 @@ class BusinessServer
 
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 
 		this.bsServer.stop(timeout);
 		this.bmServer.stop(timeout);

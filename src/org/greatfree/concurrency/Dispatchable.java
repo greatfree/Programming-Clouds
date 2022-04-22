@@ -1,7 +1,7 @@
 package org.greatfree.concurrency;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 
 /*
  * It defines some interfaces that are needed in ServerMessageDispatcher. 11/07/2014, Bing Li

@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 09/26/2019, Bing Li
@@ -9,7 +10,7 @@ public class AllPeerNamesRequest extends Request
 
 	public AllPeerNamesRequest()
 	{
-		super(P2PChatApplicationID.ALL_PEER_NAMES_REQUEST);
+		super(SystemMessageType.ALL_PEER_NAMES_REQUEST);
 	}
 
 }

@@ -171,7 +171,7 @@ public class Businesses
 	/*
 	 * Get the transactions of a vendor. 12/20/2017, Bing Li
 	 */
-	public static Map<String, Transaction> getVendorTransactions(String vendorKey)
+	public static Map<String, MyTransaction> getVendorTransactions(String vendorKey)
 	{
 		return DoneTransactionDB.CS().getTransactionsOfVendor(vendorKey);
 	}
@@ -179,7 +179,7 @@ public class Businesses
 	/*
 	 * Get the transactions of a customer. 12/20/2017, Bing Li
 	 */
-	public static Map<String, Transaction> getCustomerTransactions(String customerKey)
+	public static Map<String, MyTransaction> getCustomerTransactions(String customerKey)
 	{
 		return DoneTransactionDB.CS().getTransactionsOfCustomer(customerKey);
 	}

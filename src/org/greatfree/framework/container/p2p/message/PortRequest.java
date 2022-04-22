@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 01/12/2019, Bing Li
@@ -14,7 +15,7 @@ public class PortRequest extends Request
 
 	public PortRequest(String peerKey, String portKey, String ip, int currentPort)
 	{
-		super(P2PChatApplicationID.PORT_REQUEST);
+		super(SystemMessageType.PORT_REQUEST);
 		this.peerKey = peerKey;
 		this.portKey = portKey;
 		this.ip = ip;

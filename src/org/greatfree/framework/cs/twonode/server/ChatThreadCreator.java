@@ -4,7 +4,7 @@ import org.greatfree.concurrency.reactive.NotificationQueueCreator;
 import org.greatfree.framework.cs.multinode.message.ChatNotification;
 
 // Created: 06/21/2018, Bing Li
-public class ChatThreadCreator implements NotificationQueueCreator<ChatNotification, ChatThread>
+class ChatThreadCreator implements NotificationQueueCreator<ChatNotification, ChatThread>
 {
 
 	@Override

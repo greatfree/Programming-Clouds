@@ -135,7 +135,8 @@ public class DN
 	public void stop() throws InterruptedException, IOException
 	{
 		// Set the terminating signal. The long time running task needs to be interrupted when the signal is set. 11/24/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		
 		// Stop each listener one by one. 11/24/2014, Bing Li
 //		for (Runner<DNListener, DNListenerDisposer> runner : this.listeners)

@@ -2,8 +2,6 @@ package org.greatfree.framework.p2p.registry;
 
 import java.util.Calendar;
 
-import org.greatfree.chat.message.ChatMessageType;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.p2p.message.ChatPartnerRequest;
@@ -13,6 +11,8 @@ import org.greatfree.framework.p2p.message.ChatRegistryRequest;
 import org.greatfree.framework.p2p.message.ChatRegistryResponse;
 import org.greatfree.framework.p2p.message.ChatRegistryStream;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 /*
@@ -127,7 +127,7 @@ class ChatRegistryDispatcher extends ServerDispatcher<ServerMessage>
 		// Check the types of received messages. 04/30/2017, Bing Li
 		switch (message.getMessage().getType())
 		{
-			case ChatMessageType.PEER_CHAT_REGISTRY_REQUEST:
+			case SystemMessageType.PEER_CHAT_REGISTRY_REQUEST:
 				System.out.println("PEER_CHAT_REGISTRY_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the registry dispatcher is ready. 04/17/2017, Bing Li
 				if (!this.registryRequestDispatcher.isReady())
@@ -139,7 +139,7 @@ class ChatRegistryDispatcher extends ServerDispatcher<ServerMessage>
 				this.registryRequestDispatcher.enqueue(new ChatRegistryStream(message.getOutStream(), message.getLock(), (ChatRegistryRequest)message.getMessage()));
 				break;
 				
-			case ChatMessageType.PEER_CHAT_PARTNER_REQUEST:
+			case SystemMessageType.PEER_CHAT_PARTNER_REQUEST:
 				System.out.println("PEER_CHAT_PARTNER_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the partner request dispatcher is ready. 04/17/2017, Bing Li
 				if (!this.chatPartnerRequestDispatcher.isReady())

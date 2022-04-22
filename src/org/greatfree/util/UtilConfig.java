@@ -1,5 +1,6 @@
 package org.greatfree.util;
 
+import java.net.InetAddress;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -130,4 +131,6 @@ public class UtilConfig
 	public final static String QUESTION_MARK = "?";
 	public final static String AND_SYMBOL = "&";
 	public final static String EQUAL_SIGN = "=";
+	
+	public final static InetAddress NO_ADDRESS = null;
 }

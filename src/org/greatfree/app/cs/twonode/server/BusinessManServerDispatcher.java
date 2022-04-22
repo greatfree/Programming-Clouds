@@ -4,10 +4,10 @@ import java.util.Calendar;
 
 import org.greatfree.app.cs.twonode.message.BusinessMessageType;
 import org.greatfree.app.cs.twonode.message.ShutdownBusinessServerNotification;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 07/25/2018, Bing Li

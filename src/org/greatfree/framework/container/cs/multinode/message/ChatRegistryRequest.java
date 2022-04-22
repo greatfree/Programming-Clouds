@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.cs.multinode.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 12/31/2018, Bing Li
@@ -16,7 +17,7 @@ public class ChatRegistryRequest extends Request
 
 	public ChatRegistryRequest(String userKey, String userName, String description)
 	{
-		super(ChatApplicationID.CHAT_REGISTRY_REQUEST);
+		super(SystemMessageType.CHAT_REGISTRY_REQUEST);
 		this.userKey = userKey;
 		this.userName = userName;
 		this.description = description;

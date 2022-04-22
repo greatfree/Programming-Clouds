@@ -7,7 +7,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 08/26/2018, Bing Li
-class ChildEventer
+final class ChildEventer
 {
 	private ChildSyncMulticastor multicastor;
 	// Declare an instance to send multicasting messages asynchronously.. 11/11/2014, Bing Li

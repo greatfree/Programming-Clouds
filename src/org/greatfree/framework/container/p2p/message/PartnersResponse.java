@@ -3,6 +3,7 @@ package org.greatfree.framework.container.p2p.message;
 import java.util.Map;
 
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.util.IPPort;
 
 // Created: 09/13/2019, Bing Li
@@ -14,7 +15,7 @@ public class PartnersResponse extends ServerMessage
 
 	public PartnersResponse(Map<String, IPPort> ips)
 	{
-		super(P2PChatApplicationID.PARTNERS_RESPONSE);
+		super(SystemMessageType.PARTNERS_RESPONSE);
 		this.ips = ips;
 	}
 

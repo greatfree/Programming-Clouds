@@ -420,6 +420,7 @@ public class ClusterChild
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
 //		super.stop(timeout);
+//		TerminateSignal.SIGNAL().notifyAllTermination();
 		Child.CLUSTER().dispose(timeout);
 	}
 

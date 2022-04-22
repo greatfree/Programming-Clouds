@@ -124,7 +124,9 @@ abstract class SubBroadcastNotifier<Message extends OldMulticastMessage, Message
 										isSendingNormal = true;
 										// Send the message to the immediate child of the local node. 11/11/2014, Bing Li
 //										this.clientPool.send(new IPPort(message.getIP(childrenKey)), forwardMessage);
-										this.clientPool.send(new IPResource(childrenFromRoot.get(childrenKey)), forwardMessage);
+										IPAddress ip = childrenFromRoot.get(childrenKey);
+//										this.clientPool.send(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), forwardMessage);
+										this.clientPool.send(new IPResource(ip.getIP(), ip.getPort()), forwardMessage);
 										// Jump out the loop after sending the message successfully. 11/11/2014, Bing Li
 										break;
 									}
@@ -164,7 +166,9 @@ abstract class SubBroadcastNotifier<Message extends OldMulticastMessage, Message
 							{
 								// If the instance of FreeClient is valid, a message can be created. Different from the above one, the message does not contain children IPs of the immediate node of the local node. 11/11/2014, Bing Li
 //								this.clientPool.send(new IPPort(message.getIP(childrenKey)), message);
-								this.clientPool.send(new IPResource(childrenFromRoot.get(childrenKey)), message);
+								IPAddress ip = childrenFromRoot.get(childrenKey);
+//								this.clientPool.send(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), message);
+								this.clientPool.send(new IPResource(ip.getIP(), ip.getPort()), message);
 							}
 							catch (IOException e)
 							{
@@ -204,7 +208,8 @@ abstract class SubBroadcastNotifier<Message extends OldMulticastMessage, Message
 						{
 							// Send the message to the immediate node of the local node. 11/11/2014, Bing Li
 //							this.clientPool.send(new IPPort(message.getIP(serverAddressEntry.getKey())), message);
-							this.clientPool.send(new IPResource(entry.getValue()), message);
+//							this.clientPool.send(new IPResource(entry.getValue().getPeerKey(), entry.getValue().getPeerName(), entry.getValue().getIP(), entry.getValue().getPort()), message);
+							this.clientPool.send(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), message);
 						}
 						catch (IOException e)
 						{

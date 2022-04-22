@@ -846,6 +846,11 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 //		this.syncEventer.notify(ip, port, notification);
 		this.client.syncNotify(ip, port, notification);
 	}
+	
+	public void syncNotify(String clientIPKey, ServerMessage notification) throws IOException
+	{
+		this.client.syncNotify(clientIPKey, notification);
+	}
 
 	/*
 	 * Send notifications asynchronously. 05/01/2017, Bing Li

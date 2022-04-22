@@ -30,7 +30,12 @@ public class RegistryConfig
 	public final static int CLIENT_POOL_SIZE = 100;
 	public final static long CLIENT_IDLE_CHECK_DELAY = 3000;
 	public final static long CLIENT_IDLE_CHECK_PERIOD = 5000;
-	public final static long CLIENT_MAX_IDLE_TIME = 3000;
+//	public final static long CLIENT_MAX_IDLE_TIME = 3000;
+	public final static long CLIENT_MAX_IDLE_TIME = 50000;
+	/*
+	 * The value is for testing the CPU usage. 04/21/2022, Bing Li
+	 */
+//	public final static long CLIENT_MAX_IDLE_TIME = 100000000;
 
 	public final static int EVENTER_THREAD_POOL_SIZE = 10;
 	public final static long EVENTER_THREAD_POOL_ALIVE_TIME = 10000;

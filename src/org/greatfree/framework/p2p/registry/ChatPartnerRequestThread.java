@@ -8,7 +8,6 @@ import org.greatfree.framework.p2p.message.ChatPartnerRequest;
 import org.greatfree.framework.p2p.message.ChatPartnerResponse;
 import org.greatfree.framework.p2p.message.ChatPartnerStream;
 import org.greatfree.server.PeerAccount;
-import org.greatfree.server.PeerRegistry;
 import org.greatfree.util.UtilConfig;
 
 /*

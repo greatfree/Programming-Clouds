@@ -50,7 +50,8 @@ class Master
 	{
 		ServerStatus.FREE().setShutdown();		
 		// Set the terminating signal. 11/25/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.master.stop(timeout);
 	}
 	

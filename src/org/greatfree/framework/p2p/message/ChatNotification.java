@@ -1,7 +1,7 @@
 package org.greatfree.framework.p2p.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.util.UtilConfig;
 
 // Created: 05/02/2017, Bing Li
@@ -16,14 +16,14 @@ public class ChatNotification extends ServerMessage
 
 	public ChatNotification(String message, String senderName)
 	{
-		super(ChatMessageType.PEER_CHAT_NOTIFICATION);
+		super(SystemMessageType.PEER_CHAT_NOTIFICATION);
 		this.message = message;
 		this.senderName = senderName;
 	}
 	
 	public ChatNotification(String message)
 	{
-		super(ChatMessageType.PEER_CHAT_NOTIFICATION);
+		super(SystemMessageType.PEER_CHAT_NOTIFICATION);
 		this.message = message;
 		this.senderName = UtilConfig.EMPTY_STRING;
 	}

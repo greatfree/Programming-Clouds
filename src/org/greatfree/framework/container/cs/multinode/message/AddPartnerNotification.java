@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.cs.multinode.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Notification;
 
 // Created: 12/31/2018, Bing Li
@@ -13,7 +14,7 @@ public class AddPartnerNotification extends Notification
 
 	public AddPartnerNotification(String localUserKey, String partnerKey, String invitation)
 	{
-		super(ChatApplicationID.ADD_PARTNER_NOTIFICATION);
+		super(SystemMessageType.ADD_PARTNER_NOTIFICATION);
 		this.localUserKey = localUserKey;
 		this.partnerKey = partnerKey;
 		this.invitation = invitation;

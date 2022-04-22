@@ -2,7 +2,6 @@ package org.greatfree.framework.streaming.subscriber;
 
 import java.util.Calendar;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -12,6 +11,7 @@ import org.greatfree.framework.streaming.message.SearchStream;
 import org.greatfree.framework.streaming.message.StreamMessageType;
 import org.greatfree.framework.streaming.message.StreamNotification;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 03/19/2020, Bing Li

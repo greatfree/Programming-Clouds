@@ -11,7 +11,6 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.container.Notification;
 import org.greatfree.util.IPPort;
-import org.greatfree.util.TerminateSignal;
 
 // Created: 09/29/2019, Bing Li
 public class PlayerSystem
@@ -39,7 +38,8 @@ public class PlayerSystem
 
 	public void dispose(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().notifyAllTermination();
 		if (!this.dt.isMaster())
 		{
 			Scheduler.GREATFREE().shutdown(timeout);

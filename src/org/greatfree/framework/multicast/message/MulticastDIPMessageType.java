@@ -5,7 +5,7 @@ package org.greatfree.framework.multicast.message;
  */
 
 // Created: 05/08/2017, Bing Li
-public class MulticastDIPMessageType
+public final class MulticastDIPMessageType
 {
 	public final static int HELLO_WORLD_BROADCAST_NOTIFICATION = 201;
 	public final static int HELLO_WORLD_ANYCAST_NOTIFICATION = 202;

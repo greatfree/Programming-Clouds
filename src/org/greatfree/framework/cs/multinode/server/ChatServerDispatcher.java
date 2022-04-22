@@ -2,8 +2,6 @@ package org.greatfree.framework.cs.multinode.server;
 
 import java.util.Calendar;
 
-import org.greatfree.chat.message.ChatMessageType;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -24,6 +22,8 @@ import org.greatfree.framework.cs.multinode.message.PollNewSessionsStream;
 import org.greatfree.framework.cs.twonode.server.ChatRegistryThread;
 import org.greatfree.framework.cs.twonode.server.ChatRegistryThreadCreator;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 /*
@@ -166,7 +166,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 		// Check the types of received messages. 04/17/2017, Bing Li
 		switch (message.getMessage().getType())
 		{
-			case ChatMessageType.CS_CHAT_REGISTRY_REQUEST:
+			case SystemMessageType.CS_CHAT_REGISTRY_REQUEST:
 				System.out.println("CS_CHAT_REGISTRY_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the registry dispatcher is ready. 04/17/2017, Bing Li
 				if (!this.registryRequestDispatcher.isReady())
@@ -178,7 +178,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 				this.registryRequestDispatcher.enqueue(new ChatRegistryStream(message.getOutStream(), message.getLock(), (ChatRegistryRequest)message.getMessage()));
 				break;
 				
-			case ChatMessageType.CS_CHAT_PARTNER_REQUEST:
+			case SystemMessageType.CS_CHAT_PARTNER_REQUEST:
 				System.out.println("CS_CHAT_PARTNER_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the partner request dispatcher is ready. 04/17/2017, Bing Li
 				if (!this.chatPartnerRequestDispatcher.isReady())
@@ -190,7 +190,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 				this.chatPartnerRequestDispatcher.enqueue(new ChatPartnerStream(message.getOutStream(), message.getLock(), (ChatPartnerRequest)message.getMessage()));
 				break;
 
-			case ChatMessageType.CS_ADD_PARTNER_NOTIFICATION:
+			case SystemMessageType.CS_ADD_PARTNER_NOTIFICATION:
 				System.out.println("CS_ADD_PARTNER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				// Check whether the adding friends notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.addPartnerNotificationDispatcher.isReady())
@@ -202,7 +202,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 				this.addPartnerNotificationDispatcher.enqueue((AddPartnerNotification)message.getMessage());
 				break;
 				
-			case ChatMessageType.POLL_NEW_SESSIONS_REQUEST:
+			case SystemMessageType.POLL_NEW_SESSIONS_REQUEST:
 				System.out.println("POLL_NEW_SESSIONS_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the partner request dispatcher is ready. 04/17/2017, Bing Li
 				if (!this.pollNewSessionsRequestDispatcher.isReady())
@@ -214,7 +214,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 				this.pollNewSessionsRequestDispatcher.enqueue(new PollNewSessionsStream(message.getOutStream(), message.getLock(), (PollNewSessionsRequest)message.getMessage()));
 				break;
 				
-			case ChatMessageType.POLL_NEW_CHATS_REQUEST:
+			case SystemMessageType.POLL_NEW_CHATS_REQUEST:
 				System.out.println("POLL_NEW_CHATS_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the partner request dispatcher is ready. 04/17/2017, Bing Li
 				if (!this.pollNewChatsRequestDispatcher.isReady())
@@ -226,7 +226,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 				this.pollNewChatsRequestDispatcher.enqueue(new PollNewChatsStream(message.getOutStream(), message.getLock(), (PollNewChatsRequest)message.getMessage()));
 				break;
 				
-			case ChatMessageType.CS_CHAT_NOTIFICATION:
+			case SystemMessageType.CS_CHAT_NOTIFICATION:
 				System.out.println("CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				// Check whether the adding friends notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.chatNotificationDispatcher.isReady())

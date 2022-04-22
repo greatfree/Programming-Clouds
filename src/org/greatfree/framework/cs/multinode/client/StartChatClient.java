@@ -84,7 +84,8 @@ class StartChatClient
 		// Set the status of the local node as shutdown. 05/26/2017, Bing Li
 //		ServerStatus.FREE().setShutdown();
 		// Set the terminating flag to true. 09/21/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 
 		// Dispose the chatting maintainer. 05/26/2017, Bing Li
 		ChatMaintainer.CS().dispose();

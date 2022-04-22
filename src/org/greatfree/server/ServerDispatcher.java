@@ -4,7 +4,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -39,6 +38,13 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 
 	// Declare a notification dispatcher to process the registration notification concurrently. 11/04/2014, Bing Li
 	private NotificationDispatcher<RegisterClientNotification, RegisterClientThread, RegisterClientThreadCreator> registerClientNotificationDispatcher;
+	
+	/*
+	 * So the thread is commented out. I will test whether any problems are caused by the removal. 04/22/2022, Bing Li
+	 * 
+	 * The below line causes the CPU usage to raise to 25% and the value never goes down. It is a big bug. The below line seems to be useless. 04/22/2022, Bing Li
+	 *
+	 */
 	// Declare a notification dispatcher to deal with instances of InitReadNotification from a client concurrently such that the client can initialize its ObjectInputStream. 11/09/2014, Bing Li
 	private NotificationDispatcher<InitReadNotification, InitReadFeedbackThread, InitReadFeedbackThreadCreator> initReadFeedbackNotificationDispatcher;
 	

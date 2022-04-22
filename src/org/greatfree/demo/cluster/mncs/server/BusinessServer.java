@@ -7,6 +7,7 @@ import org.greatfree.cluster.root.container.ClusterServerContainer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
+import org.greatfree.util.TerminateSignal;
 
 // Created: 02/17/2019, Bing Li
 class BusinessServer
@@ -39,6 +40,7 @@ class BusinessServer
 
 	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 	

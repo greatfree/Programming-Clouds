@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.cs.multinode.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Notification;
 
 // Created: 01/07/2019, Bing Li
@@ -9,7 +10,7 @@ public class ShutdownServerNotification extends Notification
 
 	public ShutdownServerNotification()
 	{
-		super(ChatApplicationID.SHUTDOWN_SERVER_NOTIFICATION);
+		super(SystemMessageType.SHUTDOWN_SERVER_NOTIFICATION);
 	}
 
 }

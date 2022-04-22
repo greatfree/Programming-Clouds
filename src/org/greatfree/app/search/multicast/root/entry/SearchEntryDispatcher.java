@@ -9,15 +9,15 @@ import org.greatfree.app.search.multicast.message.SearchMultiResponse;
 import org.greatfree.app.search.multicast.message.SearchRequest;
 import org.greatfree.app.search.multicast.message.SearchResponse;
 import org.greatfree.app.search.multicast.message.SearchStream;
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.chat.message.ShutdownServerNotification;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.message.MulticastDIPMessageType;
 import org.greatfree.framework.multicast.message.ShutdownChildrenAdminNotification;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 09/28/2018, Bing Li
@@ -185,7 +185,7 @@ class SearchEntryDispatcher extends ServerDispatcher<ServerMessage>
 				this.shutdownStorageNodesNotificationDispatcher.enqueue((ShutdownChildrenAdminNotification)message.getMessage());
 				break;
 				
-			case ChatMessageType.SHUTDOWN_SERVER_NOTIFICATION:
+			case SystemMessageType.SHUTDOWN_SERVER_NOTIFICATION:
 				System.out.println("SHUTDOWN_SERVER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				// Check whether the shutdown notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.shutdownSearchEntryNotificationDispatcher.isReady())

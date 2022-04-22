@@ -2,12 +2,12 @@ package org.greatfree.testing.client;
 
 import java.util.Calendar;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.InitReadFeedbackNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.SystemMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.abandoned.ServerDispatcher;
 import org.greatfree.testing.message.MessageType;
 import org.greatfree.testing.message.NodeKeyNotification;

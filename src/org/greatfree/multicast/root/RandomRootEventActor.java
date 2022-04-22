@@ -7,7 +7,7 @@ import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 09/10/2018, Bing Li
 // class RandomRootEventActor extends Async<MulticastMessage>
-class RandomRootEventActor extends AsyncMulticastor<MulticastNotification>
+final class RandomRootEventActor extends AsyncMulticastor<MulticastNotification>
 {
 	public RandomRootEventActor(RootSyncMulticastor multicastor)
 	{
@@ -26,5 +26,14 @@ class RandomRootEventActor extends AsyncMulticastor<MulticastNotification>
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	@Override
+	public void perform(MulticastNotification message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 
 }

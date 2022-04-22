@@ -16,7 +16,7 @@ import org.greatfree.framework.streaming.message.SubscribersResponse;
 import org.greatfree.message.PeerAddressRequest;
 import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.message.ServerMessage;
-import org.greatfree.message.multicast.ClusterIPRequest;
+import org.greatfree.message.multicast.PrimitiveClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.server.Peer;
 import org.greatfree.util.IPAddress;
@@ -56,7 +56,8 @@ class ChildPeer
 		ChildMulticastor.CHILD().stop();
 		RootMulticastor.CHILD_STREAM().stop();
 
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 
 	public void start() throws IOException, ClassNotFoundException, RemoteReadException
@@ -123,7 +124,7 @@ class ChildPeer
 			{
 				System.out.println("ChildPeer-getSubscriberIPs(): subscriber = " + entry);
 			}
-			return ((ClusterIPResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new ClusterIPRequest(sr.getSubscribers()))).getIPs();
+			return ((ClusterIPResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new PrimitiveClusterIPRequest(sr.getSubscribers()))).getIPs();
 		}
 		return StreamConfig.NO_IPS;
 	}

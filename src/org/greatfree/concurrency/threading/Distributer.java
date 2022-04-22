@@ -41,7 +41,6 @@ import org.greatfree.util.IPAddress;
 import org.greatfree.util.IPPort;
 import org.greatfree.util.Rand;
 import org.greatfree.util.ServerStatus;
-import org.greatfree.util.TerminateSignal;
 import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
 
@@ -300,7 +299,8 @@ public class Distributer
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().notifyAllTermination();
 		ServerStatus.FREE().setShutdown();
 //		this.slaveThreadKeys.clear();
 //		this.slaveThreadKeys = null;
@@ -309,7 +309,8 @@ public class Distributer
 		if (!this.isMaster)
 		{
 			DistributerPool.POOL().dispose(timeout);
-			TerminateSignal.SIGNAL().setTerminated();
+//			TerminateSignal.SIGNAL().setTerminated();
+//			TerminateSignal.SIGNAL().notifyAllTermination();
 		}
 		this.peer.stop(timeout);
 	}

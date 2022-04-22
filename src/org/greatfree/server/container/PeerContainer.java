@@ -2,12 +2,10 @@ package org.greatfree.server.container;
 
 import java.io.IOException;
 
-import org.greatfree.client.FreeClientPool;
 import org.greatfree.cluster.message.ClusterSizeRequest;
 import org.greatfree.cluster.message.ClusterSizeResponse;
 import org.greatfree.cluster.message.PartitionSizeRequest;
 import org.greatfree.cluster.message.PartitionSizeResponse;
-import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
@@ -143,6 +141,7 @@ public class PeerContainer
 
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
+//		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.peer.stop(timeout);
 	}
 	
@@ -216,20 +215,26 @@ public class PeerContainer
 		return this.peer.read(this.peer.getPeerIP(), this.peer.getPort(), request);
 	}
 	
+	/*
 	public void addPartners(String ip, int port)
 	{
 		this.peer.addPartners(ip, port);
 	}
+	*/
 
+	/*
 	public FreeClientPool getClientPool()
 	{
 		return this.peer.getClientPool();
 	}
-	
+	*/
+
+	/*
 	public ThreadPool getPool()
 	{
 		return this.peer.getPool();
 	}
+	*/
 	
 	public String getPeerName()
 	{

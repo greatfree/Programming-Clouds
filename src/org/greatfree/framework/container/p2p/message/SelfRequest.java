@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 10/03/2019, Bing Li
@@ -11,7 +12,7 @@ public class SelfRequest extends Request
 
 	public SelfRequest(String request)
 	{
-		super(P2PChatApplicationID.SELF_REQUEST);
+		super(SystemMessageType.SELF_REQUEST);
 		this.request = request;
 	}
 

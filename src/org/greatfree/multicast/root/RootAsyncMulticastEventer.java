@@ -8,7 +8,7 @@ import org.greatfree.data.ClientConfig;
 import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 09/14/2018, Bing Li
-class RootAsyncMulticastEventer
+final class RootAsyncMulticastEventer
 {
 	private AsyncPool<MulticastNotification> actor;
 	private AsyncPool<ChildrenMulticastNotification> childrenActor;

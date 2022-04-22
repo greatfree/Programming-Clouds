@@ -2,7 +2,6 @@ package org.greatfree.cluster.root;
 
 import java.util.Calendar;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.cluster.message.ClusterMessageType;
 import org.greatfree.cluster.message.JoinNotification;
 import org.greatfree.cluster.message.LeaveNotification;
@@ -16,6 +15,7 @@ import org.greatfree.message.multicast.container.ClusterNotification;
 import org.greatfree.message.multicast.container.ClusterRequest;
 import org.greatfree.message.multicast.container.ClusterRequestStream;
 import org.greatfree.message.multicast.container.CollectedClusterResponse;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 09/23/2018, Bing Li

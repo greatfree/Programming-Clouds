@@ -11,7 +11,7 @@ import org.greatfree.testing.client.ClientMenu;
 import org.greatfree.testing.client.MenuOptions;
 
 // Created: 08/26/2018, Bing Li
-class MulticastClientUI
+final class MulticastClientUI
 {
 	private Scanner in = new Scanner(System.in);
 

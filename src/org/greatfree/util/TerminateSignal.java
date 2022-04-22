@@ -60,6 +60,7 @@ public class TerminateSignal
 	
 	public void notifyAllTermination()
 	{
+		this.setTerminated();
 		this.collaborator.signalAll();
 	}
 	
@@ -71,6 +72,6 @@ public class TerminateSignal
 	public void setTerminated()
 	{
 		ServerStatus.FREE().setShutdown();
-		this.isTerminated.set(true);;
+		this.isTerminated.set(true);
 	}
 }

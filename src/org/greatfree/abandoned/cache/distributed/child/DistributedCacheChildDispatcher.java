@@ -9,12 +9,12 @@ import org.greatfree.cache.PersistableMapFactorable;
 import org.greatfree.cache.message.CacheMessageType;
 import org.greatfree.cache.message.PutNotification;
 import org.greatfree.cache.message.UniGetRequest;
-import org.greatfree.client.MessageStream;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.message.OldRootIPAddressBroadcastNotification;
 import org.greatfree.framework.old.multicast.child.ChildDispatcher;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
+import org.greatfree.server.MessageStream;
 
 /*
  * The dispatcher is used to serve for the distributed persistable map. When it is necessary to get data from the map, the value that is retrieved from the cluster is received by the dispatcher. 07/03/2017, Bing Li

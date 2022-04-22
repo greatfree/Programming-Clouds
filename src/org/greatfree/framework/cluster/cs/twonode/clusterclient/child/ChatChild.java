@@ -34,7 +34,8 @@ class ChatChild
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.child.stop(timeout);
 	}
 	

@@ -11,7 +11,11 @@ import org.greatfree.util.Tools;
 // Created: 09/17/2014, Bing Li
 public class IPResource extends FreeObject
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.client");
+	
 	private static final long serialVersionUID = 60625648765049459L;
+//	private String peerKey;
+//	private String peerName;
 	// The IP address. 09/17/2014, Bing Li
 	private String ip;
 	// The port number. 09/17/2014, Bing Li
@@ -26,6 +30,8 @@ public class IPResource extends FreeObject
 	{
 		// Create and set the key of the class. The key represents all of the FreeClients that connect to the same remote end. 09/17/2014, Bing Li
 		super(Tools.getKeyOfFreeClient(ip, port));
+//		this.peerKey = null;
+//		this.peerName = null;
 		this.ip = ip;
 		this.port = port;
 		this.timeout = timeout;
@@ -35,21 +41,29 @@ public class IPResource extends FreeObject
 	{
 		// Create and set the key of the class. The key represents all of the FreeClients that connect to the same remote end. 09/17/2014, Bing Li
 		super(Tools.getKeyOfFreeClient(ip, port));
+//		this.peerKey = null;
+//		this.peerName = null;
 		this.ip = ip;
 		this.port = port;
 		this.timeout = 0;
 	}
-
+	
 	/*
 	 * Initialize the instance of the class. 09/17/2014, Bing Li
 	 */
-	public IPResource(IPAddress ip)
+//	public IPResource(IPAddress ip)
+	/*
+	public IPResource(String peerKey, String peerName, String ip, int port)
 	{
 		// Create and set the key of the class. The key represents all of the FreeClients that connect to the same remote end. 09/17/2014, Bing Li
-		super(Tools.getKeyOfFreeClient(ip.getIP(), ip.getPort()));
-		this.ip = ip.getIP();
-		this.port = ip.getPort();
+		super(Tools.getKeyOfFreeClient(ip, port));
+		this.peerKey = peerKey;
+		this.peerName = peerName;
+		this.ip = ip;
+		this.port = port;
+		this.timeout = 0;
 	}
+	*/
 
 	/*
 	 * Expose the IP address. 09/17/2014, Bing Li
@@ -75,6 +89,8 @@ public class IPResource extends FreeObject
 	public IPAddress getAddress()
 	{
 //		return new IPAddress(this.getObjectKey(), this.ip, this.port);
+//		log.info("peerName = " + this.peerName + ", ip = " + this.ip + ", port = " + this.port);
+//		return new IPAddress(this.peerKey, this.peerName, this.ip, this.port);
 		return new IPAddress(this.ip, this.port);
 	}
 }

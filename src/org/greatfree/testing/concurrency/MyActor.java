@@ -20,4 +20,13 @@ class MyActor extends Async<MyNotification>
 		System.out.println(notification.getLastName() + ", " + notification.getFirstName());
 	}
 
+	/*
+	@Override
+	public void perform(MyNotification message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
+
 }

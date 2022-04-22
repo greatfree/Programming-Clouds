@@ -56,7 +56,8 @@ public class StartCustomerClient
 		}
 		
 		// Set the terminating flag to true. 09/21/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		
 		try
 		{

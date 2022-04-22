@@ -2,8 +2,8 @@ package org.greatfree.framework.cs.multinode.message;
 
 import java.util.Set;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The response tells the request sender whether a new session is available. If so, the session keys are sent to the request sender. If not, a null message is responded. 04/24/2017, Bing Li
@@ -18,7 +18,7 @@ public class PollNewSessionsResponse extends ServerMessage
 
 	public PollNewSessionsResponse(Set<String> newSessionKeys)
 	{
-		super(ChatMessageType.POLL_NEW_SESSIONS_RESPONSE);
+		super(SystemMessageType.POLL_NEW_SESSIONS_RESPONSE);
 		this.newSessionKeys = newSessionKeys;
 	}
 

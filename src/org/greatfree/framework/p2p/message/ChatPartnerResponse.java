@@ -1,7 +1,7 @@
 package org.greatfree.framework.p2p.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The response contains the account description, especially the IP address for the Peer chatting system. 04/30/2017, Bing Li
@@ -21,7 +21,7 @@ public class ChatPartnerResponse extends ServerMessage
 
 	public ChatPartnerResponse(String userKey, String userName, String description, String preference, String ip, int port)
 	{
-		super(ChatMessageType.PEER_CHAT_PARTNER_RESPONSE);
+		super(SystemMessageType.PEER_CHAT_PARTNER_RESPONSE);
 		this.userKey = userKey;
 		this.userName = userName;
 		this.description = description;

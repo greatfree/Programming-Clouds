@@ -8,7 +8,7 @@ import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.server.CSServer;
 
 // Created: 12/18/2018, Bing Li
-public class ServerContainer
+public final class ServerContainer
 {
 	private CSServer<CSDispatcher> server;
 	
@@ -54,6 +54,8 @@ public class ServerContainer
 	
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
+//		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 	

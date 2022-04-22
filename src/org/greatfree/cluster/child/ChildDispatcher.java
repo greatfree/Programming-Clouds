@@ -2,7 +2,6 @@ package org.greatfree.cluster.child;
 
 import java.util.Calendar;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
@@ -10,6 +9,7 @@ import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.container.ClusterNotification;
 import org.greatfree.message.multicast.container.ClusterRequest;
 import org.greatfree.message.multicast.container.RootAddressNotification;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 09/23/2018, Bing Li

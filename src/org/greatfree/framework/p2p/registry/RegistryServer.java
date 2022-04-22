@@ -7,8 +7,6 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.server.CSServer;
-import org.greatfree.server.PeerRegistry;
-import org.greatfree.server.PeerRegistryDispatcher;
 import org.greatfree.util.TerminateSignal;
 import org.greatfree.util.Tools;
 
@@ -45,7 +43,8 @@ public class RegistryServer
 	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 
 		// Dispose the system-level registry. 05/01/2017, Bing Li
 		PeerRegistry.SYSTEM().dispose();

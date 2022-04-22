@@ -29,4 +29,13 @@ class ChildEventActor extends Async<MulticastNotification>
 		}
 	}
 
+	/*
+	@Override
+	public void perform(MulticastNotification message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
+
 }

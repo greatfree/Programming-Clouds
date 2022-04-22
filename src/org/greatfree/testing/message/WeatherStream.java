@@ -3,7 +3,7 @@ package org.greatfree.testing.message;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.locks.Lock;
 
-import org.greatfree.client.MessageStream;
+import org.greatfree.server.MessageStream;
 
 // Created: 02/15/2016, Bing Li
 public class WeatherStream extends MessageStream<WeatherRequest>

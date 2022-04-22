@@ -23,7 +23,7 @@ import org.greatfree.util.UtilConfig;
 import com.google.common.collect.Sets;
 
 // Created: 09/16/2018, Bing Li
-class RootSyncMulticastor
+final class RootSyncMulticastor
 {
 	private final static Logger log = Logger.getLogger("org.greatfree.multicast.root");
 

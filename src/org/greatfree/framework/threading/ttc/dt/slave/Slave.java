@@ -37,7 +37,8 @@ class Slave
 	
 	public void stop(long timeout) throws InterruptedException, ClassNotFoundException, IOException, RemoteReadException
 	{
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		Scheduler.GREATFREE().shutdown(timeout);
 		this.slave.stop(timeout);
 	}

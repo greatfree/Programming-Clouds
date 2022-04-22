@@ -2,11 +2,11 @@ package org.greatfree.framework.container.p2p.self.peer;
 
 import java.util.Calendar;
 
-import org.greatfree.framework.container.p2p.message.P2PChatApplicationID;
 import org.greatfree.framework.container.p2p.message.SelfNotification;
 import org.greatfree.framework.container.p2p.message.SelfRequest;
 import org.greatfree.framework.container.p2p.message.SelfResponse;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
 import org.greatfree.server.container.ServerTask;
@@ -20,7 +20,7 @@ class SelfTask implements ServerTask
 	{
 		switch (notification.getApplicationID())
 		{
-			case P2PChatApplicationID.SELF_NOTIFICATION:
+			case SystemMessageType.SELF_NOTIFICATION:
 				System.out.println("SELF_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				SelfNotification sn = (SelfNotification)notification;
 				System.out.println(sn.getMessage());
@@ -34,7 +34,7 @@ class SelfTask implements ServerTask
 	{
 		switch (request.getApplicationID())
 		{
-			case P2PChatApplicationID.SELF_REQUEST:
+			case SystemMessageType.SELF_REQUEST:
 				System.out.println("SELF_REQUEST received @" + Calendar.getInstance().getTime());
 				SelfRequest sr = (SelfRequest)request;
 				System.out.println(sr.getRequest());

@@ -13,6 +13,7 @@ import org.greatfree.exceptions.ThreadAssignmentException;
 import org.greatfree.framework.threading.message.AddInterNotification;
 import org.greatfree.framework.threading.message.AddInterRequest;
 import org.greatfree.framework.threading.message.AddInterResponse;
+import org.greatfree.util.TerminateSignal;
 
 /*
  * The "TTI/tti" represents Two-Node-Thread-Interaction. 10/07/2019, Bing Li
@@ -57,6 +58,7 @@ class StartMaster
 		in.nextLine();
 
 		PlayerSystem.THREADING().dispose(2000);
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		in.close();
 	}
 

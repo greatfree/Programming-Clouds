@@ -6,7 +6,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 
 // Created: 09/10/2018, Bing Li
 // class ChildRootEventActor extends Async<ChildMulticastMessage>
-class ChildRootEventActor extends AsyncMulticastor<ChildMulticastNotification>
+final class ChildRootEventActor extends AsyncMulticastor<ChildMulticastNotification>
 {
 	public ChildRootEventActor(RootSyncMulticastor multicastor)
 	{
@@ -25,5 +25,14 @@ class ChildRootEventActor extends AsyncMulticastor<ChildMulticastNotification>
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	@Override
+	public void perform(ChildMulticastNotification message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 
 }

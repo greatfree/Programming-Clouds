@@ -7,7 +7,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 09/10/2018, Bing Li
-class ChildReadActor extends Async<MulticastRequest>
+final class ChildReadActor extends Async<MulticastRequest>
 {
 	private ChildSyncMulticastor multicastor;
 	
@@ -28,5 +28,14 @@ class ChildReadActor extends Async<MulticastRequest>
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	@Override
+	public void perform(MulticastRequest message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 
 }

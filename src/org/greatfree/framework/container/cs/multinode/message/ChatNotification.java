@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.cs.multinode.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Notification;
 
 // Created: 01/06/2019, Bing Li
@@ -22,7 +23,7 @@ public class ChatNotification extends Notification
 
 	public ChatNotification(String sessionKey, String message, String senderKey, String senderName, String receiverKey, String receiverName)
 	{
-		super(ChatApplicationID.CHAT_NOTIFICATION);
+		super(SystemMessageType.CHAT_NOTIFICATION);
 		this.sessionKey = sessionKey;
 		this.message = message;
 		this.senderKey = senderKey;

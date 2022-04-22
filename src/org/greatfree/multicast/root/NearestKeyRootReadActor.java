@@ -6,7 +6,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 
 // Created: 09/16/2018, Bing Li
 // class NearestKeyRootReadActor extends Async<NearestKeyMulticastRequest>
-class NearestKeyRootReadActor extends AsyncMulticastor<NearestKeyMulticastRequest>
+final class NearestKeyRootReadActor extends AsyncMulticastor<NearestKeyMulticastRequest>
 {
 	public NearestKeyRootReadActor(RootSyncMulticastor multicastor)
 	{
@@ -14,16 +14,25 @@ class NearestKeyRootReadActor extends AsyncMulticastor<NearestKeyMulticastReques
 	}
 
 	@Override
-	public void perform(NearestKeyMulticastRequest message)
+	public void perform(NearestKeyMulticastRequest request)
 	{
 		try
 		{
-			super.getMulticastor().nearestRead(message.getDataKey(), message.getRequest());
+			super.getMulticastor().nearestRead(request.getDataKey(), request.getRequest());
 		}
 		catch (IOException | DistributedNodeFailedException e)
 		{
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	@Override
+	public void perform(NearestKeyMulticastRequest message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 
 }

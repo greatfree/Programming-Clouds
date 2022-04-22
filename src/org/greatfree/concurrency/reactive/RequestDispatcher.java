@@ -10,11 +10,11 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.ConcurrentDispatcher;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.concurrency.ThreadIdleChecker;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.util.Builder;
 import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.ServerStatus;
@@ -44,8 +44,10 @@ import org.greatfree.util.UtilConfig;
 
 // Created: 11/04/2014, Bing Li
 // public class RequestDispatcher<Request extends ServerMessage, Stream extends OutMessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>, ThreadCreator extends RequestThreadCreatable<Request, Stream, Response, RequestThread>> extends ConcurrentDispatcher implements Runnable, CheckIdleable
-public class RequestDispatcher<Request extends ServerMessage, Stream extends MessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>, ThreadCreator extends RequestQueueCreator<Request, Stream, Response, RequestThread>> extends ConcurrentDispatcher
+public final class RequestDispatcher<Request extends ServerMessage, Stream extends MessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>, ThreadCreator extends RequestQueueCreator<Request, Stream, Response, RequestThread>> extends ConcurrentDispatcher
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.cry.server");
+
 	// Declare a map to contain all of the threads. 11/04/2014, Bing Li
 	private Map<String, Runner<RequestThread>> threads;
 	// Declare a queue to contain message streams. 11/04/2014, Bing Li
@@ -361,6 +363,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Mes
 	@Override
 	public void checkIdle() throws InterruptedException
 	{
+//		log.info("I am checking idle state ...");
 		// Check each thread managed by the dispatcher. 11/04/2014, Bing Li
 		for (Runner<RequestThread> thread : this.threads.values())
 		{
@@ -505,9 +508,11 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Mes
 		// The dispatcher usually runs all of the time unless the server is shutdown. To shutdown the dispatcher, the shutdown flag of the collaborator is set to true. 11/04/2014, Bing Li
 		while (!super.isShutdown())
 		{
+//			log.info("0) Here, here, here ...");
 			// Check whether requests are received and saved in the queue. 11/04/2014, Bing Li
 			while (!this.requestQueue.isEmpty())
 			{
+//				log.info("1) Here, here, here ...");
 				// Dequeue the request from the queue of the dispatcher. 11/04/2014, Bing Li
 				// If the request is dequeued before the thread is available, it is possible the dequeued request is lost without being assigned to any threads. 04/20/2018, Bing Li
 //				request = this.requestQueue.poll();
@@ -515,6 +520,7 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Mes
 				// Since all of the threads created by the dispatcher are saved in the map by their unique keys, it is necessary to check whether any alive threads are available. If so, it is possible to assign tasks to them if they are not so busy. 11/04/2014, Bing Li
 				while (this.threads.size() > 0)
 				{
+//					log.info("2) Here, here, here ...");
 					// Select the thread whose load is the least and keep the key of the thread. 11/04/2014, Bing Li
 					selectedThreadKey = CollectionSorter.minValueKey(this.threads);
 					// Since no concurrency is applied here, it is possible that the key is invalid. Thus, just check here. 11/19/2014, Bing Li
@@ -567,9 +573,11 @@ public class RequestDispatcher<Request extends ServerMessage, Stream extends Mes
 			// Check whether the dispatcher is shutdown or not. 11/04/2014, Bing Li
 			if (!super.isShutdown())
 			{
+//				log.info("To be stuck ...");
 				// If the dispatcher is still alive, it denotes that no requests are available temporarily. Just wait for a while. 11/04/2014, Bing Li
 				if (super.holdOn())
 				{
+//					log.info("Out of being stuck ...");
 					// Check whether the request queue is empty. 01/13/2016, Bing Li
 					if (this.requestQueue.size() <= 0)
 					{

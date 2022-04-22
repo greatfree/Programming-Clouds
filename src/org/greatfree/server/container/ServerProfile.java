@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import org.greatfree.util.XPathOnDiskReader;
 
 // Created: 01/09/2019, Bing Li
-public class ServerProfile
+public final class ServerProfile
 {
 	private final static Logger log = Logger.getLogger("org.greatfree.server.container");
 

@@ -177,7 +177,8 @@ public class CrawlServer
 	public void stop() throws InterruptedException, IOException
 	{
 		// Set the terminating signal. The long time running task, scheduling the crawling URLs, needs to be interrupted when the signal is set. 11/24/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 
 		// Stop each listener one by one. 11/24/2014, Bing Li
 //		for (Runner<CrawlingListener, CrawlingListenerDisposer> runner : this.listeners)

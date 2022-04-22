@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Notification;
 
 // Created: 01/16/2019, Bing Li
@@ -12,7 +13,7 @@ public class LeaveClusterNotification extends Notification
 
 	public LeaveClusterNotification(String rootKey, String childKey)
 	{
-		super(P2PChatApplicationID.LEAVE_CLUSTER_NOTIFICATION);
+		super(SystemMessageType.LEAVE_CLUSTER_NOTIFICATION);
 		this.rootKey = rootKey;
 		this.childKey = childKey;
 	}

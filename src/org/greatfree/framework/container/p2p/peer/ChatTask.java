@@ -4,8 +4,8 @@ import java.util.Calendar;
 
 import org.greatfree.framework.container.p2p.message.AddPartnerNotification;
 import org.greatfree.framework.container.p2p.message.ChatNotification;
-import org.greatfree.framework.container.p2p.message.P2PChatApplicationID;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
 import org.greatfree.server.container.ServerTask;
@@ -19,13 +19,13 @@ class ChatTask implements ServerTask
 	{
 		switch (notification.getApplicationID())
 		{
-			case P2PChatApplicationID.ADD_PARTNER_NOTIFICATION:
+			case SystemMessageType.ADD_PARTNER_NOTIFICATION:
 				System.out.println("ADD_PARTNER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				AddPartnerNotification apn = (AddPartnerNotification)notification;
 				System.out.println(apn.getLocalUserName() + " says: " + apn.getInvitation());
 				break;
 				
-			case P2PChatApplicationID.CHAT_NOTIFICATION:
+			case SystemMessageType.CHAT_NOTIFICATION:
 				System.out.println("CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ChatNotification cn = (ChatNotification)notification;
 				System.out.println(cn.getSenderName() + " says, " + cn.getMessage());

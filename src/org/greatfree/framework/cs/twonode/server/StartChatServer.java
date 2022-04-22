@@ -2,7 +2,6 @@ package org.greatfree.framework.cs.twonode.server;
 
 import java.io.IOException;
 
-import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.TerminateSignal;
 
@@ -11,7 +10,7 @@ import org.greatfree.util.TerminateSignal;
  */
 
 // Created: 05/08/2018, Bing Li
-public class StartChatServer
+class StartChatServer
 {
 	public static void main(String[] args)
 	{
@@ -29,6 +28,7 @@ public class StartChatServer
 		System.out.println("Chatting server started ...");
 
 		// After the server is started, the loop check whether the flag of terminating is set. If the terminating flag is true, the process is ended. Otherwise, the process keeps running. 08/22/2014, Bing Li
+		/*
 		while (!TerminateSignal.SIGNAL().isTerminated())
 		{
 			try
@@ -41,5 +41,7 @@ public class StartChatServer
 				e.printStackTrace();
 			}
 		}
+		*/
+		TerminateSignal.SIGNAL().waitTermination();
 	}
 }

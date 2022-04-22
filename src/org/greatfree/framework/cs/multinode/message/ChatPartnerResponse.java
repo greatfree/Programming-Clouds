@@ -1,7 +1,7 @@
 package org.greatfree.framework.cs.multinode.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The response contains the account description. 04/16/2017, Bing Li
@@ -18,7 +18,7 @@ public class ChatPartnerResponse extends ServerMessage
 
 	public ChatPartnerResponse(String userKey, String userName, String description)
 	{
-		super(ChatMessageType.CS_CHAT_PARTNER_RESPONSE);
+		super(SystemMessageType.CS_CHAT_PARTNER_RESPONSE);
 		this.userKey = userKey;
 		this.userName = userName;
 		this.description = description;

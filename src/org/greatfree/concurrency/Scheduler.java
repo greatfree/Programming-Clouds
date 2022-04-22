@@ -80,6 +80,13 @@ public class Scheduler
 	}
 
 	/*
+	public void stop(Runnable task)
+	{
+		this.scheduler.remove(task);
+	}
+	*/
+
+	/*
 	 * Cancel one submitted task. 02/01/2016, Bing Li
 	 */
 	public void cancel(ScheduledFuture<?> task)

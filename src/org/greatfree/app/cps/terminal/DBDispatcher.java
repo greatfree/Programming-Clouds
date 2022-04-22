@@ -7,11 +7,11 @@ import org.greatfree.app.cps.message.MerchandiseRequest;
 import org.greatfree.app.cps.message.MerchandiseResponse;
 import org.greatfree.app.cps.message.MerchandiseStream;
 import org.greatfree.app.cps.message.OrderNotification;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 08/14/2018, Bing Li

@@ -10,7 +10,7 @@ import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 05/13/2018, Bing Li
-public class StartChatClient
+class StartChatClient
 {
 
 	public static void main(String[] args) throws InterruptedException, IOException
@@ -70,7 +70,8 @@ public class StartChatClient
 		// Set the status of the local node as shutdown. 05/26/2017, Bing Li
 //		ServerStatus.FREE().setShutdown();
 		// Set the terminating flag to true. 09/21/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 
 		// Dispose the chatting maintainer. 05/26/2017, Bing Li
 		ChatMaintainer.CS().dispose();

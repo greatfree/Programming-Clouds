@@ -28,4 +28,13 @@ class NearestKeyRootReadActor extends Async<NearestKeyMulticastRequest>
 		}
 	}
 
+	/*
+	@Override
+	public void perform(NearestKeyMulticastRequest message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
+
 }

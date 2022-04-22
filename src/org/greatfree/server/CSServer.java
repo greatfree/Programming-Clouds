@@ -317,16 +317,18 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 		return this.id;
 	}
 	
+	/*
 	public int getPort()
 	{
 		return this.port;
 	}
-	
+
 	public void setPort(int port) throws IOException
 	{
 		this.port = port;
 		this.socket = new ServerSocket(this.port);
 	}
+	*/
 
 	/*
 	public void setPort() throws IOException

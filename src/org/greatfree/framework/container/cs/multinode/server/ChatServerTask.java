@@ -9,7 +9,6 @@ import org.greatfree.chat.ChatMessage;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.cs.multinode.message.AddPartnerNotification;
-import org.greatfree.framework.container.cs.multinode.message.ChatApplicationID;
 import org.greatfree.framework.container.cs.multinode.message.ChatNotification;
 import org.greatfree.framework.container.cs.multinode.message.ChatPartnerRequest;
 import org.greatfree.framework.container.cs.multinode.message.ChatRegistryRequest;
@@ -23,6 +22,7 @@ import org.greatfree.framework.cs.multinode.server.CSAccount;
 import org.greatfree.framework.cs.multinode.server.PrivateChatSessions;
 import org.greatfree.framework.cs.twonode.server.AccountRegistry;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
 import org.greatfree.server.container.ServerTask;
@@ -37,20 +37,20 @@ public class ChatServerTask implements ServerTask
 	{
 		switch (notification.getApplicationID())
 		{
-			case ChatApplicationID.ADD_PARTNER_NOTIFICATION:
+			case SystemMessageType.ADD_PARTNER_NOTIFICATION:
 				System.out.println("ADD_PARTNER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				AddPartnerNotification apn = (AddPartnerNotification)notification;
 				PrivateChatSessions.HUNGARY().addSession(apn.getPartnerKey(), apn.getLocalUserKey());
 				break;
 				
-			case ChatApplicationID.CHAT_NOTIFICATION:
+			case SystemMessageType.CHAT_NOTIFICATION:
 				System.out.println("CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ChatNotification cn = (ChatNotification)notification;
 				// When new messages are available, they are retained in the server for polling. 05/25/2017, Bing Li
 				PrivateChatSessions.HUNGARY().addMessage(cn.getSessionKey(), cn.getSenderKey(), cn.getReceiverKey(), cn.getMessage());
 				break;
 				
-			case ChatApplicationID.SHUTDOWN_SERVER_NOTIFICATION:
+			case SystemMessageType.SHUTDOWN_SERVER_NOTIFICATION:
 				System.out.println("SHUTDOWN_SERVER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ServerStatus.FREE().setShutdown();
 				try
@@ -70,13 +70,13 @@ public class ChatServerTask implements ServerTask
 	{
 		switch (request.getApplicationID())
 		{
-			case ChatApplicationID.CHAT_REGISTRY_REQUEST:
+			case SystemMessageType.CHAT_REGISTRY_REQUEST:
 					System.out.println("CHAT_REGISTRY_REQUEST received @" + Calendar.getInstance().getTime());
 					ChatRegistryRequest crr = (ChatRegistryRequest)request;
 					AccountRegistry.CS().add(new CSAccount(crr.getUserKey(), crr.getUserName(), crr.getDescription()));
 				return new ChatRegistryResponse(true);
 				
-			case ChatApplicationID.CHAT_PARTNER_REQUEST:
+			case SystemMessageType.CHAT_PARTNER_REQUEST:
 					System.out.println("CHAT_PARTNER_REQUEST received @" + Calendar.getInstance().getTime());
 					ChatPartnerRequest cpr = (ChatPartnerRequest)request;
 					// Check whether the account is existed or not? Bing Li
@@ -93,7 +93,7 @@ public class ChatServerTask implements ServerTask
 						return new ChatPartnerResponse(UtilConfig.EMPTY_STRING, UtilConfig.EMPTY_STRING, UtilConfig.EMPTY_STRING);
 					}
 					
-			case ChatApplicationID.POLL_NEW_SESSIONS_REQUEST:
+			case SystemMessageType.POLL_NEW_SESSIONS_REQUEST:
 					System.out.println("POLL_NEW_SESSIONS_REQUEST received @" + Calendar.getInstance().getTime());
 					PollNewSessionsRequest pnsr = (PollNewSessionsRequest)request;
 					if (PrivateChatSessions.HUNGARY().isSessionExisted(pnsr.getReceiverKey()))
@@ -109,7 +109,7 @@ public class ChatServerTask implements ServerTask
 						return new PollNewSessionsResponse(null);
 					}
 					
-			case ChatApplicationID.POLL_NEW_CHATS_REQUEST:
+			case SystemMessageType.POLL_NEW_CHATS_REQUEST:
 					System.out.println("POLL_NEW_CHATS_REQUEST received @" + Calendar.getInstance().getTime());
 					PollNewChatsRequest pncr = (PollNewChatsRequest)request;
 					List<ChatMessage> chatMessages = PrivateChatSessions.HUNGARY().getNewMessages(pncr.getChatSessionKey(), pncr.getReceiverKey());

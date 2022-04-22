@@ -6,10 +6,10 @@ import java.io.Serializable;
 class Student implements Serializable
 {
 	private static final long serialVersionUID = 3228905997184912026L;
-	
+
 	private String name;
 	private int age;
-	
+
 	public Student(String name, int age)
 	{
 		this.name = name;
@@ -20,12 +20,12 @@ class Student implements Serializable
 	{
 		return this.name;
 	}
-	
+
 	public int getAge()
 	{
 		return this.age;
 	}
-	
+
 	public String toString()
 	{
 		return this.name + ", " + this.age;

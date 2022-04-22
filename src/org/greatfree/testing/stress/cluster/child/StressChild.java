@@ -6,6 +6,7 @@ import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.child.container.ClusterChildContainer;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.testing.stress.cluster.StressConfig;
+import org.greatfree.util.TerminateSignal;
 
 // Created: 11/07/2021, Bing Li
 class StressChild
@@ -33,6 +34,7 @@ class StressChild
 
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.child.stop(timeout);
 	}
 

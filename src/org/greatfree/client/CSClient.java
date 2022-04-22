@@ -356,6 +356,11 @@ public class CSClient
 	{
 		this.syncEventer.notify(ip, port, notification);
 	}
+	
+	public void syncNotify(String clientIPKey, ServerMessage notification) throws IOException
+	{
+		this.syncEventer.notify(clientIPKey, notification);
+	}
 
 	/*
 	 * Send notifications asynchronously. 05/01/2017, Bing Li

@@ -1,9 +1,9 @@
 package org.greatfree.testing.coordinator.crawling;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.abandoned.ServerDispatcher;
 import org.greatfree.testing.message.CrawledLinksNotification;
 import org.greatfree.testing.message.MessageType;

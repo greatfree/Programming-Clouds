@@ -15,7 +15,7 @@ import org.greatfree.util.UtilConfig;
 
 // Created: 07/17/2014, Bing Li
 // public class ThreadPool
-public class ThreadPool
+public final class ThreadPool
 {
 	// The built-in thread pool from JDK. 08/10/2014, Bing Li
 //	private ThreadPoolExecutor threadPool;

@@ -7,7 +7,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 09/10/2018, Bing Li
-class ChildEventActor extends Async<MulticastNotification>
+final class ChildEventActor extends Async<MulticastNotification>
 {
 	private ChildSyncMulticastor multicastor;
 	
@@ -28,5 +28,14 @@ class ChildEventActor extends Async<MulticastNotification>
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	@Override
+	public void perform(MulticastNotification message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 
 }

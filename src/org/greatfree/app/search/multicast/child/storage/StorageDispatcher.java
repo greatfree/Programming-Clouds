@@ -6,7 +6,6 @@ import org.greatfree.app.search.multicast.message.CrawledPagesNotification;
 import org.greatfree.app.search.multicast.message.LocationNotification;
 import org.greatfree.app.search.multicast.message.SearchMessageType;
 import org.greatfree.app.search.multicast.message.SearchMultiRequest;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.message.MulticastDIPMessageType;
@@ -14,6 +13,7 @@ import org.greatfree.framework.multicast.message.ShutdownChildrenBroadcastNotifi
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
 import org.greatfree.message.multicast.container.RootAddressNotification;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 09/28/2018, Bing Li

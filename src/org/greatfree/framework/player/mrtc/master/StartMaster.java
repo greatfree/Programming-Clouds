@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.greatfree.concurrency.threading.PlayerSystem;
 import org.greatfree.concurrency.threading.ThreadConfig;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.util.TerminateSignal;
 
 // Created: 09/30/2019, Bing Li
 class StartMaster
@@ -36,6 +37,7 @@ class StartMaster
 		in.nextLine();
 
 		PlayerSystem.THREADING().dispose(2000);
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		in.close();
 	}
 

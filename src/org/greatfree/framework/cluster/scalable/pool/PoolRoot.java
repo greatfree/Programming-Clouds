@@ -7,6 +7,7 @@ import org.greatfree.cluster.root.container.ClusterServerContainer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.scalable.ScalableConfig;
+import org.greatfree.util.TerminateSignal;
 
 /*
  * The program is the root of the pool cluster. 09/05/2020, Bing Li
@@ -43,6 +44,7 @@ class PoolRoot
 
 	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 	

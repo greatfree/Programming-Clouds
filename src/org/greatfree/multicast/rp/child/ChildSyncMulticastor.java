@@ -129,7 +129,9 @@ class ChildSyncMulticastor
 										isSendingNormal = true;
 										// Send the message to the immediate child of the local node. 11/11/2014, Bing Li
 //										this.eventer.notify(new IPPort(notification.getIP(childrenKey)), notification);
-										this.eventer.notify(new IPResource(childrenFromRoot.get(childrenKey)), notification);
+										IPAddress ip = childrenFromRoot.get(childrenKey);
+//										this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), notification);
+										this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), notification);
 										// Jump out the loop after sending the message successfully. 11/11/2014, Bing Li
 										break;
 									}
@@ -171,7 +173,9 @@ class ChildSyncMulticastor
 							{
 								// If the instance of FreeClient is valid, a message can be created. Different from the above one, the message does not contain children IPs of the immediate node of the local node. 11/11/2014, Bing Li
 //								this.eventer.notify(new IPPort(notification.getIP(childrenKey)), notification);
-								this.eventer.notify(new IPResource(childrenFromRoot.get(childrenKey)), notification);
+								IPAddress ip = childrenFromRoot.get(childrenKey);
+//								this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), notification);
+								this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), notification);
 							}
 							catch (IOException e)
 							{
@@ -212,7 +216,8 @@ class ChildSyncMulticastor
 						{
 							// Send the message to the immediate node of the local node. 11/11/2014, Bing Li
 //							this.clientPool.send(new IPPort(message.getIP(serverAddressEntry.getKey())), message);
-							this.eventer.notify(new IPResource(entry.getValue()), notification);
+//							this.eventer.notify(new IPResource(entry.getValue().getPeerKey(), entry.getValue().getPeerName(), entry.getValue().getIP(), entry.getValue().getPort()), notification);
+							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), notification);
 						}
 						catch (IOException e)
 						{
@@ -314,7 +319,9 @@ class ChildSyncMulticastor
 										isSendingNormal = true;
 										// Send the message to the immediate child of the local node. 11/11/2014, Bing Li
 //										this.eventer.notify(new IPPort(request.getIP(childrenKey)), request);
-										this.eventer.notify(new IPResource(childrenFromRoot.get(childrenKey)), request);
+										IPAddress ip = childrenFromRoot.get(childrenKey);
+//										this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), request);
+										this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
 										// Jump out the loop after sending the message successfully. 11/11/2014, Bing Li
 										break;
 									}
@@ -358,7 +365,9 @@ class ChildSyncMulticastor
 							{
 								// If the instance of FreeClient is valid, a message can be created. Different from the above one, the message does not contain children IPs of the immediate node of the local node. 11/11/2014, Bing Li
 //								this.eventer.notify(new IPPort(request.getIP(childrenKey)), request);
-								this.eventer.notify(new IPResource(childrenFromRoot.get(childrenKey)), request);
+								IPAddress ip = childrenFromRoot.get(childrenKey);
+//								this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), request);
+								this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
 							}
 							catch (IOException e)
 							{
@@ -394,7 +403,8 @@ class ChildSyncMulticastor
 						{
 							// Send the message to the immediate node of the local node. 11/11/2014, Bing Li
 //							this.clientPool.send(new IPPort(request.getIP(entry.getKey())), request);
-							this.eventer.notify(new IPResource(entry.getValue()), request);
+//							this.eventer.notify(new IPResource(entry.getValue().getPeerKey(), entry.getValue().getPeerName(), entry.getValue().getIP(), entry.getValue().getPort()), request);
+							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), request);
 						}
 						catch (IOException e)
 						{

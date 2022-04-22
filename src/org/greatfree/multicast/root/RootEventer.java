@@ -8,7 +8,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 08/26/2018, Bing Li
-class RootEventer
+final class RootEventer
 {
 //	private final static Logger log = Logger.getLogger("org.greatfree.multicast.root");
 

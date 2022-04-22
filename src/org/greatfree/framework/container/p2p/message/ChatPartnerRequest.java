@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 01/12/2019, Bing Li
@@ -11,7 +12,7 @@ public class ChatPartnerRequest extends Request
 
 	public ChatPartnerRequest(String partnerKey)
 	{
-		super(P2PChatApplicationID.PEER_CHAT_PARTNER_REQUEST);
+		super(SystemMessageType.PEER_CHAT_PARTNER_REQUEST);
 		this.partnerKey = partnerKey;
 	}
 

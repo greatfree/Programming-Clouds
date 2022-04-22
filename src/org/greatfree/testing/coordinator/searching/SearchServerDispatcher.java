@@ -1,12 +1,12 @@
 package org.greatfree.testing.coordinator.searching;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.InitReadNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.SystemMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.abandoned.ServerDispatcher;
 import org.greatfree.testing.message.IsPublisherExistedRequest;
 import org.greatfree.testing.message.IsPublisherExistedResponse;

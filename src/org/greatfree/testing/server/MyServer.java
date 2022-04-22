@@ -141,7 +141,8 @@ class MyServer
 	public void stop() throws IOException, InterruptedException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		// Close the socket for the server. 08/10/2014, Bing Li
 		this.mySocket.close();
 		// Close the socket for the administrator server. 01/20/2016, Bing Li

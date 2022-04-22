@@ -8,7 +8,7 @@ import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 08/26/2018, Bing Li
-class StartRoot
+final class StartRoot
 {
 
 	public static void main(String[] args)

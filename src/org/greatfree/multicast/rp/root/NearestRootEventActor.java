@@ -29,4 +29,13 @@ class NearestRootEventActor extends Async<NearestMulticastNotification>
 		}
 	}
 
+	/*
+	@Override
+	public void perform(NearestMulticastNotification message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
+
 }

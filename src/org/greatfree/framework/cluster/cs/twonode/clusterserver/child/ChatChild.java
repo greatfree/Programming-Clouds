@@ -7,6 +7,7 @@ import org.greatfree.cluster.child.container.ClusterChildContainer;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cs.twonode.server.AccountRegistry;
 import org.greatfree.framework.multicast.MulticastConfig;
+import org.greatfree.util.TerminateSignal;
 
 // Created: 01/13/2019, Bing Li
 public class ChatChild
@@ -36,6 +37,7 @@ public class ChatChild
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 
 		// Dispose the account registry. 04/30/2017, Bing Li
 		AccountRegistry.CS().dispose();

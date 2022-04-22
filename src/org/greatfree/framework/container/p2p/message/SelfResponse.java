@@ -1,6 +1,7 @@
 package org.greatfree.framework.container.p2p.message;
 
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 // Created: 10/03/2019, Bing Li
 public class SelfResponse extends ServerMessage
@@ -11,7 +12,7 @@ public class SelfResponse extends ServerMessage
 
 	public SelfResponse(String response)
 	{
-		super(P2PChatApplicationID.SELF_RESPONSE);
+		super(SystemMessageType.SELF_RESPONSE);
 		this.response = response;
 	}
 

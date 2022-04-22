@@ -28,4 +28,13 @@ class SizeRootReadActor extends Async<SizeMulticastRequest>
 		}
 	}
 
+	/*
+	@Override
+	public void perform(SizeMulticastRequest message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
+
 }

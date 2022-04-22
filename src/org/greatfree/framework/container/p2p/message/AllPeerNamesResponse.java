@@ -3,6 +3,7 @@ package org.greatfree.framework.container.p2p.message;
 import java.util.Map;
 
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 // Created: 09/26/2019, Bing Li
 public class AllPeerNamesResponse extends ServerMessage
@@ -13,7 +14,7 @@ public class AllPeerNamesResponse extends ServerMessage
 
 	public AllPeerNamesResponse(Map<String, String> names)
 	{
-		super(P2PChatApplicationID.ALL_PEER_NAMES_RESPONSE);
+		super(SystemMessageType.ALL_PEER_NAMES_RESPONSE);
 		this.names = names;
 	}
 

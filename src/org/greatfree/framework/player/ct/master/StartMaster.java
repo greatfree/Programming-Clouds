@@ -9,6 +9,7 @@ import org.greatfree.concurrency.threading.ThreadConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.exceptions.ThreadAssignmentException;
 import org.greatfree.framework.threading.message.PrintTaskNotification;
+import org.greatfree.util.TerminateSignal;
 
 // Created: 09/29/2019, Bing Li
 class StartMaster
@@ -34,6 +35,7 @@ class StartMaster
 		in.nextLine();
 
 		PlayerSystem.THREADING().dispose(2000);
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		in.close();
 	}
 

@@ -1,7 +1,7 @@
 package org.greatfree.abandoned.cache.distributed.root;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 /*

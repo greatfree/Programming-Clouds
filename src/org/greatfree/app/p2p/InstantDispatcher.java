@@ -7,11 +7,11 @@ import org.greatfree.app.p2p.message.GreetingResponse;
 import org.greatfree.app.p2p.message.GreetingStream;
 import org.greatfree.app.p2p.message.HelloNotification;
 import org.greatfree.app.p2p.message.P2PMessageType;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 08/19/2018, Bing Li

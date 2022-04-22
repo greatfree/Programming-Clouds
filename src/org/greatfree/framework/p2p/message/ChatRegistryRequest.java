@@ -1,7 +1,7 @@
 package org.greatfree.framework.p2p.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.util.UtilConfig;
 
 /*
@@ -20,7 +20,7 @@ public class ChatRegistryRequest extends ServerMessage
 
 	public ChatRegistryRequest(String peerID, String peerName, String peerDescription, String preference)
 	{
-		super(ChatMessageType.PEER_CHAT_REGISTRY_REQUEST);
+		super(SystemMessageType.PEER_CHAT_REGISTRY_REQUEST);
 		this.peerID = peerID;
 		this.peerName = peerName;
 		this.peerDescription = peerDescription;
@@ -29,7 +29,7 @@ public class ChatRegistryRequest extends ServerMessage
 
 	public ChatRegistryRequest(String peerID)
 	{
-		super(ChatMessageType.PEER_CHAT_REGISTRY_REQUEST);
+		super(SystemMessageType.PEER_CHAT_REGISTRY_REQUEST);
 		this.peerID = peerID;
 		this.peerName = UtilConfig.EMPTY_STRING;
 		this.peerDescription = UtilConfig.EMPTY_STRING;

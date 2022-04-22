@@ -1,13 +1,14 @@
 package org.greatfree.message.multicast;
 
-import org.greatfree.message.ServerMessage;
+import org.greatfree.message.container.Notification;
 
 /*
  * The message is a broadcast response to be responded to the initial requester after retrieving the required data. 11/28/2014, Bing Li
  */
 
 // Created: 05/13/2017, Bing Li
-public class MulticastResponse extends ServerMessage
+// public class MulticastResponse extends ServerMessage
+public class MulticastResponse extends Notification
 {
 	private static final long serialVersionUID = 6563131960227489984L;
 

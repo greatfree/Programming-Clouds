@@ -119,7 +119,7 @@ class ClusterRoot
 //				this.partitionChild(ip.getIPKey());
 			}
 			
-			this.broadcastNotify(new RootAddressNotification(new IPAddress(this.root.getPeerID(), this.root.getPeerIP(), this.root.getPort())));
+			this.broadcastNotify(new RootAddressNotification(new IPAddress(this.root.getPeerID(), this.root.getPeerName(), this.root.getPeerIP(), this.root.getPort())));
 		}
 	
 //		int partitionSize = ipResponse.getIPs().size() / this.replicas + 1;

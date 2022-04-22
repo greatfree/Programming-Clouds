@@ -28,4 +28,13 @@ class ChildKeyRootReadActor extends Async<ChildKeyMulticastRequest>
 		}
 	}
 
+	/*
+	@Override
+	public void perform(ChildKeyMulticastRequest message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
+
 }

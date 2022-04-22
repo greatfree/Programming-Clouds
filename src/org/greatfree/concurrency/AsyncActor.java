@@ -3,7 +3,7 @@ package org.greatfree.concurrency;
 import org.greatfree.concurrency.reactive.NotificationObjectQueue;
 
 // Created: 09/09/2018, Bing Li
-class AsyncActor<Notification> extends NotificationObjectQueue<Notification>
+final class AsyncActor<Notification> extends NotificationObjectQueue<Notification>
 {
 	private Async<Notification> actor;
 	private long waitTime;

@@ -7,6 +7,10 @@ package org.greatfree.chat.message;
 // Created: 04/15/2017, Bing Li
 public class ChatMessageType
 {
+	/*
+	 * All the below messages are categorized into org.greatfree.message.SystemMessageType. 04/13/2022, Bing Li
+	 */
+	/*
 	public final static int CS_CHAT_REGISTRY_REQUEST = 101;
 	public final static int CS_CHAT_REGISTRY_RESPONSE = 102;
 	public final static int CS_CHAT_PARTNER_REQUEST = 103;
@@ -36,4 +40,5 @@ public class ChatMessageType
 	
 	public final static int POLL_SERVER_STATUS_REQUEST = 118;
 	public final static int POLL_SERVER_STATUS_RESPONSE = 119;
+	*/
 }

@@ -2,7 +2,6 @@ package org.greatfree.testing.cluster.coordinator.client;
 
 import java.util.Calendar;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -11,6 +10,7 @@ import org.greatfree.message.ServerMessage;
 import org.greatfree.message.SystemMessageType;
 import org.greatfree.server.InitReadFeedbackThread;
 import org.greatfree.server.InitReadFeedbackThreadCreator;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.RegisterClientThread;
 import org.greatfree.server.RegisterClientThreadCreator;
 import org.greatfree.server.abandoned.ServerDispatcher;

@@ -3,6 +3,7 @@ package org.greatfree.framework.container.p2p.message;
 import java.util.Map;
 
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.util.IPAddress;
 
 // Created: 09/21/2019, Bing Li
@@ -14,7 +15,7 @@ public class AllRegisteredIPsResponse extends ServerMessage
 
 	public AllRegisteredIPsResponse(Map<String, IPAddress> ips)
 	{
-		super(P2PChatApplicationID.ALL_REGISTERED_IPS_RESPONSE);
+		super(SystemMessageType.ALL_REGISTERED_IPS_RESPONSE);
 		this.ips = ips;
 	}
 

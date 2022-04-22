@@ -2,14 +2,14 @@ package org.greatfree.framework.cps.cache.terminal;
 
 import java.util.Calendar;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.chat.message.ShutdownServerNotification;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.cps.cache.terminal.man.ShutdownTerminalServerThread;
 import org.greatfree.framework.cps.cache.terminal.man.ShutdownTerminalServerThreadCreator;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 07/06/2018, Bing Li
@@ -49,7 +49,7 @@ public class ManTerminalDispatcher extends ServerDispatcher<ServerMessage>
 		// Check the types of received messages. 04/17/2017, Bing Li
 		switch (message.getMessage().getType())
 		{	
-			case ChatMessageType.SHUTDOWN_SERVER_NOTIFICATION:
+			case SystemMessageType.SHUTDOWN_SERVER_NOTIFICATION:
 				System.out.println("SHUTDOWN_SERVER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				// Check whether the shutdown notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.shutdownNotificationDispatcher.isReady())

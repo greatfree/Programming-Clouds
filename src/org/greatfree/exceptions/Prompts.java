@@ -8,6 +8,7 @@ package org.greatfree.exceptions;
 public class Prompts
 {
 	public final static String SOCKET_GOT_EXCEPTION = "Socket got exceptions!";
+	public final static String SERVER_IO_GOT_EXCEPTION = "Server IO got exceptions!";
 	public final static String SERVER_IO_SHUTDOWN = "Server IO is shutdown for remote disconnection!";
 	public final static String LISTENER_CLOSED = "Listener is closed!";
 	public final static String PEER_DISCONNECTED = "Peer disconnected!";

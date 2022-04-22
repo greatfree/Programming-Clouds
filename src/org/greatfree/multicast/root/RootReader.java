@@ -11,7 +11,7 @@ import org.greatfree.message.multicast.MulticastResponse;
 
 // Created: 08/26/2018, Bing Li
 //public class RootReader<Response extends ClusterBroadcastResponse>
-class RootReader
+final class RootReader
 {
 	/*
 	// The creator to generate broadcast requests. 11/28/2014, Bing Li

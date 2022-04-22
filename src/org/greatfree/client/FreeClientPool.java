@@ -11,6 +11,7 @@ import org.greatfree.util.UtilConfig;
 
 /*
  * The pool, RetrievablePool, is mainly used for the resource of FreeClient. Some problems exist when instances of FreeClient are exposed outside since they might be disposed inside in the pool.
+ * 
  * It is a better solution to wrap the instances of FreeClient and the management on them. The stuffs should be invisible to outside. For that, a new pool, FreeClientPool, is proposed. 11/19/2014, Bing Li
  */
 
@@ -195,7 +196,15 @@ public class FreeClientPool
 	{
 		this.pool.addSource(new IPResource(ip, port));
 	}
-	
+
+	/*
+	public void addIP(String peerKey, String peerName, String ip, int port)
+	{
+//		this.pool.addSource(new IPResource(new IPAddress(peerKey, peerName, ip, port)));
+		this.pool.addSource(new IPResource(peerKey, peerName, ip, port));
+	}
+	*/
+
 	public void clearAll()
 	{
 		this.pool.clearSource();

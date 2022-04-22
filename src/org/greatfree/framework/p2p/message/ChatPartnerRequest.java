@@ -1,7 +1,7 @@
 package org.greatfree.framework.p2p.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The request asks the chatting registry server to obtain the potential chatting partners. 04/16/2017, Bing Li
@@ -16,7 +16,7 @@ public class ChatPartnerRequest extends ServerMessage
 
 	public ChatPartnerRequest(String partnerKey)
 	{
-		super(ChatMessageType.PEER_CHAT_PARTNER_REQUEST);
+		super(SystemMessageType.PEER_CHAT_PARTNER_REQUEST);
 		this.partnerKey = partnerKey;
 	}
 

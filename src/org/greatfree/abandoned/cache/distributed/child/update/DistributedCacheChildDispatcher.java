@@ -4,10 +4,10 @@ import java.util.Calendar;
 
 import org.greatfree.cache.message.CacheMessageType;
 import org.greatfree.cache.message.update.PutNotification;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 07/17/2017, Bing Li

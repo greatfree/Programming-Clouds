@@ -10,6 +10,7 @@ import org.greatfree.exceptions.ThreadAssignmentException;
 import org.greatfree.framework.threading.message.AddRequest;
 import org.greatfree.framework.threading.message.AddResponse;
 import org.greatfree.server.container.ServerTask;
+import org.greatfree.util.TerminateSignal;
 
 /*
  * The TR/tr represents the thread reading. 09/28/2019, Bing Li
@@ -41,6 +42,7 @@ class Master
 	
 	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
 	{
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.master.killAll(timeout);
 		this.master.shutdownSlave(timeout);
 		this.master.stop(timeout);

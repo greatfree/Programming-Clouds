@@ -16,6 +16,7 @@ import org.greatfree.framework.threading.message.AddRequest;
 import org.greatfree.framework.threading.message.AddResponse;
 import org.greatfree.framework.threading.message.MultiplyRequest;
 import org.greatfree.framework.threading.message.MultiplyResponse;
+import org.greatfree.util.TerminateSignal;
 import org.greatfree.util.Time;
 
 // Created: 09/30/2019, Bing Li
@@ -89,6 +90,7 @@ class StartMaster
 		in.nextLine();
 
 		PlayerSystem.THREADING().dispose(2000);
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		in.close();
 	}
 

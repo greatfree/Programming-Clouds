@@ -27,4 +27,13 @@ class RandomChildrenRootEventActor extends AsyncMulticastor<RandomChildrenMultic
 		
 	}
 
+	/*
+	@Override
+	public void perform(RandomChildrenMulticastNotification message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
+
 }

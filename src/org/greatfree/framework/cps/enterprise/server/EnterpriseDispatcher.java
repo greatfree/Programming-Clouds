@@ -2,7 +2,6 @@ package org.greatfree.framework.cps.enterprise.server;
 
 import java.util.Calendar;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -16,6 +15,7 @@ import org.greatfree.framework.cps.enterprise.message.SessionBeanRequest;
 import org.greatfree.framework.cps.enterprise.message.SessionBeanResponse;
 import org.greatfree.framework.cps.enterprise.message.SessionBeanStream;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 04/21/2020, Bing Li

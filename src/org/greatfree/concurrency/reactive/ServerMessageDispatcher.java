@@ -3,9 +3,9 @@ package org.greatfree.concurrency.reactive;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 
 /*
  * This is the base of a server message dispatcher. All of the messages sent to the server are dispatched by the class concurrently. 07/30/2014, Bing Li

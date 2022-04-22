@@ -1,7 +1,7 @@
 package org.greatfree.framework.p2p.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The message encloses the chatting partner to be added. 04/15/2017, Bing Li
@@ -18,7 +18,7 @@ public class AddPartnerNotification extends ServerMessage
 	
 	public AddPartnerNotification(String localUserName, String partnerName, String invitation)
 	{
-		super(ChatMessageType.PEER_ADD_PARTNER_NOTIFICATION);
+		super(SystemMessageType.PEER_ADD_PARTNER_NOTIFICATION);
 		this.localUserName = localUserName;
 		this.partnerName = partnerName;
 		this.invitation = invitation;

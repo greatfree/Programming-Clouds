@@ -53,7 +53,7 @@ import org.greatfree.util.UtilConfig;
 // Created: 11/04/2014, Bing Li
 //public class NotificationDispatcher<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>, ThreadCreator extends NotificationThreadCreatable<Notification, NotificationThread>> extends ConcurrentDispatcher implements Runnable, CheckIdleable
 // public class NotificationDispatcher<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>> extends ConcurrentDispatcher
-public class NotificationDispatcher<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>, ThreadCreator extends NotificationQueueCreator<Notification, NotificationThread>> extends ConcurrentDispatcher
+public final class NotificationDispatcher<Notification extends ServerMessage, NotificationThread extends NotificationQueue<Notification>, ThreadCreator extends NotificationQueueCreator<Notification, NotificationThread>> extends ConcurrentDispatcher
 {
 //	private final static Logger log = Logger.getLogger("org.greatfree.concurrency.reactive");
 
@@ -431,6 +431,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 	@Override
 	public void checkIdle() throws InterruptedException
 	{
+//		log.info("I am checking idle state ...");
 		// Check each thread managed by the dispatcher. 11/04/2014, Bing Li
 //		for (NotificationThread thread : this.threads.values())
 //		System.out.println("\n==============================================");
@@ -540,7 +541,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 		if (this.threads.size() <= 0)
 		{
 			// Create a new thread. 11/29/2014, Bing Li
-			NotificationThread thread = this.threadCreator.createInstance(this.getMaxTaskSizePerThread());
+			NotificationThread thread = this.threadCreator.createInstance(super.getMaxTaskSizePerThread());
 //			log.info("One new thread is created ...");
 			/*
 			 * 	The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
@@ -583,10 +584,12 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 		// The dispatcher usually runs all of the time unless the server is shutdown. To shutdown the dispatcher, the shutdown flag of the collaborator is set to true. 11/05/2014, Bing Li
 		while (!super.isShutdown())
 		{
+//			log.info("0) Here, here, here ...");
 //			log.info("NotificationDispatcher is not shutdown ...");
 			// Check whether notifications are received and saved in the queue. 11/05/2014, Bing Li
 			while (!this.notificationQueue.isEmpty())
 			{
+//				log.info("1) Here, here, here ...");
 //				log.info("The size of notificationQueue is " + this.notificationQueue.size());
 				// Dequeue the notification from the queue of the dispatcher. 11/05/2014, Bing Li
 				// If the notification is dequeued before the thread is available, it is possible the dequeued notification is lost without being assigned to any threads. 04/20/2018, Bing Li
@@ -597,6 +600,7 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 				// Since all of the threads created by the dispatcher are saved in the map by their unique keys, it is necessary to check whether any alive threads are available. If so, it is possible to assign tasks to them if they are not so busy. 11/05/2014, Bing Li
 				while (this.threads.size() > 0)
 				{
+//					log.info("2) Here, here, here ...");
 //					log.info("The size of threads is " + this.threads.size());
 					// Select the thread whose load is the least and keep the key of the thread. 11/05/2014, Bing Li
 					selectedThreadKey = CollectionSorter.minValueKey(this.threads);
@@ -653,9 +657,11 @@ public class NotificationDispatcher<Notification extends ServerMessage, Notifica
 			// Check whether the dispatcher is shutdown or not. 11/05/2014, Bing Li
 			if (!super.isShutdown())
 			{
+//				log.info("To be stuck ...");
 				// If the dispatcher is still alive, it denotes that no notifications are available temporarily. Just wait for a while. 11/05/2014, Bing Li
 				if (super.holdOn())
 				{
+//					log.info("Out of being stuck ...");
 					/*
 					 * 
 					 * The run() method is critical. It should NOT be shutdown by the dispatcher itself. It can only be shutdown by outside managers. Otherwise, new messages might NOT be processed because no new threads are created for the run() is returned and the dispatcher is dead. 11/07/2021, Bing Li

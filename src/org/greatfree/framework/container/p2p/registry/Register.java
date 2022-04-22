@@ -25,13 +25,13 @@ import org.greatfree.framework.p2p.message.ChatPartnerResponse;
 import org.greatfree.framework.p2p.message.ChatRegistryResponse;
 import org.greatfree.framework.p2p.registry.AccountRegistry;
 import org.greatfree.framework.p2p.registry.PeerChatAccount;
+import org.greatfree.framework.p2p.registry.PeerRegistry;
 import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.message.PortResponse;
 import org.greatfree.message.RegisterPeerResponse;
 import org.greatfree.message.UnregisterPeerResponse;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.server.PeerAccount;
-import org.greatfree.server.PeerRegistry;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.IPPort;
 import org.greatfree.util.Tools;
@@ -40,6 +40,8 @@ import org.greatfree.util.UtilConfig;
 // Created: 01/12/2019, Bing Li
 class Register
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.framework.container.p2p.registry");
+
 	public static void register() throws SocketException
 	{
 		// Register the ports to avoid potential conflicts. 05/02/2017, Bing Li
@@ -114,9 +116,11 @@ class Register
 	
 	public static ClusterIPResponse retrieveClusterIP(ClusterIPRequest req)
 	{
+//		log.info("rootKey = " + req.getRootKey());
 		Set<String> childrenKeys = Clusters.SYSTEM().getChildKeys(req.getRootKey());
 		if (childrenKeys != UtilConfig.NO_KEYS)
 		{
+//			log.info("childrenKeys' size = " + childrenKeys.size());
 			return new ClusterIPResponse(AccountRegistry.APPLICATION().getIPPorts(PeerRegistry.SYSTEM().getIPPorts(childrenKeys)));
 		}
 		else
@@ -142,6 +146,7 @@ class Register
 
 	public static IsRootOnlineResponse isRootOnline(IsRootOnlineRequest req)
 	{
+//		log.info("rootID = " + req.getRootID());
 		Clusters.SYSTEM().joinCluster(req.getRootID(), req.getChildKey());
 		IPAddress rootIP = PeerRegistry.SYSTEM().getAddress(req.getRootID());
 		if (rootIP != UtilConfig.NO_IP_ADDRESS)

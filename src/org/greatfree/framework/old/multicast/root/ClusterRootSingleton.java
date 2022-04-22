@@ -28,7 +28,7 @@ import org.greatfree.framework.old.multicast.message.root.OldHelloWorldAnycastRe
 import org.greatfree.framework.old.multicast.message.root.RootIPAddressBroadcastNotificationCreator;
 import org.greatfree.framework.old.multicast.message.root.ShutdownChildrenBroadcastNotificationCreator;
 import org.greatfree.framework.p2p.RegistryConfig;
-import org.greatfree.message.multicast.ClusterIPRequest;
+import org.greatfree.message.multicast.PrimitiveClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.multicast.root.abandoned.ClusterRootAnycastNotifier;
 import org.greatfree.multicast.root.abandoned.ClusterRootAnycastReader;
@@ -246,7 +246,7 @@ class ClusterRootSingleton
 		*/
 		
 		// Retrieve all of the registered IP addresses of the distributed nodes in the cluster from the registry server. 05/08/2017, Bing Li
-		ClusterIPResponse ipResponse = (ClusterIPResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new ClusterIPRequest());
+		ClusterIPResponse ipResponse = (ClusterIPResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new PrimitiveClusterIPRequest());
 		
 		if (ipResponse.getIPs() != null)
 		{
@@ -269,7 +269,7 @@ class ClusterRootSingleton
 		// Initialize the cluster root IP address broadcast notifier. 05/08/2017, Bing Li
 		this.rootIPBroadcastNotifier = new ClusterRootBroadcastNotifier<IPAddress, OldRootIPAddressBroadcastNotification, RootIPAddressBroadcastNotificationCreator>(this.peer.getClientPool(), MulticastConfig.MULTICASTOR_POOL_SIZE, MulticastConfig.RESOURCE_WAIT_TIME, new RootIPAddressBroadcastNotificationCreator());
 		// Broadcast the root IP address to each child in the cluster. 05/20/2017, Bing Li
-		this.rootIPBroadcastNotifier.notifiy(new IPAddress(this.peer.getPeerID(), this.peer.getPeerIP(), this.peer.getPort()), MulticastConfig.ROOT_BRANCH_COUNT, MulticastConfig.SUB_BRANCH_COUNT);
+		this.rootIPBroadcastNotifier.notifiy(new IPAddress(this.peer.getPeerID(), this.peer.getPeerName(), this.peer.getPeerIP(), this.peer.getPort()), MulticastConfig.ROOT_BRANCH_COUNT, MulticastConfig.SUB_BRANCH_COUNT);
 
 		// Initialize the cluster root broadcast notifier. 05/08/2017, Bing Li
 		this.helloWorldBroadcastNotifier = new ClusterRootBroadcastNotifier<HelloWorld, OldHelloWorldBroadcastNotification, HelloWorldBroadcastNotificationCreator>(this.peer.getClientPool(), MulticastConfig.MULTICASTOR_POOL_SIZE, MulticastConfig.RESOURCE_WAIT_TIME, new HelloWorldBroadcastNotificationCreator());

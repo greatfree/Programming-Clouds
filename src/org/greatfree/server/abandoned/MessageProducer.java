@@ -3,11 +3,11 @@ package org.greatfree.server.abandoned;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.RunnerTask;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 
 // Created: 01/13/2019, Bing Li
 public class MessageProducer<Consumer extends ServerDispatcher<ServerMessage>> extends RunnerTask

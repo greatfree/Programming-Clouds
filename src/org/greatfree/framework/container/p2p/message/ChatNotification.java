@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Notification;
 import org.greatfree.util.UtilConfig;
 
@@ -15,14 +16,14 @@ public class ChatNotification extends Notification
 
 	public ChatNotification(String message, String senderName)
 	{
-		super(P2PChatApplicationID.CHAT_NOTIFICATION);
+		super(SystemMessageType.CHAT_NOTIFICATION);
 		this.message = message;
 		this.senderName = senderName;
 	}
 
 	public ChatNotification(String message)
 	{
-		super(P2PChatApplicationID.CHAT_NOTIFICATION);
+		super(SystemMessageType.CHAT_NOTIFICATION);
 		this.message = message;
 		this.senderName = UtilConfig.EMPTY_STRING;
 	}

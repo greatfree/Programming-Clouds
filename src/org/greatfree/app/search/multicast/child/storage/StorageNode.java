@@ -46,7 +46,8 @@ class StorageNode
 	{
 		this.peer.stop(timeout);
 		ChildMulticastor.CHILD().stop();
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 	
 	public void start() throws IOException, ClassNotFoundException, RemoteReadException

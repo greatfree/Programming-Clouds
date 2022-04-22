@@ -6,13 +6,13 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
+import org.greatfree.framework.p2p.registry.PeerRegistry;
 import org.greatfree.framework.streaming.StreamConfig;
 import org.greatfree.framework.streaming.message.SubscribeNotification;
 import org.greatfree.framework.streaming.message.UnsubscribeNotification;
 import org.greatfree.message.PeerAddressRequest;
 import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.server.Peer;
-import org.greatfree.server.PeerRegistry;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.TerminateSignal;
 import org.greatfree.util.Tools;
@@ -45,7 +45,8 @@ class PubSubServer
 	
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		PeerRegistry.SYSTEM().dispose();
 
 		this.peer.stop(timeout);

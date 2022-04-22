@@ -3,7 +3,7 @@ package org.greatfree.multicast.root;
 import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 09/15/2018, Bing Li
-class SizeMulticastRequest
+public class SizeMulticastRequest
 {
 	private MulticastRequest request;
 	private int childrenSize;

@@ -74,6 +74,7 @@ class Worker
 	public void shutdown(long timeout) throws ClassNotFoundException, InterruptedException, IOException, RemoteReadException
 	{
 		ServerStatus.FREE().setShutdown();
+//		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.dt.stop(timeout);
 	}
 	

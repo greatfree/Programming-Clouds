@@ -19,7 +19,7 @@ import org.greatfree.util.Rand;
 import org.greatfree.util.UtilConfig;
 
 // Created: 09/16/2018, Bing Li
-class ChildSyncMulticastor
+final class ChildSyncMulticastor
 {
 	private SyncRemoteEventer<ServerMessage> eventer;
 	
@@ -115,7 +115,9 @@ class ChildSyncMulticastor
 										isSendingNormal = true;
 //										System.out.println("ChildSyncMulticastor-notify(): IP = " + notification.getIP(childrenKey));
 										// Send the message to the immediate child of the local node. 11/11/2014, Bing Li
-										this.eventer.notify(new IPResource(childrenFromRoot.get(childrenKey)), notification);
+										IPAddress ip = childrenFromRoot.get(childrenKey);
+//										this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), notification);
+										this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), notification);
 										// Jump out the loop after sending the message successfully. 11/11/2014, Bing Li
 										break;
 									}
@@ -156,7 +158,9 @@ class ChildSyncMulticastor
 							try
 							{
 								// If the instance of FreeClient is valid, a message can be created. Different from the above one, the message does not contain children IPs of the immediate node of the local node. 11/11/2014, Bing Li
-								this.eventer.notify(new IPResource(childrenFromRoot.get(childrenKey)), notification);
+								IPAddress ip = childrenFromRoot.get(childrenKey);
+//								this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), notification);
+								this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), notification);
 							}
 							catch (IOException e)
 							{
@@ -198,7 +202,8 @@ class ChildSyncMulticastor
 						{
 							// Send the message to the immediate node of the local node. 11/11/2014, Bing Li
 //							this.clientPool.send(new IPPort(message.getIP(serverAddressEntry.getKey())), message);
-							this.eventer.notify(new IPResource(entry.getValue()), notification);
+//							this.eventer.notify(new IPResource(entry.getValue().getPeerKey(), entry.getValue().getPeerName(), entry.getValue().getIP(), entry.getValue().getPort()), notification);
+							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), notification);
 						}
 						catch (IOException e)
 						{
@@ -292,7 +297,9 @@ class ChildSyncMulticastor
 										// Set the sending gets normal. 05/18/2017, Bing Li
 										isSendingNormal = true;
 										// Send the message to the immediate child of the local node. 11/11/2014, Bing Li
-										this.eventer.notify(new IPResource(childrenFromRoot.get(childrenKey)), request);
+										IPAddress ip = childrenFromRoot.get(childrenKey);
+//										this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), request);
+										this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
 										System.out.println("1) ChildSyncMulticastor-read(): send to " + childrenFromRoot.get(childrenKey));
 										// Jump out the loop after sending the message successfully. 11/11/2014, Bing Li
 										break;
@@ -334,7 +341,9 @@ class ChildSyncMulticastor
 							try
 							{
 								// If the instance of FreeClient is valid, a message can be created. Different from the above one, the message does not contain children IPs of the immediate node of the local node. 11/11/2014, Bing Li
-								this.eventer.notify(new IPResource(childrenFromRoot.get(childrenKey)), request);
+								IPAddress ip = childrenFromRoot.get(childrenKey);
+//								this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), request);
+								this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
 								System.out.println("2) ChildSyncMulticastor-read(): send to " + childrenFromRoot.get(childrenKey));
 							}
 							catch (IOException e)
@@ -369,7 +378,8 @@ class ChildSyncMulticastor
 						{
 							// Send the message to the immediate node of the local node. 11/11/2014, Bing Li
 //							this.clientPool.send(new IPPort(request.getIP(entry.getKey())), request);
-							this.eventer.notify(new IPResource(entry.getValue()), request);
+//							this.eventer.notify(new IPResource(entry.getValue().getPeerKey(), entry.getValue().getPeerName(), entry.getValue().getIP(), entry.getValue().getPort()), request);
+							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), request);
 							System.out.println("3) ChildSyncMulticastor-read(): send to " + entry.getValue());
 						}
 						catch (IOException e)

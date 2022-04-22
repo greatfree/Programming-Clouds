@@ -8,7 +8,7 @@ import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.testing.client.ClientMenu;
 
 // Created: 08/26/2018, Bing Li
-class StartClient
+final class StartClient
 {
 
 	public static void main(String[] args) throws IOException, InterruptedException

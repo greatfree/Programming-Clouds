@@ -2,7 +2,6 @@ package org.greatfree.framework.streaming.broadcast.pubsub;
 
 import java.util.Calendar;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -21,6 +20,7 @@ import org.greatfree.framework.streaming.message.SubscribersResponse;
 import org.greatfree.framework.streaming.message.SubscribersStream;
 import org.greatfree.framework.streaming.message.UnsubscribeStreamNotification;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 03/18/2020, Bing Li

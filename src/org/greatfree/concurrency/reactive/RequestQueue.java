@@ -8,10 +8,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.RunnerTask;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.util.Tools;
 
 /*
@@ -22,6 +22,8 @@ import org.greatfree.util.Tools;
 // public abstract class RequestQueue<Request extends ServerMessage, Stream extends OutMessageStream<Request>, Response extends ServerMessage> implements Runnable, Comparable<RequestQueue<Request, Stream, Response>>
 public abstract class RequestQueue<Request extends ServerMessage, Stream extends MessageStream<Request>, Response extends ServerMessage> extends RunnerTask
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.concurrency.reactive");	
+
 	// The unique key of the thread. It is convenient for managing it by a table-like mechanism. 09/22/2014, Bing Li
 	private final String key;
 	// The queue that saves the request stream, which extends the OutMessageStream, including the associated output stream,  the lock and the request. 09/22/2014, Bing Li
@@ -181,6 +183,18 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 		this.idleLock.lock();
 		try
 		{
+			/*
+			 * The below lines are designed for testing. 04/19/2022, Bing Li
+			 */
+			/*
+			Request req = request.getMessage();
+			org.greatfree.message.container.Request r = (org.greatfree.message.container.Request)req;
+			if (r.getApplicationID() == 274)
+			{
+				log.info("The message, SYMMETRIC_CRYPTO_SESSION_REQUEST (274), is enqueued into RequestQueue ...");
+			}
+			*/
+			
 			// Set the state of busy for the thread. 02/07/2016, Bing Li
 			this.isIdle = false;
 			// Enqueue the request and its relevant output stream and lock. 09/22/2014, Bing Li
@@ -347,6 +361,20 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 	public Stream dequeue()
 	{
 		this.isHung.set(true);
+		
+		/*
+		 * The below lines are designed for testing. 04/19/2022, Bing Li
+		 */
+		/*
+		Stream request = this.queue.peek();
+		Request req = request.getMessage();
+		org.greatfree.message.container.Request r = (org.greatfree.message.container.Request)req;
+		if (r.getApplicationID() == 274)
+		{
+			log.info("The message, SYMMETRIC_CRYPTO_SESSION_REQUEST (274), is dequeued ...");
+		}
+		*/
+		
 		return this.queue.poll();
 	}
 

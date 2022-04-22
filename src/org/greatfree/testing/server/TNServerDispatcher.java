@@ -2,12 +2,12 @@ package org.greatfree.testing.server;
 
 import java.util.Calendar;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.chat.message.ShutdownServerNotification;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 import org.greatfree.testing.message.MessageType;
 import org.greatfree.testing.message.TNNotification;
@@ -69,7 +69,7 @@ class TNServerDispatcher extends ServerDispatcher<ServerMessage>
 				this.tnNotificationDispatcher.enqueue((TNNotification)message.getMessage());
 				break;
 
-			case ChatMessageType.SHUTDOWN_SERVER_NOTIFICATION:
+			case SystemMessageType.SHUTDOWN_SERVER_NOTIFICATION:
 				System.out.println("SHUTDOWN_SERVER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.shutdownNotificationDispatcher.isReady())
 				{

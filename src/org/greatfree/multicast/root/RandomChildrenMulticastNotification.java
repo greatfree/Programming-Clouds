@@ -3,7 +3,7 @@ package org.greatfree.multicast.root;
 import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 09/11/2020, Bing Li
-class RandomChildrenMulticastNotification
+public class RandomChildrenMulticastNotification
 {
 	private MulticastNotification notification;
 	private int childrenSize;

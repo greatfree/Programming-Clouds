@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 01/12/2018, Bing Li
@@ -11,7 +12,7 @@ public class UnregisterPeerRequest extends Request
 
 	public UnregisterPeerRequest(String peerKey)
 	{
-		super(P2PChatApplicationID.UNREGISTER_PEER_REQUEST);
+		super(SystemMessageType.UNREGISTER_PEER_REQUEST);
 		this.peerKey = peerKey;
 	}
 

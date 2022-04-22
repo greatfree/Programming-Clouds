@@ -5,7 +5,7 @@ import java.util.Set;
 import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 09/16/2018, Bing Li
-class NearestKeysMulticastRequest
+public final class NearestKeysMulticastRequest
 {
 	private MulticastRequest request;
 	private Set<String> dataKeys;

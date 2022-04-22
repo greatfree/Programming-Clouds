@@ -14,8 +14,10 @@ import org.greatfree.util.ServerStatus;
 
 // Created: 04/20/2017, Bing Li
 // public class CSListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends ServerListener implements Runnable
-public class CSListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends ServerListener
+class CSListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends ServerListener
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.server");
+	
 //	private final int port;
 	// Declare the server message producer, which is the important part of the server. Application developers can work on that directly through programming Dispatcher. 04/17/2017, Bing Li
 	private ServerMessageProducer<Dispatcher> messageProducer;
@@ -39,8 +41,9 @@ public class CSListener<Dispatcher extends ServerDispatcher<ServerMessage>> exte
 		CSServerIO<Dispatcher> serverIO;
 
 		// Detect whether the listener is shutdown. If not, it must be running all the time to wait for potential connections from clients. 08/22/2014, Bing Li
-		while (!this.isShutdown())
+		while (!super.isShutdown())
 		{
+//			log.info("Here, here, here ...");
 			// Wait and accept a connecting from a possible client. 08/22/2014, Bing Li
 			try
 			{
@@ -68,10 +71,7 @@ public class CSListener<Dispatcher extends ServerDispatcher<ServerMessage>> exte
 			{
 				ServerStatus.FREE().printException(Prompts.SOCKET_GOT_EXCEPTION);
 			}
-			
 		}
-		
-		
 	}
 
 	/*

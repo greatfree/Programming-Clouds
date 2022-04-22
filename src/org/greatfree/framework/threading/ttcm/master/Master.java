@@ -8,6 +8,7 @@ import org.greatfree.concurrency.threading.ThreadConfig;
 import org.greatfree.concurrency.threading.message.TaskNotification;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.server.container.ServerTask;
+import org.greatfree.util.TerminateSignal;
 
 // Created: 09/22/2019, Bing Li
 class Master
@@ -35,6 +36,7 @@ class Master
 	
 	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
 	{
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.master.killAll(timeout);
 		this.master.shutdownSlave(timeout);
 		this.master.stop(timeout);

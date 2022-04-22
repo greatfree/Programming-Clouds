@@ -7,7 +7,7 @@ import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 09/08/2018, Bing Li
-class StartChild
+final class StartChild
 {
 
 	public static void main(String[] args)

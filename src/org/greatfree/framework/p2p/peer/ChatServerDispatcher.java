@@ -2,13 +2,13 @@ package org.greatfree.framework.p2p.peer;
 
 import java.util.Calendar;
 
-import org.greatfree.chat.message.ChatMessageType;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.p2p.message.AddPartnerNotification;
 import org.greatfree.framework.p2p.message.ChatNotification;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 /*
@@ -120,7 +120,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 		// Check the types of received messages. 04/17/2017, Bing Li
 		switch (message.getMessage().getType())
 		{	
-			case ChatMessageType.PEER_ADD_PARTNER_NOTIFICATION:
+			case SystemMessageType.PEER_ADD_PARTNER_NOTIFICATION:
 				System.out.println("PEER_ADD_PARTNER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				// Check whether the adding chatting partner notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.partnerNotificationDispatcher.isReady())
@@ -132,7 +132,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 				this.partnerNotificationDispatcher.enqueue((AddPartnerNotification)message.getMessage());
 				break;
 				
-			case ChatMessageType.PEER_CHAT_NOTIFICATION:
+			case SystemMessageType.PEER_CHAT_NOTIFICATION:
 				System.out.println("PEER_CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				// Check whether the chatting notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.chatNotificationDispatcher.isReady())

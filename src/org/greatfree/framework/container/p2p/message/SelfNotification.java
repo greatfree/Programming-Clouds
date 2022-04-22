@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Notification;
 
 // Created: 10/03/2019, Bing Li
@@ -11,7 +12,7 @@ public class SelfNotification extends Notification
 
 	public SelfNotification(String msg)
 	{
-		super(P2PChatApplicationID.SELF_NOTIFICATION);
+		super(SystemMessageType.SELF_NOTIFICATION);
 		this.msg = msg;
 	}
 

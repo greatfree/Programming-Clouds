@@ -56,7 +56,7 @@ class ChatUI
 	/*
 	 * Send messages to the chatting server. 04/23/2017, Bing Li
 	 */
-	public void sent(org.greatfree.server.ChatPeer peer, int option)
+	public void sent(org.greatfree.testing.server.ChatPeer peer, int option)
 	{
 		switch (option)
 		{

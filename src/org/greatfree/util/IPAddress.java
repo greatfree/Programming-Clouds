@@ -12,6 +12,7 @@ public class IPAddress implements Serializable
 	private static final long serialVersionUID = -3975747063145993736L;
 	
 	private String peerKey;
+	private String peerName;
 	private String ipKey;
 	private String ip;
 	private int port;
@@ -19,9 +20,10 @@ public class IPAddress implements Serializable
 	/*
 	 * When registering the IP address on the registry server, the constructor is used. 10/02/2018, Bing Li
 	 */
-	public IPAddress(String peerKey, String ip, int port)
+	public IPAddress(String peerKey, String peerName, String ip, int port)
 	{
 		this.peerKey = peerKey;
+		this.peerName = peerName;
 		this.ipKey = Tools.getKeyOfFreeClient(ip, port);
 		this.ip = ip;
 		this.port = port;
@@ -32,15 +34,32 @@ public class IPAddress implements Serializable
 	 */
 	public IPAddress(String ip, int port)
 	{
-		this.peerKey = UtilConfig.EMPTY_STRING;
+		this.peerName = UtilConfig.EMPTY_STRING;
 		this.ipKey = Tools.getKeyOfFreeClient(ip, port);
 		this.ip = ip;
 		this.port = port;
 	}
-	
+
 	public String getPeerKey()
 	{
 		return this.peerKey;
+	}
+	
+	/*
+	public void setPeerKey(String peerKey)
+	{
+		this.peerKey = peerKey;
+	}
+	*/
+	
+	public String getPeerName()
+	{
+		return this.peerName;
+	}
+	
+	public void setPeerName(String peerName)
+	{
+		this.peerName = peerName;
 	}
 	
 	public String getIPKey()
@@ -60,6 +79,6 @@ public class IPAddress implements Serializable
 	
 	public String toString()
 	{
-		return this.ip + UtilConfig.COLON + this.port;
+		return "IPAddress = " + this.peerName + UtilConfig.COLON + this.ip + UtilConfig.COLON + this.port;
 	}
 }

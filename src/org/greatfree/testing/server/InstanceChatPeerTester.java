@@ -9,7 +9,6 @@ import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.p2p.peer.ChatMaintainer;
-import org.greatfree.server.ChatPeer;
 import org.greatfree.util.ServerStatus;
 import org.greatfree.util.TerminateSignal;
 
@@ -73,7 +72,8 @@ class InstanceChatPeerTester
 			}
 		}
 
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		ServerStatus.FREE().setShutdown();
 		try
 		{

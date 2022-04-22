@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 01/12/2019, Bing Li
@@ -11,7 +12,7 @@ public class ClusterIPRequest extends Request
 
 	public ClusterIPRequest(String rootKey)
 	{
-		super(P2PChatApplicationID.CLUSTER_IP_REQUEST);
+		super(SystemMessageType.CLUSTER_IP_REQUEST);
 		this.rootKey = rootKey;
 	}
 

@@ -14,6 +14,7 @@ import org.greatfree.framework.threading.mrtc.MRConfig;
 import org.greatfree.framework.threading.mrtc.NodeIDs;
 import org.greatfree.message.container.Notification;
 import org.greatfree.util.Rand;
+import org.greatfree.util.TerminateSignal;
 import org.greatfree.util.Tools;
 
 // Created: 09/24/2019, Bing Li
@@ -48,6 +49,7 @@ class Master
 			this.master.killAll(entry, timeout);
 			this.master.shutdownSlave(entry, timeout);
 		}
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.master.stop(timeout);
 	}
 	

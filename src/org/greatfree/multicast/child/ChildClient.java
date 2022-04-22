@@ -9,7 +9,7 @@ import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 09/04/2018, Bing Li
-public class ChildClient
+public final class ChildClient
 {
 	private ChildEventer eventer;
 	private ChildReader reader;

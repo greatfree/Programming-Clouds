@@ -3,10 +3,10 @@ package org.greatfree.testing.cluster.coordinator.admin;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.client.ServerIO;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.testing.cluster.coordinator.CoordinatorMessageProducer;
 
 /*

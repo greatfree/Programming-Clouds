@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.server.OldServer;
 import org.greatfree.util.ServerStatus;
+import org.greatfree.util.TerminateSignal;
 
 /*
  * The class encloses one instance of ServerInstance to implement a singleton server for chatting. 04/17/2016, Bing Li
@@ -36,6 +37,7 @@ class OldChatServer
 
 	public void stop(long timeout) throws IOException, InterruptedException
 	{
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 	

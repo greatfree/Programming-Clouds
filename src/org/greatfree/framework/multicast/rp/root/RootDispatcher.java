@@ -2,9 +2,7 @@ package org.greatfree.framework.multicast.rp.root;
 
 import java.util.Calendar;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.chat.message.ShutdownServerNotification;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -27,6 +25,7 @@ import org.greatfree.framework.multicast.message.ShutdownChildrenAdminNotificati
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.multicast.RPMulticastResponse;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 10/21/2018, Bing Li
@@ -369,7 +368,7 @@ public class RootDispatcher extends ServerDispatcher<ServerMessage>
 				this.shutdownChildrenNotificationDispatcher.enqueue((ShutdownChildrenAdminNotification)message.getMessage());
 				break;
 				
-			case ChatMessageType.SHUTDOWN_SERVER_NOTIFICATION:
+			case SystemMessageType.SHUTDOWN_SERVER_NOTIFICATION:
 				System.out.println("SHUTDOWN_SERVER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				// Check whether the shutdown notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.shutdownServerNotificationDispatcher.isReady())

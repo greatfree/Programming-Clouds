@@ -48,7 +48,8 @@ class ChildPeer
 		ChildMulticastor.CHILD().stop();
 		RootMulticastor.CHILD_STREAM().stop();
 
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 
 	public void start() throws IOException, ClassNotFoundException, RemoteReadException

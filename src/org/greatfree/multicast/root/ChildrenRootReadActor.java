@@ -6,7 +6,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 
 // Created: 09/15/2018, Bing Li
 // class ChildrenRootReadActor extends Async<ChildrenMulticastRequest>
-class ChildrenRootReadActor extends AsyncMulticastor<ChildrenMulticastRequest>
+final class ChildrenRootReadActor extends AsyncMulticastor<ChildrenMulticastRequest>
 {
 	public ChildrenRootReadActor(RootSyncMulticastor multicastor)
 	{
@@ -14,16 +14,25 @@ class ChildrenRootReadActor extends AsyncMulticastor<ChildrenMulticastRequest>
 	}
 	
 	@Override
-	public void perform(ChildrenMulticastRequest message)
+	public void perform(ChildrenMulticastRequest request)
 	{
 		try
 		{
-			super.getMulticastor().read(message.getChildrenKeys(), message.getRequest());
+			super.getMulticastor().read(request.getChildrenKeys(), request.getRequest());
 		}
 		catch (DistributedNodeFailedException | IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	@Override
+	public void perform(ChildrenMulticastRequest message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 
 }

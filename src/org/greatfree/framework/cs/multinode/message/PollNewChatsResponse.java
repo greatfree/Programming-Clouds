@@ -3,8 +3,8 @@ package org.greatfree.framework.cs.multinode.message;
 import java.util.List;
 
 import org.greatfree.chat.ChatMessage;
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * If new chatting messages are available, they should be returned to the request sender. 04/23/2017, Bing Li
@@ -27,7 +27,7 @@ public class PollNewChatsResponse extends ServerMessage
 //	public PollNewChatsResponse(Map<String, ChatMessage> messages)
 	public PollNewChatsResponse(List<ChatMessage> messages)
 	{
-		super(ChatMessageType.POLL_NEW_CHATS_RESPONSE);
+		super(SystemMessageType.POLL_NEW_CHATS_RESPONSE);
 		this.messages = messages;
 	}
 

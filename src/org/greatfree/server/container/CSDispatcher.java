@@ -1,8 +1,8 @@
 package org.greatfree.server.container;
 
 import java.util.Calendar;
+import java.util.logging.Logger;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
@@ -10,11 +10,15 @@ import org.greatfree.message.ServerMessage;
 import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
 import org.greatfree.message.container.RequestStream;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 12/18/2018, Bing Li
-class CSDispatcher extends ServerDispatcher<ServerMessage>
+// public final class CSDispatcher extends ServerDispatcher<ServerMessage>
+final class CSDispatcher extends ServerDispatcher<ServerMessage>
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.server.container");
+
 	private NotificationDispatcher<Notification, NotificationThread, NotificationThreadCreator> notificationDispatcher;
 	private RequestDispatcher<Request, RequestStream, ServerMessage, RequestThread, RequestThreadCreator> requestDispatcher;
 
@@ -108,7 +112,8 @@ class CSDispatcher extends ServerDispatcher<ServerMessage>
 		switch (message.getMessage().getType())
 		{
 			case CSMessageType.NOTIFICATION:
-				System.out.println("NOTIFICATION received @" + Calendar.getInstance().getTime());
+//				System.out.println("NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.notificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -119,7 +124,8 @@ class CSDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case CSMessageType.REQUEST:
-				System.out.println("REQUEST received @" + Calendar.getInstance().getTime());
+//				System.out.println("REQUEST received @" + Calendar.getInstance().getTime());
+				log.info("REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the shutdown notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.requestDispatcher.isReady())
 				{

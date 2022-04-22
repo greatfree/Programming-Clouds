@@ -1,11 +1,11 @@
 package org.greatfree.testing.crawlserver;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.OldBoundNotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.MulticastMessageDisposer;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.abandoned.ServerDispatcher;
 import org.greatfree.testing.cluster.dn.RegisterThread;
 import org.greatfree.testing.cluster.dn.RegisterThreadCreator;

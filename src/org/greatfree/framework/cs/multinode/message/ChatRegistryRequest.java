@@ -1,7 +1,7 @@
 package org.greatfree.framework.cs.multinode.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The message encloses the data to register one account in the chatting system. 04/15/2017, Bing Li
@@ -21,7 +21,7 @@ public class ChatRegistryRequest extends ServerMessage
 
 	public ChatRegistryRequest(String userKey, String userName, String description)
 	{
-		super(ChatMessageType.CS_CHAT_REGISTRY_REQUEST);
+		super(SystemMessageType.CS_CHAT_REGISTRY_REQUEST);
 		this.userKey = userKey;
 		this.userName = userName;
 		this.description = description;

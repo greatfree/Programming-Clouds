@@ -66,7 +66,8 @@ class StartRoot
 
 		// Set the flag of the server as down. 05/15/2017, Bing Li
 		ServerStatus.FREE().setShutdown();
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		try
 		{
 			ClusterRootSingleton.CLUSTER().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);

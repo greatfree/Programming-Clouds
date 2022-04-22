@@ -6,7 +6,7 @@ import org.greatfree.data.ClientConfig;
 import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 09/16/2018, Bing Li
-class ChildAsyncMulticastReader
+final class ChildAsyncMulticastReader
 {
 	// The actor to perform multicasting asynchronously. 09/10/2018, Bing Li
 	private AsyncPool<MulticastRequest> actor;
@@ -30,7 +30,6 @@ class ChildAsyncMulticastReader
 		this.pool = pool;
 	}
 
-	
 	public void dispose() throws InterruptedException
 	{
 		this.actor.dispose();

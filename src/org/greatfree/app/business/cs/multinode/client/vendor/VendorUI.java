@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import org.greatfree.app.business.cs.multinode.client.UserID;
 import org.greatfree.app.business.cs.multinode.server.Merchandise;
-import org.greatfree.app.business.cs.multinode.server.Transaction;
+import org.greatfree.app.business.cs.multinode.server.MyTransaction;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.chat.client.business.dip.ChatReader;
@@ -133,7 +133,7 @@ public class VendorUI
 				checkVTResponse = VendorReader.VR().checkVendorTransaction(UserID.CID().getUserKey());
 				if (checkVTResponse.getTransactions() != null)
 				{
-					for (Map.Entry<String, Transaction> entry : checkVTResponse.getTransactions().entrySet())
+					for (Map.Entry<String, MyTransaction> entry : checkVTResponse.getTransactions().entrySet())
 					{
 						System.out.println(entry.getValue().getVendorName());
 						System.out.println(entry.getValue().getCustomerName());

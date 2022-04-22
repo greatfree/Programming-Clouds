@@ -29,4 +29,13 @@ class RandomRootReadActor extends Async<RPMulticastRequest>
 		}
 	}
 
+	/*
+	@Override
+	public void perform(RPMulticastRequest message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
+
 }

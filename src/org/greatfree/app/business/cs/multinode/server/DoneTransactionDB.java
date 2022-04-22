@@ -13,14 +13,14 @@ class DoneTransactionDB
 	// The collection keeps the balances of vendors. 12/15/2017, Bing Li
 	private Map<String, Float> balances;
 	// The collection keeps the transactions of vendors. The keys represent the vendorKey and the transaction key. 12/15/2017, Bing Li
-	private Map<String, Map<String, Transaction>> vendTransactions;
-	private Map<String, Map<String, Transaction>> custTransactions;
+	private Map<String, Map<String, MyTransaction>> vendTransactions;
+	private Map<String, Map<String, MyTransaction>> custTransactions;
 	
 	private DoneTransactionDB()
 	{
 		this.balances = new ConcurrentHashMap<String, Float>();
-		this.vendTransactions = new ConcurrentHashMap<String, Map<String, Transaction>>();
-		this.custTransactions = new ConcurrentHashMap<String, Map<String, Transaction>>();
+		this.vendTransactions = new ConcurrentHashMap<String, Map<String, MyTransaction>>();
+		this.custTransactions = new ConcurrentHashMap<String, Map<String, MyTransaction>>();
 	}
 
 	/*
@@ -72,15 +72,15 @@ class DoneTransactionDB
 	 */
 	public void saveTransaction(String vendorKey, String vendorName, String customerKey, String customerName, Map<String, Merchandise> mcs, float payment)
 	{
-		Transaction t = new Transaction(Tools.generateUniqueKey(), vendorName, customerName, mcs, payment, Calendar.getInstance().getTime());
+		MyTransaction t = new MyTransaction(Tools.generateUniqueKey(), vendorName, customerName, mcs, payment, Calendar.getInstance().getTime());
 		if (!this.vendTransactions.containsKey(vendorKey))
 		{
-			this.vendTransactions.put(vendorKey, new HashMap<String, Transaction>());
+			this.vendTransactions.put(vendorKey, new HashMap<String, MyTransaction>());
 		}
 		this.vendTransactions.get(vendorKey).put(t.getKey(), t);
 		if (!this.custTransactions.containsKey(customerKey))
 		{
-			this.custTransactions.put(customerKey, new HashMap<String, Transaction>());
+			this.custTransactions.put(customerKey, new HashMap<String, MyTransaction>());
 		}
 		this.custTransactions.get(customerKey).put(t.getKey(), t);
 		this.addBalance(vendorKey, payment);
@@ -89,7 +89,7 @@ class DoneTransactionDB
 	/*
 	 * Get the transactions of a vendor. 12/15/2017, Bing Li
 	 */
-	public Map<String, Transaction> getTransactionsOfVendor(String vendorKey)
+	public Map<String, MyTransaction> getTransactionsOfVendor(String vendorKey)
 	{
 		return this.vendTransactions.get(vendorKey);
 	}
@@ -97,7 +97,7 @@ class DoneTransactionDB
 	/*
 	 * Get the transactions of a customer. 12/15/2017, Bing Li
 	 */
-	public Map<String, Transaction> getTransactionsOfCustomer(String customerKey)
+	public Map<String, MyTransaction> getTransactionsOfCustomer(String customerKey)
 	{
 		return this.custTransactions.get(customerKey);
 	}

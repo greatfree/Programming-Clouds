@@ -2,7 +2,6 @@ package org.greatfree.framework.multicast.bound.child;
 
 import java.util.Calendar;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.BoundNotificationDispatcher;
 import org.greatfree.concurrency.reactive.BoundRequestDispatcher;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
@@ -28,6 +27,7 @@ import org.greatfree.framework.multicast.message.ShutdownChildrenBroadcastNotifi
 import org.greatfree.message.MessageDisposer;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.MulticastMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 08/26/2018, Bing Li

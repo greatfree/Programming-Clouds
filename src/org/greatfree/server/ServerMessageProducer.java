@@ -1,7 +1,5 @@
 package org.greatfree.server;
 
-import org.greatfree.client.MessageStream;
-import org.greatfree.concurrency.MessageProducer;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.message.ServerMessage;
 
@@ -10,7 +8,7 @@ import org.greatfree.message.ServerMessage;
  */
 
 // Created: 04/16/2017, Bing Li
-public class ServerMessageProducer<Dispatcher extends ServerDispatcher<ServerMessage>>
+class ServerMessageProducer<Dispatcher extends ServerDispatcher<ServerMessage>>
 {
 	// The Threader aims to associate with the message producer to guarantee the producer can work concurrently. 09/20/2014, Bing Li
 //	private Runner<MessageProducer<Dispatcher>, ServerProducerDisposer<Dispatcher>> producerThreader;

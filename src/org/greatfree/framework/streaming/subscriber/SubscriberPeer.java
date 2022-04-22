@@ -54,7 +54,8 @@ class SubscriberPeer
 		this.peer.stop(timeout);
 		ChildMulticastor.CHILD().stop();
 
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 
 	public void start(String subscriber) throws IOException, ClassNotFoundException, RemoteReadException

@@ -8,7 +8,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
-import org.greatfree.message.multicast.ClusterIPRequest;
+import org.greatfree.message.multicast.PrimitiveClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.server.Peer;
 import org.greatfree.util.IPAddress;
@@ -45,7 +45,8 @@ public class RootPeer
 		this.peer.stop(timeout);
 		RootMulticastor.ROOT().stop();
 
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 
 	public void start() throws IOException, ClassNotFoundException, RemoteReadException, InstantiationException, IllegalAccessException, InterruptedException, DistributedNodeFailedException
@@ -83,7 +84,7 @@ public class RootPeer
 		this.peer.start();
 
 		// Retrieve all of the registered IP addresses of the distributed nodes in the cluster from the registry server. 05/08/2017, Bing Li
-		ClusterIPResponse ipResponse = (ClusterIPResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new ClusterIPRequest());
+		ClusterIPResponse ipResponse = (ClusterIPResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new PrimitiveClusterIPRequest());
 		
 		this.localIP = new IPAddress(this.peer.getPeerIP(), this.peer.getPort());
 		

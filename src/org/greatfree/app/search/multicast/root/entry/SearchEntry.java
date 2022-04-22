@@ -9,7 +9,7 @@ import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.multicast.root.RootMulticastor;
 import org.greatfree.framework.p2p.RegistryConfig;
-import org.greatfree.message.multicast.ClusterIPRequest;
+import org.greatfree.message.multicast.PrimitiveClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.message.multicast.container.RootAddressNotification;
 import org.greatfree.server.Peer;
@@ -44,7 +44,8 @@ class SearchEntry
 	{
 		this.entryPeer.stop(timeout);
 		RootMulticastor.ROOT().stop();
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 	
 	public void start() throws IOException, ClassNotFoundException, RemoteReadException, InstantiationException, IllegalAccessException, InterruptedException, DistributedNodeFailedException
@@ -83,7 +84,7 @@ class SearchEntry
 		this.entryPeer.start();
 
 		// Retrieve all of the registered IP addresses of the distributed nodes in the cluster from the registry server. 05/08/2017, Bing Li
-		ClusterIPResponse ipResponse = (ClusterIPResponse)this.entryPeer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new ClusterIPRequest());
+		ClusterIPResponse ipResponse = (ClusterIPResponse)this.entryPeer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new PrimitiveClusterIPRequest());
 
 		if (ipResponse.getIPs() != null)
 		{
@@ -99,7 +100,7 @@ class SearchEntry
 			
 			RootMulticastor.ROOT().start(this.entryPeer.getClientPool(), MulticastConfig.ROOT_BRANCH_COUNT, MulticastConfig.SUB_BRANCH_COUNT, MulticastConfig.BROADCAST_REQUEST_WAIT_TIME, this.entryPeer.getPool());
 			System.out.println("entry peer IP = " + this.entryPeer.getPeerIP());
-			RootMulticastor.ROOT().broadcastNotify(new RootAddressNotification(new IPAddress(this.entryPeer.getPeerID(), this.entryPeer.getPeerIP(), this.entryPeer.getPort())));
+			RootMulticastor.ROOT().broadcastNotify(new RootAddressNotification(new IPAddress(this.entryPeer.getPeerID(), this.entryPeer.getPeerName(), this.entryPeer.getPeerIP(), this.entryPeer.getPort())));
 		}
 		else
 		{

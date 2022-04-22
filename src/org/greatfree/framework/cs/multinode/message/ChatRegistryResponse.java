@@ -1,7 +1,7 @@
 package org.greatfree.framework.cs.multinode.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The response is used to respond to the client node about the result of the account registry. 04/15/2017, Bing Li
@@ -17,7 +17,7 @@ public class ChatRegistryResponse extends ServerMessage
 
 	public ChatRegistryResponse(boolean isSucceeded)
 	{
-		super(ChatMessageType.CS_CHAT_REGISTRY_RESPONSE);
+		super(SystemMessageType.CS_CHAT_REGISTRY_RESPONSE);
 		this.isSucceeded = isSucceeded;
 	}
 

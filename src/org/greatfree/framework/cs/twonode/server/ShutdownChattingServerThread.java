@@ -8,7 +8,7 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 05/13/2018, Bing Li
-public class ShutdownChattingServerThread extends NotificationQueue<ShutdownServerNotification>
+class ShutdownChattingServerThread extends NotificationQueue<ShutdownServerNotification>
 {
 
 	public ShutdownChattingServerThread(int taskSize)

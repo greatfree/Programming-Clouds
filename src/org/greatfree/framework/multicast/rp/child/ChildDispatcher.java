@@ -2,7 +2,6 @@ package org.greatfree.framework.multicast.rp.child;
 
 import java.util.Calendar;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.message.HelloWorldAnycastNotification;
@@ -16,6 +15,7 @@ import org.greatfree.framework.multicast.rp.message.MulticastDIPRPMessageType;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.multicast.RPMulticastResponse;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 10/21/2018, Bing Li

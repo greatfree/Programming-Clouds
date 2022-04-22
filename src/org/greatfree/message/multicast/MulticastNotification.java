@@ -2,16 +2,18 @@ package org.greatfree.message.multicast;
 
 import java.util.Map;
 
-import org.greatfree.message.ServerMessage;
+import org.greatfree.message.container.Notification;
 import org.greatfree.util.IPAddress;
-import org.greatfree.util.Tools;
 
 /*
+ * An update: It is better to inherit Notification rather than ServerMessage to reuse code. 04/07/2022, Bing Li
+ * 
  * This is the base class to implement the message that can be multicast among a cluster of nodes. 05/12/2017, Bing Li
  */
 
 // Created: 05/12/2017, Bing Li
-public abstract class MulticastNotification extends ServerMessage
+// public abstract class MulticastNotification extends ServerMessage
+public abstract class MulticastNotification extends Notification
 {
 	private static final long serialVersionUID = 6752213037140344467L;
 	
@@ -50,7 +52,8 @@ public abstract class MulticastNotification extends ServerMessage
 //	public MulticastMessage(int type, String key)
 	public MulticastNotification(int type)
 	{
-		super(type, Tools.generateUniqueKey());
+//		super(type, Tools.generateUniqueKey());
+		super(type);
 		this.children = null;
 //		this.isAnycast = false;
 	}

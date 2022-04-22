@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.cs.multinode.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 01/06/2019, Bing Li
@@ -12,7 +13,7 @@ public class PollNewSessionsRequest extends Request
 
 	public PollNewSessionsRequest(String receiverKey, String username)
 	{
-		super(ChatApplicationID.POLL_NEW_SESSIONS_REQUEST);
+		super(SystemMessageType.POLL_NEW_SESSIONS_REQUEST);
 		this.receiverKey = receiverKey;
 		this.username = username;
 	}

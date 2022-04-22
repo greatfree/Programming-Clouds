@@ -8,7 +8,7 @@ import org.greatfree.concurrency.Sync;
 import org.greatfree.message.multicast.MulticastResponse;
 
 // Created: 11/07/2018, Bing Li
-public class MulticastPoint
+public final class MulticastPoint
 {
 	private final String collaboratorKey;
 	

@@ -6,7 +6,7 @@ import org.greatfree.data.ClientConfig;
 import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 09/15/2018, Bing Li
-class RootAsyncMulticastReader
+final class RootAsyncMulticastReader
 {
 	private AsyncPool<MulticastRequest> actor;
 	private AsyncPool<SizeMulticastRequest> sizeActor;

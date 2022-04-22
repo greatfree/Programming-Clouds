@@ -3,7 +3,7 @@ package org.greatfree.message;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.locks.Lock;
 
-import org.greatfree.client.MessageStream;
+import org.greatfree.server.MessageStream;
 
 // Created: 09/11/2018, Bing Li
 public class PeerAddressStream extends MessageStream<PeerAddressRequest>

@@ -7,6 +7,7 @@ import org.greatfree.cluster.root.container.ClusterServerContainer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.testing.stress.cluster.StressConfig;
+import org.greatfree.util.TerminateSignal;
 
 /**
  * 
@@ -51,6 +52,7 @@ class StressRoot
 	
 	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 	

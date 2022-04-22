@@ -1,9 +1,9 @@
 package org.greatfree.testing.cluster.coordinator;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.abandoned.MessageProducer;
 import org.greatfree.testing.cluster.coordinator.admin.AdminServerDispatcher;
 import org.greatfree.testing.cluster.coordinator.client.ClientServerDispatcher;

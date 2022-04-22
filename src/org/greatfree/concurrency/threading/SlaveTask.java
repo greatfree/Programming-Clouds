@@ -96,6 +96,7 @@ class SlaveTask implements ServerTask
 				ShutdownSlaveNotification sn = (ShutdownSlaveNotification)notification;
 				try
 				{
+//					TerminateSignal.SIGNAL().notifyAllTermination();
 					Worker.ATM().shutdown(sn.getTimeout());
 				}
 				catch (ClassNotFoundException | InterruptedException | IOException | RemoteReadException e)

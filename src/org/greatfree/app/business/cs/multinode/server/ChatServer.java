@@ -41,7 +41,8 @@ public class ChatServer
 	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 
 		// Dispose the account registry. 04/30/2017, Bing Li
 		AccountRegistry.CS().dispose();

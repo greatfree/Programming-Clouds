@@ -24,6 +24,10 @@ public class ServerConfig
 	public final static long LISTENER_THREAD_ALIVE_TIME = 10000;
 	
 	public final static long CHECK_MESSAGE_TIMEOUT = 1000;
+	/*
+	 * The value is for testing the CPU usage. 04/21/2022, Bing Li
+	 */
+//	public final static long CHECK_MESSAGE_TIMEOUT = 100000000;
 	
 	public final static int MAX_SERVER_IO_COUNT = 500;
 
@@ -80,8 +84,16 @@ public class ServerConfig
 
 //	public final static long REQUEST_THREAD_WAIT_TIME = 1000;
 	public final static long REQUEST_THREAD_WAIT_TIME = 5000;
+	/*
+	 * The value is for testing the CPU usage. 04/21/2022, Bing Li
+	 */
+//	public final static long REQUEST_THREAD_WAIT_TIME = 100000000;
 //	public final static long NOTIFICATION_THREAD_WAIT_TIME = 1000;
 	public final static long NOTIFICATION_THREAD_WAIT_TIME = 5000;
+	/*
+	 * The value is for testing the CPU usage. 04/21/2022, Bing Li
+	 */
+//	public final static long NOTIFICATION_THREAD_WAIT_TIME = 100000000;
 
 //	public final static int REQUEST_DISPATCHER_POOL_SIZE = 50;
 	public final static int REQUEST_DISPATCHER_POOL_SIZE = 100;
@@ -89,7 +101,13 @@ public class ServerConfig
 //	public final static int REQUEST_QUEUE_SIZE = 500;
 	public final static int REQUEST_QUEUE_SIZE = 20;
 //	public final static int MAX_REQUEST_THREAD_SIZE = 50;
-	public final static long REQUEST_DISPATCHER_WAIT_TIME = 1000;
+//	public final static long REQUEST_DISPATCHER_WAIT_TIME = 1000;
+	public final static long REQUEST_DISPATCHER_WAIT_TIME = 5000;
+
+	/*
+	 * The value is for testing the CPU usage. 04/21/2022, Bing Li
+	 */
+//	public final static long REQUEST_DISPATCHER_WAIT_TIME = 1000000000;
 	public final static int REQUEST_DISPATCHER_WAIT_ROUND = 5;
 //	public final static long REQUEST_DISPATCHER_IDLE_CHECK_DELAY = 2000;
 	public final static long REQUEST_DISPATCHER_IDLE_CHECK_DELAY = 3000;
@@ -108,8 +126,13 @@ public class ServerConfig
 //	public final static int MAX_NOTIFICATION_THREAD_SIZE = 10;
 
 //	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 1000;
-//	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 5000;
-	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 10000;
+	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 5000;
+//	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 10000;
+
+	/*
+	 * The value is for testing the CPU usage. 04/21/2022, Bing Li
+	 */
+//	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 1000000000;
 	public final static int NOTIFICATION_DISPATCHER_WAIT_ROUND = 5;
 	public final static long NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY = 3000;
 	public final static long NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD = 3000;

@@ -20,7 +20,6 @@ import org.greatfree.message.multicast.container.ClusterNotification;
 import org.greatfree.server.container.PeerProfile;
 import org.greatfree.server.container.ServerProfile;
 import org.greatfree.util.IPAddress;
-import org.greatfree.util.TerminateSignal;
 import org.greatfree.util.Tools;
 
 // Created: 01/13/2019, Bing Li
@@ -230,9 +229,9 @@ public class ClusterChildContainer
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
 		// With the updating of notify/wait, the line is not needed. But to keep compatible, just leave it here for some time. 08/25/2021, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
 		// I attempt to change the SP pattern to replace the while-true loop with the notify/wait structure. 08/25/2021, Bing Li
-		TerminateSignal.SIGNAL().notifyAllTermination();
+//		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.child.stop(timeout);
 	}
 	

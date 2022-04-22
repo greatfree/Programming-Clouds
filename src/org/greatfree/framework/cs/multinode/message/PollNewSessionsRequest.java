@@ -1,7 +1,7 @@
 package org.greatfree.framework.cs.multinode.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The request is sent to the chatting server to check whether new sessions are available to the request sender periodically. 04/24/2017, Bing Li
@@ -17,7 +17,7 @@ public class PollNewSessionsRequest extends ServerMessage
 
 	public PollNewSessionsRequest(String receiverKey, String username)
 	{
-		super(ChatMessageType.POLL_NEW_SESSIONS_REQUEST);
+		super(SystemMessageType.POLL_NEW_SESSIONS_REQUEST);
 		this.receiverKey = receiverKey;
 		this.username = username;
 	}

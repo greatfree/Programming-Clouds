@@ -95,7 +95,8 @@ class StartChatClient
 			}
 		}
 
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		ChatMaintainer.GROUP().dispose();
 		/*
 		 * Comment the scheduling temporarily for testing. 04/21/2019, Bing Li

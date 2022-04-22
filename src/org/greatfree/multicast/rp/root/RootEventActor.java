@@ -28,4 +28,13 @@ class RootEventActor extends Async<MulticastNotification>
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	@Override
+	public void perform(MulticastNotification message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 }

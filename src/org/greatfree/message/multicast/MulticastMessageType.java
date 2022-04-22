@@ -7,7 +7,7 @@ package org.greatfree.message.multicast;
  */
 
 // Created: 01/14/2019, Bing Li
-public class MulticastMessageType
+final public class MulticastMessageType
 {
 	public final static int NOTIFICATION = 15;
 	public final static int REQUEST = 16;

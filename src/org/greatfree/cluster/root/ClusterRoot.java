@@ -10,7 +10,7 @@ import org.greatfree.cluster.root.container.RootServiceProvider;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
-import org.greatfree.message.multicast.ClusterIPRequest;
+import org.greatfree.message.multicast.PrimitiveClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.message.multicast.MulticastMessageType;
@@ -85,7 +85,7 @@ class ClusterRoot
 	public void start() throws ClassNotFoundException, RemoteReadException, IOException, DistributedNodeFailedException
 	{
 		this.root.start();
-		ClusterIPResponse ipResponse = (ClusterIPResponse)this.readRegistry(new ClusterIPRequest());
+		ClusterIPResponse ipResponse = (ClusterIPResponse)this.readRegistry(new PrimitiveClusterIPRequest());
 		
 		if (ipResponse.getIPs() != null)
 		{
@@ -98,7 +98,7 @@ class ClusterRoot
 				this.root.addPartners(ip.getIP(), ip.getPort());
 			}
 			
-			this.broadcastNotify(new RootAddressNotification(new IPAddress(this.root.getPeerID(), this.root.getPeerIP(), this.root.getPort())));
+			this.broadcastNotify(new RootAddressNotification(new IPAddress(this.root.getPeerID(), this.root.getPeerName(), this.root.getPeerIP(), this.root.getPort())));
 		}
 	}
 

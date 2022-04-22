@@ -1,7 +1,7 @@
 package org.greatfree.concurrency.reactive;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 
 /*
  * The interface defines a method signature that creates a thread to respond users' requests. 11/04/2014, Bing Li

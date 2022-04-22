@@ -3,6 +3,7 @@ package org.greatfree.multicast.root;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import org.greatfree.exceptions.Prompts;
 import org.greatfree.message.multicast.MulticastResponse;
@@ -15,8 +16,10 @@ import org.greatfree.multicast.MulticastPoint;
  */
 
 // Created: 09/02/2018, Bing Li
-public class RootRendezvousPoint
+public final class RootRendezvousPoint
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.multicast.root");	
+	
 	private Map<String, MulticastPoint> points;
 	// All of the received responses from each of the node which is retrieved. 11/28/2014, Bing Li
 //	private Map<String, List<MulticastResponse>> responses;
@@ -298,7 +301,9 @@ public class RootRendezvousPoint
 		*/
 		if (!this.points.get(collaboratorKey).isFull())
 		{
+			log.info("RootRendezvousPoint is waiting for signal ...");
 			this.points.get(collaboratorKey).holdOn(this.waitTime);
+			log.info("RootRendezvousPoint's waiting is finished ...");
 		}
 //		System.out.println("RootRendezvousPoint-waitForResponses(): Waiting done for collaboratorKey = " + collaboratorKey);
 //		this.lock.unlock();

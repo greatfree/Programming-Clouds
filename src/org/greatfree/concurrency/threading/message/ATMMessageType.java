@@ -1,7 +1,7 @@
 package org.greatfree.concurrency.threading.message;
 
 // Created: 09/10/2019, Bing Li
-public class ATMMessageType
+final public class ATMMessageType
 {
 	public final static int INSTRUCT_NOTIFICATION = 45;
 

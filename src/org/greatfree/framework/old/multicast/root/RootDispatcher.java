@@ -2,7 +2,6 @@ package org.greatfree.framework.old.multicast.root;
 
 import java.util.Calendar;
 
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.message.HelloWorldAnycastResponse;
@@ -11,6 +10,7 @@ import org.greatfree.framework.multicast.message.HelloWorldUnicastResponse;
 import org.greatfree.framework.multicast.message.MulticastDIPMessageType;
 import org.greatfree.framework.multicast.message.ShutdownChildrenAdminNotification;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 /*

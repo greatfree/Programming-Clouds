@@ -16,6 +16,7 @@ import org.greatfree.framework.cs.multinode.server.CSAccount;
 // Created: 04/15/2017, Bing Li
 public class ChatRegistryThread extends RequestQueue<ChatRegistryRequest, ChatRegistryStream, ChatRegistryResponse>
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.framework.cs.twonode.server");
 
 	public ChatRegistryThread(int maxTaskSize)
 	{
@@ -29,8 +30,10 @@ public class ChatRegistryThread extends RequestQueue<ChatRegistryRequest, ChatRe
 		ChatRegistryResponse response;
 		while (!this.isShutdown())
 		{
+//			log.info("1) Here, here, here ...");
 			while (!this.isEmpty())
 			{
+//				log.info("2) Here, here, here ...");
 				request = this.dequeue();
 				
 				AccountRegistry.CS().add(new CSAccount(request.getMessage().getUserKey(), request.getMessage().getUserName(), request.getMessage().getDescription()));

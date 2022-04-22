@@ -1,7 +1,10 @@
 package org.greatfree.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -37,7 +40,7 @@ public final class Tools
 	private Tools()
 	{
 	}
-	
+
 	/*
 	 * Create a unique key. 07/30/2014, Bing Li
 	 */
@@ -54,9 +57,9 @@ public final class Tools
 		try
 		{
 			byte[] keyBytes = UtilConfig.PRIVATE_KEY.getBytes();
-			Key key = new SecretKeySpec(keyBytes, 0, keyBytes.length, UtilConfig.HMAC_MD5); 
+			Key key = new SecretKeySpec(keyBytes, 0, keyBytes.length, UtilConfig.HMAC_MD5);
 			Mac mac = Mac.getInstance(UtilConfig.HMAC_MD5);
-			mac.init(key); 
+			mac.init(key);
 			return UtilConfig.A + byteArrayToHex(mac.doFinal(input.getBytes()));
 		}
 		catch (Exception e)
@@ -65,15 +68,15 @@ public final class Tools
 			return UtilConfig.EMPTY_STRING;
 		}
 	}
-	
-	protected static String byteArrayToHex(byte [] a)
+
+	private static String byteArrayToHex(byte[] a)
 	{
 		int hn, ln, cx;
 		StringBuffer buf = new StringBuffer(a.length * 2);
-		for(cx = 0; cx < a.length; cx++)
+		for (cx = 0; cx < a.length; cx++)
 		{
-			hn = ((int)(a[cx]) & 0x00ff) / 16;
-			ln = ((int)(a[cx]) & 0x000f);
+			hn = ((int) (a[cx]) & 0x00ff) / 16;
+			ln = ((int) (a[cx]) & 0x000f);
 			buf.append(UtilConfig.HEX_DIGIT_CHARS.charAt(hn));
 			buf.append(UtilConfig.HEX_DIGIT_CHARS.charAt(ln));
 		}
@@ -106,7 +109,7 @@ public final class Tools
 	{
 		String ipPort = clientSocket.getRemoteSocketAddress().toString();
 		ipPort = ipPort.substring(ipPort.indexOf(Symbols.COLON) + 1);
-//		return (new Integer(ipPort)).intValue();
+		// return (new Integer(ipPort)).intValue();
 		return Integer.valueOf(ipPort);
 	}
 
@@ -115,7 +118,7 @@ public final class Tools
 	 */
 	public static String getLocalIP() throws SocketException
 	{
-//		return InetAddress.getLocalHost().getHostAddress();
+		// return InetAddress.getLocalHost().getHostAddress();
 		Enumeration<NetworkInterface> n = NetworkInterface.getNetworkInterfaces();
 		String address;
 		NetworkInterface e;
@@ -137,20 +140,20 @@ public final class Tools
 		}
 		return UtilConfig.NO_IP;
 	}
-	
+
 	public static IPAddress getLocalIP(int port) throws SocketException
 	{
 		return new IPAddress(getLocalIP(), port);
 	}
 
 	/*
-	 * Create a hash string upon the IP address and the port number. 07/30/2014, Bing Li
+	 * Create a hash string upon the IP address and the port number. 07/30/2014,
+	 * Bing Li
 	 */
 	public static String getKeyOfFreeClient(String ip, int port)
 	{
 		return Tools.getHash(ip + port);
 	}
-
 
 	/*
 	 * Create a hash string upon the IP address. 07/30/2014, Bing Li
@@ -175,15 +178,18 @@ public final class Tools
 	}
 
 	/*
-	 * Select the key from the set of keys that is most closed to the source key in terms of the their key distance. 11/28/2014, Bing Li
+	 * Select the key from the set of keys that is most closed to the source key in
+	 * terms of the their key distance. 11/28/2014, Bing Li
 	 */
 	public static String getClosestKey(String sourceKey, Set<String> keys)
 	{
 		// Initialize a collection. 11/28/2014, Bing Li
 		Map<String, StringObj> keyMap = new HashMap<String, StringObj>();
-		// Put the source key and its instance of StringObj into the collection. 11/28/2014, Bing Li
+		// Put the source key and its instance of StringObj into the collection.
+		// 11/28/2014, Bing Li
 		keyMap.put(sourceKey, new StringObj(sourceKey));
-		// Put each of the keys and its instance of StringObj  into the same collection. 11/28/2014, Bing Li
+		// Put each of the keys and its instance of StringObj into the same collection.
+		// 11/28/2014, Bing Li
 		for (String key : keys)
 		{
 			keyMap.put(key, new StringObj(key));
@@ -194,29 +200,38 @@ public final class Tools
 		List<String> keyList = new LinkedList<String>(keyMap.keySet());
 		// Get the index of the source key. 11/28/2014, Bing Li
 		int index = keyList.indexOf(sourceKey);
-		// Check whether the index is lower than the last one of the list, i.e., check whether the index of the source key is the last one of the list. 11/28/2014, Bing Li
+		// Check whether the index is lower than the last one of the list, i.e., check
+		// whether the index of the source key is the last one of the list. 11/28/2014,
+		// Bing Li
 		if (index < keyList.size() - 1)
 		{
-			// If the index of the source key is not the last one, then the one that is immediately greater than the source key is believed to be the one that is the most closed to the source key. 11/28/2014, Bing Li
+			// If the index of the source key is not the last one, then the one that is
+			// immediately greater than the source key is believed to be the one that is the
+			// most closed to the source key. 11/28/2014, Bing Li
 			return keyList.get(index + 1);
 		}
 		else
 		{
-			// If the index of the source key is the last one, then the one that is immediately less than the source key is believed to be the one that is the most closed to the source key. 11/28/2014, Bing Li
+			// If the index of the source key is the last one, then the one that is
+			// immediately less than the source key is believed to be the one that is the
+			// most closed to the source key. 11/28/2014, Bing Li
 			return keyList.get(index - 1);
 		}
 	}
 
 	/*
-	 * Select the key from the list of keys that is most closed to the source key in terms of the their key distance. 11/28/2014, Bing Li
+	 * Select the key from the list of keys that is most closed to the source key in
+	 * terms of the their key distance. 11/28/2014, Bing Li
 	 */
 	public static String getClosestKey(String sourceKey, List<String> keys)
 	{
 		// Initialize a collection. 11/28/2014, Bing Li
 		Map<String, StringObj> keyMap = new HashMap<String, StringObj>();
-		// Put the source key and its instance of StringObj into the collection. 11/28/2014, Bing Li
+		// Put the source key and its instance of StringObj into the collection.
+		// 11/28/2014, Bing Li
 		keyMap.put(sourceKey, new StringObj(sourceKey));
-		// Put each of the keys and its instance of StringObj  into the same collection. 11/28/2014, Bing Li
+		// Put each of the keys and its instance of StringObj into the same collection.
+		// 11/28/2014, Bing Li
 		for (String key : keys)
 		{
 			keyMap.put(key, new StringObj(key));
@@ -227,15 +242,21 @@ public final class Tools
 		List<String> keyList = new LinkedList<String>(keyMap.keySet());
 		// Get the index of the source key. 11/28/2014, Bing Li
 		int index = keyList.indexOf(sourceKey);
-		// Check whether the index is lower than the last one of the list, i.e., check whether the index of the source key is the last one of the list. 11/28/2014, Bing Li
+		// Check whether the index is lower than the last one of the list, i.e., check
+		// whether the index of the source key is the last one of the list. 11/28/2014,
+		// Bing Li
 		if (index < keyList.size() - 1)
 		{
-			// If the index of the source key is not the last one, then the one that is immediately greater than the source key is believed to be the one that is the most closed to the source key. 11/28/2014, Bing Li
+			// If the index of the source key is not the last one, then the one that is
+			// immediately greater than the source key is believed to be the one that is the
+			// most closed to the source key. 11/28/2014, Bing Li
 			return keyList.get(index + 1);
 		}
 		else
 		{
-			// If the index of the source key is the last one, then the one that is immediately less than the source key is believed to be the one that is the most closed to the source key. 11/28/2014, Bing Li
+			// If the index of the source key is the last one, then the one that is
+			// immediately less than the source key is believed to be the one that is the
+			// most closed to the source key. 11/28/2014, Bing Li
 			return keyList.get(index - 1);
 		}
 	}
@@ -249,7 +270,7 @@ public final class Tools
 		{
 			int size = set.size();
 			int item = new Random().nextInt(size);
-			
+
 			int i = 0;
 			for (String obj : set)
 			{
@@ -272,7 +293,7 @@ public final class Tools
 		{
 			int size = list.size();
 			int item = new Random().nextInt(size);
-			
+
 			int i = 0;
 			for (String obj : list)
 			{
@@ -287,11 +308,14 @@ public final class Tools
 	}
 
 	/*
-	 * Get the random key from a list but the specified one must be excluded. 11/25/2016, Bing Li
+	 * Get the random key from a list but the specified one must be excluded.
+	 * 11/25/2016, Bing Li
 	 */
 	public static String getRandomSetElementExcept(Set<String> set, String elementKey)
 	{
-		// The reason to initialize a new set to keep the set is to avoid updating the input set. Otherwise, it is possible to affect other code. 08/01/2015, Bing Li
+		// The reason to initialize a new set to keep the set is to avoid updating the
+		// input set. Otherwise, it is possible to affect other code. 08/01/2015, Bing
+		// Li
 		Set<String> backupSet = Sets.newHashSet();
 		backupSet.addAll(set);
 		backupSet.remove(elementKey);
@@ -299,45 +323,65 @@ public final class Tools
 	}
 
 	/*
-	 * Get the random key from a list but the specified ones must be excluded. 11/25/2016, Bing Li
+	 * Get the random key from a list but the specified ones must be excluded.
+	 * 11/25/2016, Bing Li
 	 */
 	public static String getRandomSetElementExcept(Set<String> set, Set<String> elementKeys)
 	{
-		// The reason to initialize a new set to keep the set is to avoid updating the input set. Otherwise, it is possible to affect other code. 08/01/2015, Bing Li
+		// The reason to initialize a new set to keep the set is to avoid updating the
+		// input set. Otherwise, it is possible to affect other code. 08/01/2015, Bing
+		// Li
 		Set<String> backupSet = Sets.newHashSet();
 		backupSet.addAll(set);
 		return getRandomSetElement(Sets.difference(backupSet, elementKeys));
 	}
 
 	/*
-	 * Convert a parent list to one list which contains the subclass. 08/26/2018, Bing Li
+	 * Convert a parent list to one list which contains the subclass. 08/26/2018,
+	 * Bing Li
 	 */
 	public static <T> List<T> filter(List<?> listA, Class<T> c)
 	{
-	    List<T> listB = new ArrayList<T>();
-	    for (Object a : listA)
-	    {
-	        if (c.isInstance(a))
-	        {
-	            listB.add(c.cast(a));
-	        }
-	    }
-	    return listB;
+		List<T> listB = new ArrayList<T>();
+		for (Object a : listA)
+		{
+			if (c.isInstance(a))
+			{
+				listB.add(c.cast(a));
+			}
+		}
+		return listB;
 	}
-	
+
 	/*
-	 * Convert a parent list to one list which contains the subclass. 08/26/2018, Bing Li
+	 * Convert a parent list to one list which contains the subclass. 08/26/2018,
+	 * Bing Li
 	 */
 	public static <T> Map<Integer, T> filter(Map<Integer, ?> listA, Class<T> c)
 	{
-	    Map<Integer, T> listB = new HashMap<Integer, T>();
-	    for (int i = 0; i < listA.size(); i++)
-	    {
-	        if (c.isInstance(listA.get(i)))
-	        {
-	            listB.put(i, c.cast(listA.get(i)));
-	        }
-	    }
-	    return listB;
+		Map<Integer, T> listB = new HashMap<Integer, T>();
+		for (int i = 0; i < listA.size(); i++)
+		{
+			if (c.isInstance(listA.get(i)))
+			{
+				listB.put(i, c.cast(listA.get(i)));
+			}
+		}
+		return listB;
+	}
+
+	public static byte[] serialize(Object obj) throws IOException
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ObjectOutputStream os = new ObjectOutputStream(out);
+		os.writeObject(obj);
+		return out.toByteArray();
+	}
+
+	public static Object deserialize(byte[] data) throws IOException, ClassNotFoundException, EOFException
+	{
+		ByteArrayInputStream in = new ByteArrayInputStream(data);
+		ObjectInputStream is = new ObjectInputStream(in);
+		return is.readObject();
 	}
 }

@@ -1,7 +1,7 @@
 package org.greatfree.framework.cs.multinode.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The request is used to check the chatting server whether new chatting messages are available. It is sent to the chatting server periodically. If so, the new messages must be returned to the local user. 04/23/2017, Bing Li
@@ -21,7 +21,7 @@ public class PollNewChatsRequest extends ServerMessage
 
 	public PollNewChatsRequest(String chatSessionKey, String receiverKey, String receiverName)
 	{
-		super(ChatMessageType.POLL_NEW_CHATS_REQUEST);
+		super(SystemMessageType.POLL_NEW_CHATS_REQUEST);
 		this.chatSessionKey = chatSessionKey;
 		this.receiverKey = receiverKey;
 		this.receiverName = receiverName;

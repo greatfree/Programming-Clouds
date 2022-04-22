@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -33,8 +34,10 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
  */
 
 // Created: 11/03/2014, Bing Li
-public class FileManager
+public final class FileManager
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.util");
+	
 	/*
 	 * Detect whether a path or a directory exists in a specific file system, such
 	 * as Windows, Linux or Unix. 11/03/2014, Bing Li
@@ -57,9 +60,11 @@ public class FileManager
 	public synchronized static boolean makeDir(String directory)
 	{
 		String parentDir = getParentDir(directory);
+		log.info(parentDir);
 		if (!isDirExisted(parentDir))
 		{
 			makeDir(parentDir);
+//			(new File(parentDir)).mkdir();
 		}
 		return (new File(directory)).mkdir();
 	}
@@ -69,6 +74,7 @@ public class FileManager
 	 */
 	private static String getParentDir(String directory)
 	{
+		/*
 		int index;
 		if (!OSValidator.isWindows())
 		{
@@ -83,6 +89,8 @@ public class FileManager
 			return directory.substring(0, index);
 		}
 		return UtilConfig.NO_DIR;
+		*/
+		return new File(directory).getParent();
 	}
 
 	/*
@@ -184,32 +192,17 @@ public class FileManager
 	 * Bing Li
 	 */
 	/*
-	public static String loadTextSync(String fileName, int bufferSize) throws IOException
-	{
-		Path path = Paths.get(fileName);
-		FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ);
-		FileLock lock = fileChannel.lock(0, Long.MAX_VALUE, true);
-		if (lock.isValid() && lock.isShared())
-		{
-			StringBuffer sb = new StringBuffer();
-			ByteBuffer buffer = ByteBuffer.allocate(bufferSize);
-			int noOfBytesRead = fileChannel.read(buffer);
-			while (noOfBytesRead != -1)
-			{
-				buffer.flip();
-				while (buffer.hasRemaining())
-				{
-					sb.append((char) buffer.get());
-				}
-				buffer.clear();
-				noOfBytesRead = fileChannel.read(buffer);
-			}
-			return sb.toString();
-		}
-		fileChannel.close();
-		return UtilConfig.EMPTY_STRING;
-	}
-	*/
+	 * public static String loadTextSync(String fileName, int bufferSize) throws
+	 * IOException { Path path = Paths.get(fileName); FileChannel fileChannel =
+	 * FileChannel.open(path, StandardOpenOption.READ); FileLock lock =
+	 * fileChannel.lock(0, Long.MAX_VALUE, true); if (lock.isValid() &&
+	 * lock.isShared()) { StringBuffer sb = new StringBuffer(); ByteBuffer buffer =
+	 * ByteBuffer.allocate(bufferSize); int noOfBytesRead =
+	 * fileChannel.read(buffer); while (noOfBytesRead != -1) { buffer.flip(); while
+	 * (buffer.hasRemaining()) { sb.append((char) buffer.get()); } buffer.clear();
+	 * noOfBytesRead = fileChannel.read(buffer); } return sb.toString(); }
+	 * fileChannel.close(); return UtilConfig.EMPTY_STRING; }
+	 */
 
 	/*
 	 * Load a text file into the memory synchronously among processes. 11/25/2014,
@@ -225,7 +218,7 @@ public class FileManager
 			if (lock.isValid() && lock.isShared())
 			{
 				StringBuffer sb = new StringBuffer();
-				ByteBuffer buffer = ByteBuffer.allocate((int)fileChannel.size());
+				ByteBuffer buffer = ByteBuffer.allocate((int) fileChannel.size());
 				int noOfBytesRead = fileChannel.read(buffer);
 				if (noOfBytesRead != -1)
 				{
@@ -379,7 +372,7 @@ public class FileManager
 			baos.close();
 		}
 	}
-	
+
 	public static Object readObjectSync(String objectPath) throws IOException
 	{
 		FileInputStream fis = null;
@@ -390,12 +383,12 @@ public class FileManager
 		{
 			fis = new FileInputStream(objectPath);
 			FileChannel fc = fis.getChannel();
-//			System.out.println("FileManager-readObjectSync(): lock is acquiring");
+			// System.out.println("FileManager-readObjectSync(): lock is acquiring");
 			lock = fc.lock(0, Long.MAX_VALUE, true);
-//			System.out.println("FileManager-readObjectSync(): lock is acquired!");
+			// System.out.println("FileManager-readObjectSync(): lock is acquired!");
 			if (lock.isShared() && lock.isValid())
 			{
-				ByteBuffer buffer = ByteBuffer.allocate((int)fc.size());
+				ByteBuffer buffer = ByteBuffer.allocate((int) fc.size());
 				int noOfBytesRead = fc.read(buffer);
 				if (noOfBytesRead != -1)
 				{
@@ -407,7 +400,7 @@ public class FileManager
 			}
 			else
 			{
-//				System.out.println("FileManager-readObjectSync(): lock is NOT valid!");
+				// System.out.println("FileManager-readObjectSync(): lock is NOT valid!");
 			}
 		}
 		catch (IOException | ClassNotFoundException e)
@@ -457,12 +450,13 @@ public class FileManager
 		}
 	}
 
-//	public static byte[] loadFile(String filePath, int startIndex, int endIndex) throws IOException
+	// public static byte[] loadFile(String filePath, int startIndex, int endIndex)
+	// throws IOException
 	public static byte[] loadFile(String filePath, long startIndex, long endIndex) throws IOException
 	{
 		RandomAccessFile f = new RandomAccessFile(filePath, "r");
 		f.seek(startIndex);
-		byte[] bytes = new byte[(int)(endIndex - startIndex) + 1];
+		byte[] bytes = new byte[(int) (endIndex - startIndex) + 1];
 		f.read(bytes);
 		f.close();
 		return bytes;
@@ -502,7 +496,7 @@ public class FileManager
 	{
 		FileUtils.writeByteArrayToFile(new File(filePath), bytes);
 	}
-	
+
 	public synchronized static void removeDir(String directory) throws IOException
 	{
 		FileUtils.deleteDirectory(new File(directory));

@@ -2,9 +2,7 @@ package org.greatfree.framework.streaming.broadcast.root;
 
 import java.util.Calendar;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.chat.message.ShutdownServerNotification;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.framework.multicast.message.MulticastDIPMessageType;
@@ -12,6 +10,8 @@ import org.greatfree.framework.multicast.message.ShutdownChildrenAdminNotificati
 import org.greatfree.framework.streaming.message.StreamMessageType;
 import org.greatfree.framework.streaming.message.StreamNotification;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 03/18/2020, Bing Li
@@ -93,7 +93,7 @@ class StreamRootDispatcher extends ServerDispatcher<ServerMessage>
 				this.shutdownChildrenNotificationDispatcher.enqueue((ShutdownChildrenAdminNotification)message.getMessage());
 				break;
 				
-			case ChatMessageType.SHUTDOWN_SERVER_NOTIFICATION:
+			case SystemMessageType.SHUTDOWN_SERVER_NOTIFICATION:
 				System.out.println("SHUTDOWN_SERVER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.shutdownServerNotificationDispatcher.isReady())
 				{

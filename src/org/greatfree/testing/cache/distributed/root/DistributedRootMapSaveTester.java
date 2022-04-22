@@ -114,7 +114,8 @@ public class DistributedRootMapSaveTester
 
 		in.nextLine();
 		
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 
 		// After the server is started, the loop check whether the flag of terminating is set. If the terminating flag is true, the process is ended. Otherwise, the process keeps running. 08/22/2014, Bing Li
 		while (!TerminateSignal.SIGNAL().isTerminated())

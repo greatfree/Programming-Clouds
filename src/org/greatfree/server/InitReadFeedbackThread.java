@@ -1,12 +1,15 @@
 package org.greatfree.server;
 
-import java.io.IOException;
-
-import org.greatfree.client.ClientPoolSingleton;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.message.InitReadFeedbackNotification;
 import org.greatfree.message.InitReadNotification;
+
+/*
+ * So the thread is commented out. I will test whether any problems are caused by the removal. 04/22/2022, Bing Li
+ * 
+ * The below line causes the CPU usage to raise to 25% and the value never goes down. It is a big bug. The below line seems to be useless. 04/22/2022, Bing Li
+ *
+ */
 
 /*
  * This is an important thread since it ensure the local ObjectOutputStream is initialized and it notifies to the relevant remote ObjectInputStream can be initialized. 11/09/2014, Bing Li
@@ -40,6 +43,16 @@ public class InitReadFeedbackThread extends NotificationQueue<InitReadNotificati
 				{
 					// Dequeue the notification. 11/09/2014, Bing Li
 					notification = this.dequeue();
+					/*
+					 * So the thread is commented out. I will test whether any problems are caused by the removal. 04/22/2022, Bing Li
+					 * 
+					 * The below line causes the CPU usage to raise to 25% and the value never goes down. It is a big bug. The below line seems to be useless. 04/22/2022, Bing Li
+					 *
+					 */
+					/*
+					 * Maybe the notification, InitReadNotification, is useful. But the one, InitReadFeedbackNotification, is not necessary. I will test it. 04/22/2022, Bing Li
+					 */
+					/*
 					try
 					{
 						// Send the instance of InitReadFeedbackNotification to the client which needs to initialize the ObjectInputStream of an instance of FreeClient. 11/09/2014, Bing Li
@@ -50,6 +63,8 @@ public class InitReadFeedbackThread extends NotificationQueue<InitReadNotificati
 					{
 						e.printStackTrace();
 					}
+					*/
+					this.disposeMessage(notification);
 				}
 				catch (InterruptedException e)
 				{

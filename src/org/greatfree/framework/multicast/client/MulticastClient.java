@@ -14,7 +14,7 @@ import org.greatfree.util.IPAddress;
 import org.greatfree.util.Tools;
 
 // Created: 08/26/2018, Bing Li
-class MulticastClient
+final class MulticastClient
 {
 	private CSClient client;
 	

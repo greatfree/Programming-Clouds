@@ -462,6 +462,7 @@ public class ClusterServer
 	
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
+//		TerminateSignal.SIGNAL().notifyAllTermination();
 		ClusterRoot.CLUSTER().dispose(timeout);
 	}
 

@@ -1,7 +1,7 @@
 package org.greatfree.framework.p2p.message;
 
-import org.greatfree.chat.message.ChatMessageType;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The response is used to respond to the client node about the result of the account registry. 04/30/2017, Bing Li
@@ -17,7 +17,7 @@ public class ChatRegistryResponse extends ServerMessage
 
 	public ChatRegistryResponse(boolean isSucceeded)
 	{
-		super(ChatMessageType.PEER_CHAT_REGISTRY_RESPONSE);
+		super(SystemMessageType.PEER_CHAT_REGISTRY_RESPONSE);
 		this.isSucceeded = isSucceeded;
 	}
 

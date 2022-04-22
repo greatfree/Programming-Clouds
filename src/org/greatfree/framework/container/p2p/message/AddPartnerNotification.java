@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Notification;
 
 // Created: 01/12/2019, Bing Li
@@ -13,7 +14,7 @@ public class AddPartnerNotification extends Notification
 
 	public AddPartnerNotification(String localUserName, String partnerName, String invitation)
 	{
-		super(P2PChatApplicationID.ADD_PARTNER_NOTIFICATION);
+		super(SystemMessageType.ADD_PARTNER_NOTIFICATION);
 		this.localUserName = localUserName;
 		this.partnerName = partnerName;
 		this.invitation = invitation;

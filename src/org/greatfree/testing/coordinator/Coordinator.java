@@ -244,7 +244,8 @@ public class Coordinator
 	public void stop() throws IOException, InterruptedException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		// Close the sockets for the coordinator. 11/25/2014, Bing Li
 		this.crawlServerSocket.close();
 		this.memServerSocket.close();

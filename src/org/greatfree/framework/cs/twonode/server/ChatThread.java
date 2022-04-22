@@ -9,8 +9,9 @@ import org.greatfree.framework.cs.multinode.message.ChatNotification;
  */
 
 // Created: 06/21/2018, Bing Li
-public class ChatThread extends NotificationQueue<ChatNotification>
+class ChatThread extends NotificationQueue<ChatNotification>
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.framework.cs.twonode.server");
 
 	public ChatThread(int taskSize)
 	{
@@ -23,8 +24,10 @@ public class ChatThread extends NotificationQueue<ChatNotification>
 		ChatNotification notification;
 		while (!this.isShutdown())
 		{
+//			log.info("1) Here, here, here ...");
 			while (!this.isEmpty())
 			{
+//				log.info("2) Here, here, here ...");
 				try
 				{
 					// Dequeue. 02/19/2020, Bing Li

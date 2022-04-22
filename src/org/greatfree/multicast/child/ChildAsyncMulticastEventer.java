@@ -6,7 +6,7 @@ import org.greatfree.data.ClientConfig;
 import org.greatfree.message.multicast.MulticastNotification;
 
 // Created: 09/15/2018, Bing Li
-class ChildAsyncMulticastEventer
+final class ChildAsyncMulticastEventer
 {
 	// The actor to perform multicasting asynchronously. 09/10/2018, Bing Li
 	private AsyncPool<MulticastNotification> actor;

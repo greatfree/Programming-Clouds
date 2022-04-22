@@ -2,6 +2,7 @@ package org.greatfree.framework.container.p2p.message;
 
 import java.util.Set;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 09/13/2019, Bing Li
@@ -13,7 +14,7 @@ public class PartnersRequest extends Request
 
 	public PartnersRequest(Set<String> partnerKeys)
 	{
-		super(P2PChatApplicationID.PARTNERS_REQUEST);
+		super(SystemMessageType.PARTNERS_REQUEST);
 		this.partnerKeys = partnerKeys;
 	}
 

@@ -11,11 +11,11 @@ import org.greatfree.app.cs.twonode.message.MerchandiseResponse;
 import org.greatfree.app.cs.twonode.message.MerchandiseStream;
 import org.greatfree.app.cs.twonode.message.OrderDecisionNotification;
 import org.greatfree.app.cs.twonode.message.PostMerchandiseNotification;
-import org.greatfree.client.MessageStream;
 import org.greatfree.concurrency.reactive.NotificationDispatcher;
 import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
 // Created: 07/25/2018, Bing Li

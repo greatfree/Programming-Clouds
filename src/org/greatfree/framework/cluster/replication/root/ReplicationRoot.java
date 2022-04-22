@@ -8,6 +8,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.replication.ReplicationConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
+import org.greatfree.util.TerminateSignal;
 
 /*
  * This is the root of the cluster that is able to replicate data within its nodes to avoid possible loss of data. 09/07/2020, Bing Li
@@ -44,6 +45,7 @@ class ReplicationRoot
 
 	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 	

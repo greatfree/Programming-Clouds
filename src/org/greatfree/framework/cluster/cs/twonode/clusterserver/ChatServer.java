@@ -7,6 +7,7 @@ import org.greatfree.cluster.root.container.ClusterServerContainer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
+import org.greatfree.util.TerminateSignal;
 
 // Created: 01/13/2019, Bing Li
 public class ChatServer
@@ -47,6 +48,7 @@ public class ChatServer
 		// Set the terminating signal. 11/25/2014, Bing Li
 		TerminateSignal.SIGNAL().setTerminated();
 		*/
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 	

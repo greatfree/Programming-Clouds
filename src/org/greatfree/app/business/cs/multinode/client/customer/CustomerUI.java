@@ -6,7 +6,7 @@ import java.util.Scanner;
 import org.greatfree.app.business.cs.multinode.client.CustomerCookies;
 import org.greatfree.app.business.cs.multinode.client.UserID;
 import org.greatfree.app.business.cs.multinode.server.Merchandise;
-import org.greatfree.app.business.cs.multinode.server.Transaction;
+import org.greatfree.app.business.cs.multinode.server.MyTransaction;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.chat.client.business.dip.ChatReader;
@@ -152,7 +152,7 @@ public class CustomerUI
 				checkCTRResponse = CustomerReader.CR().checkCustomerTransaction(UserID.CID().getUserKey());
 				if (checkCTRResponse.getTransactions() != null)
 				{
-					for (Map.Entry<String, Transaction> entry : checkCTRResponse.getTransactions().entrySet())
+					for (Map.Entry<String, MyTransaction> entry : checkCTRResponse.getTransactions().entrySet())
 					{
 						System.out.println(entry.getValue().getVendorName());
 						System.out.println(entry.getValue().getCustomerName());

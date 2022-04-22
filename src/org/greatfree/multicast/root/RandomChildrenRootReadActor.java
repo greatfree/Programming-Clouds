@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 
 // Created: 09/11/2020, Bing Li
-class RandomChildrenRootReadActor extends AsyncMulticastor<RandomChildrenMulticastRequest>
+final class RandomChildrenRootReadActor extends AsyncMulticastor<RandomChildrenMulticastRequest>
 {
 
 	public RandomChildrenRootReadActor(RootSyncMulticastor multicastor)
@@ -14,11 +14,11 @@ class RandomChildrenRootReadActor extends AsyncMulticastor<RandomChildrenMultica
 	}
 
 	@Override
-	public void perform(RandomChildrenMulticastRequest message)
+	public void perform(RandomChildrenMulticastRequest request)
 	{
 		try
 		{
-			super.getMulticastor().readWithinNChildren(message.getRequest(), message.getChildrenSize());
+			super.getMulticastor().readWithinNChildren(request.getRequest(), request.getChildrenSize());
 		}
 		catch (DistributedNodeFailedException | IOException e)
 		{
@@ -26,5 +26,14 @@ class RandomChildrenRootReadActor extends AsyncMulticastor<RandomChildrenMultica
 		}
 		
 	}
+
+	/*
+	@Override
+	public void perform(RandomChildrenMulticastRequest message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 
 }

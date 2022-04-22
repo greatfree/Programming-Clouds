@@ -13,6 +13,7 @@ import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.mrtc.NodeIDs;
 import org.greatfree.message.container.Notification;
 import org.greatfree.util.IPPort;
+import org.greatfree.util.TerminateSignal;
 
 // Created: 09/22/2019, Bing Li
 class Slave
@@ -44,6 +45,7 @@ class Slave
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
 		Scheduler.GREATFREE().shutdown(timeout);
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.dt.stop(timeout);
 	}
 

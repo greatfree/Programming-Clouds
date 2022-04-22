@@ -47,7 +47,8 @@ class Slave
 		DistributedThreadPool.POOL().dispose(timeout);
 		ChatMaintainer.PEER().dispose();
 		// Set the terminating signal. 11/25/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.slave.stop(timeout);
 	}
 

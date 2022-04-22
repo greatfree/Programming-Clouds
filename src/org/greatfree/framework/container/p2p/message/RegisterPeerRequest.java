@@ -1,5 +1,6 @@
 package org.greatfree.framework.container.p2p.message;
 
+import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.container.Request;
 
 // Created: 01/12/2019, Bing Li
@@ -14,7 +15,7 @@ public class RegisterPeerRequest extends Request
 
 	public RegisterPeerRequest(String peerKey, String peerName, String ip, int port)
 	{
-		super(P2PChatApplicationID.REGISTER_PEER_REQUEST);
+		super(SystemMessageType.REGISTER_PEER_REQUEST);
 		this.peerKey = peerKey;
 		this.peerName = peerName;
 		this.ip = ip;

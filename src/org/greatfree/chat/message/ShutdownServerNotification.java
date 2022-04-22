@@ -1,6 +1,7 @@
 package org.greatfree.chat.message;
 
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.SystemMessageType;
 
 /*
  * The notification aims to notify the chatting server to shutdown. 01/20/2016, Bing Li
@@ -13,7 +14,7 @@ public class ShutdownServerNotification extends ServerMessage
 
 	public ShutdownServerNotification()
 	{
-		super(ChatMessageType.SHUTDOWN_SERVER_NOTIFICATION);
+		super(SystemMessageType.SHUTDOWN_SERVER_NOTIFICATION);
 	}
 
 }

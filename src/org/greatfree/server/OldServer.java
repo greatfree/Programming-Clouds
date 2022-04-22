@@ -12,7 +12,6 @@ import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.ServerStatus;
-import org.greatfree.util.TerminateSignal;
 
 /*
  * Different from the class, Server, a singleton, the ServerInstance is an instance of server. It can be used as a underlying substrate to program further by developers. 04/16/2017, Bing Li
@@ -134,7 +133,8 @@ public class OldServer<CSServerDispatcher extends ServerDispatcher<ServerMessage
 	public void stop(long timeout) throws IOException, InterruptedException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
-		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().setTerminated();
+//		TerminateSignal.SIGNAL().notifyAllTermination();
 		// Close the socket for the server. 08/10/2014, Bing Li
 		this.mySocket.close();
 		// Close the socket for the administrator server. 01/20/2016, Bing Li

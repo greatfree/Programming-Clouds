@@ -22,7 +22,7 @@ import org.greatfree.util.ServerStatus;
 
 // Created: 04/19/2017, Bing Li
 // public class P2PListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends ServerListener implements Runnable
-public class P2PListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends ServerListener
+class P2PListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends ServerListener
 {
 	private final int port;
 	// Declare the server message producer, which is the important part of the server. Application developers can work on that directly through programming Dispatcher. 04/17/2017, Bing Li

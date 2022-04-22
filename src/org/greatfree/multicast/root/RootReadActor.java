@@ -7,7 +7,7 @@ import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 09/15/2018, Bing Li
 // class RootReadActor extends Async<MulticastRequest>
-class RootReadActor extends AsyncMulticastor<MulticastRequest>
+final class RootReadActor extends AsyncMulticastor<MulticastRequest>
 {
 	public RootReadActor(RootSyncMulticastor multicastor)
 	{
@@ -26,5 +26,14 @@ class RootReadActor extends AsyncMulticastor<MulticastRequest>
 			e.printStackTrace();
 		}
 	}
+
+	/*
+	@Override
+	public void perform(MulticastRequest message, int cryptoOption)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 
 }
