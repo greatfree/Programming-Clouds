@@ -206,8 +206,8 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				*/
 				
-			case MulticastMessageType.NOTIFICATION:
-				log.info("NOTIFICATION received at " + Calendar.getInstance().getTime());
+			case MulticastMessageType.CLUSTER_NOTIFICATION:
+				log.info("CLUSTER_NOTIFICATION received at " + Calendar.getInstance().getTime());
 				if (!this.notificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -217,8 +217,8 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				this.notificationDispatcher.enqueue((ClusterNotification)message.getMessage());
 				break;
 				
-			case MulticastMessageType.REQUEST:
-				log.info("REQUEST received at " + Calendar.getInstance().getTime());
+			case MulticastMessageType.CLUSTER_REQUEST:
+				log.info("CLUSTER_REQUEST received at " + Calendar.getInstance().getTime());
 				if (!this.requestDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li

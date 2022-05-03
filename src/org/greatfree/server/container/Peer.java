@@ -2,6 +2,7 @@ package org.greatfree.server.container;
 
 import java.io.IOException;
 import java.util.concurrent.Future;
+import java.util.logging.Logger;
 
 import org.greatfree.client.CSClient;
 import org.greatfree.client.FreeClientPool;
@@ -21,6 +22,8 @@ import org.greatfree.util.ServerStatus;
 
 public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends AbstractCSServer<Dispatcher>
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.server.container");
+
 	private Register<Dispatcher> register;
 	private CSClient client;
 
@@ -450,12 +453,20 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 	/*
 	 * Shutdown the peer. 04/29/2017, Bing Li
 	 */
-	public synchronized void stop(long timeout) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public synchronized void stop(long timeout)
 	{
 		// The line aims to hide exceptions when the system is shutdown. 03/19/2020, Bing Li
 		ServerStatus.FREE().setShutdown();
 //		System.out.println("===> Peer-stop(): starting ...");
-		this.register.unregister(this.client);
+		try
+		{
+			this.register.unregister(this.client);
+		}
+		catch (ClassNotFoundException | RemoteReadException | IOException e)
+		{
+//			e.printStackTrace();
+			log.info("Registry Server is down!");
+		}
 		// Since here is a request, it is required to wait for the response before shutting down. 01/16/2019, Bing Li
 		try
 		{
@@ -466,8 +477,24 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 //			System.out.println("===> Peer-stop(): sleep is INTERRUPTED ...");
 			ServerStatus.FREE().printException(e);
 		}
-		this.client.dispose();
-		super.stop(timeout);
+		try
+		{
+			this.client.dispose();
+		}
+		catch (IOException | InterruptedException e)
+		{
+//			e.printStackTrace();
+			log.info("The remote node is down!");
+		}
+		try
+		{
+			super.stop(timeout);
+		}
+		catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+		{
+//			e.printStackTrace();
+			log.info("The peer's disposing gets exceptions!");
+		}
 //		System.out.println("===> Peer-stop(): done ...");
 	}
 	

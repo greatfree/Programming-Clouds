@@ -58,5 +58,4 @@ class BusinessDBTask implements ServerTask
 		}
 		return null;
 	}
-
 }

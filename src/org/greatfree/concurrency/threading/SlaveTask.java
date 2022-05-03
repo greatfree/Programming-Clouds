@@ -142,5 +142,4 @@ class SlaveTask implements ServerTask
 		}
 		return null;
 	}
-
 }

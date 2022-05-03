@@ -16,6 +16,12 @@ public abstract class Notification extends ServerMessage
 		super(CSMessageType.NOTIFICATION);
 		this.applicationID = applicationID;
 	}
+	
+	public Notification(int type, int applicationID)
+	{
+		super(type);
+		this.applicationID = applicationID;
+	}
 
 	public int getApplicationID()
 	{

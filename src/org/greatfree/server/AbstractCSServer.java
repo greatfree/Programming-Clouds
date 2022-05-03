@@ -13,14 +13,15 @@ import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.server.CSServer.CSServerBuilder;
 import org.greatfree.util.ServerStatus;
-import org.greatfree.util.Tools;
 
 // Created: 07/08/2018, Bing Li
 public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.server");
+	
 	// The server ID. 04/21/2017, Bing Li
 //	private final String id;
-	private String hashKey;
+	private String serverKey;
 	// The ServerSocket waits for clients' connecting. The socket serves the server in the sense that it not only responds to clients' requests but also notifies clients even without clients' requests. 08/10/2014, Bing Li
 	private ServerSocket socket;
 	// The port number for socket. 08/10/2014, Bing Li
@@ -92,7 +93,9 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 //	public AbstractCSServer(int port, int listenerCount, int serverThreadPoolSize, long serverThreadKeepAliveTime, Dispatcher dispatcher, boolean isPeer) throws IOException
 	public AbstractCSServer(int port, int listenerCount, Dispatcher dispatcher, boolean isPeer) throws IOException
 	{
-		this.hashKey = Tools.generateUniqueKey();
+//		this.hashKey = Tools.generateUniqueKey();
+		this.serverKey = dispatcher.getServerKey();
+		
 		this.port = port;
 		if (!isPeer)
 		{
@@ -112,7 +115,7 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 		this.messageProducer = new ServerMessageProducer<Dispatcher>();
 		this.dispatcher = dispatcher;
 //		System.out.println("AbstractCSServer-Constructor(): dispatcher hashCode = " + this.dispatcher.hashCode());
-		this.dispatcher.setServerKey(this.hashKey);
+//		this.dispatcher.setServerKey(this.hashKey);
 		this.isStarted = new AtomicBoolean(false);
 //		this.timeout = timeout;
 	}
@@ -134,7 +137,8 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 
 	public AbstractCSServer(CSServerBuilder<Dispatcher> builder) throws IOException
 	{
-		this.hashKey = Tools.generateUniqueKey();
+//		this.hashKey = Tools.generateUniqueKey();
+		this.serverKey = builder.getDispatcher().getServerKey();
 		this.port = builder.getPort();
 		this.socket = new ServerSocket(this.port);
 		this.listenerCount = builder.getListenerCount();
@@ -149,7 +153,7 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 		this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>>>();
 		this.messageProducer = new ServerMessageProducer<Dispatcher>();
 		this.dispatcher = builder.getDispatcher();
-		this.dispatcher.setServerKey(this.hashKey);
+//		this.dispatcher.setServerKey(this.hashKey);
 		this.isStarted = new AtomicBoolean(false);
 //		this.timeout = builder.getTimeout();
 	}
@@ -161,10 +165,12 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 	}
 	*/
 	
+	/*
 	protected String getHashKey()
 	{
 		return this.hashKey;
 	}
+	*/
 	
 	protected int getPort()
 	{
@@ -196,7 +202,7 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 	protected void start() throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		// Set the ID as the server. 05/11/2017, Bing Li
-		ServerStatus.FREE().addServerID(this.hashKey);
+		ServerStatus.FREE().addServerID(this.serverKey);
 		
 		// Usually, the server is a singleton in a process. Thus, the thread pool employed as a singleton is reasonable. 05/11/2017, Bing Li
 //		SharedThreadPool.SHARED().init(this.listenerThreadPoolSize, this.listenerThreadKeepAliveTime);

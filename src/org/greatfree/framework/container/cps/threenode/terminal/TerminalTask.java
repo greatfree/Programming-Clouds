@@ -52,5 +52,4 @@ public class TerminalTask implements ServerTask
 		}
 		return null;
 	}
-
 }

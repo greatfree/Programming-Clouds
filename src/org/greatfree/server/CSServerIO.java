@@ -2,7 +2,6 @@ package org.greatfree.server;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Logger;
 
 import org.greatfree.client.ServerIO;
 import org.greatfree.client.ServerIORegistry;
@@ -18,7 +17,7 @@ import org.greatfree.util.ServerStatus;
 // Created: 04/19/2017, Bing Li
 class CSServerIO<Dispatcher extends ServerDispatcher<ServerMessage>> extends ServerIO
 {
-	private final static Logger log = Logger.getLogger("org.greatfree.server");
+//	private final static Logger log = Logger.getLogger("org.greatfree.server");
 	
 	// Declare the server message producer, which is the important part of the server. Application developers can work on that directly through programming Dispatcher. 04/17/2017, Bing Li
 	private ServerMessageProducer<Dispatcher> messageProducer;
@@ -60,7 +59,8 @@ class CSServerIO<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ser
 			catch (ClassNotFoundException | IOException e)
 			{
 //				log.info("Waiting for messages got exceptions ... ");
-				log.info(e.toString());
+//				log.info(e.toString());
+//				log.info("Being idle for a long time results in a connection being cut ...");
 				// If the remote node is not shutdown, it indicates that the remote node disconnects one connection and the exception is raised. Then, relevant management tasks need to be accomplished. 02/06/2016, Bing Li 
 //				if (!ServerStatus.FREE().isServerDown(AdminConfig.CLIENT_ID))
 //				{

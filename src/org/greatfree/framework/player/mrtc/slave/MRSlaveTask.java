@@ -30,5 +30,4 @@ class MRSlaveTask extends ATMTask
 	{
 		return super.processRead(request);
 	}
-
 }

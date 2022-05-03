@@ -57,5 +57,4 @@ class MasterTaskC implements ServerTask
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

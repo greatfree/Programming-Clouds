@@ -39,6 +39,8 @@ import org.greatfree.server.ServerDispatcher;
 // Created: 01/13/2019, Bing Li
 class RootDispatcher extends ServerDispatcher<ServerMessage>
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster.root.container");
+	
 	/*
 	 * The below messages are in the system level ones which are processed internally such that programmers do not need to care. 09/12/2020, Bing Li
 	 */
@@ -65,8 +67,6 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 	private RequestDispatcher<IntercastRequest, IntercastRequestStream, CollectedClusterResponse, IntercastRequestThread, IntercastRequestThreadCreator> intercastRequestDispatcher;
 
 	private NotificationDispatcher<ChildResponse, ChildResponseThread, ChildResponseThreadCreator> multicastResponseDispatcher;
-
-	private final static Logger log = Logger.getLogger("org.greatfree.cluster.child.container");
 
 //	public RootDispatcher(int schedulerPoolSize, long schedulerKeepAliveTime)
 	public RootDispatcher(int serverThreadPoolSize, long serverThreadKeepAliveTime, int schedulerPoolSize, long schedulerKeepAliveTime)
@@ -325,8 +325,8 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				this.childRootRequestDispatcher.enqueue(new ChildRootStream(message.getOutStream(), message.getLock(), (ChildRootRequest)message.getMessage()));
 				break;
 
-			case MulticastMessageType.NOTIFICATION:
-//				log.info("NOTIFICATION received @" + Calendar.getInstance().getTime());
+			case MulticastMessageType.CLUSTER_NOTIFICATION:
+				log.info("CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.notificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -336,8 +336,8 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				this.notificationDispatcher.enqueue((ClusterNotification)message.getMessage());
 				break;
 
-			case MulticastMessageType.REQUEST:
-				log.info("REQUEST received @" + Calendar.getInstance().getTime());
+			case MulticastMessageType.CLUSTER_REQUEST:
+				log.info("CLUSTER_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the shutdown notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.requestDispatcher.isReady())
 				{

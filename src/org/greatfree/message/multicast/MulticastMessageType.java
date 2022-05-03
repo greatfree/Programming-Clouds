@@ -7,11 +7,11 @@ package org.greatfree.message.multicast;
  */
 
 // Created: 01/14/2019, Bing Li
-final public class MulticastMessageType
+public class MulticastMessageType
 {
-	public final static int NOTIFICATION = 15;
-	public final static int REQUEST = 16;
-	public final static int RESPONSE = 17;
+	public final static int CLUSTER_NOTIFICATION = 15;
+	public final static int CLUSTER_REQUEST = 16;
+	public final static int CLUSTER_RESPONSE = 17;
 	
 	public final static int BROADCAST_NOTIFICATION = 18;
 	public final static int ANYCAST_NOTIFICATION = 19;
@@ -60,4 +60,8 @@ final public class MulticastMessageType
 	
 	public final static int CHILD_ROOT_REQUEST = 72;
 	public final static int CHILD_ROOT_RESPONSE = 73;
+	
+	public final static int MULTICAST_REQUEST = 300;
+	public final static int MULTICAST_RESPONSE = 301;
+	public final static int MULTICAST_NOTIFICATION = 302;
 }

@@ -64,11 +64,13 @@ public class ClusterProfile
 		reader.close();
 	}
 	
-	public void init(String registryIP, int registryPort)
+//	public void init(String registryIP, int registryPort)
+	public void init(String registryIP, int registryPort, boolean isDefault)
 	{
 		log.info("ClusterProfile-init(String ip, int port): ip = " + registryIP + ", port = " + registryPort);
 		
-		ServerProfile.CS().setDefault(false);
+//		ServerProfile.CS().setDefault(false);
+		ServerProfile.CS().setDefault(isDefault);
 		PeerProfile.P2P().init(registryIP, registryPort);
 	}
 	

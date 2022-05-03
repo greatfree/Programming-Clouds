@@ -29,5 +29,4 @@ class MasterTask extends ATMTask
 	{
 		return super.processRead(request);
 	}
-
 }

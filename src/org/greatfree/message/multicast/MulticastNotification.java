@@ -2,18 +2,16 @@ package org.greatfree.message.multicast;
 
 import java.util.Map;
 
-import org.greatfree.message.container.Notification;
+import org.greatfree.message.ServerMessage;
 import org.greatfree.util.IPAddress;
+import org.greatfree.util.Tools;
 
 /*
- * An update: It is better to inherit Notification rather than ServerMessage to reuse code. 04/07/2022, Bing Li
- * 
  * This is the base class to implement the message that can be multicast among a cluster of nodes. 05/12/2017, Bing Li
  */
 
 // Created: 05/12/2017, Bing Li
-// public abstract class MulticastNotification extends ServerMessage
-public abstract class MulticastNotification extends Notification
+public abstract class MulticastNotification extends ServerMessage
 {
 	private static final long serialVersionUID = 6752213037140344467L;
 	
@@ -23,6 +21,7 @@ public abstract class MulticastNotification extends Notification
 	
 	// The nodes to receive the message to be multicast. 05/12/2017, Bing Li
 	private Map<String, IPAddress> children;
+	private int applicationID;
 
 	/*
 	 * Initialize the message to be multicast. 05/12/2017, Bing Li
@@ -50,12 +49,25 @@ public abstract class MulticastNotification extends Notification
 	 * Another constructor of the message. This is invoked by the node which has no grandsons. 11/10/2014, Bing Li
 	 */
 //	public MulticastMessage(int type, String key)
-	public MulticastNotification(int type)
+	public MulticastNotification(int applicationID)
 	{
-//		super(type, Tools.generateUniqueKey());
-		super(type);
+		super(MulticastMessageType.MULTICAST_NOTIFICATION, Tools.generateUniqueKey());
 		this.children = null;
 //		this.isAnycast = false;
+		this.applicationID = applicationID;
+	}
+
+	public MulticastNotification(int type, int applicationID)
+	{
+		super(type, Tools.generateUniqueKey());
+		this.children = null;
+//		this.isAnycast = false;
+		this.applicationID = applicationID;
+	}
+	
+	public int getApplicationID()
+	{
+		return this.applicationID;
 	}
 	
 	/*

@@ -18,6 +18,20 @@ public abstract class ClusterRequest extends MulticastRequest
 	private Set<String> childrenKeys;
 
 	/*
+	 * This constructor is used to initialize a unicast which selecting a child randomly. 04/29/2022, Bing Li
+	 */
+	public ClusterRequest(int applicationID)
+	{
+		super(MulticastMessageType.CLUSTER_REQUEST);
+		this.clientKey = null;
+//		this.requestType = requestType;
+		this.requestType = MulticastMessageType.UNICAST_REQUEST;
+		this.applicationID = applicationID;
+		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
+		this.childrenKeys = null;
+	}
+
+	/*
 	 * 
 	 * This key is important. Developers can set the value. So they can decide how to balance the load. For example, in the case of S3, all of the encoded data slices for the same encoding block can be sent to a unique child for merging. The client key can be the ID of the encoding block. 07/11/2020, Bing Li
 	 * 
@@ -26,7 +40,7 @@ public abstract class ClusterRequest extends MulticastRequest
 //	public Request(String clientKey, int requestType, int applicationID)
 	public ClusterRequest(String clientKey, int applicationID)
 	{
-		super(MulticastMessageType.REQUEST);
+		super(MulticastMessageType.CLUSTER_REQUEST);
 		this.clientKey = clientKey;
 //		this.requestType = requestType;
 		this.requestType = MulticastMessageType.UNICAST_REQUEST;
@@ -44,7 +58,7 @@ public abstract class ClusterRequest extends MulticastRequest
 	 */
 	public ClusterRequest(int requestType, int applicationID)
 	{
-		super(MulticastMessageType.REQUEST);
+		super(MulticastMessageType.CLUSTER_REQUEST);
 		this.requestType = requestType;
 		this.applicationID = applicationID;
 		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
@@ -56,7 +70,7 @@ public abstract class ClusterRequest extends MulticastRequest
 	 */
 	public ClusterRequest(int requestType, int applicationID, int partitionIndex)
 	{
-		super(MulticastMessageType.REQUEST);
+		super(MulticastMessageType.CLUSTER_REQUEST);
 		this.requestType = requestType;
 		this.applicationID = applicationID;
 		this.partitionIndex = partitionIndex;
@@ -68,7 +82,7 @@ public abstract class ClusterRequest extends MulticastRequest
 	 */
 	public ClusterRequest(int requestType, int applicationID, Set<String> childrenKeys)
 	{
-		super(MulticastMessageType.REQUEST);
+		super(MulticastMessageType.CLUSTER_REQUEST);
 		this.requestType = requestType;
 		this.applicationID = applicationID;
 		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;

@@ -71,5 +71,4 @@ class MasterTask extends ATMTask
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

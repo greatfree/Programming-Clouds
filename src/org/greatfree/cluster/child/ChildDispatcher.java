@@ -85,8 +85,8 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				this.rootIPBroadcastNotificationDispatcher.enqueue((RootAddressNotification)message.getMessage());
 				break;
 				
-			case MulticastMessageType.NOTIFICATION:
-				System.out.println("NOTIFICATION received at " + Calendar.getInstance().getTime());
+			case MulticastMessageType.CLUSTER_NOTIFICATION:
+				System.out.println("CLUSTER_NOTIFICATION received at " + Calendar.getInstance().getTime());
 				if (!this.notificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -96,8 +96,8 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				this.notificationDispatcher.enqueue((ClusterNotification)message.getMessage());
 				break;
 				
-			case MulticastMessageType.REQUEST:
-				System.out.println("REQUEST received at " + Calendar.getInstance().getTime());
+			case MulticastMessageType.CLUSTER_REQUEST:
+				System.out.println("CLUSTER_REQUEST received at " + Calendar.getInstance().getTime());
 				if (!this.requestDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li

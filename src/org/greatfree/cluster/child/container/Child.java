@@ -46,8 +46,10 @@ import org.greatfree.util.UtilConfig;
  */
 
 // Created: 01/13/2019, Bing Li
-class Child
+final class Child
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster.child.container");
+
 	// The IP address of the cluster root. 06/15/2017, Bing Li
 	private String rootKey;
 	private IPAddress rootAddress;
@@ -60,7 +62,6 @@ class Child
 	private AtomicBoolean isIdle;
 	*/
 
-	private final static Logger log = Logger.getLogger("org.greatfree.cluster.child.container");
 
 	/*
 	 * The class is added to the child. That is an interesting design which supports the client's to perform inter-multicasting. 02/28/2019, Bing Li
@@ -103,7 +104,7 @@ class Child
 		this.subRootClient.close();
 	}
 
-	public void init(PeerBuilder<ChildDispatcher> builder,  int rootBranchCount, int treeBranchCount, long waitTime) throws IOException
+	public void init(PeerBuilder<ChildDispatcher> builder, int rootBranchCount, int treeBranchCount, long waitTime) throws IOException
 	{
 		this.child = new Peer<ChildDispatcher>(builder);
 		this.client = new ChildClient(this.child.getLocalIPKey(), this.child.getClientPool(), treeBranchCount, this.child.getPool());
@@ -201,10 +202,12 @@ class Child
 	}
 	*/
 
+	/*
 	public String getChildKey()
 	{
 		return this.child.getPeerID();
 	}
+	*/
 
 	/*
 	 * The child is enabled to interact with the root through notification synchronously. 09/14/2020, Bing Li

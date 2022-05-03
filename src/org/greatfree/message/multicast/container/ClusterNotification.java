@@ -25,7 +25,7 @@ public abstract class ClusterNotification extends MulticastNotification
 //	public Notification(String clientKey, int notificationType, int applicationID)
 	public ClusterNotification(String clientKey, int applicationID)
 	{
-		super(MulticastMessageType.NOTIFICATION);
+		super(MulticastMessageType.CLUSTER_NOTIFICATION);
 		this.clientKey = clientKey;
 		// MulticastMessageType.UNICAST_NOTIFICATION
 //		this.notificationType = notificationType;
@@ -40,7 +40,7 @@ public abstract class ClusterNotification extends MulticastNotification
 	 */
 	public ClusterNotification(int applicationID)
 	{
-		super(MulticastMessageType.NOTIFICATION);
+		super(MulticastMessageType.CLUSTER_NOTIFICATION);
 		this.notificationType = MulticastMessageType.UNICAST_NOTIFICATION;
 		this.applicationID = applicationID;
 		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
@@ -57,7 +57,7 @@ public abstract class ClusterNotification extends MulticastNotification
 	 */
 	public ClusterNotification(int notificationType, int applicationID)
 	{
-		super(MulticastMessageType.NOTIFICATION);
+		super(MulticastMessageType.CLUSTER_NOTIFICATION);
 		this.notificationType = notificationType;
 		this.applicationID = applicationID;
 		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;
@@ -69,7 +69,7 @@ public abstract class ClusterNotification extends MulticastNotification
 	 */
 	public ClusterNotification(int notificationType, int applicationID, int partitionIndex)
 	{
-		super(MulticastMessageType.NOTIFICATION);
+		super(MulticastMessageType.CLUSTER_NOTIFICATION);
 		this.notificationType = notificationType;
 		this.applicationID = applicationID;
 		this.partitionIndex = partitionIndex;
@@ -81,7 +81,7 @@ public abstract class ClusterNotification extends MulticastNotification
 	 */
 	public ClusterNotification(int notificationType, int applicationID, Set<String> childrenKeys)
 	{
-		super(MulticastMessageType.NOTIFICATION);
+		super(MulticastMessageType.CLUSTER_NOTIFICATION);
 		this.notificationType = notificationType;
 		this.applicationID = applicationID;
 		this.partitionIndex = ClusterConfig.NO_PARTITION_INDEX;

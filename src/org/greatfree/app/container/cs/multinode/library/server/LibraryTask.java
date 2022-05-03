@@ -42,5 +42,4 @@ public class LibraryTask implements ServerTask
 		}
 		return null;
 	}
-
 }

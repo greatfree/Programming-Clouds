@@ -58,7 +58,9 @@ public class RegistryConfig
 	public final static int READER_CLIENT_SIZE = 500;
 	public final static long SYNC_EVENTER_IDLE_CHECK_DELAY = 4000;
 	public final static long SYNC_EVENTER_IDLE_CHECK_PERIOD = 5000;
-	public final static long SYNC_EVENTER_MAX_IDLE_TIME = 3000;
+//	public final static long SYNC_EVENTER_MAX_IDLE_TIME = 3000;
+//	public final static long SYNC_EVENTER_MAX_IDLE_TIME = 50000;
+	public final static long SYNC_EVENTER_MAX_IDLE_TIME = 120000;
 	public final static int CLIENT_THREAD_POOL_SIZE = 100;
 	public final static long CLIENT_THREAD_KEEP_ALIVE_TIME = 3000;
 

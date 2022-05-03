@@ -19,7 +19,7 @@ import org.greatfree.util.IPAddress;
  */
 
 // Created: 01/13/2019, Bing Li
-class ClusterChild
+final class ClusterChild
 {
 //	private final int treeBranchCount;
 	

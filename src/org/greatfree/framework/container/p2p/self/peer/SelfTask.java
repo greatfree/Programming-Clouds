@@ -42,5 +42,4 @@ class SelfTask implements ServerTask
 		}
 		return null;
 	}
-
 }

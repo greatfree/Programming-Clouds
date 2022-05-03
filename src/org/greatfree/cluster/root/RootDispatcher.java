@@ -157,8 +157,8 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				*/
 
-			case MulticastMessageType.NOTIFICATION:
-				System.out.println("NOTIFICATION received @" + Calendar.getInstance().getTime());
+			case MulticastMessageType.CLUSTER_NOTIFICATION:
+				System.out.println("CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				if (!this.notificationDispatcher.isReady())
 				{
 					// Execute the notification dispatcher concurrently. 02/15/2016, Bing Li
@@ -168,8 +168,8 @@ class RootDispatcher extends ServerDispatcher<ServerMessage>
 				this.notificationDispatcher.enqueue((ClusterNotification)message.getMessage());
 				break;
 
-			case MulticastMessageType.REQUEST:
-				System.out.println("REQUEST received @" + Calendar.getInstance().getTime());
+			case MulticastMessageType.CLUSTER_REQUEST:
+				System.out.println("CLUSTER_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the shutdown notification dispatcher is ready or not. 02/15/2016, Bing Li
 				if (!this.requestDispatcher.isReady())
 				{

@@ -56,5 +56,4 @@ class BusinessTask implements ServerTask
 		}
 		return null;
 	}
-
 }

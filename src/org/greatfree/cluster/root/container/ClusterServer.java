@@ -12,7 +12,7 @@ import org.greatfree.server.container.Peer.PeerBuilder;
 import org.greatfree.util.Builder;
 
 // Created: 01/13/2019, Bing Li
-class ClusterServer
+final class ClusterServer
 {
 	public ClusterServer(ServerOnClusterBuilder builder) throws IOException
 	{

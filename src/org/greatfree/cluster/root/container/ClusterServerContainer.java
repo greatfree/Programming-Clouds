@@ -14,14 +14,14 @@ import org.greatfree.server.container.ServerProfile;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 01/13/2019, Bing Li
-public class ClusterServerContainer
+public final class ClusterServerContainer
 {
 	private ClusterServer server;
 	private RootTask task;
 
 	public ClusterServerContainer(int port, String rootName, String registryServerIP, int registryServerPort, RootTask task) throws IOException
 	{
-		ClusterProfile.CLUSTER().init(registryServerIP, registryServerPort);
+		ClusterProfile.CLUSTER().init(registryServerIP, registryServerPort, false);
 
 		this.server = new ClusterServer.ServerOnClusterBuilder()
 				.peerPort(port)

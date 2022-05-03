@@ -413,6 +413,8 @@ public final class NotificationDispatcher<Notification extends ServerMessage, No
 	@Override
 	public void setIdleChecker(long idleCheckDelay, long idleCheckPeriod)
 	{
+//		log.info("idleCheckDelay = " + idleCheckDelay);
+//		log.info("idleCheckPeriod = " + idleCheckPeriod);
 		try
 		{
 			// Schedule the idle-checking task and obtain the task instance, which is used to cancel the task when required. 02/01/2016, Bing Li

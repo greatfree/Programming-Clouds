@@ -25,9 +25,9 @@ public abstract class MulticastRequest extends MulticastNotification
 //	public ClusterBroadcastRequest(int type, String key, String collaboratorKey, IPAddress rootAddress)
 //	public ClusterBroadcastRequest(int type, String key, String collaboratorKey)
 //	public ClusterBroadcastRequest(int type, String collaboratorKey)
-	public MulticastRequest(int type)
+	public MulticastRequest(int applicationID)
 	{
-		super(type);
+		super(MulticastMessageType.MULTICAST_REQUEST, applicationID);
 		this.collaboratorKey = Tools.generateUniqueKey();
 //		this.rootAddress = rootAddress;
 	}

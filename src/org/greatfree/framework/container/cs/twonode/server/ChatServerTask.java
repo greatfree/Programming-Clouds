@@ -63,6 +63,3 @@ class ChatServerTask implements ServerTask
 		return SystemMessageConfig.NO_MESSAGE;
 	}
 }
-
-
-

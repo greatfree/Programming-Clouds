@@ -12,6 +12,7 @@ import org.greatfree.message.ServerMessage;
 import org.greatfree.message.SystemMessageType;
 import org.greatfree.testing.message.MessageType;
 import org.greatfree.testing.message.RegisterClientNotification;
+import org.greatfree.util.Tools;
 
 /*
  * The server key is added as a new field. 03/30/2020, Bing Li
@@ -28,7 +29,7 @@ import org.greatfree.testing.message.RegisterClientNotification;
 public abstract class ServerDispatcher<Message extends ServerMessage>
 {
 	// The key is used to identify server tasks if multiple servers instances exist within a single process. In the previous versions, only one server tasks are allowed. It is a defect if multiple instances of servers exist in a process since they are overwritten one another. 03/30/2020, Bing Li
-	private String serverKey;
+	private final String serverKey;
 	
 	// Declare an instance of ThreadPool that is used to execute threads concurrently. 11/07/2014, Bing Li
 	private ThreadPool pool;
@@ -61,7 +62,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 	{
 		// Set the pool size and threads' alive time. 11/04/2014, Bing Li
 //		super(threadPoolSize, threadKeepAliveTime, schedulerPoolSize, schedulerKeepAliveTime);
-		
+		this.serverKey = Tools.generateUniqueKey();
 		this.pool = new ThreadPool(serverThreadPoolSize, serverThreadKeepAliveTime);
 //		this.pool = pool;
 		// Set the pool size. 02/01/2016, Bing Li
@@ -113,11 +114,13 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 	{
 		return this.serverKey;
 	}
-	
+
+	/*
 	public void setServerKey(String key)
 	{
 		this.serverKey = key;
 	}
+	*/
 	
 	/*
 	 * Shut down the server message dispatcher. 09/20/2014, Bing Li

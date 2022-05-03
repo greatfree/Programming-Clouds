@@ -76,5 +76,4 @@ public class ForwardTask implements ServerTask
 		}
 		return null;
 	}
-
 }

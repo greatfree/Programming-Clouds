@@ -14,7 +14,7 @@ import org.greatfree.util.UtilConfig;
  */
 
 // Created: 09/21/2014, Bing Li
-public class RemoteReader
+public final class RemoteReader
 {
 	// As a singleton in a process, it should avoid the RemoteReader to be initialized more than once. The flag indicates whether the class is initialized or not. 04/30/2017, Bing Li
 	private AtomicBoolean isInitialized;

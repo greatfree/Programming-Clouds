@@ -126,5 +126,4 @@ public class ChatServerTask implements ServerTask
 		}
 		return null;
 	}
-
 }

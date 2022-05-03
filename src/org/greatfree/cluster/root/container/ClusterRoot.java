@@ -42,15 +42,15 @@ import com.google.common.collect.Sets;
  */
 
 // Created: 01/13/2019, Bing Li
-class ClusterRoot
+final class ClusterRoot
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster.root.container");
+
 	private Peer<RootDispatcher> root;
 	private RootClient client;
 	private Map<String, String> children;
 	private int replicas;
 	private List<Set<String>> partitionedChildren;
-
-	private final static Logger log = Logger.getLogger("org.greatfree.cluster.root.container");
 
 	private ClusterRoot()
 	{
@@ -84,7 +84,7 @@ class ClusterRoot
 		}
 	}
 	
-	public void init(PeerBuilder<RootDispatcher> builder,  int rootBranchCount, int treeBranchCount, long waitTime) throws IOException
+	public void init(PeerBuilder<RootDispatcher> builder, int rootBranchCount, int treeBranchCount, long waitTime) throws IOException
 	{
 		this.root = new Peer<RootDispatcher>(builder);
 		this.client = new RootClient(this.root.getClientPool(), rootBranchCount, treeBranchCount, waitTime, this.root.getPool());
@@ -291,7 +291,7 @@ class ClusterRoot
 
 	/*
 	 * The method is more concise than the above one.03/04/2019, Bing Li
-	*/
+	 */
 	public void saveResponse(ChildResponse response) throws InterruptedException
 	{
 		this.client.getRP().saveResponse(response.getResponse());

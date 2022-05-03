@@ -12,7 +12,6 @@ import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.Builder;
 import org.greatfree.util.ServerStatus;
-import org.greatfree.util.Tools;
 
 /*
  * The class, CSServer, aims to provide developers with a server that forms the distributed model, Client/Server (C/S). 04/29/2017, Bing Li
@@ -136,7 +135,8 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 
 	public CSServer(CSServerBuilder<Dispatcher> builder) throws IOException
 	{
-		this.id = Tools.generateUniqueKey();
+//		this.id = Tools.generateUniqueKey();
+		this.id = builder.getDispatcher().getServerKey();
 		this.port = builder.getPort();
 		this.socket = new ServerSocket(this.port);
 		this.listenerCount = builder.getListenerCount();
@@ -150,7 +150,7 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 		this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>>>();
 		this.messageProducer = new ServerMessageProducer<Dispatcher>();
 		this.dispatcher = builder.getDispatcher();
-		this.dispatcher.setServerKey(this.id);
+//		this.dispatcher.setServerKey(this.id);
 		this.isStarted = new AtomicBoolean(false);
 //		this.timeout = builder.getTimeout();
 	}
