@@ -21,14 +21,14 @@ class ContainedMRTester
 		// Initialize the thread. 04/22/2018, Bing Li
 //		SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);
 		// Initialize the scheduler. 04/22/2018, Bing Li
-		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 
 //		MapReduce mr = new MapReduce(SharedThreadPool.SHARED().getPool(), Scheduler.GREATFREE().getSchedulerPool(), new MyMRService(), 1);
 //		MapReduce mr = new MapReduce(SharedThreadPool.SHARED().getPool(), Scheduler.GREATFREE().getSchedulerPool(), 1, 2000, 4000);
 		MapReduce mr = new MapReduceBuilder()
 //				.threadPool(SharedThreadPool.SHARED().getPool())
 				.poolSize(100)
-				.scheduler(Scheduler.GREATFREE().getScheduler())
+				.scheduler(Scheduler.PERIOD().getScheduler())
 				.queueSize(1)
 //				.waitTime(20000)
 				.waitTime(2000)
@@ -75,7 +75,7 @@ class ContainedMRTester
 		// Dispose the thread pool. 04/22/2018, Bing Li
 //		SharedThreadPool.SHARED().dispose(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 		// Shutdown the scheduler. 04/22/2018, Bing Li
-		Scheduler.GREATFREE().shutdown(ServerConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
+		Scheduler.PERIOD().shutdown(ServerConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
 	}
 
 }

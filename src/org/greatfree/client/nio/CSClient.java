@@ -73,7 +73,8 @@ public class CSClient extends RunnerTask
 	}
 	*/
 	
-	public void close(long timeout) throws InterruptedException, IOException
+//	public void close(long timeout) throws InterruptedException, IOException
+	public void close() throws InterruptedException, IOException
 	{
 		this.readBuffer.clear();
 		this.readBuffer = null;
@@ -83,7 +84,8 @@ public class CSClient extends RunnerTask
 		this.responseHandlers = null;
 		this.isClosed.set(true);
 		this.selector.close();
-		this.client.stop(timeout);
+//		this.client.stop(timeout);
+		this.client.stop();
 	}
 
 	@Override

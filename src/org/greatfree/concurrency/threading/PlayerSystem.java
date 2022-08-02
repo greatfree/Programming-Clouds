@@ -42,7 +42,7 @@ public class PlayerSystem
 //		TerminateSignal.SIGNAL().notifyAllTermination();
 		if (!this.dt.isMaster())
 		{
-			Scheduler.GREATFREE().shutdown(timeout);
+			Scheduler.PERIOD().shutdown(timeout);
 		}
 		else
 		{
@@ -60,11 +60,11 @@ public class PlayerSystem
 	 */
 	public void startSlave(int port) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
 	{
-		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		this.dt = new Distributer.DistributerBuilder()
 			.name(DistributerIDs.ID().getNickName())
 			.port(port)
-			.scheduler(Scheduler.GREATFREE().getScheduler())
+			.scheduler(Scheduler.PERIOD().getScheduler())
 			.isMaster(false)
 			.build();
 		this.dt.start();
@@ -75,11 +75,11 @@ public class PlayerSystem
 	 */
 	public void startSlave(int port, ATMTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
 	{
-		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		this.dt = new Distributer.DistributerBuilder()
 			.name(DistributerIDs.ID().getNickName())
 			.port(port)
-			.scheduler(Scheduler.GREATFREE().getScheduler())
+			.scheduler(Scheduler.PERIOD().getScheduler())
 			.isMaster(false)
 			.task(task)
 			.build();
@@ -92,12 +92,12 @@ public class PlayerSystem
 //	public void startSlave(String slaveName, int port, String masterName) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
 	public void startSlave(String slaveName, int port) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
 	{
-		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		this.dt = new Distributer.DistributerBuilder()
 			.name(slaveName)
 			.port(port)
 //			.masterName(masterName)
-			.scheduler(Scheduler.GREATFREE().getScheduler())
+			.scheduler(Scheduler.PERIOD().getScheduler())
 			.isMaster(false)
 			.build();
 		this.dt.start();

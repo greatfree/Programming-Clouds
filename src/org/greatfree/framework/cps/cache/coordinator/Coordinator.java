@@ -105,7 +105,7 @@ public class Coordinator
 //		TerminateSignal.SIGNAL().setTerminated();
 		TerminateSignal.SIGNAL().notifyAllTermination();
 		
-		Scheduler.GREATFREE().shutdown(ServerConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
+		Scheduler.PERIOD().shutdown(ServerConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
 		SharedThreadPool.SHARED().dispose(ServerConfig.MR_SHUTDOWN_TIME);
 		
 		MyDistributedMap.MIDDLE().dispose();
@@ -139,6 +139,7 @@ public class Coordinator
 				.registryServerPort(RegistryConfig.PEER_REGISTRY_PORT)
 				.isRegistryNeeded(false)
 				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.maxIOCount(ServerConfig.MAX_SERVER_IO_COUNT)
 //				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)
 //				.serverThreadKeepAliveTime(ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME)
 //				.dispatcher(new CoordinatorDispatcher(RegistryConfig.DISPATCHER_THREAD_POOL_SIZE, RegistryConfig.DISPATCHER_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME))
@@ -151,8 +152,8 @@ public class Coordinator
 				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
 				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
 				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
-				.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
-				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 //				.clientThreadPoolSize(RegistryConfig.CLIENT_THREAD_POOL_SIZE)
@@ -172,6 +173,7 @@ public class Coordinator
 		this.manServer = new CSServer.CSServerBuilder<ManCoordinatorDispatcher>()
 				.port(ServerConfig.COORDINATOR_ADMIN_PORT)
 				.listenerCount(ServerConfig.SINGLE_THREAD_COUNT)
+				.maxIOCount(ServerConfig.MAX_SERVER_IO_COUNT)
 //				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)
 //				.serverThreadKeepAliveTime(ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME)
 				.dispatcher(new ManCoordinatorDispatcher(RegistryConfig.DISPATCHER_THREAD_POOL_SIZE, RegistryConfig.DISPATCHER_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME))
@@ -181,7 +183,7 @@ public class Coordinator
 		// Start the management server. 04/30/2017, Bing Li
 		this.manServer.start();
 
-		Scheduler.GREATFREE().init(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
 		SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);
 
 		// Initialize the cache of DistributedMap. 07/09/2018, Bing Li

@@ -2,11 +2,11 @@ package org.greatfree.multicast.rp.root;
 
 import java.io.IOException;
 
-import org.greatfree.concurrency.Async;
+import org.greatfree.concurrency.Notifier;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 
 // Created: 10/20/2018, Bing Li
-class SizeRootReadActor extends Async<SizeMulticastRequest>
+class SizeRootReadActor implements Notifier<SizeMulticastRequest>
 {
 	private RootSyncMulticastor multicastor;
 	
@@ -16,7 +16,7 @@ class SizeRootReadActor extends Async<SizeMulticastRequest>
 	}
 
 	@Override
-	public void perform(SizeMulticastRequest request)
+	public void notify(SizeMulticastRequest request)
 	{
 		try
 		{

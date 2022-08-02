@@ -48,7 +48,7 @@ public class StackPrefetchStore<Value extends Serializable, Factory extends Cach
 				.threadCreator(builder.getThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -77,7 +77,7 @@ public class StackPrefetchStore<Value extends Serializable, Factory extends Cach
 		private ThreadCreator creator;
 		private int notificationQueueSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -169,11 +169,13 @@ public class StackPrefetchStore<Value extends Serializable, Factory extends Cach
 			return this;
 		}
 
+		/*
 		public PrefetchableStackStoreBuilder<Value, Factory, CompoundKeyCreator, Notification, PrefetchThread, ThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public PrefetchableStackStoreBuilder<Value, Factory, CompoundKeyCreator, Notification, PrefetchThread, ThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -283,11 +285,13 @@ public class StackPrefetchStore<Value extends Serializable, Factory extends Cach
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{

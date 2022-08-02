@@ -36,7 +36,8 @@ class StartClient
 		System.out.println("Press enter to stop the client ...");
 		in.nextLine();
 		
-		client.close(1000);
+//		client.close(1000);
+		client.close();
 		in.close();
 	}
 

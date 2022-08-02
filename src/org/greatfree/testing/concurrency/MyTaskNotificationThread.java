@@ -22,7 +22,7 @@ class MyTaskNotificationThread extends NotificationTaskQueue<MyTaskNotification>
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					super.processNotification(notification);
 					this.disposeObject(notification);
 				}

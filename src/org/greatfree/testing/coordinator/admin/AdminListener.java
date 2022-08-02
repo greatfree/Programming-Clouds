@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.greatfree.client.ServerListener;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.server.ServerListener;
 
 /*
  * This is a coordinator listener that not only responds to the administrator. Since the administrator is controlled by a human, it is not necessary to consider so complicated as follows. The reason to do that as below is to keep the style consistent. And, the implementation does not affect the coordinator in terms of much additional resources. 11/27/2014, Bing Li

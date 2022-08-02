@@ -101,6 +101,7 @@ public abstract class BroadcastRequestQueue<Request extends BroadcastRequest, Re
 		}
 	}
 
+	/*
 	@Override
 	public synchronized void dispose(long timeout) throws InterruptedException
 	{
@@ -113,6 +114,7 @@ public abstract class BroadcastRequestQueue<Request extends BroadcastRequest, Re
 			this.queue.clear();
 		}
 	}
+	*/
 
 	/*
 	 * Expose the key for the convenient management. 11/29/2014, Bing Li

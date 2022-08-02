@@ -3,6 +3,7 @@
 	<!-- Server Parameters -->
 	<Port>8964</Port>
 	<ListeningThreadCount>5</ListeningThreadCount>
+	<MaxIOCount>500</MaxIOCount>
 	<ServerThreadPoolSize>100</ServerThreadPoolSize>
 	<ServerThreadKeepAliveTime>5000</ServerThreadKeepAliveTime>
 	<SchedulerThreadPoolSize>50</SchedulerThreadPoolSize>

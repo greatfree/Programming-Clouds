@@ -45,7 +45,8 @@ class ChatServer
 	{
 		if (!this.server.isChildrenEmpty())
 		{
-			TerminateSignal.SIGNAL().waitTermination(timeout);
+//			TerminateSignal.SIGNAL().waitTermination(timeout);
+			TerminateSignal.SIGNAL().notifyAllTermination();
 		}
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
@@ -75,8 +76,8 @@ class ChatServer
 			.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
 			.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
 			.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
-			.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
-			.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+			.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//			.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
 			.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 			.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 //			.clientThreadPoolSize(RegistryConfig.CLIENT_THREAD_POOL_SIZE)

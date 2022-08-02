@@ -17,7 +17,7 @@ class HungMapReduceTester
 
 	public static void main(String[] args) throws InterruptedException
 	{
-		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 
 		// Initialize one instance of the MRCore. 04/22/2018, Bing Li
 		MRCore<MyHungTask, MyHungResult, MyHungMRThread, MyHungMRThreadCreator> mp = new MRCore.MRCoreBuilder<MyHungTask, MyHungResult, MyHungMRThread, MyHungMRThreadCreator>()
@@ -26,7 +26,7 @@ class HungMapReduceTester
 				.taskSizePerThread(ServerConfig.TASK_SIZE_PER_THREAD)
 				.waitTime(ServerConfig.MR_WAIT_TIME)
 				.shutdownTime(ServerConfig.MR_SHUTDOWN_TIME)
-				.scheduler(Scheduler.GREATFREE().getScheduler())
+				.scheduler(Scheduler.PERIOD().getScheduler())
 				.build();
 
 		System.out.println("MR starting ...");
@@ -69,7 +69,7 @@ class HungMapReduceTester
 			e.printStackTrace();
 		}
 		// Shutdown the scheduler. 04/22/2018, Bing Li
-		Scheduler.GREATFREE().shutdown(ServerConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
+		Scheduler.PERIOD().shutdown(ServerConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
 		
 		System.out.println("Enter to exit ...");
 		Scanner in = new Scanner(System.in);

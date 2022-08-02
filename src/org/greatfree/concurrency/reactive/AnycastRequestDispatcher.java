@@ -8,7 +8,6 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.client.IPResource;
@@ -93,7 +92,8 @@ public class AnycastRequestDispatcher<Request extends AnycastRequest, Response e
 	{
 //		super(builder.getThreadPool(), builder.getMaxTaskSize(), builder.getThreadPool().getCorePoolSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), false, builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound(), builder.getTimeout());
 //		super(builder.getThreadPool(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
-		super(builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
+//		super(builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
+		super(builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod());
 		this.pool = builder.getClientPool();
 		this.serverAddress = new IPResource(builder.getServerAddress(), builder.getServerPort());
 		this.threads = new ConcurrentHashMap<String, Runner<RequestThread>>();
@@ -110,7 +110,7 @@ public class AnycastRequestDispatcher<Request extends AnycastRequest, Response e
 		private int maxTaskSize;
 //		private int maxThreadSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -166,11 +166,13 @@ public class AnycastRequestDispatcher<Request extends AnycastRequest, Response e
 			return this;
 		}
 
+		/*
 		public AnycastRequestDispatcherBuilder<Request, Response, RequestThread, RequestThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public AnycastRequestDispatcherBuilder<Request, Response, RequestThread, RequestThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -268,11 +270,13 @@ public class AnycastRequestDispatcher<Request extends AnycastRequest, Response e
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{
@@ -524,7 +528,7 @@ public class AnycastRequestDispatcher<Request extends AnycastRequest, Response e
 		// Declare a string to keep the selected thread key. 11/29/2014, Bing Li
 		String selectedThreadKey = UtilConfig.NO_KEY;
 		// The value is used to count the count of loops for the dispatcher when no tasks are available. 01/13/2016, Bing Li
-		AtomicInteger currentRound = new AtomicInteger(0);
+//		AtomicInteger currentRound = new AtomicInteger(0);
 		// The dispatcher usually runs all of the time unless the server is shutdown. To shutdown the dispatcher, the shutdown flag of the collaborator is set to true. 11/29/2014, Bing Li
 		while (!this.isShutdown())
 		{
@@ -592,11 +596,11 @@ public class AnycastRequestDispatcher<Request extends AnycastRequest, Response e
 				if (this.requestQueue.size() <= 0)
 				{
 					// Check whether the count of the loops exceeds the predefined value. 01/13/2016, Bing Li
-					if (currentRound.getAndIncrement() >= this.getWaitRound())
-					{
+//					if (currentRound.getAndIncrement() >= this.getWaitRound())
+//					{
 						// Check whether the threads are all disposed. 01/13/2016, Bing Li
-						if (this.threads.isEmpty())
-						{
+//						if (this.threads.isEmpty())
+//						{
 							/*
 							 * 
 							 * The run() method is critical. It should NOT be shutdown by the dispatcher itself. It can only be shutdown by outside managers. Otherwise, new messages might NOT be processed because no new threads are created for the run() is returned and the dispatcher is dead. 11/07/2021, Bing Li
@@ -607,8 +611,8 @@ public class AnycastRequestDispatcher<Request extends AnycastRequest, Response e
 							this.dispose();
 							break;
 							*/
-						}
-					}
+//						}
+//					}
 				}
 			}
 		}

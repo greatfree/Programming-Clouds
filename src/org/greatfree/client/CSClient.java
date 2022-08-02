@@ -11,6 +11,13 @@ import org.greatfree.message.ServerMessage;
 import org.greatfree.util.Builder;
 import org.greatfree.util.NodeID;
 
+/**
+ * 
+ * @author libing
+ * 
+ * 08/02/2018
+ *
+ */
 // Created: 08/02/2018, Bing Li
 public class CSClient
 {
@@ -33,12 +40,39 @@ public class CSClient
 
 	public CSClient(CSClientBuilder builder)
 	{
-		this.clientPool = new FreeClientPool(builder.getClientPoolSize());
-		this.clientPool.setIdleChecker(builder.getClientIdleCheckDelay(), builder.getClientIdleCheckPeriod(), builder.getClientMaxIdleTime());
-		
-//		this.pool = builder.getPool();
-		
-		this.syncEventer = new SyncRemoteEventer<ServerMessage>(this.clientPool);
+		/*
+		 * The conditions ensure that some distributed primitives at the client sides do not need to be initialized. 06/14/2022, Bing Li
+		 */
+		if (builder.getClientPoolSize() > 0)
+		{
+			this.clientPool = new FreeClientPool(builder.getClientPoolSize());
+			this.clientPool.setIdleChecker(builder.getClientIdleCheckDelay(), builder.getClientIdleCheckPeriod(), builder.getClientMaxIdleTime());
+			
+//			this.pool = builder.getPool();
+			
+			this.syncEventer = new SyncRemoteEventer<ServerMessage>(this.clientPool);
+
+			/*
+			 * The conditions ensure that some distributed primitives at the client sides do not need to be initialized. 06/14/2022, Bing Li
+			 */
+			if (builder.getAsyncEventerSize() > 0)
+			{
+				this.asyncEventer = new AsyncRemoteEventer.AsyncRemoteEventerBuilder<ServerMessage>()
+						.clientPool(this.clientPool)
+						.eventQueueSize(builder.getAsyncEventQueueSize())
+						.eventerSize(builder.getAsyncEventerSize())
+						.eventingWaitTime(builder.getAsyncEventingWaitTime())
+						.eventQueueWaitTime(builder.getAsyncEventQueueWaitTime())
+//						.waitRound(builder.getAsyncEventerWaitRound())
+						.idleCheckDelay(builder.getAsyncEventIdleCheckDelay())
+						.idleCheckPeriod(builder.getAsyncEventIdleCheckPeriod())
+						.schedulerPoolSize(builder.getSchedulerPoolSize())
+						.schedulerKeepAliveTime(builder.getSchedulerKeepAliveTime())
+						.schedulerShutdownTimeout(builder.getAsyncSchedulerShutdownTimeout())
+						.build();
+				this.pool = builder.getPool();
+			}
+		}
 
 		// I decide to assign the asynchronous eventer has a scheduler belonged to itself. It is not a heavy burden.er classes. 03/20/2019, Bing Li
 		/*
@@ -77,22 +111,23 @@ public class CSClient
 			this.scheduler = this.asyncEventer.getScheduler();
 		}
 		*/
-		this.asyncEventer = new AsyncRemoteEventer.AsyncRemoteEventerBuilder<ServerMessage>()
-				.clientPool(this.clientPool)
-				.eventQueueSize(builder.getAsyncEventQueueSize())
-				.eventerSize(builder.getAsyncEventerSize())
-				.eventingWaitTime(builder.getAsyncEventingWaitTime())
-				.eventerWaitTime(builder.getAsyncEventerWaitTime())
-				.waitRound(builder.getAsyncEventerWaitRound())
-				.idleCheckDelay(builder.getAsyncEventIdleCheckDelay())
-				.idleCheckPeriod(builder.getAsyncEventIdleCheckPeriod())
-				.schedulerPoolSize(builder.getSchedulerPoolSize())
-				.schedulerKeepAliveTime(builder.getSchedulerKeepAliveTime())
-				.schedulerShutdownTimeout(builder.getAsyncSchedulerShutdownTimeout())
-				.build();
+
+		/*
+		 * The conditions ensure that some distributed primitives at the client sides do not need to be initialized. 06/14/2022, Bing Li
+		 */
+		if (builder.getReaderClientSize() > 0)
+		{
+			RemoteReader.REMOTE().init(builder.getReaderClientSize());
+		}
 		
-		RemoteReader.REMOTE().init(builder.getReaderClientSize());
-		this.handler = builder.getHandler();
+		/*
+		 * The conditions ensure that some distributed primitives at the client sides do not need to be initialized. 06/14/2022, Bing Li
+		 */
+		if (builder.getHandler() != null)
+		{
+			this.handler = builder.getHandler();
+			this.pool.setFutureExceptionHandler(this.handler);
+		}
 	}
 	
 	public static class CSClientBuilder implements Builder<CSClient>
@@ -105,34 +140,23 @@ public class CSClient
 		private int asyncEventQueueSize;
 		private int asyncEventerSize;
 		private long asyncEventingWaitTime;
-		private long asyncEventerWaitTime;
-		private int asyncEventerWaitRound;
+		private long asyncEventQueueWaitTime;
 		private long asyncEventIdleCheckDelay;
 		private long asyncEventIdleCheckPeriod;
 		private long asyncSchedulerShutdownTimeout;
 
-//		private ScheduledThreadPoolExecutor scheduler;
 		private int schedulerPoolSize;
 		private long schedulerKeepAliveTime;
 
 		private int readerClientSize;
 		
 		private FutureExceptionHandler handler;
-
-//		private ThreadPool pool;
+		private ThreadPool pool;
 		
 		public CSClientBuilder()
 		{
 		}
 
-		/*
-		public CSClientBuilder scheduler(ScheduledThreadPoolExecutor scheduler)
-		{
-			this.scheduler = scheduler;
-			return this;
-		}
-		*/
-		
 		public CSClientBuilder freeClientPoolSize(int clientPoolSize)
 		{
 			this.clientPoolSize = clientPoolSize;
@@ -175,18 +199,12 @@ public class CSClient
 			return this;
 		}
 		
-		public CSClientBuilder asyncEventerWaitTime(long asyncEventerWaitTime)
+		public CSClientBuilder asyncEventQueueWaitTime(long asyncEventQueueWaitTime)
 		{
-			this.asyncEventerWaitTime = asyncEventerWaitTime;
+			this.asyncEventQueueWaitTime = asyncEventQueueWaitTime;
 			return this;
 		}
-		
-		public CSClientBuilder asyncEventerWaitRound(int asyncEventerWaitRound)
-		{
-			this.asyncEventerWaitRound = asyncEventerWaitRound;
-			return this;
-		}
-		
+
 		public CSClientBuilder asyncEventIdleCheckDelay(long asyncEventIdleCheckDelay)
 		{
 			this.asyncEventIdleCheckDelay = asyncEventIdleCheckDelay;
@@ -229,13 +247,11 @@ public class CSClient
 			return this;
 		}
 
-		/*
 		public CSClientBuilder pool(ThreadPool pool)
 		{
 			this.pool = pool;
 			return this;
 		}
-		*/
 
 		@Override
 		public CSClient build()
@@ -278,15 +294,17 @@ public class CSClient
 			return this.asyncEventingWaitTime;
 		}
 		
-		public long getAsyncEventerWaitTime()
+		public long getAsyncEventQueueWaitTime()
 		{
-			return this.asyncEventerWaitTime;
+			return this.asyncEventQueueWaitTime;
 		}
-		
+
+		/*
 		public int getAsyncEventerWaitRound()
 		{
 			return this.asyncEventerWaitRound;
 		}
+		*/
 		
 		public long getAsyncEventIdleCheckDelay()
 		{
@@ -325,12 +343,10 @@ public class CSClient
 			return this.readerClientSize;
 		}
 
-		/*
 		public ThreadPool getPool()
 		{
 			return this.pool;
 		}
-		*/
 		
 		public FutureExceptionHandler getHandler()
 		{
@@ -340,23 +356,34 @@ public class CSClient
 
 	public void dispose() throws IOException, InterruptedException
 	{
-		this.clientPool.dispose();
-		this.syncEventer.dispose();
-		this.asyncEventer.dispose();
-		RemoteReader.REMOTE().shutdown();
+		if (this.clientPool != null)
+		{
+			this.clientPool.dispose();
+			this.syncEventer.dispose();
+			if (this.asyncEventer != null)
+			{
+				this.asyncEventer.dispose();
+			}
+		}
+		if (RemoteReader.REMOTE().isInitialized())
+		{
+			RemoteReader.REMOTE().shutdown();
+		}
 	}
-	
+
+	/*
 	public void init(ThreadPool pool)
 	{
 		this.pool = pool;
 		this.pool.setFutureExceptionHandler(this.handler);
 	}
+	*/
 
 	public void syncNotify(String ip, int port, ServerMessage notification) throws IOException, InterruptedException
 	{
 		this.syncEventer.notify(ip, port, notification);
 	}
-	
+
 	public void syncNotify(String clientIPKey, ServerMessage notification) throws IOException
 	{
 		this.syncEventer.notify(clientIPKey, notification);

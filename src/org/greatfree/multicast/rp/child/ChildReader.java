@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
-import org.greatfree.framework.multicast.rp.child.ChildPeer;
 import org.greatfree.message.multicast.RPMulticastRequest;
 import org.greatfree.multicast.RendezvousPoint;
 import org.greatfree.util.UtilConfig;
@@ -48,11 +47,16 @@ class ChildReader
 			this.rp.setReceiverSize(request.getCollaboratorKey(), request.getChildrenIPs().size() + 1);
 		}
 		this.asyncReader.read(request);
-		System.out.println("1) ChildReader-asyncRead(): RP-IP = " + ChildPeer.CHILD().getParentAddress());
+//		System.out.println("1) ChildReader-asyncRead(): RP-IP = " + ChildPeer.CHILD().getParentAddress());
 		System.out.println("1.5) ChildReader-asyncRead(): RP Receiver Size = " + this.rp.getReceiverSize(request.getCollaboratorKey()));
-//		this.multicastor.notify(request.getRPAddress().getIP(), request.getRPAddress().getPort(), this.rp.waitForResponses(request.getCollaboratorKey()));
-		this.multicastor.notify(ChildPeer.CHILD().getParentAddress().getIP(), ChildPeer.CHILD().getParentAddress().getPort(), this.rp.waitForResponses(request.getCollaboratorKey()));
-		System.out.println("2) ChildReader-asyncRead(): RP-IP = " + ChildPeer.CHILD().getParentAddress());
+		this.multicastor.notify(request.getRPAddress().getIP(), request.getRPAddress().getPort(), this.rp.waitForResponses(request.getCollaboratorKey()));
+		
+		/*
+		 * Today I found the below problem, The RP multicasting is not used and tested sufficiently. When writing the book, I think the below line should be a bug. The current API is a system-level one. However, it employs the application-level code. The above line should be correct. 07/16/2022, Bing Li 
+		 * 
+		 */
+//		this.multicastor.notify(ChildPeer.CHILD().getParentAddress().getIP(), ChildPeer.CHILD().getParentAddress().getPort(), this.rp.waitForResponses(request.getCollaboratorKey()));
+//		System.out.println("2) ChildReader-asyncRead(): RP-IP = " + ChildPeer.CHILD().getParentAddress());
 	}
 	
 	/*
@@ -68,8 +72,13 @@ class ChildReader
 			this.rp.setReceiverSize(request.getCollaboratorKey(), request.getChildrenIPs().size() + 1);
 		}
 		this.multicastor.read(request);
-		System.out.println("ChildReader-syncRead(): RP-IP = " + ChildPeer.CHILD().getParentAddress());
-//		this.multicastor.notify(request.getRPAddress().getIP(), request.getRPAddress().getPort(), this.rp.waitForResponses(request.getCollaboratorKey()));
-		this.multicastor.notify(ChildPeer.CHILD().getParentAddress().getIP(), ChildPeer.CHILD().getParentAddress().getPort(), this.rp.waitForResponses(request.getCollaboratorKey()));
+//		System.out.println("ChildReader-syncRead(): RP-IP = " + ChildPeer.CHILD().getParentAddress());
+		this.multicastor.notify(request.getRPAddress().getIP(), request.getRPAddress().getPort(), this.rp.waitForResponses(request.getCollaboratorKey()));
+
+		/*
+		 * Today I found the below problem, The RP multicasting is not used and tested sufficiently. When writing the book, I think the below line should be a bug. The current API is a system-level one. However, it employs the application-level code. The above line should be correct. 07/16/2022, Bing Li 
+		 * 
+		 */
+//		this.multicastor.notify(ChildPeer.CHILD().getParentAddress().getIP(), ChildPeer.CHILD().getParentAddress().getPort(), this.rp.waitForResponses(request.getCollaboratorKey()));
 	}
 }

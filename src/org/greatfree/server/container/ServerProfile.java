@@ -16,6 +16,7 @@ public final class ServerProfile
 	private AtomicBoolean isDefault;
 	private int port;
 	private int listeningThreadCount;
+	private int maxIOCount;
 	private int serverThreadPoolSize;
 	private long serverThreadKeepAliveTime;
 	private int schedulerThreadPoolSize;
@@ -27,7 +28,7 @@ public final class ServerProfile
 	private int notificationDispatcherPoolSize;
 	private int notificationQueueSize;
 	private long notificationDispatcherWaitTime;
-	private int notificationDispatcherWaitRound;
+//	private int notificationDispatcherWaitRound;
 	private long notificationDispatcherIdleCheckDelay;
 	private long notificationDispatcherIdleCheckPeriod;
 	
@@ -37,7 +38,7 @@ public final class ServerProfile
 	private int requestDispatcherPoolSize;
 	private int requestQueueSize;
 	private long requestDispatcherWaitTime;
-	private int requestDispatcherWaitRound;
+//	private int requestDispatcherWaitRound;
 	private long requestDispatcherIdleCheckDelay;
 	private long requestDispatcherIdleCheckPeriod;
 	
@@ -69,6 +70,7 @@ public final class ServerProfile
 		this.port = Integer.valueOf(reader.read(ContainerXML.SELECT_SERVER_PORT));
 //		this.listeningThreadCount = new Integer(reader.read(ContainerXML.SELECT_LISTENING_THREAD_COUNT));
 		this.listeningThreadCount = Integer.valueOf(reader.read(ContainerXML.SELECT_LISTENING_THREAD_COUNT));
+		this.maxIOCount = Integer.valueOf(reader.read(ContainerXML.SELECT_MAX_IO_COUNT));
 //		this.serverThreadPoolSize = new Integer(reader.read(ContainerXML.SELECT_SERVER_THREAD_POOL_SIZE));
 		this.serverThreadPoolSize = Integer.valueOf(reader.read(ContainerXML.SELECT_SERVER_THREAD_POOL_SIZE));
 //		this.serverThreadKeepAliveTime = new Integer(reader.read(ContainerXML.SELECT_SERVER_THREAD_KEEP_ALIVE_TIME));
@@ -85,7 +87,7 @@ public final class ServerProfile
 //		this.notificationDispatcherWaitTime = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_TIME));
 		this.notificationDispatcherWaitTime = Integer.valueOf(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_TIME));
 //		this.notificationDispatcherWaitRound = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_ROUND));
-		this.notificationDispatcherWaitRound = Integer.valueOf(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_ROUND));
+//		this.notificationDispatcherWaitRound = Integer.valueOf(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_WAIT_ROUND));
 //		this.notificationDispatcherIdleCheckDelay = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY));
 		this.notificationDispatcherIdleCheckDelay = Integer.valueOf(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY));
 //		this.notificationDispatcherIdleCheckPeriod = new Integer(reader.read(ContainerXML.SELECT_NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD));
@@ -98,7 +100,7 @@ public final class ServerProfile
 //		this.requestDispatcherWaitTime = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_TIME));
 		this.requestDispatcherWaitTime = Integer.valueOf(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_TIME));
 //		this.requestDispatcherWaitRound = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_ROUND));
-		this.requestDispatcherWaitRound = Integer.valueOf(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_ROUND));
+//		this.requestDispatcherWaitRound = Integer.valueOf(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_WAIT_ROUND));
 //		this.requestDispatcherIdleCheckDelay = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_IDLE_CHECK_DELAY));
 		this.requestDispatcherIdleCheckDelay = Integer.valueOf(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_IDLE_CHECK_DELAY));
 //		this.requestDispatcherIdleCheckPeriod = new Integer(reader.read(ContainerXML.SELECT_REQUEST_DISPATCHER_IDLE_CHECK_PERIOD));
@@ -126,6 +128,11 @@ public final class ServerProfile
 	public int getListeningThreadCount()
 	{
 		return this.listeningThreadCount;
+	}
+	
+	public int getMaxIOCount()
+	{
+		return this.maxIOCount;
 	}
 	
 	public int getServerThreadPoolSize()
@@ -162,11 +169,13 @@ public final class ServerProfile
 	{
 		return this.notificationDispatcherWaitTime;
 	}
-	
+
+	/*
 	public int getNotificationDispatcherWaitRound()
 	{
 		return this.notificationDispatcherWaitRound;
 	}
+	*/
 	
 	public long getNotificationDispatcherIdleCheckDelay()
 	{
@@ -193,11 +202,13 @@ public final class ServerProfile
 	{
 		return this.requestDispatcherWaitTime;
 	}
-	
+
+	/*
 	public int getRequestDispatcherWaitRound()
 	{
 		return this.requestDispatcherWaitRound;
 	}
+	*/
 	
 	public long getRequestDispatcherIdleCheckDelay()
 	{

@@ -384,4 +384,9 @@ public final class Tools
 		ObjectInputStream is = new ObjectInputStream(in);
 		return is.readObject();
 	}
+	
+	public static Object deepCopy(Object obj) throws ClassNotFoundException, EOFException, IOException
+	{
+		return deserialize(serialize(obj));
+	}
 }

@@ -3,7 +3,7 @@ package org.greatfree.testing.server;
 import java.io.IOException;
 import java.util.Set;
 
-import org.greatfree.client.ServerIORegistry;
+import org.greatfree.server.ServerIORegistry;
 
 /*
  * The class keeps all of ManIOs. This is a singleton wrapper of ServerIORegistry. 01/20/2016, Bing Li

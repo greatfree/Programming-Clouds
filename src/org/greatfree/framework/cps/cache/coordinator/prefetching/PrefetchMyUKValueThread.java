@@ -27,7 +27,7 @@ public class PrefetchMyUKValueThread extends NotificationObjectQueue<FetchMyUKVa
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyDistributedList.MIDDLE().prefetch(notification);
 					this.disposeObject(notification);
 				}

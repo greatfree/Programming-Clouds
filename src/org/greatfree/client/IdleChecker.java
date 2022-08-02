@@ -2,14 +2,14 @@ package org.greatfree.client;
 
 import java.util.TimerTask;
 
-import org.greatfree.concurrency.CheckIdleable;
+import org.greatfree.concurrency.IdleCheckable;
 
 /*
  * The class works with AsyncRemoteEventer to check whether an instance of Eventer is idle long enough so that it should be disposed. 11/20/2014, Bing Li
  */
 
 // Created: 11/20/2014, Bing Li
-public class IdleChecker<T extends CheckIdleable> extends TimerTask
+public class IdleChecker<T extends IdleCheckable> extends TimerTask
 {
 	// The resource to be checked must implement the interface of CheckIdleable. 11/20/2014, Bing Li
 	private T t;

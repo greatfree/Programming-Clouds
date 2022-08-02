@@ -27,7 +27,7 @@ public class PrefetchMyCacheTimingsThread extends NotificationObjectQueue<FetchM
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyTimingDistributedCacheStore.MIDDLESTORE().prefetch(notification);
 					this.disposeObject(notification);
 				}

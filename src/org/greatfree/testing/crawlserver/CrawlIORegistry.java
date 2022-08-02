@@ -3,7 +3,7 @@ package org.greatfree.testing.crawlserver;
 import java.io.IOException;
 import java.util.Set;
 
-import org.greatfree.client.ServerIORegistry;
+import org.greatfree.server.ServerIORegistry;
 
 /*
  * The class keeps all of CrawlServerIOs. This is a singleton wrapper of ServerIORegistry. 11/11/2014, Bing Li

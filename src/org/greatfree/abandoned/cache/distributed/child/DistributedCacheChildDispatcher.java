@@ -45,7 +45,7 @@ public class DistributedCacheChildDispatcher<Key extends CacheKey<String>, Value
 				.threadCreator(new PutUnicastNotificationThreadCreator<Key, Value, Factory, DB>())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
@@ -61,7 +61,7 @@ public class DistributedCacheChildDispatcher<Key extends CacheKey<String>, Value
 				.threadCreator(new UniGetRequestThreadCreator<Key, Value, Factory, DB>())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
@@ -85,6 +85,7 @@ public class DistributedCacheChildDispatcher<Key extends CacheKey<String>, Value
 		this.putValueNotificationDispatcher.dispose();
 		this.uniGetRequestNotificationDispatcher.dispose();
 		super.shutdownChild(timeout);
+//		super.shutdownChild();
 //		super.shutdown(timeout);
 	}
 	

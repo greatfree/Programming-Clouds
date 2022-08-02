@@ -100,7 +100,7 @@ public abstract class BoundNotificationQueue<Notification extends ServerMessage,
 			this.queue.clear();
 		}
 	}
-	
+
 	@Override
 	public synchronized void dispose(long timeout) throws InterruptedException
 	{

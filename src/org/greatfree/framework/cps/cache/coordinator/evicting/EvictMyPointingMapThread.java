@@ -27,7 +27,7 @@ public class EvictMyPointingMapThread extends NotificationObjectQueue<EvictedNot
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("EvictMyPointingMapThread: Data = " + notification.getValue().getKey() + ", " + notification.getValue().getPoints() + ", " + notification.getValue().getDescription());
 					Coordinator.CPS().replicate(notification.getValue());
 					this.disposeObject(notification);

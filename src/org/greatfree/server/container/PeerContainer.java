@@ -21,6 +21,41 @@ import org.greatfree.util.Tools;
 public class PeerContainer
 {
 	private Peer<CSDispatcher> peer;
+
+	public PeerContainer(String peerName, int port, int listenerCount, int maxIOCount, String registryServerIP, int registryServerPort, ServerTask task, boolean isRegistryNeeded) throws IOException
+	{
+		CSDispatcher csd = new CSDispatcher(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
+
+		this.peer = new Peer.PeerBuilder<CSDispatcher>()
+				.peerPort(port)
+				.peerName(peerName)
+				.registryServerIP(registryServerIP)
+				.registryServerPort(registryServerPort)
+				.isRegistryNeeded(isRegistryNeeded)
+				.listenerCount(listenerCount)
+				.maxIOCount(maxIOCount)
+				.dispatcher(csd)
+				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
+				.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
+				.syncEventerIdleCheckDelay(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_DELAY)
+				.syncEventerIdleCheckPeriod(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_PERIOD)
+				.syncEventerMaxIdleTime(RegistryConfig.SYNC_EVENTER_MAX_IDLE_TIME)
+				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
+				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
+				.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
+				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
+				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
+				.scheulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
+				.build();
+		
+		// Assign the server key to the message dispatchers in the server dispatcher. 03/30/2020, Bing Li
+		csd.init();
+
+		ServiceProvider.CS().init(csd.getServerKey(), task);
+	}
 	
 	public PeerContainer(String peerName, int port, String registryServerIP, int registryServerPort, ServerTask task, boolean isRegistryNeeded) throws IOException
 	{
@@ -33,6 +68,7 @@ public class PeerContainer
 				.registryServerPort(registryServerPort)
 				.isRegistryNeeded(isRegistryNeeded)
 				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.maxIOCount(ServerConfig.MAX_SERVER_IO_COUNT)
 				.dispatcher(csd)
 				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
 				.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
@@ -42,8 +78,8 @@ public class PeerContainer
 				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
 				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
 				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
-				.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
-				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
@@ -67,6 +103,7 @@ public class PeerContainer
 				.registryServerPort(RegistryConfig.PEER_REGISTRY_PORT)
 				.isRegistryNeeded(isRegistryNeeded)
 				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.maxIOCount(ServerConfig.MAX_SERVER_IO_COUNT)
 //				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)
 //				.serverThreadKeepAliveTime(ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME)
 //				.dispatcher(new CSDispatcher(RegistryConfig.DISPATCHER_THREAD_POOL_SIZE, RegistryConfig.DISPATCHER_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME))
@@ -79,8 +116,8 @@ public class PeerContainer
 				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
 				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
 				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
-				.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
-				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
@@ -113,6 +150,7 @@ public class PeerContainer
 				.registryServerPort(PeerProfile.P2P().getRegistryServerPort())
 				.isRegistryNeeded(PeerProfile.P2P().isRegistryNeeded())
 				.listenerCount(ServerProfile.CS().getListeningThreadCount())
+				.maxIOCount(ServerProfile.CS().getMaxIOCount())
 //				.serverThreadPoolSize(ServerProfile.CS().getServerThreadPoolSize())
 //				.serverThreadKeepAliveTime(ServerProfile.CS().getServerThreadKeepAliveTime())
 				.dispatcher(csd)
@@ -124,8 +162,8 @@ public class PeerContainer
 				.asyncEventQueueSize(PeerProfile.P2P().getAsyncEventQueueSize())
 				.asyncEventerSize(PeerProfile.P2P().getAsyncEventerSize())
 				.asyncEventingWaitTime(PeerProfile.P2P().getAsyncEventingWaitTime())
-				.asyncEventerWaitTime(PeerProfile.P2P().getAsyncEventerWaitTime())
-				.asyncEventerWaitRound(PeerProfile.P2P().getAsyncEventerWaitRound())
+				.asyncEventQueueWaitTime(PeerProfile.P2P().getAsyncEventQueueWaitTime())
+//				.asyncEventerWaitRound(PeerProfile.P2P().getAsyncEventerWaitRound())
 				.asyncEventIdleCheckDelay(PeerProfile.P2P().getAsyncEventIdleCheckDelay())
 				.asyncEventIdleCheckPeriod(PeerProfile.P2P().getAsyncEventIdleCheckPeriod())
 				.schedulerPoolSize(PeerProfile.P2P().getSchedulerPoolSize())

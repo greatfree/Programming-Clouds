@@ -65,7 +65,7 @@ class TimingDistributedReadCacheStore<Value extends CacheTiming, Factory extends
 				.threadCreator(builder.getThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -77,7 +77,7 @@ class TimingDistributedReadCacheStore<Value extends CacheTiming, Factory extends
 				.threadCreator(builder.getPostfetchThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -89,7 +89,7 @@ class TimingDistributedReadCacheStore<Value extends CacheTiming, Factory extends
 				.threadCreator(builder.getEvictThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -127,7 +127,7 @@ class TimingDistributedReadCacheStore<Value extends CacheTiming, Factory extends
 		private EvictThreadCreator evictCreator;
 		private int maxTaskSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -241,11 +241,13 @@ class TimingDistributedReadCacheStore<Value extends CacheTiming, Factory extends
 			return this;
 		}
 
+		/*
 		public SemiTimingDistributedCacheStoreBuilder<Value, Factory, CompoundKeyCreator, DescendantComp, PrePostNotification, PrefetchThread, PrefetchThreadCreator, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public SemiTimingDistributedCacheStoreBuilder<Value, Factory, CompoundKeyCreator, DescendantComp, PrePostNotification, PrefetchThread, PrefetchThreadCreator, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -398,11 +400,13 @@ class TimingDistributedReadCacheStore<Value extends CacheTiming, Factory extends
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{

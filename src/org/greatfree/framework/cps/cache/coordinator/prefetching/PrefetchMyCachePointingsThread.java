@@ -27,7 +27,7 @@ public class PrefetchMyCachePointingsThread extends NotificationObjectQueue<Fetc
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MySortedDistributedCacheStore.MIDDLESTORE().prefetch(notification);
 					this.disposeObject(notification);
 				}

@@ -27,7 +27,7 @@ public class PostfetchMyDistributedStoreDataThread extends NotificationObjectQue
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyDistributedMapStore.MIDDLE().postfetch(notification);
 					this.disposeObject(notification);
 				}

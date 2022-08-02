@@ -61,7 +61,7 @@ class TimingPrefetchListStore<Resource extends Timing, Factory extends CacheMapF
 				.threadCreator(builder.getThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -92,7 +92,7 @@ class TimingPrefetchListStore<Resource extends Timing, Factory extends CacheMapF
 		private ThreadCreator creator;
 		private int maxTaskSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -192,11 +192,13 @@ class TimingPrefetchListStore<Resource extends Timing, Factory extends CacheMapF
 			return this;
 		}
 
+		/*
 		public PrefetchableTimingListCacheStoreBuilder<Resource, Factory, CompoundKeyCreator, DescendantComp, Notification, PrefetchThread, ThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public PrefetchableTimingListCacheStoreBuilder<Resource, Factory, CompoundKeyCreator, DescendantComp, Notification, PrefetchThread, ThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -327,11 +329,13 @@ class TimingPrefetchListStore<Resource extends Timing, Factory extends CacheMapF
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{

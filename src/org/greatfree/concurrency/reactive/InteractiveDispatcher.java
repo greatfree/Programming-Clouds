@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.greatfree.concurrency.CheckIdleable;
+import org.greatfree.concurrency.IdleCheckable;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.concurrency.ThreadIdleChecker;
@@ -26,7 +26,7 @@ import org.greatfree.util.UtilConfig;
  */
 
 // Created: 11/20/2014, Bing Li
-public class InteractiveDispatcher<Task, Notifier extends Interactable<Task>, Function extends InteractiveQueue<Task, Notifier>, ThreadCreator extends InteractiveThreadCreatable<Task, Notifier, Function>, ThreadDisposer extends RunnerDisposable<Function>> implements CheckIdleable
+public class InteractiveDispatcher<Task, Notifier extends Interactable<Task>, Function extends InteractiveQueue<Task, Notifier>, ThreadCreator extends InteractiveThreadCreatable<Task, Notifier, Function>, ThreadDisposer extends RunnerDisposable<Function>> implements IdleCheckable
 {
 	// The size of the fast thread pool. 11/21/2014, Bing Li
 	private int fastPoolSize;

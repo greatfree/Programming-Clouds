@@ -27,7 +27,7 @@ public class ReplicateMyUKValueThread extends NotificationObjectQueue<ListReplic
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					if (notification.getValue() != null)
 					{

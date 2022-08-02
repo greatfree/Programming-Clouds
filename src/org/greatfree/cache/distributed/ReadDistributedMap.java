@@ -54,7 +54,7 @@ public class ReadDistributedMap<Value extends Serializable, Factory extends Cach
 				.threadCreator(builder.getPostfetchThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -65,7 +65,7 @@ public class ReadDistributedMap<Value extends Serializable, Factory extends Cach
 				.threadCreator(builder.getEvictThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -94,7 +94,7 @@ public class ReadDistributedMap<Value extends Serializable, Factory extends Cach
 		private EvictThreadCreator evictCreator;
 		private int notificationQueueSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -170,12 +170,14 @@ public class ReadDistributedMap<Value extends Serializable, Factory extends Cach
 			this.dispatcherWaitTime = dispatcherWaitTime;
 			return this;
 		}
-		
+
+		/*
 		public ReadDistributedMapBuilder<Value, Factory,  Notification, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 		
 		public ReadDistributedMapBuilder<Value, Factory,  Notification, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -267,11 +269,13 @@ public class ReadDistributedMap<Value extends Serializable, Factory extends Cach
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{

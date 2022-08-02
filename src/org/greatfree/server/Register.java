@@ -110,6 +110,9 @@ class Register<Dispatcher extends ServerDispatcher<ServerMessage>>
 			}
 			else
 			{
+				/*
+				 * Since the ServerSocket is initialized, it is not reasonable to initialize it again with the same port. 06/18/2022, Bing Li
+				 */
 				peer.setPort();
 			}
 			System.out.println("\n===================");
@@ -118,6 +121,9 @@ class Register<Dispatcher extends ServerDispatcher<ServerMessage>>
 		}
 		else
 		{
+			/*
+			 * Since the ServerSocket is initialized, it is not reasonable to initialize it again with the same port. 06/18/2022, Bing Li
+			 */
 			peer.setPort();
 		}
 			

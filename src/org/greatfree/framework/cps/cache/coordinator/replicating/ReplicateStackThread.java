@@ -27,7 +27,7 @@ public class ReplicateStackThread extends NotificationObjectQueue<ReplicateNotif
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					if (notification.getValue() != null)
 					{
 						Coordinator.CPS().push(notification.getValue());

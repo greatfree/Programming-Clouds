@@ -28,7 +28,7 @@ public class PrefetchMyPointingListThread extends NotificationObjectQueue<FetchM
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					/*
 //					response = Coordinator.CPS().prefetch(notification.getCurrentCacheSize() - 1, notification.getPrefetchCount());
 					response = Coordinator.CPS().prefetch(notification.getPrefetchStartIndex(), notification.getPrefetchEndIndex());

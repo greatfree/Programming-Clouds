@@ -66,7 +66,8 @@ class StartPeer
 		in.nextLine();
 	
 		PeerSingleton.PEER().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
-		
+
+		/*
 		while (!TerminateSignal.SIGNAL().isTerminated())
 		{
 			try
@@ -79,6 +80,8 @@ class StartPeer
 				e.printStackTrace();
 			}
 		}
+		*/
+		TerminateSignal.SIGNAL().waitTermination();
 
 		in.close();
 	}

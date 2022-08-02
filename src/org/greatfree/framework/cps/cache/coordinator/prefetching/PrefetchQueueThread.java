@@ -27,7 +27,7 @@ public class PrefetchQueueThread extends NotificationObjectQueue<FetchQueueNotif
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyDistributedQueueStore.MIDDLESTORE().prefetch(notification);
 					this.disposeObject(notification);
 				}

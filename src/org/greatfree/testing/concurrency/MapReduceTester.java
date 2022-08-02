@@ -19,7 +19,7 @@ class MapReduceTester
 		// Initialize the thread. 04/22/2018, Bing Li
 //		SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);
 		// Initialize the scheduler. 04/22/2018, Bing Li
-		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 
 		// Initialize one instance of the MRCore. 04/22/2018, Bing Li
 		MRCore<MyTask, MyResult, MyMRThread, MyMRThreadCreator> mp = new MRCore.MRCoreBuilder<MyTask, MyResult, MyMRThread, MyMRThreadCreator>()
@@ -29,7 +29,7 @@ class MapReduceTester
 				.taskSizePerThread(ServerConfig.TASK_SIZE_PER_THREAD)
 				.waitTime(ServerConfig.MR_WAIT_TIME)
 				.shutdownTime(ServerConfig.MR_SHUTDOWN_TIME)
-				.scheduler(Scheduler.GREATFREE().getScheduler())
+				.scheduler(Scheduler.PERIOD().getScheduler())
 				.build();
 
 		// Assign the tasks for map/reduce. 04/22/2018, Bing Li
@@ -60,7 +60,7 @@ class MapReduceTester
 		// Dispose the thread pool. 04/22/2018, Bing Li
 //		SharedThreadPool.SHARED().dispose(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 		// Shutdown the scheduler. 04/22/2018, Bing Li
-		Scheduler.GREATFREE().shutdown(ServerConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
+		Scheduler.PERIOD().shutdown(ServerConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
 	}
 
 }

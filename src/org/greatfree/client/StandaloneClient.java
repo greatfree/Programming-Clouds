@@ -61,6 +61,8 @@ public final class StandaloneClient
 	{
 		if (this.client == null)
 		{
+			SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);
+
 			this.client = new CSClient.CSClientBuilder()
 					.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
 					.clientIdleCheckDelay(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_DELAY)
@@ -69,18 +71,18 @@ public final class StandaloneClient
 					.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
 					.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
 					.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
-					.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
-					.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+					.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//					.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
 					.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 					.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 					.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
 					.schedulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
 					.asyncSchedulerShutdownTimeout(ClientConfig.ASYNC_SCHEDULER_SHUTDOWN_TIMEOUT)
 					.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
+					.pool(SharedThreadPool.SHARED().getPool())
 					.build();
 			
-			SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);
-			this.client.init(SharedThreadPool.SHARED().getPool());
+//			this.client.init(SharedThreadPool.SHARED().getPool());
 		}
 	}
 
@@ -88,6 +90,7 @@ public final class StandaloneClient
 	{
 		if (this.client == null)
 		{
+			SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);
 			this.client = new CSClient.CSClientBuilder()
 					.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
 					.clientIdleCheckDelay(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_DELAY)
@@ -96,8 +99,8 @@ public final class StandaloneClient
 					.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
 					.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
 					.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
-					.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
-					.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+					.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//					.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
 					.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 					.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 					.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
@@ -105,10 +108,10 @@ public final class StandaloneClient
 					.asyncSchedulerShutdownTimeout(ClientConfig.ASYNC_SCHEDULER_SHUTDOWN_TIMEOUT)
 					.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
 					.readTimeoutExceptionHandler(handler)
+					.pool(SharedThreadPool.SHARED().getPool())
 					.build();
 			
-			SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);
-			this.client.init(SharedThreadPool.SHARED().getPool());
+//			this.client.init(SharedThreadPool.SHARED().getPool());
 		}
 	}
 
@@ -172,7 +175,7 @@ public final class StandaloneClient
 	 */
 	public IPAddress getIPAddress(String registryIP, int registryPort, String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		return ((PeerAddressResponse)this.client.read(registryIP,  registryPort, new PeerAddressRequest(nodeKey))).getPeerAddress();
+		return ((PeerAddressResponse)this.client.read(registryIP, registryPort, new PeerAddressRequest(nodeKey))).getPeerAddress();
 	}
 
 	/*

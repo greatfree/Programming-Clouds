@@ -3,6 +3,7 @@ package org.greatfree.client;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.greatfree.message.ServerMessage;
 import org.greatfree.reuse.RetrievablePool;
@@ -17,6 +18,8 @@ import org.greatfree.util.UtilConfig;
 
 public class FreeClientPool
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.client");
+
 	// Declare an instance of Retrievable to hide instances of FreeClient from outside. 11/19/2014, Bing Li
 	private RetrievablePool<IPResource, FreeClient, FreeClientCreator, FreeClientDisposer> pool;
 
@@ -68,7 +71,7 @@ public class FreeClientPool
 		}
 		else
 		{
-			System.out.println("FreeClientPool-send(): client is not obtained!");
+			log.info("FreeClientPool-send(): client is not obtained!");
 		}
 	}
 
@@ -99,6 +102,7 @@ public class FreeClientPool
 		// Check whether the instance of FreeClient is valid. 11/20/2014, Bing Li
 		if (client != UtilConfig.NO_CLIENT)
 		{
+			log.info("server address: " + client.getServerAddress() + ", port = " + client.getServerPort());
 //			System.out.println("FreeClientPool-send(): " + client);
 			// Send the message. 11/20/2014, Bing Li
 			client.send(msg);
@@ -194,7 +198,9 @@ public class FreeClientPool
 //	public void addIP(String clientKey, String ip, int port)
 	public void addIP(String ip, int port)
 	{
-		this.pool.addSource(new IPResource(ip, port));
+		IPResource ir = new IPResource(ip, port);
+//		log.info("IP key = " + ir.getObjectKey());
+		this.pool.addSource(ir);
 	}
 
 	/*

@@ -1,9 +1,9 @@
 package org.greatfree.multicast.root;
 
-import org.greatfree.concurrency.Async;
+import org.greatfree.concurrency.Notifier;
 
 // Created: 09/11/2020, Bing Li
-abstract class AsyncMulticastor<Message> extends Async<Message>
+abstract class AsyncMulticastor<Message> implements Notifier<Message>
 {
 	private RootSyncMulticastor multicastor;
 

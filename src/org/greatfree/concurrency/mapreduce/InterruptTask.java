@@ -60,5 +60,4 @@ class InterruptTask<Task extends Sequence, Result extends Sequence, TaskThread e
 		this.coordinator.signalAll();
 		this.isDown.set(true);
 	}
-
 }

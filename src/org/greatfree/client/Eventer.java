@@ -44,7 +44,7 @@ class Eventer<Notification extends ServerMessage> extends NotificationObjectQueu
 				try
 				{
 					// Dequeue the object from the queue. 11/20/2014, Bing Li
-					notification = this.getNotification();
+					notification = this.dequeue();
 					try
 					{
 						// Since the object contains the IP/port and the notification, it is convenient to send the notification by the FreeClientPool. 11/20/2014, Bing Li

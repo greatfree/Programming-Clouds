@@ -27,7 +27,7 @@ public class ReplicateMyDistributedStoreDataThread extends NotificationObjectQue
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					if (notification.getValue() != null)
 					{
 						Coordinator.CPS().replicateMyStoreData(notification.getValue());

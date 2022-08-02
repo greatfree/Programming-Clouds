@@ -27,7 +27,7 @@ public class EvictStackThread extends NotificationObjectQueue<EvictedNotificatio
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					Coordinator.CPS().push(notification.getValue());
 					this.disposeObject(notification);
 				}

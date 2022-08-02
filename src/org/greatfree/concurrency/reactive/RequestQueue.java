@@ -29,7 +29,7 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 	// The queue that saves the request stream, which extends the OutMessageStream, including the associated output stream,  the lock and the request. 09/22/2014, Bing Li
 	private Queue<Stream> queue;
 	// The maximum size of the queue. 09/22/2014, Bing Li
-	private final int notificationQueueSize;
+	private final int requestQueueSize;
 	// It is necessary to keep the thread waiting when no requests are available. The collaborator is used to notify the thread to keep working when requests are received. When the thread is idle enough, it can be collected. The collaborator is also used to control the life cycle of the thread. 09/22/2014, Bing Li
 	private Sync collaborator;
 	// The flag that represents whether the thread is busy or idle. 09/22/2014, Bing Li
@@ -50,13 +50,13 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 	/*
 	 * Initialize an instance. 09/22/2014, Bing Li
 	 */
-	public RequestQueue(int taskSize)
+	public RequestQueue(int queueSize)
 	{
 		// Generate a unique key for the instance of the class. 09/22/2014, Bing Li
 		this.key = Tools.generateUniqueKey();
 		// Initialize the queue to keep received the request streams, which consist of requests and their relevant streams and locks. It is critical to set up the queue without the limit of the length since the message is forced to be put into the queue when the count of threads reach the maximum and each one's queue is full. 09/22/2014, Bing Li
 		this.queue = new LinkedBlockingQueue<Stream>();
-		this.notificationQueueSize = taskSize;
+		this.requestQueueSize = queueSize;
 		this.collaborator = new Sync();
 		// Setting the idle is false means that the thread is busy when being initialized. 09/22/2014, Bing Li
 		this.isIdle = false;
@@ -115,12 +115,10 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 		{
 			this.queue.clear();
 		}
-		/*
-		if (this.isHung.get())
-		{
-			this.interrupt();
-		}
-		*/
+//		if (this.isHung.get())
+//		{
+//			this.interrupt();
+//		}
 	}
 
 	/*
@@ -313,7 +311,7 @@ public abstract class RequestQueue<Request extends ServerMessage, Stream extends
 	 */
 	public boolean isFull()
 	{
-		return this.queue.size() >= this.notificationQueueSize;
+		return this.queue.size() >= this.requestQueueSize;
 	}
 
 	/*

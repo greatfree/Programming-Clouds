@@ -27,7 +27,7 @@ public class PostfetchMyCachePointingThread extends NotificationObjectQueue<Fetc
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MySortedDistributedCacheStore.MIDDLESTORE().postfetch(notification);
 					this.disposeObject(notification);
 				}

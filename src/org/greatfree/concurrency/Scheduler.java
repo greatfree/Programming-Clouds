@@ -23,7 +23,7 @@ public class Scheduler
 
 	private static Scheduler instance = new Scheduler();
 	
-	public static Scheduler GREATFREE()
+	public static Scheduler PERIOD()
 	{
 		if (instance == null)
 		{

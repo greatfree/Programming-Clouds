@@ -5,8 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.greatfree.client.ClientPoolSingleton;
-import org.greatfree.client.ServerIORegistry;
-import org.greatfree.client.ServerListener;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.Prompts;
@@ -89,7 +87,6 @@ class P2PListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends Se
 		
 	}
 
-	/*
 	@Override
 	public void dispose(long timeout) throws InterruptedException
 	{
@@ -97,6 +94,7 @@ class P2PListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends Se
 		
 	}
 
+	/*
 	@Override
 	public void dispose()
 	{

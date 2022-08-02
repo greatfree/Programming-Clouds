@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.greatfree.client.ServerIORegistry;
-import org.greatfree.client.ServerListener;
 import org.greatfree.concurrency.ThreadPool;
-import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.Prompts;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.ServerStatus;
@@ -23,12 +20,17 @@ class CSListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ser
 	private ServerMessageProducer<Dispatcher> messageProducer;
 	// The registry keeps all of the server IOs' instances. 04/19/2017, Bing Li
 	private ServerIORegistry<CSServerIO<Dispatcher>> ioRegistry;
+	private final int maxIOCount;
 
-	public CSListener(ServerSocket serverSocket, ThreadPool pool, ServerMessageProducer<Dispatcher> messageProducer, ServerIORegistry<CSServerIO<Dispatcher>> ioRegistry)
+	/*
+	 * The CSListener shares the thread pool of the dispatcher. Thus, the size of the pool is set upon the consideration of the count of the listeners. 06/03/2022, Bing Li
+	 */
+	public CSListener(ServerSocket serverSocket, ThreadPool pool, ServerMessageProducer<Dispatcher> messageProducer, ServerIORegistry<CSServerIO<Dispatcher>> ioRegistry, int maxIOCount)
 	{
 		super(serverSocket, pool);
 		this.messageProducer = messageProducer;
 		this.ioRegistry = ioRegistry;
+		this.maxIOCount = maxIOCount;
 	}
 
 	/*
@@ -43,19 +45,24 @@ class CSListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ser
 		// Detect whether the listener is shutdown. If not, it must be running all the time to wait for potential connections from clients. 08/22/2014, Bing Li
 		while (!super.isShutdown())
 		{
-//			log.info("Here, here, here ...");
+//			System.out.println("\n===========================================");
+//			log.info("Before a connection is accepted ... Code = " + this.hashCode());
 			// Wait and accept a connecting from a possible client. 08/22/2014, Bing Li
 			try
 			{
 				// Wait and accept a connecting from a possible client. 08/22/2014, Bing Li
 				clientSocket = super.accept();
+//				log.info("After a connection is accepted ... Code = " + this.hashCode() + "");
 				// Check whether the connected server IOs exceed the upper limit. 08/22/2014, Bing Li
-				if (this.ioRegistry.getIOCount() >= ServerConfig.MAX_SERVER_IO_COUNT)
+//				if (this.ioRegistry.getIOCount() >= ServerConfig.MAX_SERVER_IO_COUNT)
+				if (this.ioRegistry.getIOCount() >= this.maxIOCount)
 				{
 					// If the upper limit is reached, the listener has to wait until an existing server IO is disposed. 08/22/2014, Bing Li
 					super.holdOn();
 				}
 
+//				log.info("A connection is established!");
+//				System.out.println("===========================================\n");
 				// If the upper limit of IOs is not reached, a server IO is initialized. A common Collaborator and the socket are the initial parameters. The shared common collaborator guarantees all of the server IOs from a certain client could notify with each other with the same lock. Then, the upper limit of server IOs is under the control. 08/22/2014, Bing Li
 //				serverIO = new DispatchingServerIO<Dispatcher>(clientSocket, super.getCollaborator(), this.port, this.messageProducer, this.ioRegistry);
 				serverIO = new CSServerIO<Dispatcher>(clientSocket, super.getCollaborator(), this.messageProducer, this.ioRegistry);
@@ -74,7 +81,6 @@ class CSListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ser
 		}
 	}
 
-	/*
 	@Override
 	public void dispose(long timeout) throws InterruptedException
 	{
@@ -82,6 +88,7 @@ class CSListener<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ser
 		
 	}
 
+	/*
 	@Override
 	public void dispose()
 	{

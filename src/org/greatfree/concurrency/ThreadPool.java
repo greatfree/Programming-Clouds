@@ -57,6 +57,19 @@ public final class ThreadPool
 	}
 
 	/*
+	public synchronized void shutdown() throws InterruptedException
+	{
+		this.taskQueue.clear();
+		if (!this.threadPool.isShutdown())
+		{
+//			this.threadPool.shutdownNow();
+			this.threadPool.shutdown();
+			this.threadPool.awaitTermination(ServerConfig.SERVER_SHUTDOWN_TIMEOUT, TimeUnit.MICROSECONDS);
+		}
+	}
+	*/
+
+	/*
 	 * Get the core size of the thread pool. 08/10/2014, Bing Li
 	 */
 	public int getCorePoolSize()

@@ -14,7 +14,7 @@ final class NearestKeysRootReadActor extends AsyncMulticastor<NearestKeysMultica
 	}
 
 	@Override
-	public void perform(NearestKeysMulticastRequest request)
+	public void notify(NearestKeysMulticastRequest request)
 	{
 		try
 		{

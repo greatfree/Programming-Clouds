@@ -12,7 +12,7 @@ public class ClientHelloWorldBroadcastRequest extends Request
 
 	public ClientHelloWorldBroadcastRequest(HelloWorld hello)
 	{
-		super(MulticastApplicationID.CLIENT_HELLO_WORLD_BROADCAST_REQUEST);
+		super(MultiAppID.CLIENT_HELLO_WORLD_BROADCAST_REQUEST);
 		this.hello = hello;
 	}
 

@@ -27,7 +27,7 @@ public class PostfetchMyDataForPDMThread extends NotificationObjectQueue<Postfet
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyReadDistributedMap.MIDDLE().postfetch(notification);
 					this.disposeObject(notification);
 				}

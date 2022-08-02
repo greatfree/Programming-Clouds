@@ -54,9 +54,7 @@ public class Runner<Function extends RunnerTask> implements Comparable<Runner<Fu
 	public void stop(long waitTime) throws InterruptedException
 	{
 //		this.disposer.dispose(this.function, waitTime);
-		/*
-		 * If the line is added, the thread shutting-down is abnormal. The entire process cannot be shutdown properly. I need to check the method, join(), carefully AGAIN. 06/13/2019, Bing Li
-		 */
+//		If the line is added, the thread shutting-down is abnormal. The entire process cannot be shutdown properly. I need to check the method, join(), carefully AGAIN. 06/13/2019, Bing Li
 //		this.thread.join(waitTime);
 		this.function.dispose(waitTime);
 	}

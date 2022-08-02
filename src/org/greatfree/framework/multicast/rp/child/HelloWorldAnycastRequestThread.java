@@ -43,6 +43,7 @@ public class HelloWorldAnycastRequestThread extends NotificationQueue<HelloWorld
 //					ChildMulticastor.CHILD().getRP().saveResponse(response);
 					ChildMulticastor.CHILD().notifyRP(request.getRPAddress(), response);
 					this.disposeMessage(request);
+					super.dispose(response);
 				}
 				catch (InterruptedException | IOException e)
 				{

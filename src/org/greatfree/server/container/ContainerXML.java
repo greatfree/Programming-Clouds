@@ -8,6 +8,7 @@ public class ContainerXML
 	 */
 	public final static String SELECT_SERVER_PORT = "/Container/Port/text()";
 	public final static String SELECT_LISTENING_THREAD_COUNT = "/Container/ListeningThreadCount/text()";
+	public final static String SELECT_MAX_IO_COUNT = "/Container/MaxIOCount/text()";
 	public final static String SELECT_SERVER_THREAD_POOL_SIZE = "/Container/ServerThreadPoolSize/text()";
 	public final static String SELECT_SERVER_THREAD_KEEP_ALIVE_TIME = "/Container/ServerThreadKeepAliveTime/text()";
 	public final static String SELECT_SCHEDULER_THREAD_POOL_SIZE = "/Container/SchedulerThreadPoolSize/text()";
@@ -49,7 +50,7 @@ public class ContainerXML
 	public final static String SELECT_ASYNC_EVENTER_SIZE = "/Container/AsyncEventerSize/text()";
 	public final static String SELECT_ASYNC_EVENTING_WAIT_TIME = "/Container/AsyncEventingWaitTime/text()";
 	public final static String SELECT_ASYNC_EVENTER_WAIT_TIME = "/Container/AsyncEventerWaitTime/text()";
-	public final static String SELECT_ASYNC_EVENTER_WAIT_ROUND = "/Container/AsyncEventerWaitRound/text()";
+//	public final static String SELECT_ASYNC_EVENTER_WAIT_ROUND = "/Container/AsyncEventerWaitRound/text()";
 	public final static String SELECT_ASYNC_EVENT_IDLE_CHECK_DELAY = "/Container/AsyncEventIdleCheckDelay/text()";
 	public final static String SELECT_ASYNC_EVENT_IDLE_CHECK_PERIOD = "/Container/AsyncEventIdleCheckPeriod/text()";
 	public final static String SELECT_EVENT_SCHEDULER_POOL_SIZE = "/Container/EventSchedulerPoolSize/text()";

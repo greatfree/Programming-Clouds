@@ -17,8 +17,8 @@ public class PeerProfile
 	private int asyncEventQueueSize;
 	private int asyncEventerSize;
 	private long asyncEventingWaitTime;
-	private long asyncEventerWaitTime;
-	private int asyncEventerWaitRound;
+	private long asyncEventQueueWaitTime;
+//	private int asyncEventerWaitRound;
 	private long asyncEventIdleCheckDelay;
 	private long asyncEventIdleCheckPeriod;
 	private int schedulerPoolSize;
@@ -72,9 +72,9 @@ public class PeerProfile
 //		this.asyncEventingWaitTime = new Integer(reader.read(ContainerXML.SELECT_ASYNC_EVENTING_WAIT_TIME));
 		this.asyncEventingWaitTime = Integer.valueOf(reader.read(ContainerXML.SELECT_ASYNC_EVENTING_WAIT_TIME));
 //		this.asyncEventerWaitTime = new Integer(reader.read(ContainerXML.SELECT_ASYNC_EVENTER_WAIT_TIME));
-		this.asyncEventerWaitTime = Integer.valueOf(reader.read(ContainerXML.SELECT_ASYNC_EVENTER_WAIT_TIME));
+		this.asyncEventQueueWaitTime = Integer.valueOf(reader.read(ContainerXML.SELECT_ASYNC_EVENTER_WAIT_TIME));
 //		this.asyncEventerWaitRound = new Integer(reader.read(ContainerXML.SELECT_ASYNC_EVENTER_WAIT_ROUND));
-		this.asyncEventerWaitRound = Integer.valueOf(reader.read(ContainerXML.SELECT_ASYNC_EVENTER_WAIT_ROUND));
+//		this.asyncEventerWaitRound = Integer.valueOf(reader.read(ContainerXML.SELECT_ASYNC_EVENTER_WAIT_ROUND));
 //		this.asyncEventIdleCheckDelay = new Integer(reader.read(ContainerXML.SELECT_ASYNC_EVENT_IDLE_CHECK_DELAY));
 		this.asyncEventIdleCheckDelay = Integer.valueOf(reader.read(ContainerXML.SELECT_ASYNC_EVENT_IDLE_CHECK_DELAY));
 //		this.asyncEventIdleCheckPeriod = new Integer(reader.read(ContainerXML.SELECT_ASYNC_EVENT_IDLE_CHECK_PERIOD));
@@ -154,15 +154,17 @@ public class PeerProfile
 		return this.asyncEventingWaitTime;
 	}
 	
-	public long getAsyncEventerWaitTime()
+	public long getAsyncEventQueueWaitTime()
 	{
-		return this.asyncEventerWaitTime;
+		return this.asyncEventQueueWaitTime;
 	}
-	
+
+	/*
 	public int getAsyncEventerWaitRound()
 	{
 		return this.asyncEventerWaitRound;
 	}
+	*/
 	
 	public long getAsyncEventIdleCheckDelay()
 	{

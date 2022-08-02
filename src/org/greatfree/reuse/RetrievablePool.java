@@ -608,10 +608,12 @@ public class RetrievablePool<Source extends FreeObject, Resource extends FreeObj
 		}
 		*/
 		this.sourceMap.put(source.getObjectKey(), source);
+//		log.info("source map keys' size = " + this.sourceMap.keySet().size());
 	}
 	
 	public void clearSource()
 	{
+//		log.info("clearSource is executed ...");
 		/*
 		this.rscLock.lock();
 		try

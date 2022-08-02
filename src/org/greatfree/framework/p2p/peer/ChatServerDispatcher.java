@@ -36,7 +36,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 				.threadCreator(new AddPartnerThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
@@ -50,7 +50,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 				.threadCreator(new ChatThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
@@ -109,6 +109,7 @@ public class ChatServerDispatcher extends ServerDispatcher<ServerMessage>
 	@Override
 	public void dispose(long timeout) throws InterruptedException
 	{
+//		super.shutdown(timeout);
 		super.shutdown(timeout);
 		this.partnerNotificationDispatcher.dispose();
 		this.chatNotificationDispatcher.dispose();

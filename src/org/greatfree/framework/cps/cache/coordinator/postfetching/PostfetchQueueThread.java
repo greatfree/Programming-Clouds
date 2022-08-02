@@ -27,7 +27,7 @@ public class PostfetchQueueThread extends NotificationObjectQueue<FetchQueueNoti
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyDistributedQueueStore.MIDDLESTORE().postfetch(notification);
 					this.disposeObject(notification);
 				}

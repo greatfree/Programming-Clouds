@@ -55,5 +55,4 @@ class MRThread extends MapReduceQueue<Sequence, Sequence, MRThread, MRThreadCrea
 		// TODO Auto-generated method stub
 		
 	}
-
 }

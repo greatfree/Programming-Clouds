@@ -88,7 +88,7 @@ public class DistributedMapStore<Value extends StoreElement, Factory extends Cac
 				.threadCreator(builder.getReplicateThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -99,7 +99,7 @@ public class DistributedMapStore<Value extends StoreElement, Factory extends Cac
 				.threadCreator(builder.getFetchThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -110,7 +110,7 @@ public class DistributedMapStore<Value extends StoreElement, Factory extends Cac
 				.threadCreator(builder.getEvictThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -144,7 +144,7 @@ public class DistributedMapStore<Value extends StoreElement, Factory extends Cac
 		private EvictThreadCreator evictCreator;
 		private int maxTaskSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -239,11 +239,13 @@ public class DistributedMapStore<Value extends StoreElement, Factory extends Cac
 			return this;
 		}
 
+		/*
 		public DistributedMapStoreBuilder<Value, Factory, CompoundKeyCreator, ReplicateThread, ReplicateThreadCreator, PostfetchNotification, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public DistributedMapStoreBuilder<Value, Factory, CompoundKeyCreator, ReplicateThread, ReplicateThreadCreator, PostfetchNotification, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -350,11 +352,13 @@ public class DistributedMapStore<Value extends StoreElement, Factory extends Cac
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{

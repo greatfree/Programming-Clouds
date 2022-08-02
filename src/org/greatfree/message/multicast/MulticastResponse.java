@@ -7,7 +7,8 @@ import org.greatfree.message.ServerMessage;
  */
 
 // Created: 05/13/2017, Bing Li
-public class MulticastResponse extends ServerMessage
+// public class MulticastResponse extends ServerMessage
+public abstract class MulticastResponse extends ServerMessage
 {
 	private static final long serialVersionUID = 6563131960227489984L;
 
@@ -15,7 +16,7 @@ public class MulticastResponse extends ServerMessage
 //	private String key;
 	// The collaborator to assist the synchronization for collecting broadcast retrieved data. 11/28/2014, Bing Li
 	private String collaboratorKey;
-	private int applicationID;
+//	private int applicationID;
 
 	/*
 	 * Initialize. The parameters are explained as follows. 11/28/2014, Bing Li
@@ -27,20 +28,22 @@ public class MulticastResponse extends ServerMessage
 	 * 		String collaboratorKey: the collaborator key pointing to the instance of Collaborator to collect all of the results by synchronization
 	 */
 //	public MulticastResponse(int type, String key, String collaboratorKey)
-//	public MulticastResponse(int type, String collaboratorKey)
-	public MulticastResponse(int applicationID, String collaboratorKey)
+//	public MulticastResponse(int applicationID, String collaboratorKey)
+	public MulticastResponse(int type, String collaboratorKey)
 	{
-//		super(type);
-		super(MulticastMessageType.MULTICAST_RESPONSE);
+		super(type);
+//		super(MulticastMessageType.MULTICAST_RESPONSE);
 //		this.key = key;
-		this.applicationID = applicationID;
+//		this.applicationID = applicationID;
 		this.collaboratorKey = collaboratorKey;
 	}
-	
+
+	/*
 	public int getApplicationID()
 	{
 		return this.applicationID;
 	}
+	*/
 
 	/*
 	 * Expose the key. 11/28/2014, Bing Li

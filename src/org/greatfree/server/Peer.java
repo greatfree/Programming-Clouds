@@ -171,7 +171,10 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 //		super(builder.getPeerPort(), builder.getListenerCount(), builder.getListenerThreadPoolSize(), builder.getListenerThreadKeepAliveTime(), builder.getSchedulerPoolSize(), builder.getSchedulerKeepAliveTime(), builder.getDispatcher(), true);
 //		super(builder.getPeerPort(), builder.getListenerCount(), builder.getListenerThreadPoolSize(), builder.getListenerThreadKeepAliveTime(), builder.getDispatcher(), builder.getCheckMSGTimeout(), true);
 //		super(builder.getPeerPort(), builder.getListenerCount(), builder.getListenerThreadPoolSize(), builder.getListenerThreadKeepAliveTime(), builder.getDispatcher(), true);
-		super(builder.getPeerPort(), builder.getListenerCount(), builder.getDispatcher(), true);
+//		super(builder.getPeerPort(), builder.getListenerCount(), builder.getDispatcher(), true);
+//		super(builder.getPeerPort(), builder.getListenerCount(), builder.getMaxIOCount(), builder.getDispatcher());
+//		super(builder.getPeerPort(), builder.getListenerCount(), builder.getMaxIOCount(), builder.getDispatcher(), builder.isRegistryNeeded());
+		super(builder.getPeerPort(), builder.getListenerCount(), builder.getMaxIOCount(), builder.getDispatcher(), true);
 		
 		
 		// Initialize the peer name. 05/01/2017, Bing Li
@@ -245,8 +248,8 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 				.asyncEventQueueSize(builder.getAsyncEventQueueSize())
 				.asyncEventerSize(builder.getAsyncEventerSize())
 				.asyncEventingWaitTime(builder.getAsyncEventingWaitTime())
-				.asyncEventerWaitTime(builder.getAsyncEventerWaitTime())
-				.asyncEventerWaitRound(builder.getAsyncEventerWaitRound())
+				.asyncEventQueueWaitTime(builder.getAsyncEventerWaitTime())
+//				.asyncEventerWaitRound(builder.getAsyncEventerWaitRound())
 				.asyncEventIdleCheckDelay(builder.getAsyncEventIdleCheckDelay())
 				.asyncEventIdleCheckPeriod(builder.getAsyncEventIdleCheckPeriod())
 				.schedulerPoolSize(builder.getSchedulerPoolSize())
@@ -254,6 +257,7 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 //				.pool(super.getThreadPool())
 //				.scheduler(builder.getDispatcher().getScheduler())
 				.readerClientSize(builder.getReaderClientSize())
+				.pool(super.getThreadPool())
 				.build();
 	}
 	
@@ -271,6 +275,7 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 //		private String appRegistryServerIP;
 //		private int appRegistryServerPort;
 		private int listenerCount;
+		private int maxIOCount;
 		// The size of the thread pool that manages the threads to listen the port. 05/11/2017, Bing Li
 //		private int listenerThreadPoolSize;
 		// The time to keep alive for threads that listen to the port. 05/11/2017, Bing Li
@@ -287,7 +292,7 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		private int asyncEventerSize;
 		private long asyncEventingWaitTime;
 		private long asyncEventerWaitTime;
-		private int asyncEventerWaitRound;
+//		private int asyncEventerWaitRound;
 		private long asyncEventIdleCheckDelay;
 		private long asyncEventIdleCheckPeriod;
 		
@@ -360,6 +365,12 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		public PeerBuilder<Dispatcher> listenerCount(int listenerCount)
 		{
 			this.listenerCount = listenerCount;
+			return this;
+		}
+		
+		public PeerBuilder<Dispatcher> maxIOCount(int maxIOCount)
+		{
+			this.maxIOCount = maxIOCount;
 			return this;
 		}
 
@@ -439,17 +450,19 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 			return this;
 		}
 
-		public PeerBuilder<Dispatcher> asyncEventerWaitTime(long asyncEventerWaitTime)
+		public PeerBuilder<Dispatcher> asyncEventQueueWaitTime(long asyncEventerWaitTime)
 		{
 			this.asyncEventerWaitTime = asyncEventerWaitTime;
 			return this;
 		}
 
+		/*
 		public PeerBuilder<Dispatcher> asyncEventerWaitRound(int asyncEventerWaitRound)
 		{
 			this.asyncEventerWaitRound = asyncEventerWaitRound;
 			return this;
 		}
+		*/
 
 		public PeerBuilder<Dispatcher> asyncEventIdleCheckDelay(long asyncEventIdleCheckDelay)
 		{
@@ -557,6 +570,11 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		{
 			return this.listenerCount;
 		}
+		
+		public int getMaxIOCount()
+		{
+			return this.maxIOCount;
+		}
 
 		/*
 		public ThreadPool getListenerThreadPool()
@@ -626,11 +644,13 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		{
 			return this.asyncEventerWaitTime;
 		}
-		
+
+		/*
 		public int getAsyncEventerWaitRound()
 		{
 			return this.asyncEventerWaitRound;
 		}
+		*/
 		
 		public long getAsyncEventIdleCheckDelay()
 		{
@@ -708,7 +728,7 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 	{
 		super.setPort(port);
 	}
-	
+
 	public void setPort() throws IOException
 	{
 		super.setPort();
@@ -792,7 +812,7 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 //			this.ipAddress = new IPAddress(super.getID(), this.peerIP, super.getPort());
 		// Start the server. 04/29/2017, Bing Li
 		super.start();
-		this.client.init(super.getThreadPool());
+//		this.client.init(super.getThreadPool());
 	}
 
 	/*
@@ -846,11 +866,13 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 //		this.syncEventer.notify(ip, port, notification);
 		this.client.syncNotify(ip, port, notification);
 	}
-	
+
+	/*
 	public void syncNotify(String clientIPKey, ServerMessage notification) throws IOException
 	{
 		this.client.syncNotify(clientIPKey, notification);
 	}
+	*/
 
 	/*
 	 * Send notifications asynchronously. 05/01/2017, Bing Li

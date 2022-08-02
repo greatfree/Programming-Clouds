@@ -10,7 +10,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.greatfree.concurrency.CheckIdleable;
+import org.greatfree.concurrency.IdleCheckable;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.concurrency.ThreadIdleChecker;
@@ -20,7 +20,7 @@ import org.greatfree.util.Time;
 
 // Created: 04/23/2018, Bing Li
 // public class BalancedDispatcher<Task, Notifier extends ThreadNotifiable<Task>, Function extends BalancedQueue<Task, Notifier>, ThreadCreator extends BalancedThreadCreatable<Task, Notifier, Function>, ThreadDisposer extends RunnerDisposable<Function>> implements CheckIdleable
-public class BalancedDispatcher<Task, Notifier extends ThreadNotifiable<Task>, Function extends BalancedQueue<Task, Notifier>, ThreadCreator extends BalancedThreadCreatable<Task, Notifier, Function>> implements CheckIdleable
+public class BalancedDispatcher<Task, Notifier extends ThreadNotifiable<Task>, Function extends BalancedQueue<Task, Notifier>, ThreadCreator extends BalancedThreadCreatable<Task, Notifier, Function>> implements IdleCheckable
 {
 	private final int fastPoolSize;
 	private final int slowPoolSize;

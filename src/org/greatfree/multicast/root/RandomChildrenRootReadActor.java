@@ -14,7 +14,7 @@ final class RandomChildrenRootReadActor extends AsyncMulticastor<RandomChildrenM
 	}
 
 	@Override
-	public void perform(RandomChildrenMulticastRequest request)
+	public void notify(RandomChildrenMulticastRequest request)
 	{
 		try
 		{

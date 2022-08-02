@@ -55,7 +55,6 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 	/*
 	 * Using the constructor, the server side shares thread pool with the TCP listeners. It lowers the resource consumption on the server. When the dispatcher is used to implement a server, the constructor is employed. 01/13/2019, Bing Li
 	 */
-	
 //	public ServerDispatcher(int schedulerPoolSize, long schedulerKeepAliveTime)
 //	public ServerDispatcher(int schedulerPoolSize, long schedulerKeepAliveTime)
 	public ServerDispatcher(int serverThreadPoolSize, long serverThreadKeepAliveTime, int schedulerPoolSize, long schedulerKeepAliveTime)
@@ -81,7 +80,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 				.threadCreator(new RegisterClientThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 //				.scheduler(super.getSchedulerPool())
@@ -96,7 +95,53 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 				.threadCreator(new InitReadFeedbackThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
+//				.scheduler(super.getSchedulerPool())
+				.scheduler(this.scheduler)
+				.build();
+		
+		// The boolean field is added to avoid processing incoming messages after the server dispatcher is shut down. 11/17/2019, Bing Li
+		this.isDown = new AtomicBoolean(false);
+	}
+	
+	public ServerDispatcher(ServerDispatcherProfile profile)
+	{
+		this.serverKey = Tools.generateUniqueKey();
+		this.pool = new ThreadPool(profile.getServerThreadPoolSize(), profile.getServerThreadKeepAliveTime());
+		// Set the pool size. 02/01/2016, Bing Li
+		this.scheduler = new ScheduledThreadPoolExecutor(profile.getSchedulerPoolSize());
+		// The the lasted time to keep a thread alive. 02/01/2016, Bing Li
+		this.scheduler.setKeepAliveTime(profile.getSchedulerKeepAliveTime(), TimeUnit.MILLISECONDS);
+		// Set the core thread's timeout. When no tasks are available the relevant threads need to be collected and killed. 02/01/2016, Bing Li
+		this.scheduler.allowCoreThreadTimeOut(true);
+
+		// Initialize the client registration notification dispatcher. 11/30/2014, Bing Li
+		this.registerClientNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<RegisterClientNotification, RegisterClientThread, RegisterClientThreadCreator>()
+				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
+//				.keepAliveTime(ServerConfig.NOTIFICATION_DISPATCHER_THREAD_ALIVE_TIME)
+//				.threadPool(SharedThreadPool.SHARED().getPool())
+//				.threadPool(this.pool)
+				.threadCreator(new RegisterClientThreadCreator())
+				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
+//				.scheduler(super.getSchedulerPool())
+				.scheduler(this.scheduler)
+				.build();
+
+		// Initialize the read initialization notification dispatcher. 11/30/2014, Bing Li
+		this.initReadFeedbackNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<InitReadNotification, InitReadFeedbackThread, InitReadFeedbackThreadCreator>()
+				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
+//				.keepAliveTime(ServerConfig.NOTIFICATION_DISPATCHER_THREAD_ALIVE_TIME)
+//				.threadPool(SharedThreadPool.SHARED().getPool())
+				.threadCreator(new InitReadFeedbackThreadCreator())
+				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 //				.scheduler(super.getSchedulerPool())
@@ -107,6 +152,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 		this.isDown = new AtomicBoolean(false);
 	}
 
+	
 	public abstract void dispose(long timeout) throws InterruptedException;
 	public abstract void process(MessageStream<ServerMessage> message);
 	

@@ -18,9 +18,11 @@ class ServerMessageProducer<Dispatcher extends ServerDispatcher<ServerMessage>>
 	/*
 	 * Dispose the producers when the process of the server is shutdown. 08/22/2014, Bing Li
 	 */
+//	public void dispose() throws InterruptedException
 	public void dispose(long timeout) throws InterruptedException
 	{
 		this.producerThreader.stop(timeout);
+//		this.producerThreader.stop();
 	}
 	
 	/*

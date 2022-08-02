@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.greatfree.admin.AdminConfig;
-import org.greatfree.client.ServerIORegistry;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ServerConfig;
@@ -49,7 +48,8 @@ public class OldServer<CSServerDispatcher extends ServerDispatcher<ServerMessage
 	 * Start the server and relevant listeners with concurrent threads for potential busy connecting. 08/10/2014, Bing Li
 	 * Dispatcher is the interface that is visible to developers to program their applications. 04/17/2017, Bing Li
 	 */
-	public void start(int myPort, int manPort, CSServerDispatcher csDispatcher, ManDispatcher manDispatcher)
+//	public void start(int myPort, int manPort, CSServerDispatcher csDispatcher, ManDispatcher manDispatcher)
+	public void start(int myPort, int manPort, int maxIOCount, CSServerDispatcher csDispatcher, ManDispatcher manDispatcher)
 	{
 		// Initialize the shared thread pool for server listeners. 02/27/2016, Bing Li
 //		SharedThreadPool.SHARED().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
@@ -99,7 +99,8 @@ public class OldServer<CSServerDispatcher extends ServerDispatcher<ServerMessage
 		{
 //			runner = new Runner<MyServerListener, MyServerListenerDisposer>(new MyServerListener(this.mySocket, ServerConfig.LISTENER_THREAD_POOL_SIZE, ServerConfig.LISTENER_THREAD_ALIVE_TIME), disposer, true);
 //			runner = new Runner<CSListener<CSServerDispatcher>, CSListenerDisposer<CSServerDispatcher>>(new CSListener<CSServerDispatcher>(this.mySocket, SharedThreadPool.SHARED().getPool(), this.messageProducer, this.ioRegistry), disposer, true);
-			runner = new Runner<CSListener<CSServerDispatcher>>(new CSListener<CSServerDispatcher>(this.mySocket, SharedThreadPool.SHARED().getPool(), this.messageProducer, this.ioRegistry), true);
+//			runner = new Runner<CSListener<CSServerDispatcher>>(new CSListener<CSServerDispatcher>(this.mySocket, SharedThreadPool.SHARED().getPool(), this.messageProducer, this.ioRegistry), true);
+			runner = new Runner<CSListener<CSServerDispatcher>>(new CSListener<CSServerDispatcher>(this.mySocket, SharedThreadPool.SHARED().getPool(), this.messageProducer, this.ioRegistry, maxIOCount), true);
 			this.listenerRunnerList.add(runner);
 			runner.start();
 		}
@@ -109,7 +110,7 @@ public class OldServer<CSServerDispatcher extends ServerDispatcher<ServerMessage
 		// Initialize the runner to listen to connecting from the administrator which sends and notifications to the coordinator. 01/20/2016, Bing Li
 //		this.manListenerRunner = new Runner<P2PListener<ManDispatcher>, DispatchingListenerDisposer<ManDispatcher>>(new P2PListener<ManDispatcher>(this.manSocket, SharedThreadPool.SHARED().getPool(), this.manProducer, this.manRegistry), manDisposer, true);
 //		this.manListenerRunner = new Runner<CSListener<ManDispatcher>, CSListenerDisposer<ManDispatcher>>(new CSListener<ManDispatcher>(this.manSocket, SharedThreadPool.SHARED().getPool(), this.manProducer, this.manRegistry), manDisposer, true);
-		this.manListenerRunner = new Runner<CSListener<ManDispatcher>>(new CSListener<ManDispatcher>(this.manSocket, SharedThreadPool.SHARED().getPool(), this.manProducer, this.manRegistry), true);
+		this.manListenerRunner = new Runner<CSListener<ManDispatcher>>(new CSListener<ManDispatcher>(this.manSocket, SharedThreadPool.SHARED().getPool(), this.manProducer, this.manRegistry, maxIOCount), true);
 		// Start up the runner. 01/20/2016, Bing Li
 		this.manListenerRunner.start();
 

@@ -1,7 +1,9 @@
 package org.greatfree.client;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledFuture;
@@ -9,12 +11,14 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.greatfree.concurrency.CheckIdleable;
+import org.greatfree.concurrency.IdleCheckable;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.Builder;
 import org.greatfree.util.CollectionSorter;
+import org.greatfree.util.IPAddress;
+import org.greatfree.util.Rand;
 import org.greatfree.util.UtilConfig;
 
 /*
@@ -22,8 +26,10 @@ import org.greatfree.util.UtilConfig;
  */
 
 // Created: 11/20/2014, Bing Li
-public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thread implements CheckIdleable
+public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thread implements IdleCheckable
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.client");
+	
 	// The eventers that are available to sent the notifications concurrently. They are indexed by the keys which are usually generated upon their IP/ports to be sent to. 11/20/2014, Bing Li
 //	private Map<String, Eventer<Notification>> eventers;
 	private Map<String, Runner<Eventer<Notification>>> eventers;
@@ -50,13 +56,16 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 	// The FreeClientPool that is used to initialize eventers. It must be shared with others. 11/20/2014, Bing Li
 	private FreeClientPool clientPool;
 	// The time to be waited when no notifications are available in each eventer. 11/20/2014, Bing Li
-	private final long eventerWaitTime;
+	private final long eventQueueWaitTime;
 	// The delay time before a periodical idle-checking is started. 01/20/2016, Bing Li
 	private final long idleCheckDelay;
 	// The idle-checking period. 01/20/2016, Bing Li
 	private final long idleCheckPeriod;
+	/*
+	 * I decide to remove the attribute since the waiting time is enough. In addition, it is not proper to dispose itself because the thread pool can handle that. 06/09/2022, Bing Li
+	 */
 	// When the eventer has no notifications to send, it has to wait. But if the waiting time is long enough, it needs to be disposed. The waitRound defines the count of outside-most loop in the run(). Because of it, the eventer has killed after no notifications are available for sufficient time. 01/20/2016, Bing Li 
-	private final int waitRound;
+//	private final int waitRound;
 	// When self-disposing the dispatcher to save resources, it needs to keep synchronization between the message queue and the disposing. The lock is responsible for that. 02/01/2016, Bing Li
 	private ReentrantLock monitorLock;
 	
@@ -127,6 +136,8 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 
 		// I decide to assign the asynchronous eventer has a scheduler belonged to itself. It is not a heavy burden.er classes. 03/20/2019, Bing Li
 		this.scheduler = new ScheduledThreadPoolExecutor(builder.getSchedulerPoolSize());
+		
+//		log.info("builder.getSchedulerKeepAliveTime() = " + builder.getSchedulerKeepAliveTime());
 		// The the lasted time to keep a thread alive. 02/01/2016, Bing Li
 		this.scheduler.setKeepAliveTime(builder.getSchedulerKeepAliveTime(), TimeUnit.MILLISECONDS);
 		// Set the core thread's timeout. When no tasks are available the relevant threads need to be collected and killed. 02/01/2016, Bing Li
@@ -145,8 +156,8 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 		this.collaborator = new Sync(true);
 		this.eventingWaitTime = builder.getEventingWaitTime();
 		this.clientPool = builder.getClientPool();
-		this.eventerWaitTime = builder.getEventerWaitTime();
-		this.waitRound = builder.getWaitRound();
+		this.eventQueueWaitTime = builder.getEventQueueWaitTime();
+//		this.waitRound = builder.getWaitRound();
 		this.idleCheckDelay = builder.getIdleCheckDelay();
 		this.idleCheckPeriod = builder.getIdleCheckPeriod();
 		this.monitorLock = new ReentrantLock();
@@ -168,13 +179,13 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 		// The FreeClientPool that is used to initialize eventers. It must be shared with others. 11/20/2014, Bing Li
 		private FreeClientPool clientPool;
 		// The time to be waited when no notifications are available in each eventer. 11/20/2014, Bing Li
-		private long eventerWaitTime;
+		private long eventQueueWaitTime;
 		// The delay time before a periodical idle-checking is started. 01/20/2016, Bing Li
 		private long idleCheckDelay;
 		// The idle-checking period. 01/20/2016, Bing Li
 		private long idleCheckPeriod;
 		// When the eventer has no notifications to send, it has to wait. But if the waiting time is long enough, it needs to be disposed. The waitRound defines the count of outside-most loop in the run(). Because of it, the eventer has killed after no notifications are available for sufficient time. 01/20/2016, Bing Li 
-		private int waitRound;
+//		private int waitRound;
 	
 //		private ScheduledThreadPoolExecutor scheduler;
 
@@ -228,9 +239,9 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 			return this;
 		}
 
-		public AsyncRemoteEventerBuilder<Notification> eventerWaitTime(long eventerWaitTime)
+		public AsyncRemoteEventerBuilder<Notification> eventQueueWaitTime(long eventQueueWaitTime)
 		{
-			this.eventerWaitTime = eventerWaitTime;
+			this.eventQueueWaitTime = eventQueueWaitTime;
 			return this;
 		}
 
@@ -246,11 +257,13 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 			return this;
 		}
 
+		/*
 		public AsyncRemoteEventerBuilder<Notification> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		/*
 		public AsyncRemoteEventerBuilder<Notification> scheduler(ScheduledThreadPoolExecutor scheduler)
@@ -311,9 +324,9 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 			return this.clientPool;
 		}
 		
-		public long getEventerWaitTime()
+		public long getEventQueueWaitTime()
 		{
-			return this.eventerWaitTime;
+			return this.eventQueueWaitTime;
 		}
 		
 		public long getIdleCheckDelay()
@@ -325,11 +338,13 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 		{
 			return this.idleCheckPeriod;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 
 		/*
 		public ScheduledThreadPoolExecutor getScheduler()
@@ -468,7 +483,8 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 			this.scheduler.awaitTermination(this.shutdownTimeout, TimeUnit.MILLISECONDS);
 		}
 	}
-	
+
+	/*
 	private void internalDispose() throws InterruptedException
 	{
 		// The above two lines are combined and executed atomically to shutdown the dispatcher. 02/26/2016, Bing Li
@@ -479,18 +495,16 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 		{
 			this.notificationQueue.clear();
 		}
-		/*
 		// Cancel the timer that controls the idle checking. 11/20/2014, Bing Li
-		if (this.checkTimer != UtilConfig.NO_TIMER)
-		{
-			this.checkTimer.cancel();
-		}
+//		if (this.checkTimer != UtilConfig.NO_TIMER)
+//		{
+//			this.checkTimer.cancel();
+//		}
 		// Terminate the periodically running thread for idle checking. 11/20/2014, Bing Li
-		if (this.idleChecker != null)
-		{
-			this.idleChecker.cancel();
-		}
-		*/
+//		if (this.idleChecker != null)
+//		{
+//			this.idleChecker.cancel();
+//		}
 		// Detect whether the idle-checking task is initialized. 02/01/2016, Bing Li
 		if (this.idleCheckingTask != null)
 		{
@@ -505,6 +519,7 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 		// Clear the eventer map. 11/20/2014, Bing Li
 		this.eventers.clear();
 	}
+	*/
 	
 	/*
 	public ScheduledThreadPoolExecutor getScheduler()
@@ -560,10 +575,55 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 //		this.idleCheckingTask = Scheduler.GREATFREE().getSchedulerPool().scheduleAtFixedRate(this.idleChecker, idleCheckDelay, idleCheckPeriod, TimeUnit.MILLISECONDS);
 		this.idleCheckingTask = this.scheduler.scheduleAtFixedRate(this.idleChecker, idleCheckDelay, idleCheckPeriod, TimeUnit.MILLISECONDS);
 	}
+	
+	public void clearIPs()
+	{
+		this.clientPool.clearAll();
+	}
+	
+	public void addIP(String ip, int port)
+	{
+		this.clientPool.addIP(ip, port);
+	}
+	
+	public int getClientSize()
+	{
+		return this.clientPool.getClientSourceSize();
+	}
+	
+	public Set<String> getClientKeys()
+	{
+		return this.clientPool.getClientKeys();
+	}
+
+	public Set<String> getClientKeys(int n)
+	{
+		Set<String> childrenKeys = this.clientPool.getClientKeys();
+		if (n >= childrenKeys.size())
+		{
+			return childrenKeys;
+		}
+		else
+		{
+			return Rand.getRandomSet(childrenKeys, n);
+		}
+	}
+
+	
+	public IPAddress getIPAddress(String clientKey)
+	{
+		return this.clientPool.getIPAddress(clientKey);
+	}
+	
+	public void removeClient(String clientKey) throws IOException
+	{
+		this.clientPool.removeClient(clientKey);
+	}
 
 	/*
 	 * Send the notification asynchronously to the IP/port. 11/20/2014, Bing Li
 	 */
+//	public synchronized void notify(String ip, int ipPort, Notification notification)
 	public synchronized void notify(String ip, int ipPort, Notification notification)
 	{
 		// With the lock, the notification queue keeps synchronized with self-disposing mechanism. 02/01/2016, Bing Li
@@ -588,7 +648,7 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 		// Signal the potential waiting thread to schedule eventers to sent the notification just enqueued. 11/20/2014, Bing Li
 		this.collaborator.signal();
 	}
-
+	
 	/*
 	 * The thread of the dispatcher is always running until no notifications to be sent. If too many notifications are received, more eventers are created by the dispatcher. If notifications are limited, the count of threads created by the dispatcher is also small. It is true no any threads are alive when no notifications are received for a long time. 11/20/2014, Bing Li
 	 */
@@ -601,7 +661,7 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 		// Declare a string to keep the selected eventer key. 11/20/2014, Bing Li
 		String selectedThreadKey = UtilConfig.NO_KEY;
 		// Initialize the currentRound to maintain the outside-most loop count. 01/20/2016, Bing Li
-		int currentRound = 0;
+//		int currentRound = 0;
 		Runner<Eventer<Notification>> runner;
 		// The dispatcher usually runs all of the time unless the local node is shutdown. To shutdown the dispatcher, the shutdown flag of the collaborator is set to true. 11/20/2014, Bing Li
 		while (!this.collaborator.isShutdown())
@@ -645,7 +705,7 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 										if (this.eventers.size() < this.eventerSize)
 										{
 											// Create a new eventer. 11/20/2014, Bing Li
-											Eventer<Notification> thread = new Eventer<Notification>(this.eventQueueSize, this.eventerWaitTime, this.clientPool);
+											Eventer<Notification> thread = new Eventer<Notification>(this.eventQueueSize, this.eventQueueWaitTime, this.clientPool);
 											// Create an instance of Runner. 05/20/2018, Bing Li
 											runner = new Runner<Eventer<Notification>>(thread);
 											// Start the runner. 05/20/2018, Bing Li
@@ -684,7 +744,7 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 					if (this.eventers.size() <= 0)
 					{
 						// Create a new eventer. 11/20/2014, Bing Li
-						Eventer<Notification> thread = new Eventer<Notification>(this.eventQueueSize, this.eventerWaitTime, this.clientPool);
+						Eventer<Notification> thread = new Eventer<Notification>(this.eventQueueSize, this.eventQueueWaitTime, this.clientPool);
 						// Create an instance of Runner. 05/20/2018, Bing Li
 						runner = new Runner<Eventer<Notification>>(thread);
 						// Start the runner. 05/20/2018, Bing Li
@@ -709,6 +769,7 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 				{
 					// If the dispatcher is still alive, it denotes that no notifications are available temporarily. Just wait for a while. 11/20/2014, Bing Li
 					this.collaborator.holdOn(this.eventingWaitTime);
+					/*
 					// The lock keeps synchronized between the notificationQueue and the self-disposing mechanism. When checking whether the dispatcher should be disposed, it needs to protect the dispatcher from receiving additional notifications. 02/01/2016, Bing Li
 					this.monitorLock.lock();
 					try
@@ -738,12 +799,15 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 					{
 						this.monitorLock.unlock();
 					}
+					*/
 				}
 			}
+			/*
 			catch (InterruptedException e)
 			{
 				e.printStackTrace();
 			}
+			*/
 			catch (NullPointerException e)
 			{
 				e.printStackTrace();

@@ -44,6 +44,7 @@ class EnterpriseDBServer
 		this.server = new CSServer.CSServerBuilder<DBDispatcher>()
 				.port(ServerConfig.TERMINAL_PORT)
 				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.maxIOCount(ServerConfig.MAX_SERVER_IO_COUNT)
 				.dispatcher(new DBDispatcher(RegistryConfig.DISPATCHER_THREAD_POOL_SIZE, RegistryConfig.DISPATCHER_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME))
 				.build();
 		

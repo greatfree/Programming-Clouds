@@ -2,11 +2,11 @@ package org.greatfree.multicast.rp.root;
 
 import java.io.IOException;
 
-import org.greatfree.concurrency.Async;
+import org.greatfree.concurrency.Notifier;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 
 // Created: 10/20/2018, Bing Li
-class ChildKeyRootReadActor extends Async<ChildKeyMulticastRequest>
+class ChildKeyRootReadActor implements Notifier<ChildKeyMulticastRequest>
 {
 	private RootSyncMulticastor multicastor;
 	
@@ -16,7 +16,7 @@ class ChildKeyRootReadActor extends Async<ChildKeyMulticastRequest>
 	}
 
 	@Override
-	public void perform(ChildKeyMulticastRequest message)
+	public void notify(ChildKeyMulticastRequest message)
 	{
 		try
 		{

@@ -38,7 +38,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 //	private LinkedBlockingQueue<Notification> queue;
 	private Queue<Notification> queue;
 	// Declare the size of the queue. 11/04/2014, Bing Li
-	private final int taskSize;
+	private final int queueSize;
 	// The notify/wait mechanism to implement the producer/consumer pattern. 11/04/2014, Bing Li
 	private Sync collaborator;
 	// The flag that indicates the busy/idle state of the thread. 11/04/2014, Bing Li
@@ -89,7 +89,7 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 //		this.queue = new LinkedBlockingQueue<Notification>(taskSize);
 		this.queue = new LinkedBlockingQueue<Notification>();
 		// Set the value of taskSize. 11/04/2014, Bing Li
-		this.taskSize = taskSize;
+		this.queueSize = taskSize;
 		// Initialize the collaborator. 11/04/2014, Bing Li
 		this.collaborator = new Sync();
 		// Set the idle state to false. 11/04/2014, Bing Li
@@ -151,12 +151,10 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 		{
 			this.queue.clear();
 		}
-		/*
-		if (this.isHung.get())
-		{
-			this.interrupt();
-		}
-		*/
+//		if (this.isHung.get())
+//		{
+//			this.interrupt();
+//		}
 	}
 
 	/*
@@ -351,15 +349,15 @@ public abstract class NotificationQueue<Notification extends ServerMessage> exte
 	public boolean isFull()
 	{
 //		System.out.println("Thread-" + super.hashCode() + ": NotificationQueue-isFull(): queue.size = " + this.queue.size() + ", taskSize = " + this.taskSize);
-		return this.queue.size() >= this.taskSize;
+		return this.queue.size() >= this.queueSize;
 	}
 	
 	/*
 	 * Expose the task size. 05/19/2018, Bing Li
 	 */
-	public int getTaskSize()
+	public int getQueueSize()
 	{
-		return this.taskSize;
+		return this.queueSize;
 	}
 	
 	/*

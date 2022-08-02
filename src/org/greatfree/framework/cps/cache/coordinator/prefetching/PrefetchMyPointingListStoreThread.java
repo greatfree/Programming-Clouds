@@ -27,7 +27,7 @@ public class PrefetchMyPointingListStoreThread extends NotificationObjectQueue<P
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MySortedPrefetchListStore.MIDDLE().prefetch(notification);
 					this.disposeObject(notification);
 				}

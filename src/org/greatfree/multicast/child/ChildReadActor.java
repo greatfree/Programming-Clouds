@@ -2,12 +2,12 @@ package org.greatfree.multicast.child;
 
 import java.io.IOException;
 
-import org.greatfree.concurrency.Async;
+import org.greatfree.concurrency.Notifier;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.message.multicast.MulticastRequest;
 
 // Created: 09/10/2018, Bing Li
-final class ChildReadActor extends Async<MulticastRequest>
+final class ChildReadActor implements Notifier<MulticastRequest>
 {
 	private ChildSyncMulticastor multicastor;
 	
@@ -17,7 +17,7 @@ final class ChildReadActor extends Async<MulticastRequest>
 	}
 
 	@Override
-	public void perform(MulticastRequest request)
+	public void notify(MulticastRequest request)
 	{
 		try
 		{

@@ -25,7 +25,7 @@ class MapRelicateThread<Value extends StoreElement> extends NotificationTaskQueu
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					super.processNotification(notification);
 					super.disposeObject(notification);
 				}

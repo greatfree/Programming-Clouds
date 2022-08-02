@@ -5,9 +5,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.greatfree.client.IPResource;
-import org.greatfree.client.ServerListener;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.server.ServerListener;
 
 /*
  * This is a coordinator listener that not only responds to crawlers but also intends to connect and communicate with them. It assists the coordinator to interact with crawlers in an eventing manner other than waiting for requests and then responding only. 11/24/2014, Bing Li

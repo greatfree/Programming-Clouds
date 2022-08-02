@@ -27,7 +27,7 @@ public class ReplicateMyPointingThread extends NotificationObjectQueue<PointingR
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					if (notification.getValue() != null)
 					{
 						System.out.println("ReplicateMyPointingThread: " + notification.getValue().getDescription());

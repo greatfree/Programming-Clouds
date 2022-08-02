@@ -12,7 +12,7 @@ public class ClientHelloWorldUnicastRequest extends Request
 
 	public ClientHelloWorldUnicastRequest(HelloWorld hello)
 	{
-		super(MulticastApplicationID.CLIENT_HELLO_WORLD_UNICAST_REQUEST);
+		super(MultiAppID.CLIENT_HELLO_WORLD_UNICAST_REQUEST);
 		this.hello = hello;
 	}
 

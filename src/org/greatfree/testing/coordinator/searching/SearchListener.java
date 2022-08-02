@@ -5,9 +5,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.greatfree.client.IPResource;
-import org.greatfree.client.ServerListener;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.server.ServerListener;
 import org.greatfree.testing.coordinator.memorizing.MemoryServerClientPool;
 
 /*

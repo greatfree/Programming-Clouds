@@ -17,7 +17,6 @@ public final class MulticastDIPMessageType
 	public final static int HELLO_WORLD_BROADCAST_REQUEST = 206;
 	public final static int HELLO_WORLD_BROADCAST_RESPONSE = 207;
 	
-	
 	public final static int HELLO_WORLD_ANYCAST_REQUEST = 209;
 	public final static int HELLO_WORLD_ANYCAST_RESPONSE = 210;
 	

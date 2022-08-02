@@ -1,0 +1,29 @@
+package org.greatfree.testing.concurrency;
+
+import org.greatfree.concurrency.Reader;
+
+/**
+ * 
+ * @author libing
+ * 
+ * 08/02/2022
+ *
+ */
+final class PongReader extends Reader<Query, Answer>
+{
+
+	@Override
+	public Answer read(Query request)
+	{
+		try
+		{
+			return new Answer(PingPongMethods.pong(request.getQuery()), request.getCollaboratorKey());
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+}

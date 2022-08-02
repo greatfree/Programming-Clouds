@@ -34,7 +34,7 @@ class DistributedThreadPool
 	
 	public void dispose(long timeout) throws InterruptedException
 	{
-		Scheduler.GREATFREE().shutdown(timeout);
+		Scheduler.PERIOD().shutdown(timeout);
 //		this.syncs.clear();
 //		this.syncs = null;
 		this.pool.dispose();
@@ -42,7 +42,7 @@ class DistributedThreadPool
 	
 	public void init()
 	{
-		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 
 //		this.pool = new NotificationDispatcher.NotificationDispatcherBuilder<SyncInstructNotification, FreeThread, FreeThreadCreator>()
 		this.pool = new NotificationDispatcher.NotificationDispatcherBuilder<ATMNotification, NotificationThread, NotificationThreadCreator>()
@@ -50,10 +50,10 @@ class DistributedThreadPool
 				.threadCreator(new NotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
-				.scheduler(Scheduler.GREATFREE().getScheduler())
+				.scheduler(Scheduler.PERIOD().getScheduler())
 				.build();
 		
 //		this.syncs = new ConcurrentHashMap<String, ReentrantLock>();

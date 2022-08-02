@@ -46,8 +46,8 @@ public class ChildResponse extends ServerMessage
 		this.isIdle = isIdle;
 		this.isNormal = false;
 	}
-	*/
 
+	*/
 	public MulticastResponse getResponse()
 	{
 		return this.response;

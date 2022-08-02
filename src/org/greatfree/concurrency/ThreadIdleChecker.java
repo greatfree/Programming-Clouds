@@ -7,7 +7,7 @@ import java.util.TimerTask;
  */
 
 // Created: 11/04/2014, Bing Li
-public class ThreadIdleChecker<ThreadInstance extends CheckIdleable> extends TimerTask
+public class ThreadIdleChecker<ThreadInstance extends IdleCheckable> extends TimerTask
 {
 	// Declare an instance of thread, which must implement the interface of CheckIdleable. 11/04/2014, Bing Li
 	private ThreadInstance thread;

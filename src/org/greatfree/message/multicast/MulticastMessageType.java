@@ -21,7 +21,7 @@ public class MulticastMessageType
 	public final static int BROADCAST_REQUEST = 21;
 	public final static int ANYCAST_REQUEST = 22;
 	public final static int UNICAST_REQUEST = 23;
-	public final static int LOCAL_REQUEST = 30;
+	public final static int LOCAL_REQUEST = 400;
 	
 	public final static int ROOT_IPADDRESS_BROADCAST_NOTIFICATION = 208;
 
@@ -61,6 +61,9 @@ public class MulticastMessageType
 	public final static int CHILD_ROOT_REQUEST = 72;
 	public final static int CHILD_ROOT_RESPONSE = 73;
 	
+	/*
+	 * The below designs are abandoned since they are incompatible with the current versions of the multicasting and clustering. They are proposed for cryptography. Now an alternative design is proposed in the WindCry. So they are discarded. 05/11/2022, Bing Li
+	 */
 	public final static int MULTICAST_REQUEST = 300;
 	public final static int MULTICAST_RESPONSE = 301;
 	public final static int MULTICAST_NOTIFICATION = 302;

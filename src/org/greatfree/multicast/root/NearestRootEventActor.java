@@ -14,7 +14,7 @@ final class NearestRootEventActor extends AsyncMulticastor<NearestMulticastNotif
 	}
 	
 	@Override
-	public void perform(NearestMulticastNotification notification)
+	public void notify(NearestMulticastNotification notification)
 	{
 		try
 		{

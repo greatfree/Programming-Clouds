@@ -13,7 +13,7 @@ public class HelloWorldAnycastNotification extends ClusterNotification
 
 	public HelloWorldAnycastNotification(HelloWorld hl)
 	{
-		super(MulticastMessageType.ANYCAST_NOTIFICATION, MulticastApplicationID.HELLO_WORLD_ANYCAST_NOTIFICATION);
+		super(MulticastMessageType.ANYCAST_NOTIFICATION, MultiAppID.HELLO_WORLD_ANYCAST_NOTIFICATION);
 		this.hl = hl;
 	}
 

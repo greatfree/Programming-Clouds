@@ -95,6 +95,8 @@ public class ChildServiceProvider
 		}
 		*/
 		/*
+		 * If the InterChildrenNotification is a broadcast one, the message needs to keep being forwarded. 06/18/2022, Bing Li
+		 * 
 		 * The condition line is added to forward intercasting notifications. 04/26/2019, Bing Li
 		 */
 		/*
@@ -163,7 +165,10 @@ public class ChildServiceProvider
 		*/
 		return this.task.processRequest(request);
 	}
-	
+
+	/*
+	 * The method is the approach how the source child to process the intercast notification. 06/18/2022, Bing Li
+	 */
 	public void processIntercastNotification(IntercastNotification in) throws IOException, InterruptedException, DistributedNodeFailedException
 	{
 //		Child.CONTAINER().notifyRoot(this.task.processNotificationBySourceChild((IntercastNotification)notification));

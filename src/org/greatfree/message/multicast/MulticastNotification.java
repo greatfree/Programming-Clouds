@@ -21,7 +21,7 @@ public abstract class MulticastNotification extends ServerMessage
 	
 	// The nodes to receive the message to be multicast. 05/12/2017, Bing Li
 	private Map<String, IPAddress> children;
-	private int applicationID;
+//	private int applicationID;
 
 	/*
 	 * Initialize the message to be multicast. 05/12/2017, Bing Li
@@ -49,14 +49,16 @@ public abstract class MulticastNotification extends ServerMessage
 	 * Another constructor of the message. This is invoked by the node which has no grandsons. 11/10/2014, Bing Li
 	 */
 //	public MulticastMessage(int type, String key)
-	public MulticastNotification(int applicationID)
+//	public MulticastNotification(int applicationID)
+	public MulticastNotification(int type)
 	{
-		super(MulticastMessageType.MULTICAST_NOTIFICATION, Tools.generateUniqueKey());
+		super(type, Tools.generateUniqueKey());
 		this.children = null;
 //		this.isAnycast = false;
-		this.applicationID = applicationID;
+//		this.applicationID = applicationID;
 	}
 
+	/*
 	public MulticastNotification(int type, int applicationID)
 	{
 		super(type, Tools.generateUniqueKey());
@@ -64,11 +66,12 @@ public abstract class MulticastNotification extends ServerMessage
 //		this.isAnycast = false;
 		this.applicationID = applicationID;
 	}
-	
+
 	public int getApplicationID()
 	{
 		return this.applicationID;
 	}
+	*/
 	
 	/*
 	 * Return the indicator whether the message 

@@ -27,7 +27,7 @@ public class ReplicateMyDataThread extends NotificationObjectQueue<MapReplicateN
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					if (notification.getValue() != null)
 					{
 						Coordinator.CPS().replicate(notification.getValue());

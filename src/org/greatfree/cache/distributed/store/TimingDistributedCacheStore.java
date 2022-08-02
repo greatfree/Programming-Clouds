@@ -59,7 +59,7 @@ class TimingDistributedCacheStore<Value extends CacheTiming, Factory extends Cac
 				.threadCreator(builder.getReplicateThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -71,7 +71,7 @@ class TimingDistributedCacheStore<Value extends CacheTiming, Factory extends Cac
 				.threadCreator(builder.getPrefetchThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -83,7 +83,7 @@ class TimingDistributedCacheStore<Value extends CacheTiming, Factory extends Cac
 				.threadCreator(builder.getPostfetchThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -95,7 +95,7 @@ class TimingDistributedCacheStore<Value extends CacheTiming, Factory extends Cac
 				.threadCreator(builder.getEvictThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -135,7 +135,7 @@ class TimingDistributedCacheStore<Value extends CacheTiming, Factory extends Cac
 		private EvictThreadCreator evictCreator;
 		private int maxTaskSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -254,11 +254,13 @@ class TimingDistributedCacheStore<Value extends CacheTiming, Factory extends Cac
 			return this;
 		}
 
+		/*
 		public TimingDistributedCacheStoreBuilder<Value, Factory, CompoundKeyCreator, DescendantComp, ReplicateThread, ReplicateThreadCreator, PrePostNotification, PrefetchThread, PrefetchThreadCreator, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public TimingDistributedCacheStoreBuilder<Value, Factory, CompoundKeyCreator, DescendantComp, ReplicateThread, ReplicateThreadCreator, PrePostNotification, PrefetchThread, PrefetchThreadCreator, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -400,10 +402,12 @@ class TimingDistributedCacheStore<Value extends CacheTiming, Factory extends Cac
 			return this.dispatcherWaitTime;
 		}
 
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 
 		public long getIdleCheckDelay()
 		{

@@ -3,7 +3,7 @@ package org.greatfree.testing.coordinator.memorizing;
 import java.io.IOException;
 import java.util.Set;
 
-import org.greatfree.client.ServerIORegistry;
+import org.greatfree.server.ServerIORegistry;
 
 /*
  * The class keeps all of MemoryIOs. This is a singleton wrapper of ServerIORegistry. 11/28/2014, Bing Li

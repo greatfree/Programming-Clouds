@@ -2,12 +2,12 @@ package org.greatfree.multicast.rp.root;
 
 import java.io.IOException;
 
-import org.greatfree.concurrency.Async;
+import org.greatfree.concurrency.Notifier;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.multicast.root.ChildMulticastNotification;
 
 // Created: 10/15/2018, Bing Li
-class ChildRootEventActor extends Async<ChildMulticastNotification>
+class ChildRootEventActor implements Notifier<ChildMulticastNotification>
 {
 	private RootSyncMulticastor multicastor;
 	
@@ -17,7 +17,7 @@ class ChildRootEventActor extends Async<ChildMulticastNotification>
 	}
 	
 	@Override
-	public void perform(ChildMulticastNotification notification)
+	public void notify(ChildMulticastNotification notification)
 	{
 		try
 		{

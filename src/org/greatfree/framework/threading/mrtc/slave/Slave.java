@@ -44,7 +44,7 @@ class Slave
 	 */
 	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
 	{
-		Scheduler.GREATFREE().shutdown(timeout);
+		Scheduler.PERIOD().shutdown(timeout);
 		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.dt.stop(timeout);
 	}
@@ -54,11 +54,11 @@ class Slave
 	 */
 	public void start() throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
 	{
-		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		this.dt = new Distributer.DistributerBuilder()
 				.name(NodeIDs.ID().getLocalName())
 				.port(ThreadConfig.THREAD_PORT)
-				.scheduler(Scheduler.GREATFREE().getScheduler())
+				.scheduler(Scheduler.PERIOD().getScheduler())
 				.isMaster(false)
 				.task(new MRSlaveTask())
 				.build();

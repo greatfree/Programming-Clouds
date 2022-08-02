@@ -27,7 +27,7 @@ public class PrefetchReadStackThread extends NotificationObjectQueue<FetchStackN
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyDistributedReadStackStore.MIDDLESTORE().prefetch(notification);
 					this.disposeObject(notification);
 				}

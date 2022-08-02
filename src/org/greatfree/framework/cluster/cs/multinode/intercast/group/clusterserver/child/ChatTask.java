@@ -177,17 +177,26 @@ class ChatTask implements ChildTask
 		return null;
 	}
 
+	/*
+	 * The source child needs to call the method for the intercast notification. 06/18/2022, Bing Li
+	 */
 	@Override
 	public InterChildrenNotification prepareNotification(IntercastNotification notification)
 	{
 		switch (notification.getApplicationID())
 		{
 			case GroupChatApplicationID.JOIN_GROUP_NOTIFICATION:
+				/*
+				 * The user and the group to be joined must be saved in different children of the cluster. So it is necessary to perform the intercasting for the consistency. 06/18/2022, Bing Li
+				 */
 				JoinGroupNotification jgn = (JoinGroupNotification)notification;
 				System.out.println(jgn.getSenderName() + ": prepareNotification(): JOIN_GROUP_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				// The below code is not necessarily asynchronous. The operation should be consistent with that in the destination child. If the below code is executed concurrently, it is not easy to manage the consistency. In the cluster programming, I hope developers can be avoided to consider the issue of concurrency programming. 04/19/2019, Bing Li
 				System.out.println("ChatTask-prepareNotification(): user name = " + AccountRegistry.CS().getUserName(jgn.getUserKey()) + " is joining the group, " + GroupRegistry.CS().getAccount(jgn.getGroupKey()).getGroupName());
 				GroupRegistry.CS().addMember(jgn.getGroupKey(), jgn.getUserKey());
+				/*
+				 * The account info is attached with the InterChildNotification. That is the goal of the preparation. 06/18/2022, Bing Li
+				 */
 				return new InterJoinGroupNotification(jgn, AccountRegistry.CS().getAccount(jgn.getUserKey()));
 				
 			case GroupChatApplicationID.LEAVE_GROUP_NOTIFICATION:

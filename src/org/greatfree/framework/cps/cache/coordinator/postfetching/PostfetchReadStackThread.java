@@ -27,7 +27,7 @@ public class PostfetchReadStackThread extends NotificationObjectQueue<FetchStack
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyDistributedReadStackStore.MIDDLESTORE().postfetch(notification);
 					this.disposeObject(notification);
 				}

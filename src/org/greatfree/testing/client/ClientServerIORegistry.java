@@ -3,7 +3,7 @@ package org.greatfree.testing.client;
 import java.io.IOException;
 import java.util.Set;
 
-import org.greatfree.client.ServerIORegistry;
+import org.greatfree.server.ServerIORegistry;
 
 /*
  * The registry keeps all of the connections' server IOs. 11/30/2014, Bing Li

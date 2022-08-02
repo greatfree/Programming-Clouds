@@ -3,6 +3,7 @@ package org.greatfree.app.business.cs.multinode.server;
 import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
+import org.greatfree.data.ServerConfig;
 import org.greatfree.server.OldServer;
 import org.greatfree.util.ServerStatus;
 import org.greatfree.util.TerminateSignal;
@@ -48,6 +49,6 @@ public class OldChatServer
 //		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 //		System.out.println("Chat server id = " + ChatConfig.CHAT_SERVER_ID);
 		this.server = new OldServer<ChatServerDispatcher, ChatManServerDispatcher>();
-		this.server.start(chatServer, adminPort, dispatcher, manDispatcher);
+		this.server.start(chatServer, adminPort, ServerConfig.MAX_SERVER_IO_COUNT, dispatcher, manDispatcher);
 	}
 }

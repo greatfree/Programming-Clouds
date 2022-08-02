@@ -8,7 +8,6 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.greatfree.concurrency.ConcurrentDispatcher;
 import org.greatfree.concurrency.MessageBindable;
@@ -87,7 +86,8 @@ public class OldBoundNotificationDispatcher<Notification extends ServerMulticast
 	{
 //		super(builder.getPoolSize(), builder.getKeepAliveTime(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), true, builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound(), builder.getTimeout());
 //		super(builder.getThreadPool(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
-		super(builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
+//		super(builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
+		super(builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod());
 		this.threads = new ConcurrentHashMap<String, Runner<NotificationThread>>();
 		this.notificationQueue = new LinkedBlockingQueue<Notification>();
 		this.binder = builder.getBinder();
@@ -104,7 +104,7 @@ public class OldBoundNotificationDispatcher<Notification extends ServerMulticast
 		private int maxTaskSize;
 //		private int maxThreadSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -156,11 +156,13 @@ public class OldBoundNotificationDispatcher<Notification extends ServerMulticast
 			return this;
 		}
 
+		/*
 		public BoundNotificationDispatcherBuilder<Notification, Binder, NotificationThread, ThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public BoundNotificationDispatcherBuilder<Notification, Binder, NotificationThread, ThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -244,11 +246,13 @@ public class OldBoundNotificationDispatcher<Notification extends ServerMulticast
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{
@@ -487,7 +491,7 @@ public class OldBoundNotificationDispatcher<Notification extends ServerMulticast
 		// Declare a string to keep the selected thread key. 11/27/2014, Bing Li
 		String selectedThreadKey = UtilConfig.NO_KEY;
 		// The value is used to count the count of loops for the dispatcher when no tasks are available. 01/13/2016, Bing Li
-		AtomicInteger currentRound = new AtomicInteger(0);
+//		AtomicInteger currentRound = new AtomicInteger(0);
 
 		// The dispatcher usually runs all of the time unless the server is shutdown. To shutdown the dispatcher, the shutdown flag of the collaborator is set to true. 11/27/2014, Bing Li
 		while (!this.isShutdown())
@@ -558,11 +562,11 @@ public class OldBoundNotificationDispatcher<Notification extends ServerMulticast
 				if (this.notificationQueue.size() <= 0)
 				{
 					// Check whether the count of the loops exceeds the predefined value. 01/14/2016, Bing Li
-					if (currentRound.getAndIncrement() >= this.getWaitRound())
-					{
+//					if (currentRound.getAndIncrement() >= this.getWaitRound())
+//					{
 						// Check whether the threads are all disposed. 01/14/2016, Bing Li
-						if (this.threads.isEmpty())
-						{
+//						if (this.threads.isEmpty())
+//						{
 							/*
 							 * 
 							 * The run() method is critical. It should NOT be shutdown by the dispatcher itself. It can only be shutdown by outside managers. Otherwise, new messages might NOT be processed because no new threads are created for the run() is returned and the dispatcher is dead. 11/07/2021, Bing Li
@@ -571,8 +575,8 @@ public class OldBoundNotificationDispatcher<Notification extends ServerMulticast
 							// Dispose the dispatcher. 01/14/2016, Bing Li
 //								this.dispose();
 //								break;
-						}
-					}
+//						}
+//					}
 				}
 			}
 		}

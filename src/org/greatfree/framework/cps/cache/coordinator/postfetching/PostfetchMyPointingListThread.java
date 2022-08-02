@@ -27,7 +27,7 @@ public class PostfetchMyPointingListThread extends NotificationObjectQueue<Fetch
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MySortedDistributedList.MIDDLE().postfetch(notification);
 					this.disposeObject(notification);
 				}

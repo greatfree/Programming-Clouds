@@ -15,7 +15,7 @@ final class RootEventActor extends AsyncMulticastor<MulticastNotification>
 	}
 	
 	@Override
-	public void perform(MulticastNotification notification)
+	public void notify(MulticastNotification notification)
 	{
 		try
 		{

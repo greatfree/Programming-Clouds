@@ -14,7 +14,7 @@ final class ChildrenSizeRootReadActor extends AsyncMulticastor<ChildrenSizeMulti
 	}
 	
 	@Override
-	public void perform(ChildrenSizeMulticastRequest request)
+	public void notify(ChildrenSizeMulticastRequest request)
 	{
 		try
 		{

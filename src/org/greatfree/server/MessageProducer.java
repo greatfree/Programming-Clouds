@@ -71,6 +71,7 @@ final class MessageProducer<Consumer extends ServerDispatcher<ServerMessage>> ex
 	 */
 	public synchronized void produce(MessageStream<ServerMessage> message)
 	{
+//		log.info("message is being processed ...");
 		// Push the messages into the queue. 08/22/2014, Bing Li
 		this.queue.add(message);
 		// Notify the running thread to process the message. 08/22/2014, Bing Li

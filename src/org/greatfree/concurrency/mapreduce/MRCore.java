@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.greatfree.concurrency.CheckIdleable;
+import org.greatfree.concurrency.IdleCheckable;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.concurrency.ThreadIdleChecker;
@@ -27,7 +27,7 @@ import org.greatfree.util.Time;
  */
 
 // Created: 04/19/2018, Bing Li
-public class MRCore<Task extends Sequence, Result extends Sequence, TaskThread extends MapReduceQueue<Task, Result, TaskThread, ThreadCreator>, ThreadCreator extends MapReduceThreadCreatable<Task, Result, TaskThread, ThreadCreator>> extends HashFreeObject implements CheckIdleable, MapReducable<Result>
+public class MRCore<Task extends Sequence, Result extends Sequence, TaskThread extends MapReduceQueue<Task, Result, TaskThread, ThreadCreator>, ThreadCreator extends MapReduceThreadCreatable<Task, Result, TaskThread, ThreadCreator>> extends HashFreeObject implements IdleCheckable, MapReducable<Result>
 {
 	// The threads that execute the high-volume tasks concurrently. 04/21/2018, Bing Li
 	private Map<String, Runner<TaskThread>> threads;

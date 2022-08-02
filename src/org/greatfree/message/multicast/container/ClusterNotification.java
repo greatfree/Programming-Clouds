@@ -25,6 +25,7 @@ public abstract class ClusterNotification extends MulticastNotification
 //	public Notification(String clientKey, int notificationType, int applicationID)
 	public ClusterNotification(String clientKey, int applicationID)
 	{
+//		super(MulticastMessageType.CLUSTER_NOTIFICATION, applicationID);
 		super(MulticastMessageType.CLUSTER_NOTIFICATION);
 		this.clientKey = clientKey;
 		// MulticastMessageType.UNICAST_NOTIFICATION
@@ -40,6 +41,7 @@ public abstract class ClusterNotification extends MulticastNotification
 	 */
 	public ClusterNotification(int applicationID)
 	{
+//		super(MulticastMessageType.CLUSTER_NOTIFICATION, applicationID);
 		super(MulticastMessageType.CLUSTER_NOTIFICATION);
 		this.notificationType = MulticastMessageType.UNICAST_NOTIFICATION;
 		this.applicationID = applicationID;
@@ -57,6 +59,7 @@ public abstract class ClusterNotification extends MulticastNotification
 	 */
 	public ClusterNotification(int notificationType, int applicationID)
 	{
+//		super(MulticastMessageType.CLUSTER_NOTIFICATION, applicationID);
 		super(MulticastMessageType.CLUSTER_NOTIFICATION);
 		this.notificationType = notificationType;
 		this.applicationID = applicationID;
@@ -69,6 +72,7 @@ public abstract class ClusterNotification extends MulticastNotification
 	 */
 	public ClusterNotification(int notificationType, int applicationID, int partitionIndex)
 	{
+//		super(MulticastMessageType.CLUSTER_NOTIFICATION, applicationID);
 		super(MulticastMessageType.CLUSTER_NOTIFICATION);
 		this.notificationType = notificationType;
 		this.applicationID = applicationID;
@@ -81,6 +85,7 @@ public abstract class ClusterNotification extends MulticastNotification
 	 */
 	public ClusterNotification(int notificationType, int applicationID, Set<String> childrenKeys)
 	{
+//		super(MulticastMessageType.CLUSTER_NOTIFICATION, applicationID);
 		super(MulticastMessageType.CLUSTER_NOTIFICATION);
 		this.notificationType = notificationType;
 		this.applicationID = applicationID;
@@ -137,7 +142,7 @@ public abstract class ClusterNotification extends MulticastNotification
 	{
 		return this.notificationType;
 	}
-	
+
 	public int getApplicationID()
 	{
 		return this.applicationID;

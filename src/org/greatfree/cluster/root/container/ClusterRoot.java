@@ -114,7 +114,7 @@ final class ClusterRoot
 			// Add the IP addresses to the client pool. 05/08/2017, Bing Li
 			for (IPAddress ip : ipResponse.getIPs().values())
 			{
-//				log.info("Distributed IPs = " + ip.getIP() + ", " + ip.getPort());
+				log.info("Distributed IPs = " + ip.getIP() + ", " + ip.getPort());
 				this.root.addPartners(ip.getIP(), ip.getPort());
 //				this.partitionChild(ip.getIPKey());
 			}
@@ -748,11 +748,17 @@ final class ClusterRoot
 			 */
 			if (!in.getDestinationKey().equals(UtilConfig.EMPTY_STRING))
 			{
+				/*
+				 * The destination key is the application level concept. So it must be mapped to a child upon the distance of its IP. 06/18/2022, Bing Li
+				 */
 //				in.setDestinationIP(this.root.getIP(this.children.get(in.getDestinationKey())));
 				ip = this.root.getIP(this.client.getNearestChildKey(in.getDestinationKey()));
 				in.setDestinationIP(ip);
 				Set<String> ds = Sets.newHashSet();
 				cds.put(ip.getIPKey(), ds);
+				/*
+				 * One child must have multiple application-level IDs. 06/18/2022, Bing Li
+				 */
 				cds.get(ip.getIPKey()).add(in.getDestinationKey());
 				in.setChildDestination(cds);
 			}
@@ -769,6 +775,9 @@ final class ClusterRoot
 						Set<String> ds = Sets.newHashSet();
 						cds.put(ip.getIPKey(), ds);
 					}
+					/*
+					 * One child must have multiple application-level IDs. 06/18/2022, Bing Li
+					 */
 					cds.get(ip.getIPKey()).add(entry);
 				}
 				in.setDestinationIPs(ips);
@@ -777,6 +786,9 @@ final class ClusterRoot
 			
 //			this.client.unicastNearestNotify(in.getSourceKey(), in);
 //			IPAddress ip = this.root.getIP(this.children.get(in.getSourceKey()));
+			/*
+			 * Get the child for the source, which is also the application-level concept. 06/18/2022, Bing Li
+			 */
 			ip = this.root.getIP(this.client.getNearestChildKey(in.getSourceKey()));
 			this.root.syncNotify(ip.getIP(), ip.getPort(), in);
 		}

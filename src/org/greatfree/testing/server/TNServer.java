@@ -49,6 +49,7 @@ class TNServer
 		this.server = new CSServer.CSServerBuilder<TNServerDispatcher>()
 				.port(ChatConfig.CHAT_SERVER_PORT)
 				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.maxIOCount(ServerConfig.MAX_SERVER_IO_COUNT)
 				.dispatcher(new TNServerDispatcher(RegistryConfig.DISPATCHER_THREAD_POOL_SIZE, RegistryConfig.DISPATCHER_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME))
 				.build();
 		

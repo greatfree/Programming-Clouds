@@ -13,7 +13,7 @@ public class HelloWorldUnicastNotification extends ClusterNotification
 
 	public HelloWorldUnicastNotification(HelloWorld hl)
 	{
-		super(MulticastMessageType.UNICAST_NOTIFICATION, MulticastApplicationID.HELLO_WORLD_UNICAST_NOTIFICATION);
+		super(MulticastMessageType.UNICAST_NOTIFICATION, MultiAppID.HELLO_WORLD_UNICAST_NOTIFICATION);
 		this.hl = hl;
 	}
 

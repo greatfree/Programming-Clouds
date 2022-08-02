@@ -40,13 +40,13 @@ class Slave
 	{
 //		TerminateSignal.SIGNAL().setTerminated();
 		TerminateSignal.SIGNAL().notifyAllTermination();
-		Scheduler.GREATFREE().shutdown(timeout);
+		Scheduler.PERIOD().shutdown(timeout);
 		this.slave.stop(timeout);
 	}
 
 	public void start() throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
 	{
-		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		
 		this.slave = new Distributer.DistributerBuilder()
 			.name(ThreadConfig.SLAVE)
@@ -54,7 +54,7 @@ class Slave
 			.masterName(ThreadConfig.MASTER)
 //			.registryIP(RegistryConfig.PEER_REGISTRY_ADDRESS)
 //			.registryPort(RegistryConfig.PEER_REGISTRY_PORT)
-			.scheduler(Scheduler.GREATFREE().getScheduler())
+			.scheduler(Scheduler.PERIOD().getScheduler())
 			.isMaster(false)
 			.build();
 

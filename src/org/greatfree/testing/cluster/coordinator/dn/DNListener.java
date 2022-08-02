@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.greatfree.client.ServerListener;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.Prompts;
+import org.greatfree.server.ServerListener;
 import org.greatfree.testing.message.NodeKeyNotification;
 import org.greatfree.util.ServerStatus;
 

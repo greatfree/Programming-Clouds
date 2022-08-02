@@ -34,6 +34,7 @@ final class ClusterChild
 			.registryServerPort(builder.getRegistryServerPort())
 			.isRegistryNeeded(builder.isRegistryNeeded())
 			.listenerCount(builder.getListenerCount())
+			.maxIOCount(builder.getMaxIOCount())
 //			.serverThreadPoolSize(builder.getServerThreadPoolSize())
 //			.serverThreadKeepAliveTime(builder.getServerThreadKeepAliveTime())
 			.dispatcher(new ChildDispatcher(builder.getServerThreadPoolSize(), builder.getServerThreadKeepAliveTime(), builder.getSchedulerPoolSize(), builder.getSchedulerKeepAliveTime()))
@@ -45,8 +46,8 @@ final class ClusterChild
 			.asyncEventQueueSize(builder.getAsyncEventQueueSize())
 			.asyncEventerSize(builder.getAsyncEventerSize())
 			.asyncEventingWaitTime(builder.getAsyncEventingWaitTime())
-			.asyncEventerWaitTime(builder.getAsyncEventerWaitTime())
-			.asyncEventerWaitRound(builder.getAsyncEventerWaitRound())
+			.asyncEventQueueWaitTime(builder.getAsyncEventQueueWaitTime())
+//			.asyncEventerWaitRound(builder.getAsyncEventerWaitRound())
 			.asyncEventIdleCheckDelay(builder.getAsyncEventIdleCheckDelay())
 			.asyncEventIdleCheckPeriod(builder.getAsyncEventIdleCheckPeriod())
 			.schedulerPoolSize(builder.getSchedulerPoolSize())
@@ -64,6 +65,7 @@ final class ClusterChild
 		private int registryServerPort;
 		private boolean isRegistryNeeded;
 		private int listenerCount;
+		private int maxIOCount;
 		// The size of the thread pool that manages the threads to listen the port. 05/11/2017, Bing Li
 		private int serverThreadPoolSize;
 		// The time to keep alive for threads that listen to the port. 05/11/2017, Bing Li
@@ -81,8 +83,8 @@ final class ClusterChild
 		private int asyncEventQueueSize;
 		private int asyncEventerSize;
 		private long asyncEventingWaitTime;
-		private long asyncEventerWaitTime;
-		private int asyncEventerWaitRound;
+		private long asyncEventQueueWaitTime;
+//		private int asyncEventerWaitRound;
 		private long asyncEventIdleCheckDelay;
 		private long asyncEventIdleCheckPeriod;
 		
@@ -132,6 +134,12 @@ final class ClusterChild
 		public ClusterChildBuilder listenerCount(int listenerCount)
 		{
 			this.listenerCount = listenerCount;
+			return this;
+		}
+
+		public ClusterChildBuilder maxIOCount(int maxIOCount)
+		{
+			this.maxIOCount = maxIOCount;
 			return this;
 		}
 		
@@ -209,17 +217,19 @@ final class ClusterChild
 			return this;
 		}
 
-		public ClusterChildBuilder asyncEventerWaitTime(long asyncEventerWaitTime)
+		public ClusterChildBuilder asyncEventQueueWaitTime(long asyncEventQueueWaitTime)
 		{
-			this.asyncEventerWaitTime = asyncEventerWaitTime;
+			this.asyncEventQueueWaitTime = asyncEventQueueWaitTime;
 			return this;
 		}
 
+		/*
 		public ClusterChildBuilder asyncEventerWaitRound(int asyncEventerWaitRound)
 		{
 			this.asyncEventerWaitRound = asyncEventerWaitRound;
 			return this;
 		}
+		*/
 
 		public ClusterChildBuilder asyncEventIdleCheckDelay(long asyncEventIdleCheckDelay)
 		{
@@ -304,6 +314,11 @@ final class ClusterChild
 		{
 			return this.listenerCount;
 		}
+		
+		public int getMaxIOCount()
+		{
+			return this.maxIOCount;
+		}
 
 		public int getServerThreadPoolSize()
 		{
@@ -367,15 +382,17 @@ final class ClusterChild
 			return this.asyncEventingWaitTime;
 		}
 		
-		public long getAsyncEventerWaitTime()
+		public long getAsyncEventQueueWaitTime()
 		{
-			return this.asyncEventerWaitTime;
+			return this.asyncEventQueueWaitTime;
 		}
-		
+
+		/*
 		public int getAsyncEventerWaitRound()
 		{
 			return this.asyncEventerWaitRound;
 		}
+		*/
 		
 		public long getAsyncEventIdleCheckDelay()
 		{

@@ -15,6 +15,7 @@ import org.greatfree.util.Tools;
 
 // Created: 11/20/2014, Bing Li
 // public abstract class NotificationObjectQueue<Notification> implements Runnable, Comparable<NotificationObjectQueue<Notification>>
+// public abstract class NotificationObjectQueue extends RunnerTask
 public abstract class NotificationObjectQueue<Notification> extends RunnerTask
 {
 	// Declare the key for the notification thread. 11/20/2014, Bing Li
@@ -22,7 +23,7 @@ public abstract class NotificationObjectQueue<Notification> extends RunnerTask
 	// Declare an instance of LinkedBlockingQueue to take received notifications. 11/20/2014, Bing Li
 	private Queue<Notification> queue;
 	// Declare the size of the queue. 11/20/2014, Bing Li
-	private final int taskSize;
+	private final int queueSize;
 	// The notify/wait mechanism to implement the producer/consumer pattern. 11/20/2014, Bing Li
 	private Sync collaborator;
 	// The flag that represents the busy/idle state of the thread. 11/20/2014, Bing Li
@@ -65,7 +66,7 @@ public abstract class NotificationObjectQueue<Notification> extends RunnerTask
 		// Initialize the queue with the particular size constraint. 11/20/2014, Bing Li
 		this.queue = new LinkedBlockingQueue<Notification>();
 		// Set the value of taskSize. 11/20/2014, Bing Li
-		this.taskSize = taskSize;
+		this.queueSize = taskSize;
 		// Initialize the collaborator. 11/20/2014, Bing Li
 		this.collaborator = new Sync();
 		// Set the idle state to false. 11/20/2014, Bing Li
@@ -234,7 +235,7 @@ public abstract class NotificationObjectQueue<Notification> extends RunnerTask
 	 */
 	public boolean isFull()
 	{
-		return this.queue.size() >= this.taskSize;
+		return this.queue.size() >= this.queueSize;
 	}
 
 	/*
@@ -295,7 +296,7 @@ public abstract class NotificationObjectQueue<Notification> extends RunnerTask
 	/*
 	 * Dequeue the notification stream from the queue. 11/20/2014, Bing Li
 	 */
-	public Notification getNotification() throws InterruptedException
+	public Notification dequeue() throws InterruptedException
 	{
 		this.isHung.set(true);
 		return this.queue.poll();

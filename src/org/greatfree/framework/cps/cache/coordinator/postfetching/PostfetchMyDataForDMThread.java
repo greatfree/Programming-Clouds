@@ -28,7 +28,7 @@ public class PostfetchMyDataForDMThread extends NotificationObjectQueue<Postfetc
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					/*
 					System.out.println("PostfetchMyDataThread: resourceKey = " + notification.getResourceKey());
 					response = Coordinator.CPS().postfetchMyData(notification.getResourceKey());

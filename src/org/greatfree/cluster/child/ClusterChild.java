@@ -37,8 +37,8 @@ public class ClusterChild
 			.asyncEventQueueSize(builder.getAsyncEventQueueSize())
 			.asyncEventerSize(builder.getAsyncEventerSize())
 			.asyncEventingWaitTime(builder.getAsyncEventingWaitTime())
-			.asyncEventerWaitTime(builder.getAsyncEventerWaitTime())
-			.asyncEventerWaitRound(builder.getAsyncEventerWaitRound())
+			.asyncEventQueueWaitTime(builder.getAsyncEventQueueWaitTime())
+//			.asyncEventerWaitRound(builder.getAsyncEventerWaitRound())
 			.asyncEventIdleCheckDelay(builder.getAsyncEventIdleCheckDelay())
 			.asyncEventIdleCheckPeriod(builder.getAsyncEventIdleCheckPeriod())
 //			.clientThreadPoolSize(builder.getClientThreadPoolSize())
@@ -77,8 +77,8 @@ public class ClusterChild
 		private int asyncEventQueueSize;
 		private int asyncEventerSize;
 		private long asyncEventingWaitTime;
-		private long asyncEventerWaitTime;
-		private int asyncEventerWaitRound;
+		private long asyncEventQueueWaitTime;
+//		private int asyncEventerWaitRound;
 		private long asyncEventIdleCheckDelay;
 		private long asyncEventIdleCheckPeriod;
 		
@@ -210,17 +210,19 @@ public class ClusterChild
 			return this;
 		}
 
-		public ClusterChildBuilder asyncEventerWaitTime(long asyncEventerWaitTime)
+		public ClusterChildBuilder asyncEventQueueWaitTime(long asyncEventQueueWaitTime)
 		{
-			this.asyncEventerWaitTime = asyncEventerWaitTime;
+			this.asyncEventQueueWaitTime = asyncEventQueueWaitTime;
 			return this;
 		}
 
+		/*
 		public ClusterChildBuilder asyncEventerWaitRound(int asyncEventerWaitRound)
 		{
 			this.asyncEventerWaitRound = asyncEventerWaitRound;
 			return this;
 		}
+		*/
 
 		public ClusterChildBuilder asyncEventIdleCheckDelay(long asyncEventIdleCheckDelay)
 		{
@@ -369,15 +371,17 @@ public class ClusterChild
 			return this.asyncEventingWaitTime;
 		}
 		
-		public long getAsyncEventerWaitTime()
+		public long getAsyncEventQueueWaitTime()
 		{
-			return this.asyncEventerWaitTime;
+			return this.asyncEventQueueWaitTime;
 		}
-		
+
+		/*
 		public int getAsyncEventerWaitRound()
 		{
 			return this.asyncEventerWaitRound;
 		}
+		*/
 		
 		public long getAsyncEventIdleCheckDelay()
 		{

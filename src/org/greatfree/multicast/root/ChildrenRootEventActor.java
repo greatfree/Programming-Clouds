@@ -14,7 +14,7 @@ final class ChildrenRootEventActor extends AsyncMulticastor<ChildrenMulticastNot
 	}
 	
 	@Override
-	public void perform(ChildrenMulticastNotification notification)
+	public void notify(ChildrenMulticastNotification notification)
 	{
 		try
 		{

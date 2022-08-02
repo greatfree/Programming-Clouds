@@ -29,8 +29,8 @@ public class StartBusinessClient
 		}
 		else
 		{
-			Scheduler.GREATFREE().init(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
-			Scheduler.GREATFREE().submit(new PollMerchandise(), ChatConfig.CHAT_POLLING_DELAY, ChatConfig.CHAT_POLLING_PERIOD);
+			Scheduler.PERIOD().init(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
+			Scheduler.PERIOD().submit(new PollMerchandise(), ChatConfig.CHAT_POLLING_DELAY, ChatConfig.CHAT_POLLING_PERIOD);
 		}
 
 		System.out.println("Press any key to shutdown the client and the server ...");
@@ -46,7 +46,7 @@ public class StartBusinessClient
 
 		if (!isVendor.equals("v"))
 		{
-			Scheduler.GREATFREE().shutdown(RegistryConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
+			Scheduler.PERIOD().shutdown(RegistryConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
 		}
 
 		in.close();

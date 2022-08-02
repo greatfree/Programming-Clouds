@@ -14,7 +14,7 @@ class SizeRootReadActor extends AsyncMulticastor<SizeMulticastRequest>
 	}
 	
 	@Override
-	public void perform(SizeMulticastRequest request)
+	public void notify(SizeMulticastRequest request)
 	{
 		try
 		{

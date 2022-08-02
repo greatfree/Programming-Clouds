@@ -104,4 +104,18 @@ public class Time
 	{
 		return new Date(Calendar.getInstance().getTimeInMillis() - time);
 	}
+	
+	public static String convert(Date time, SimpleDateFormat format)
+	{
+		return format.format(time);
+	}
+	
+	public static String addMinutes(String time, int length, SimpleDateFormat format) throws ParseException
+	{
+		Date t = format.parse(time);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(t);
+		cal.add(Calendar.MINUTE, length);
+		return format.format(cal.getTime());
+	}
 }

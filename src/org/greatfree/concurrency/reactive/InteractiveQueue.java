@@ -97,6 +97,7 @@ public abstract class InteractiveQueue<Task, Notifier extends Interactable<Task>
 		}
 	}
 
+	/*
 	@Override
 	public synchronized void dispose(long timeout) throws InterruptedException
 	{
@@ -109,6 +110,7 @@ public abstract class InteractiveQueue<Task, Notifier extends Interactable<Task>
 			this.queue.clear();
 		}
 	}
+	*/
 
 	/*
 	 * Expose the key of the thread. 11/21/2014, Bing Li

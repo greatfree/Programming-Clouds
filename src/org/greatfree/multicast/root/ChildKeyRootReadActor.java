@@ -14,7 +14,7 @@ final class ChildKeyRootReadActor extends AsyncMulticastor<ChildKeyMulticastRequ
 	}
 
 	@Override
-	public void perform(ChildKeyMulticastRequest request)
+	public void notify(ChildKeyMulticastRequest request)
 	{
 		try
 		{

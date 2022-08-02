@@ -27,7 +27,7 @@ public class EvictMyDataThread extends NotificationObjectQueue<EvictedNotificati
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					System.out.println("EvictMyDataThread: " + notification.getValue().getKey() + " is evicted ...");
 					Coordinator.CPS().replicate(notification.getValue());
 					this.disposeObject(notification);

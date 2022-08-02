@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.greatfree.client.ServerIORegistry;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.concurrency.ThreadPool;
+import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.server.CSServer.CSServerBuilder;
@@ -28,6 +28,7 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 	private int port;
 	// The count of listeners. 04/21/2017, Bing Li
 	private final int listenerCount;
+	private final int maxIOCount;
 	// The list keeps all of the threads that listen to connecting from clients of the server. When the server is shutdown, those threads can be killed to avoid possible missing. 08/10/2014, Bing Li
 //	private List<Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>>> listenerRunnerList;
 	private List<Runner<CSListener<Dispatcher>>> listenerRunnerList;
@@ -91,17 +92,42 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 //	public AbstractCSServer(int port, int listenerCount, int listenerThreadPoolSize, long listenerThreadKeepAliveTime, Dispatcher dispatcher, long timeout, boolean isPeer) throws IOException
 //	public AbstractCSServer(int port, int listenerCount, Dispatcher dispatcher, boolean isPeer) throws IOException
 //	public AbstractCSServer(int port, int listenerCount, int serverThreadPoolSize, long serverThreadKeepAliveTime, Dispatcher dispatcher, boolean isPeer) throws IOException
-	public AbstractCSServer(int port, int listenerCount, Dispatcher dispatcher, boolean isPeer) throws IOException
+//	public AbstractCSServer(int port, int listenerCount, Dispatcher dispatcher, boolean isPeer) throws IOException
+//	public AbstractCSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher) throws IOException
+//	public AbstractCSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher, boolean isPeer) throws IOException
+//	public AbstractCSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher, boolean isRegistryNeeded) throws IOException
+	public AbstractCSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher, boolean isPeer) throws IOException
 	{
 //		this.hashKey = Tools.generateUniqueKey();
 		this.serverKey = dispatcher.getServerKey();
 		
 		this.port = port;
+		
+		/*
+		 * The abstract CSServer is used only for peer. 06/24/2022, Bing Li
+		 */
 		if (!isPeer)
 		{
 			this.socket = new ServerSocket(this.port);
 		}
-		this.listenerCount = listenerCount;
+//		this.socket = new ServerSocket(this.port);
+		if (listenerCount <= 0)
+		{
+			this.listenerCount = ServerConfig.LISTENING_THREAD_COUNT;
+		}
+		else
+		{
+			this.listenerCount = listenerCount;
+		}
+		
+		if (maxIOCount <= 0)
+		{
+			this.maxIOCount = ServerConfig.MAX_SERVER_IO_COUNT;
+		}
+		else
+		{
+			this.maxIOCount = maxIOCount;
+		}
 //		this.listenerThreadPool = listenerThreadPool;
 //		this.serverThreadPoolSize = serverThreadPoolSize;
 //		this.serverThreadKeepAliveTime = serverThreadKeepAliveTime;
@@ -141,7 +167,22 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 		this.serverKey = builder.getDispatcher().getServerKey();
 		this.port = builder.getPort();
 		this.socket = new ServerSocket(this.port);
-		this.listenerCount = builder.getListenerCount();
+		if (builder.getListenerCount() <= 0)
+		{
+			this.listenerCount = ServerConfig.LISTENING_THREAD_COUNT;
+		}
+		else
+		{
+			this.listenerCount = builder.getListenerCount();
+		}
+		if (builder.getListenerCount() <= 0)
+		{
+			this.maxIOCount = ServerConfig.MAX_SERVER_IO_COUNT;
+		}
+		else
+		{
+			this.maxIOCount = builder.getMaxIOCount();
+		}
 //		this.listenerThreadPool = builder.getListenerThreadPool();
 //		this.serverThreadPoolSize = builder.getServerThreadPoolSize();
 //		this.serverThreadKeepAliveTime = builder.geServerThreadKeepAliveTime();
@@ -179,10 +220,17 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 	
 	protected void setPort(int port) throws IOException
 	{
+		/*
+		 * Nullify the old one. 06/18/2022, Bing Li
+		 */
+//		this.socket = null;
 		this.port = port;
 		this.socket = new ServerSocket(this.port);
 	}
-	
+
+	/*
+	 * Since the ServerSocket is initialized, it is not reasonable to initialize it again with the same port. 06/18/2022, Bing Li
+	 */
 	protected void setPort() throws IOException
 	{
 		this.socket = new ServerSocket(this.port);
@@ -221,7 +269,7 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 //			this.listenerRunnerList.add(new Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>>(new CSListener<Dispatcher>(this.socket, this.listenerThreadPool, this.messageProducer, this.ioRegistry), disposer, true));
 //			this.listenerRunnerList.add(new Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>>(new CSListener<Dispatcher>(this.socket, SharedThreadPool.SHARED().getPool(), this.messageProducer, this.ioRegistry), disposer, true));
 //			this.listenerRunnerList.add(new Runner<CSListener<Dispatcher>>(new CSListener<Dispatcher>(this.socket, SharedThreadPool.SHARED().getPool(), this.messageProducer, this.ioRegistry), true));
-			this.listenerRunnerList.add(new Runner<CSListener<Dispatcher>>(new CSListener<Dispatcher>(this.socket, this.dispatcher.getThreadPool(), this.messageProducer, this.ioRegistry), true));
+			this.listenerRunnerList.add(new Runner<CSListener<Dispatcher>>(new CSListener<Dispatcher>(this.socket, this.dispatcher.getThreadPool(), this.messageProducer, this.ioRegistry, this.maxIOCount), true));
 			this.listenerRunnerList.get(i).start();
 		}
 
@@ -229,6 +277,7 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 		this.isStarted.set(true);
 	}
 	
+//	protected void stop() throws IOException, InterruptedException, RemoteReadException, ClassNotFoundException
 	protected void stop(long timeout) throws IOException, InterruptedException, RemoteReadException, ClassNotFoundException
 	{
 		// Close the socket for the server. 08/10/2014, Bing Li
@@ -243,6 +292,7 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 
 		// Dispose the message producer. 11/23/2014, Bing Li
 		this.messageProducer.dispose(timeout);
+//		this.messageProducer.dispose();
 
 		// Dispose the thread pool. 05/11/2017, Bing Li
 //		SharedThreadPool.SHARED().dispose(timeout);

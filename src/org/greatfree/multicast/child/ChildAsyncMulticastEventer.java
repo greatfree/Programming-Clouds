@@ -1,6 +1,6 @@
 package org.greatfree.multicast.child;
 
-import org.greatfree.concurrency.AsyncPool;
+import org.greatfree.concurrency.NotifierPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.message.multicast.MulticastNotification;
@@ -9,23 +9,23 @@ import org.greatfree.message.multicast.MulticastNotification;
 final class ChildAsyncMulticastEventer
 {
 	// The actor to perform multicasting asynchronously. 09/10/2018, Bing Li
-	private AsyncPool<MulticastNotification> actor;
+	private NotifierPool<MulticastNotification> actor;
 	
 	private ThreadPool pool;
 
 	public ChildAsyncMulticastEventer(ChildSyncMulticastor multicastor, ThreadPool pool)
 	{
-		this.actor = new AsyncPool.ActorPoolBuilder<MulticastNotification>()
-				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
-				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
+		this.actor = new NotifierPool.NotifierPoolBuilder<MulticastNotification>()
+				.queueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.notifierSize(ClientConfig.ASYNC_EVENTER_SIZE)
 				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
-				.actorWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
-				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.notifierWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
+//				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.idleCheckDelay(ClientConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ClientConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(ClientConfig.SCHEDULER_POOL_SIZE)
 				.schedulerKeepAliveTime(ClientConfig.SCHEDULER_KEEP_ALIVE_TIME)
-				.actor(new ChildEventActor(multicastor))
+				.notifier(new ChildEventActor(multicastor))
 				.build();
 		
 		this.pool = pool;
@@ -42,7 +42,7 @@ final class ChildAsyncMulticastEventer
 		{
 			this.pool.execute(this.actor);
 		}
-		this.actor.perform(notification);
+		this.actor.notify(notification);
 	}
 
 }

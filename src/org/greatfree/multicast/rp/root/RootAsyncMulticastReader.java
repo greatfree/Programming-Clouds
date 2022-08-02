@@ -1,6 +1,6 @@
 package org.greatfree.multicast.rp.root;
 
-import org.greatfree.concurrency.AsyncPool;
+import org.greatfree.concurrency.NotifierPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.message.multicast.RPMulticastRequest;
@@ -8,122 +8,122 @@ import org.greatfree.message.multicast.RPMulticastRequest;
 // Created: 10/15/2018, Bing Li
 class RootAsyncMulticastReader
 {
-	private AsyncPool<RPMulticastRequest> actor;
-	private AsyncPool<SizeMulticastRequest> sizeActor;
-	private AsyncPool<ChildrenMulticastRequest> childrenActor;
-	private AsyncPool<ChildrenSizeMulticastRequest> childrenSizeActor;
+	private NotifierPool<RPMulticastRequest> actor;
+	private NotifierPool<SizeMulticastRequest> sizeActor;
+	private NotifierPool<ChildrenMulticastRequest> childrenActor;
+	private NotifierPool<ChildrenSizeMulticastRequest> childrenSizeActor;
 	
-	private AsyncPool<NearestKeysMulticastRequest> nearestKeysActor;
-	private AsyncPool<NearestKeyMulticastRequest> nearestKeyActor;
-	private AsyncPool<RPMulticastRequest> randomActor;
-	private AsyncPool<ChildKeyMulticastRequest> childKeyActor;
+	private NotifierPool<NearestKeysMulticastRequest> nearestKeysActor;
+	private NotifierPool<NearestKeyMulticastRequest> nearestKeyActor;
+	private NotifierPool<RPMulticastRequest> randomActor;
+	private NotifierPool<ChildKeyMulticastRequest> childKeyActor;
 	
 	private ThreadPool pool;
 	
 	public RootAsyncMulticastReader(RootSyncMulticastor multicastor, ThreadPool pool)
 	{
-		this.actor = new AsyncPool.ActorPoolBuilder<RPMulticastRequest>()
-				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
-				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
+		this.actor = new NotifierPool.NotifierPoolBuilder<RPMulticastRequest>()
+				.queueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.notifierSize(ClientConfig.ASYNC_EVENTER_SIZE)
 				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
-				.actorWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
-				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.notifierWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
+//				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.idleCheckDelay(ClientConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ClientConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(ClientConfig.SCHEDULER_POOL_SIZE)
 				.schedulerKeepAliveTime(ClientConfig.SCHEDULER_KEEP_ALIVE_TIME)
-				.actor(new RootReadActor(multicastor))
+				.notifier(new RootReadActor(multicastor))
 				.build();
 
-		this.sizeActor = new AsyncPool.ActorPoolBuilder<SizeMulticastRequest>()
-				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
-				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
+		this.sizeActor = new NotifierPool.NotifierPoolBuilder<SizeMulticastRequest>()
+				.queueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.notifierSize(ClientConfig.ASYNC_EVENTER_SIZE)
 				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
-				.actorWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
-				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.notifierWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
+//				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.idleCheckDelay(ClientConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ClientConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(ClientConfig.SCHEDULER_POOL_SIZE)
 				.schedulerKeepAliveTime(ClientConfig.SCHEDULER_KEEP_ALIVE_TIME)
-				.actor(new SizeRootReadActor(multicastor))
+				.notifier(new SizeRootReadActor(multicastor))
 				.build();
 
-		this.childrenActor = new AsyncPool.ActorPoolBuilder<ChildrenMulticastRequest>()
-				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
-				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
+		this.childrenActor = new NotifierPool.NotifierPoolBuilder<ChildrenMulticastRequest>()
+				.queueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.notifierSize(ClientConfig.ASYNC_EVENTER_SIZE)
 				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
-				.actorWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
-				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.notifierWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
+//				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.idleCheckDelay(ClientConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ClientConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(ClientConfig.SCHEDULER_POOL_SIZE)
 				.schedulerKeepAliveTime(ClientConfig.SCHEDULER_KEEP_ALIVE_TIME)
-				.actor(new ChildrenRootReadActor(multicastor))
+				.notifier(new ChildrenRootReadActor(multicastor))
 				.build();
 
-		this.childrenSizeActor = new AsyncPool.ActorPoolBuilder<ChildrenSizeMulticastRequest>()
-				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
-				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
+		this.childrenSizeActor = new NotifierPool.NotifierPoolBuilder<ChildrenSizeMulticastRequest>()
+				.queueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.notifierSize(ClientConfig.ASYNC_EVENTER_SIZE)
 				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
-				.actorWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
-				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.notifierWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
+//				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.idleCheckDelay(ClientConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ClientConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(ClientConfig.SCHEDULER_POOL_SIZE)
 				.schedulerKeepAliveTime(ClientConfig.SCHEDULER_KEEP_ALIVE_TIME)
-				.actor(new ChildrenSizeRootReadActor(multicastor))
+				.notifier(new ChildrenSizeRootReadActor(multicastor))
 				.build();
 
-		this.nearestKeysActor = new AsyncPool.ActorPoolBuilder<NearestKeysMulticastRequest>()
-				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
-				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
+		this.nearestKeysActor = new NotifierPool.NotifierPoolBuilder<NearestKeysMulticastRequest>()
+				.queueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.notifierSize(ClientConfig.ASYNC_EVENTER_SIZE)
 				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
-				.actorWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
-				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.notifierWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
+//				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.idleCheckDelay(ClientConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ClientConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(ClientConfig.SCHEDULER_POOL_SIZE)
 				.schedulerKeepAliveTime(ClientConfig.SCHEDULER_KEEP_ALIVE_TIME)
-				.actor(new NearestKeysRootReadActor(multicastor))
+				.notifier(new NearestKeysRootReadActor(multicastor))
 				.build();
 
-		this.nearestKeyActor = new AsyncPool.ActorPoolBuilder<NearestKeyMulticastRequest>()
-				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
-				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
+		this.nearestKeyActor = new NotifierPool.NotifierPoolBuilder<NearestKeyMulticastRequest>()
+				.queueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.notifierSize(ClientConfig.ASYNC_EVENTER_SIZE)
 				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
-				.actorWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
-				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.notifierWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
+//				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.idleCheckDelay(ClientConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ClientConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(ClientConfig.SCHEDULER_POOL_SIZE)
 				.schedulerKeepAliveTime(ClientConfig.SCHEDULER_KEEP_ALIVE_TIME)
-				.actor(new NearestKeyRootReadActor(multicastor))
+				.notifier(new NearestKeyRootReadActor(multicastor))
 				.build();
 
-		this.randomActor = new AsyncPool.ActorPoolBuilder<RPMulticastRequest>()
-				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
-				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
+		this.randomActor = new NotifierPool.NotifierPoolBuilder<RPMulticastRequest>()
+				.queueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.notifierSize(ClientConfig.ASYNC_EVENTER_SIZE)
 				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
-				.actorWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
-				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.notifierWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
+//				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.idleCheckDelay(ClientConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ClientConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(ClientConfig.SCHEDULER_POOL_SIZE)
 				.schedulerKeepAliveTime(ClientConfig.SCHEDULER_KEEP_ALIVE_TIME)
-				.actor(new RandomRootReadActor(multicastor))
+				.notifier(new RandomRootReadActor(multicastor))
 				.build();
 
-		this.childKeyActor = new AsyncPool.ActorPoolBuilder<ChildKeyMulticastRequest>()
-				.messageQueueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
-				.actorSize(ClientConfig.ASYNC_EVENTER_SIZE)
+		this.childKeyActor = new NotifierPool.NotifierPoolBuilder<ChildKeyMulticastRequest>()
+				.queueSize(ClientConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.notifierSize(ClientConfig.ASYNC_EVENTER_SIZE)
 				.poolingWaitTime(ClientConfig.ASYNC_EVENTING_WAIT_TIME)
-				.actorWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
-				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.notifierWaitTime(ClientConfig.ASYNC_EVENTER_WAIT_TIME)
+//				.waitRound(ClientConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.idleCheckDelay(ClientConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ClientConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(ClientConfig.SCHEDULER_POOL_SIZE)
 				.schedulerKeepAliveTime(ClientConfig.SCHEDULER_KEEP_ALIVE_TIME)
-				.actor(new ChildKeyRootReadActor(multicastor))
+				.notifier(new ChildKeyRootReadActor(multicastor))
 				.build();
 
 		this.pool = pool;
@@ -147,7 +147,7 @@ class RootAsyncMulticastReader
 		{
 			this.pool.execute(this.actor);
 		}
-		this.actor.perform(request);
+		this.actor.notify(request);
 	}
 	
 	public void asyncRead(SizeMulticastRequest request)
@@ -156,7 +156,7 @@ class RootAsyncMulticastReader
 		{
 			this.pool.execute(this.sizeActor);
 		}
-		this.sizeActor.perform(request);
+		this.sizeActor.notify(request);
 	}
 	
 	public void asyncRead(ChildrenMulticastRequest request)
@@ -165,7 +165,7 @@ class RootAsyncMulticastReader
 		{
 			this.pool.execute(this.childrenActor);
 		}
-		this.childrenActor.perform(request);
+		this.childrenActor.notify(request);
 	}
 
 	public void asyncRead(ChildrenSizeMulticastRequest request)
@@ -174,7 +174,7 @@ class RootAsyncMulticastReader
 		{
 			this.pool.execute(this.childrenSizeActor);
 		}
-		this.childrenSizeActor.perform(request);
+		this.childrenSizeActor.notify(request);
 	}
 	
 	public void asyncRead(NearestKeysMulticastRequest request)
@@ -183,7 +183,7 @@ class RootAsyncMulticastReader
 		{
 			this.pool.execute(this.nearestKeysActor);
 		}
-		this.nearestKeysActor.perform(request);
+		this.nearestKeysActor.notify(request);
 	}
 	
 	public void asyncRead(NearestKeyMulticastRequest request)
@@ -192,7 +192,7 @@ class RootAsyncMulticastReader
 		{
 			this.pool.execute(this.nearestKeyActor);
 		}
-		this.nearestKeyActor.perform(request);
+		this.nearestKeyActor.notify(request);
 	}
 	
 	public void asyncRandomRead(RPMulticastRequest request)
@@ -201,7 +201,7 @@ class RootAsyncMulticastReader
 		{
 			this.pool.execute(this.randomActor);
 		}
-		this.randomActor.perform(request);
+		this.randomActor.notify(request);
 	}
 	
 	public void asyncRead(ChildKeyMulticastRequest request)
@@ -210,6 +210,6 @@ class RootAsyncMulticastReader
 		{
 			this.pool.execute(this.childKeyActor);
 		}
-		this.childKeyActor.perform(request);
+		this.childKeyActor.notify(request);
 	}
 }

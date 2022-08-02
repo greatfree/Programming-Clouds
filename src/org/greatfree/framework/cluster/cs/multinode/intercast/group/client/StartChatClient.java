@@ -63,14 +63,14 @@ class StartChatClient
 		/*
 		 * Comment the scheduling temporarily for testing. 04/21/2019, Bing Li
 		 */
-		Scheduler.GREATFREE().init(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
 
 		ChatClient.CONTAINER().init();
 
 		/*
 		 * Comment the scheduling temporarily for testing. 04/21/2019, Bing Li
 		 */
-		Scheduler.GREATFREE().submit(new Checker(), ChatConfig.CHAT_POLLING_DELAY, ChatConfig.CHAT_POLLING_PERIOD);
+		Scheduler.PERIOD().submit(new Checker(), ChatConfig.CHAT_POLLING_DELAY, ChatConfig.CHAT_POLLING_PERIOD);
 		
 		String optionStr;
 		// Keep the loop running to interact with users until an end option is selected. 09/21/2014, Bing Li
@@ -101,7 +101,7 @@ class StartChatClient
 		/*
 		 * Comment the scheduling temporarily for testing. 04/21/2019, Bing Li
 		 */
-		Scheduler.GREATFREE().shutdown(RegistryConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
+		Scheduler.PERIOD().shutdown(RegistryConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
 
 		ChatClient.CONTAINER().dispose();
 

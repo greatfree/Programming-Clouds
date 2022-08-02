@@ -92,11 +92,11 @@ class StartChatClient
 
 		ChatClient.CONTAINER().init();
 
-		Scheduler.GREATFREE().init(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
 
 		ChatMaintainer.CLUSTER_CONTAINER().init(username, partner);
 		
-		Scheduler.GREATFREE().submit(new Checker(), ChatConfig.CHAT_POLLING_DELAY	, ChatConfig.CHAT_POLLING_PERIOD);
+		Scheduler.PERIOD().submit(new Checker(), ChatConfig.CHAT_POLLING_DELAY	, ChatConfig.CHAT_POLLING_PERIOD);
 		
 //		ChatMaintainer.CLUSTER_CONTAINER().checkNewSessions();
 	
@@ -133,7 +133,7 @@ class StartChatClient
 		ChatMaintainer.CLUSTER_CONTAINER().dispose();
 		
 		// Shutdown the scheduler. 02/02/2016, Bing Li
-		Scheduler.GREATFREE().shutdown(RegistryConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
+		Scheduler.PERIOD().shutdown(RegistryConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
 
 		ChatClient.CONTAINER().dispose();
 

@@ -39,13 +39,13 @@ class StartChatClient
 		StandaloneClient.CS().init();
 
 		// Initialize the scheduler to do something periodical. 02/02/2016, Bing Li
-		Scheduler.GREATFREE().init(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
 
 		// The chatting information maintainer. 05/25/2017, Bing Li
 		ChatMaintainer.CS_CONTAINER().init(username, partner);
 
 		// Submit the polling tasks. 05/26/2017, Bing Li
-		Scheduler.GREATFREE().submit(new Checker(), ChatConfig.CHAT_POLLING_DELAY	, ChatConfig.CHAT_POLLING_PERIOD);
+		Scheduler.PERIOD().submit(new Checker(), ChatConfig.CHAT_POLLING_DELAY	, ChatConfig.CHAT_POLLING_PERIOD);
 
 		String optionStr;
 		// Keep the loop running to interact with users until an end option is selected. 09/21/2014, Bing Li
@@ -81,7 +81,7 @@ class StartChatClient
 		ChatMaintainer.CS_CONTAINER().dispose();
 		
 		// Shutdown the scheduler. 02/02/2016, Bing Li
-		Scheduler.GREATFREE().shutdown(RegistryConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
+		Scheduler.PERIOD().shutdown(RegistryConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
 
 //		ChatClient.CS_FRONT().dispose();
 		StandaloneClient.CS().dispose();

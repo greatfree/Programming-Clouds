@@ -76,7 +76,7 @@ public class SortedDistributedReadListStore<Value extends Pointing, Factory exte
 				.threadCreator(builder.getPrefetchThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -88,7 +88,7 @@ public class SortedDistributedReadListStore<Value extends Pointing, Factory exte
 				.threadCreator(builder.getPostfetchThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -100,7 +100,7 @@ public class SortedDistributedReadListStore<Value extends Pointing, Factory exte
 				.threadCreator(builder.getEvictThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -145,7 +145,7 @@ public class SortedDistributedReadListStore<Value extends Pointing, Factory exte
 		private EvictThreadCreator evictCreator;
 		private int maxTaskSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -264,11 +264,13 @@ public class SortedDistributedReadListStore<Value extends Pointing, Factory exte
 			return this;
 		}
 
+		/*
 		public SortedDistributedReadListStoreBuilder<Value, Factory, CompoundKeyCreator, DescendantComp, PrePostfetchNotification, PrefetchThread, PrefetchThreadCreator, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public SortedDistributedReadListStoreBuilder<Value, Factory, CompoundKeyCreator, DescendantComp, PrePostfetchNotification, PrefetchThread, PrefetchThreadCreator, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -425,11 +427,13 @@ public class SortedDistributedReadListStore<Value extends Pointing, Factory exte
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{

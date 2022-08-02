@@ -6,7 +6,7 @@ import java.util.Map;
 import org.greatfree.abandoned.cache.distributed.MapValueReceivable;
 
 // Created: 07/04/2017, Bing LI
-public class AddDistributedMap
+class AddDistributedMap
 {
 
 	public static void main(String[] args)

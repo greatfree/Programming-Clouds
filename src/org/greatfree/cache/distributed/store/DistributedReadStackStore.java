@@ -64,7 +64,7 @@ public class DistributedReadStackStore<Value extends StoreElement, Factory exten
 				.threadCreator(builder.getPrefetchThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -76,7 +76,7 @@ public class DistributedReadStackStore<Value extends StoreElement, Factory exten
 				.threadCreator(builder.getPostfetchThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -88,7 +88,7 @@ public class DistributedReadStackStore<Value extends StoreElement, Factory exten
 				.threadCreator(builder.getEvictThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -126,7 +126,7 @@ public class DistributedReadStackStore<Value extends StoreElement, Factory exten
 		private EvictThreadCreator evictCreator;
 		private int notificationQueueSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -223,11 +223,13 @@ public class DistributedReadStackStore<Value extends StoreElement, Factory exten
 			return this;
 		}
 
+		/*
 		public DistributedReadStackStoreBuilder<Value, Factory, CompoundKeyCreator, Notification, PrefetchThread, PrefetchThreadCreator, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public DistributedReadStackStoreBuilder<Value, Factory, CompoundKeyCreator, Notification, PrefetchThread, PrefetchThreadCreator, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -347,10 +349,12 @@ public class DistributedReadStackStore<Value extends StoreElement, Factory exten
 			return this.dispatcherWaitTime;
 		}
 
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 
 		public long getIdleCheckDelay()
 		{

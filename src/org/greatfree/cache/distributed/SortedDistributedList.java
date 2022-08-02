@@ -59,7 +59,7 @@ public class SortedDistributedList<Value extends Pointing, Factory extends Cache
 				.threadCreator(builder.getReplicateThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -70,7 +70,7 @@ public class SortedDistributedList<Value extends Pointing, Factory extends Cache
 				.threadCreator(builder.getPrefetchThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -81,7 +81,7 @@ public class SortedDistributedList<Value extends Pointing, Factory extends Cache
 				.threadCreator(builder.getPostfetchThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -92,7 +92,7 @@ public class SortedDistributedList<Value extends Pointing, Factory extends Cache
 				.threadCreator(builder.getEvictThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -130,7 +130,7 @@ public class SortedDistributedList<Value extends Pointing, Factory extends Cache
 		private EvictThreadCreator evictCreator;
 		private int notificationQueueSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -235,11 +235,13 @@ public class SortedDistributedList<Value extends Pointing, Factory extends Cache
 			return this;
 		}
 		
+		/*
 		public SortedDistributedListBuilder<Value, Factory, DescendantComp, ReplicateThread, ReplicateThreadCreator, FetchNotification, PrefetchThread, PrefetchThreadCreator, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 		
 		public SortedDistributedListBuilder<Value, Factory, DescendantComp, ReplicateThread, ReplicateThreadCreator, FetchNotification, PrefetchThread, PrefetchThreadCreator, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -371,11 +373,13 @@ public class SortedDistributedList<Value extends Pointing, Factory extends Cache
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{

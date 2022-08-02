@@ -36,24 +36,6 @@ public class ClusterPeerContainer
 	
 	public ClusterPeerContainer(String rootName, RootTask task) throws IOException
 	{
-		this.client = new CSClient.CSClientBuilder()
-				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
-				.clientIdleCheckDelay(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_DELAY)
-				.clientIdleCheckPeriod(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_PERIOD)
-				.clientMaxIdleTime(RegistryConfig.SYNC_EVENTER_MAX_IDLE_TIME)
-				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
-				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
-				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
-				.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
-				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
-				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
-				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
-				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
-				.schedulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
-				.asyncSchedulerShutdownTimeout(ClientConfig.ASYNC_SCHEDULER_SHUTDOWN_TIMEOUT)
-				.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
-				.build();
-		
 		this.server = new ClusterServer.ServerOnClusterBuilder()
 				.peerPort(ServerConfig.COORDINATOR_PORT)
 				.peerName(rootName)
@@ -61,6 +43,7 @@ public class ClusterPeerContainer
 				.registryServerPort(RegistryConfig.PEER_REGISTRY_PORT)
 				.isRegistryNeeded(true)
 				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.maxIOCount(ServerConfig.MAX_SERVER_IO_COUNT)
 				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)
 				.serverThreadKeepAliveTime(ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME)
 				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
@@ -71,8 +54,8 @@ public class ClusterPeerContainer
 				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
 				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
 				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
-				.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
-				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
@@ -80,6 +63,25 @@ public class ClusterPeerContainer
 				.rootBranchCount(MulticastConfig.ROOT_BRANCH_COUNT)
 				.treeBranchCount(MulticastConfig.SUB_BRANCH_COUNT)
 				.requestWaitTime(MulticastConfig.BROADCAST_REQUEST_WAIT_TIME)
+				.build();
+
+		this.client = new CSClient.CSClientBuilder()
+				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
+				.clientIdleCheckDelay(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_DELAY)
+				.clientIdleCheckPeriod(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_PERIOD)
+				.clientMaxIdleTime(RegistryConfig.SYNC_EVENTER_MAX_IDLE_TIME)
+				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
+				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
+				.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
+				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
+				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
+				.schedulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
+				.asyncSchedulerShutdownTimeout(ClientConfig.ASYNC_SCHEDULER_SHUTDOWN_TIMEOUT)
+				.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
+				.pool(this.server.getThreadPool())
 				.build();
 
 		this.task = task;
@@ -103,8 +105,8 @@ public class ClusterPeerContainer
 				.asyncEventQueueSize(PeerProfile.P2P().getAsyncEventQueueSize())
 				.asyncEventerSize(PeerProfile.P2P().getAsyncEventerSize())
 				.asyncEventingWaitTime(PeerProfile.P2P().getAsyncEventingWaitTime())
-				.asyncEventerWaitTime(PeerProfile.P2P().getAsyncEventerWaitTime())
-				.asyncEventerWaitRound(PeerProfile.P2P().getAsyncEventerWaitRound())
+				.asyncEventQueueWaitTime(PeerProfile.P2P().getAsyncEventQueueWaitTime())
+//				.asyncEventerWaitRound(PeerProfile.P2P().getAsyncEventerWaitRound())
 				.asyncEventIdleCheckDelay(PeerProfile.P2P().getAsyncEventIdleCheckDelay())
 				.asyncEventIdleCheckPeriod(PeerProfile.P2P().getAsyncEventIdleCheckPeriod())
 				.schedulerPoolSize(ClusterProfile.CLUSTER().getSchedulerPoolSize())
@@ -120,6 +122,7 @@ public class ClusterPeerContainer
 				.registryServerPort(PeerProfile.P2P().getRegistryServerPort())
 				.isRegistryNeeded(PeerProfile.P2P().isRegistryNeeded())
 				.listenerCount(ServerProfile.CS().getListeningThreadCount())
+				.maxIOCount(ServerProfile.CS().getMaxIOCount())
 				.serverThreadPoolSize(ServerProfile.CS().getServerThreadPoolSize())
 				.serverThreadKeepAliveTime(ServerProfile.CS().getServerThreadKeepAliveTime())
 				.freeClientPoolSize(PeerProfile.P2P().getFreeClientPoolSize())
@@ -130,8 +133,8 @@ public class ClusterPeerContainer
 				.asyncEventQueueSize(PeerProfile.P2P().getAsyncEventQueueSize())
 				.asyncEventerSize(PeerProfile.P2P().getAsyncEventerSize())
 				.asyncEventingWaitTime(PeerProfile.P2P().getAsyncEventingWaitTime())
-				.asyncEventerWaitTime(PeerProfile.P2P().getAsyncEventerWaitTime())
-				.asyncEventerWaitRound(PeerProfile.P2P().getAsyncEventerWaitRound())
+				.asyncEventQueueWaitTime(PeerProfile.P2P().getAsyncEventQueueWaitTime())
+//				.asyncEventerWaitRound(PeerProfile.P2P().getAsyncEventerWaitRound())
 				.asyncEventIdleCheckDelay(PeerProfile.P2P().getAsyncEventIdleCheckDelay())
 				.asyncEventIdleCheckPeriod(PeerProfile.P2P().getAsyncEventIdleCheckPeriod())
 				.schedulerPoolSize(ClusterProfile.CLUSTER().getSchedulerPoolSize())
@@ -175,7 +178,7 @@ public class ClusterPeerContainer
 
 	public void start() throws ClassNotFoundException, IOException, RemoteReadException, DistributedNodeFailedException
 	{
-		this.client.init(this.server.getThreadPool());
+//		this.client.init(this.server.getThreadPool());
 		this.server.start(this.task);
 	}
 	

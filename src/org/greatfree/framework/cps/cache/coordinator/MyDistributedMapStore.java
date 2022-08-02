@@ -74,10 +74,10 @@ public class MyDistributedMapStore
 				.evictCreator(new EvictMyDistributedStoreDataThreadCreator())
 				.maxTaskSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
-				.scheduler(Scheduler.GREATFREE().getScheduler())
+				.scheduler(Scheduler.PERIOD().getScheduler())
 				.postfetchTimeout(TestCacheConfig.DISTRIBUTED_MAP_STORE_POSTFETCH_TIMEOUT)
 				.build();
 	}

@@ -27,7 +27,7 @@ public class EvictMyUKValueThread extends NotificationObjectQueue<EvictedNotific
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					Coordinator.CPS().replicate(notification.getValue());
 					

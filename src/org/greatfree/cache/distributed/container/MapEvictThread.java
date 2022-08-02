@@ -25,7 +25,7 @@ class MapEvictThread<Value extends StoreElement> extends NotificationTaskQueue<E
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					this.processNotification(notification);
 					this.disposeObject(notification);
 				}

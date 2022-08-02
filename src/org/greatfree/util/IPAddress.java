@@ -56,7 +56,10 @@ public class IPAddress implements Serializable
 	{
 		return this.peerName;
 	}
-	
+
+	/*
+	 * The method is used in WindCry, not Wind. 06/20/2022, Bing Li
+	 */
 	public void setPeerName(String peerName)
 	{
 		this.peerName = peerName;

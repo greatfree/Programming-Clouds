@@ -61,7 +61,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.threadCreator(new RootIPAddressBroadcastNotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
@@ -86,7 +86,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.threadCreator(new ChildNotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
@@ -97,7 +97,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.threadCreator(new ChildRequestThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
@@ -135,7 +135,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.threadCreator(new ChildResponseThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
@@ -146,7 +146,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.threadCreator(new IntercastNotificationThreadCreator())
 				.notificationQueueSize(ServerConfig.NOTIFICATION_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.NOTIFICATION_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
@@ -157,7 +157,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 				.threadCreator(new IntercastRequestThreadCreator())
 				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
 				.dispatcherWaitTime(ServerConfig.REQUEST_DISPATCHER_WAIT_TIME)
-				.waitRound(ServerConfig.REQUEST_DISPATCHER_WAIT_ROUND)
+//				.waitRound(ServerConfig.REQUEST_DISPATCHER_WAIT_ROUND)
 				.idleCheckDelay(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_DELAY)
 				.idleCheckPeriod(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(super.getScheduler())
@@ -183,6 +183,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 	@Override
 	public void process(MessageStream<ServerMessage> message)
 	{
+		log.info("One message to be processed ...");
 		switch (message.getMessage().getType())
 		{
 			case MulticastMessageType.ROOT_IPADDRESS_BROADCAST_NOTIFICATION:

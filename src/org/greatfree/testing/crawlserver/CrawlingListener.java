@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.greatfree.client.ServerListener;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.server.ServerListener;
 
 /*
  * The class is a server listener that waits for the coordinator to distribute crawling tasks. The design is the same as the general server listener. 07/30/2014, Bing Li

@@ -22,14 +22,14 @@ class SchedulerTester
 	{
 		Scanner in = new Scanner(System.in);
 
-		Scheduler.GREATFREE().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
+		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 
 		System.out.println("Start to say hello ...");
 		in.nextLine();
 		
 		Perioder p = new Perioder();
 		
-		ScheduledFuture<?> s = Scheduler.GREATFREE().submit(p, ChatConfig.CHAT_POLLING_DELAY, 2000);
+		ScheduledFuture<?> s = Scheduler.PERIOD().submit(p, ChatConfig.CHAT_POLLING_DELAY, 2000);
 
 		System.out.println("Stop to say hello ...");
 		in.nextLine();
@@ -39,12 +39,12 @@ class SchedulerTester
 		System.out.println("Start to say hello AGAIN ...");
 		in.nextLine();
 
-		Scheduler.GREATFREE().submit(p, ChatConfig.CHAT_POLLING_DELAY, ChatConfig.CHAT_POLLING_PERIOD);
+		Scheduler.PERIOD().submit(p, ChatConfig.CHAT_POLLING_DELAY, ChatConfig.CHAT_POLLING_PERIOD);
 
 		System.out.println("Stop to say hello AGAIN ...");
 		in.nextLine();
 
-		Scheduler.GREATFREE().shutdown(RegistryConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
+		Scheduler.PERIOD().shutdown(RegistryConfig.SCHEDULER_SHUTDOWN_TIMEOUT);
 		in.close();
 	}
 

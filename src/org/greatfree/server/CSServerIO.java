@@ -3,8 +3,6 @@ package org.greatfree.server;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.greatfree.client.ServerIO;
-import org.greatfree.client.ServerIORegistry;
 import org.greatfree.concurrency.Sync;
 import org.greatfree.exceptions.Prompts;
 import org.greatfree.message.ServerMessage;

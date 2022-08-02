@@ -13,7 +13,7 @@ public class HelloWorldUnicastRequest extends ClusterRequest
 
 	public HelloWorldUnicastRequest(HelloWorld hw)
 	{
-		super(MulticastMessageType.UNICAST_REQUEST, MulticastApplicationID.HELLO_WORLD_UNICAST_REQUEST);
+		super(MulticastMessageType.UNICAST_REQUEST, MultiAppID.HELLO_WORLD_UNICAST_REQUEST);
 		this.hw = hw;
 	}
 

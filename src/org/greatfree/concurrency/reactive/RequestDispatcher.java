@@ -8,7 +8,6 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.greatfree.concurrency.ConcurrentDispatcher;
 import org.greatfree.concurrency.Runner;
@@ -81,7 +80,8 @@ public final class RequestDispatcher<Request extends ServerMessage, Stream exten
 //		super(builder.getPoolSize(), builder.getKeepAliveTime(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), true, builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound(), builder.getTimeout());
 //		super(builder.getThreadPool(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
 //		super(builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
-		super(builder.getServerKey(), builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
+//		super(builder.getServerKey(), builder.getPoolSize(), builder.getMaxTaskSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod(), builder.getWaitRound());
+		super(builder.getServerKey(), builder.getPoolSize(), builder.getRequestQueueSize(), builder.getScheduler(), builder.getDispatcherWaitTime(), builder.getIdleCheckDelay(), builder.getIdleCheckPeriod());
 		this.threads = new ConcurrentHashMap<String, Runner<RequestThread>>();
 		this.requestQueue = new LinkedBlockingQueue<Stream>();
 		this.threadCreator = builder.getCreator();
@@ -93,14 +93,16 @@ public final class RequestDispatcher<Request extends ServerMessage, Stream exten
 	 */
 	public static class RequestDispatcherBuilder<Request extends ServerMessage, Stream extends MessageStream<Request>, Response extends ServerMessage, RequestThread extends RequestQueue<Request, Stream, Response>, ThreadCreator extends RequestQueueCreator<Request, Stream, Response, RequestThread>> implements Builder<RequestDispatcher<Request, Stream, Response, RequestThread, ThreadCreator>>
 	{
+//		private MessageDispatcherProfile profile = null;
+		
 		private String serverKey;
 		private int poolSize;
 //		private long keepAliveTime;
 //		private ThreadPool threadPool;
 		private ThreadCreator threadCreator;
-		private int maxTaskSize;
+		private int requestQueueSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -109,6 +111,22 @@ public final class RequestDispatcher<Request extends ServerMessage, Stream exten
 		public RequestDispatcherBuilder()
 		{
 		}
+
+		/*
+		public RequestDispatcherBuilder<Request, Stream, Response, RequestThread, ThreadCreator> profile(MessageDispatcherProfile profile)
+		{
+			this.profile = profile;
+			if (this.profile != null)
+			{
+				this.poolSize = profile.getPoolSize();
+				this.requestQueueSize = profile.getMessageQueueSize();
+				this.dispatcherWaitTime = profile.getDispatcherWaitTime();
+				this.idleCheckDelay = profile.getIdleCheckDelay();
+				this.idleCheckPeriod = profile.getIdleCheckPeriod();
+			}
+			return this;
+		}
+		*/
 
 		public RequestDispatcherBuilder<Request, Stream, Response, RequestThread, ThreadCreator> serverKey(String serverKey)
 		{
@@ -144,7 +162,7 @@ public final class RequestDispatcher<Request extends ServerMessage, Stream exten
 
 		public RequestDispatcherBuilder<Request, Stream, Response, RequestThread, ThreadCreator> requestQueueSize(int maxTaskSize)
 		{
-			this.maxTaskSize = maxTaskSize;
+			this.requestQueueSize = maxTaskSize;
 			return this;
 		}
 
@@ -154,11 +172,13 @@ public final class RequestDispatcher<Request extends ServerMessage, Stream exten
 			return this;
 		}
 
+		/*
 		public RequestDispatcherBuilder<Request, Stream, Response, RequestThread, ThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public RequestDispatcherBuilder<Request, Stream, Response, RequestThread, ThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -219,20 +239,22 @@ public final class RequestDispatcher<Request extends ServerMessage, Stream exten
 			return this.threadCreator;
 		}
 		
-		public int getMaxTaskSize()
+		public int getRequestQueueSize()
 		{
-			return this.maxTaskSize;
+			return this.requestQueueSize;
 		}
 		
 		public long getDispatcherWaitTime()
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{
@@ -504,7 +526,7 @@ public final class RequestDispatcher<Request extends ServerMessage, Stream exten
 		String selectedThreadKey = UtilConfig.NO_KEY;
 		
 		// The value is used to count the count of loops for the dispatcher when no tasks are available. 01/13/2016, Bing Li
-		AtomicInteger currentRound = new AtomicInteger(0);
+//		AtomicInteger currentRound = new AtomicInteger(0);
 		// The dispatcher usually runs all of the time unless the server is shutdown. To shutdown the dispatcher, the shutdown flag of the collaborator is set to true. 11/04/2014, Bing Li
 		while (!super.isShutdown())
 		{
@@ -587,11 +609,11 @@ public final class RequestDispatcher<Request extends ServerMessage, Stream exten
 						 * 
 						 */
 						// Check whether the count of the loops exceeds the predefined value. 01/13/2016, Bing Li
-						if (currentRound.getAndIncrement() >= this.getWaitRound())
-						{
+//						if (currentRound.getAndIncrement() >= this.getWaitRound())
+//						{
 							// Check whether the threads are all disposed. 01/13/2016, Bing Li
-							if (this.threads.isEmpty())
-							{
+//							if (this.threads.isEmpty())
+//							{
 								/*
 								 * 
 								 * The run() method is critical. It should NOT be shutdown by the dispatcher itself. It can only be shutdown by outside managers. Otherwise, new messages might NOT be processed because no new threads are created for the run() is returned and the dispatcher is dead. 11/07/2021, Bing Li
@@ -609,8 +631,8 @@ public final class RequestDispatcher<Request extends ServerMessage, Stream exten
 								}
 								break;
 								*/
-							}
-						}
+//							}
+//						}
 					}
 				}
 			}

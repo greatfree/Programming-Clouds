@@ -21,7 +21,7 @@ import org.greatfree.util.TerminateSignal;
 import org.greatfree.util.Tools;
 
 // Created: 07/18/2017, Bing Li
-public class DistributedChildMapSaveTester
+class DistributedChildMapSaveTester
 {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, RemoteReadException, InstantiationException, IllegalAccessException, InterruptedException
@@ -42,6 +42,7 @@ public class DistributedChildMapSaveTester
 				.registryServerPort(RegistryConfig.PEER_REGISTRY_PORT)
 				.isRegistryNeeded(true)
 				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.maxIOCount(ServerConfig.MAX_SERVER_IO_COUNT)
 //				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)
 //				.serverThreadKeepAliveTime(ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME)
 				.dispatcher(new DistributedCacheChildDispatcher<StringKey, IntegerValue, DistributedMapIntegerValueFactory, StringKeyDB>(RegistryConfig.DISPATCHER_THREAD_POOL_SIZE, RegistryConfig.DISPATCHER_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME, registry))
@@ -54,8 +55,8 @@ public class DistributedChildMapSaveTester
 				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
 				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
 				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
-				.asyncEventerWaitTime(RegistryConfig.ASYNC_EVENTER_WAIT_TIME)
-				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
 				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
 				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 //				.clientThreadPoolSize(RegistryConfig.CLIENT_THREAD_POOL_SIZE)

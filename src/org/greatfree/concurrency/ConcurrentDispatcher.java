@@ -17,7 +17,7 @@ import org.greatfree.util.Tools;
  */
 
 // Created: 12/01/2016, Bing Li
-public abstract class ConcurrentDispatcher implements Runnable, CheckIdleable
+public abstract class ConcurrentDispatcher implements Runnable, IdleCheckable
 {
 	// The key of the dispatcher. 12/01/2016, Bing Li
 	private final String serverKey;
@@ -42,7 +42,7 @@ public abstract class ConcurrentDispatcher implements Runnable, CheckIdleable
 	// The idle-checking period. 01/14/2016, Bing Li
 	private final long idleCheckPeriod;
 	// The count of the loop when no tasks are available to be processed. When the value is exceeded, the dispatcher is killed to save resources. 01/14/2016, Bing Li
-	private final int waitRound;
+//	private final int waitRound;
 	// The timeout to shut down the self-managed thread pool. 04/19/2018, Bing Li
 //	private long timeout;
 
@@ -71,7 +71,8 @@ public abstract class ConcurrentDispatcher implements Runnable, CheckIdleable
 //	public ConcurrentDispatcher(ThreadPool threadPool, int maxTaskSize, int poolSize, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, long idleCheckDelay, long idleCheckPeriod, int waitRound)
 //	public ConcurrentDispatcher(ThreadPool threadPool, int maxTaskSize, int poolSize, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, boolean isSelfThreadPool, long idleCheckDelay, long idleCheckPeriod, int waitRound, long timeout)
 //	public ConcurrentDispatcher(ThreadPool threadPool, int maxTaskSize, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, long idleCheckDelay, long idleCheckPeriod, int waitRound)
-	public ConcurrentDispatcher(int poolSize, int maxTaskSizePerThread, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, long idleCheckDelay, long idleCheckPeriod, int waitRound)
+//	public ConcurrentDispatcher(int poolSize, int maxTaskSizePerThread, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, long idleCheckDelay, long idleCheckPeriod, int waitRound)
+	public ConcurrentDispatcher(int poolSize, int maxTaskSizePerThread, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, long idleCheckDelay, long idleCheckPeriod)
 	{
 		// Generate a unique key for each dispatcher. 12/01/2016, Bing Li
 		this.serverKey = Tools.generateUniqueKey();
@@ -83,13 +84,14 @@ public abstract class ConcurrentDispatcher implements Runnable, CheckIdleable
 		this.workCollaborator = new Sync(true);
 		this.dispatcherWaitTime = dispatcherWaitTime;
 //		this.isSelfThreadPool = isSelfThreadPool;
-		this.waitRound = waitRound;
+//		this.waitRound = waitRound;
 		this.idleCheckDelay = idleCheckDelay;
 		this.idleCheckPeriod = idleCheckPeriod;
 //		this.timeout = timeout;
 	}
 
-	public ConcurrentDispatcher(String serverKey, int poolSize, int maxTaskSizePerThread, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, long idleCheckDelay, long idleCheckPeriod, int waitRound)
+//	public ConcurrentDispatcher(String serverKey, int poolSize, int maxTaskSizePerThread, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, long idleCheckDelay, long idleCheckPeriod, int waitRound)
+	public ConcurrentDispatcher(String serverKey, int poolSize, int maxTaskSizePerThread, ScheduledThreadPoolExecutor scheduler, long dispatcherWaitTime, long idleCheckDelay, long idleCheckPeriod)
 	{
 		/*
 		 * The server key is updated to be identical to the one of CSServer. 03/30/2020, Bing Li
@@ -114,7 +116,7 @@ public abstract class ConcurrentDispatcher implements Runnable, CheckIdleable
 		this.workCollaborator = new Sync(true);
 		this.dispatcherWaitTime = dispatcherWaitTime;
 //		this.isSelfThreadPool = isSelfThreadPool;
-		this.waitRound = waitRound;
+//		this.waitRound = waitRound;
 		this.idleCheckDelay = idleCheckDelay;
 		this.idleCheckPeriod = idleCheckPeriod;
 //		this.timeout = timeout;
@@ -246,11 +248,13 @@ public abstract class ConcurrentDispatcher implements Runnable, CheckIdleable
 	{
 		return this.idleCheckPeriod;
 	}
-	
+
+	/*
 	protected long getWaitRound()
 	{
 		return this.waitRound;
 	}
+	*/
 
 	/*
 	public long getTimeout()

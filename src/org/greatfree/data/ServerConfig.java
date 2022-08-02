@@ -52,7 +52,8 @@ public class ServerConfig
 //	public final static String COORDINATOR_ADDRESS = "192.168.0.117";
 //	public final static String COORDINATOR_ADDRESS = "192.168.1.100";
 //	public final static String COORDINATOR_ADDRESS = "192.168.1.107";
-	public final static String COORDINATOR_ADDRESS = "192.168.3.8";
+//	public final static String COORDINATOR_ADDRESS = "192.168.3.8";
+	public final static String COORDINATOR_ADDRESS = "192.168.1.18";
 //	public final static String COORDINATOR_ADDRESS = "192.168.3.9";
 //	public final static String COORDINATOR_ADDRESS = "127.0.0.1";
 //	public final static String COORDINATOR_ADDRESS = "192.168.88.115";
@@ -67,7 +68,8 @@ public class ServerConfig
 //	public final static String TERMINAL_ADDRESS = "192.168.3.19";
 //	public final static String TERMINAL_ADDRESS = "192.168.88.125";
 //	public final static String TERMINAL_ADDRESS = "127.0.0.1";
-	public final static String TERMINAL_ADDRESS = "192.168.3.4";
+//	public final static String TERMINAL_ADDRESS = "192.168.3.4";
+	public final static String TERMINAL_ADDRESS = "192.168.1.18";
 	public final static int TERMINAL_PORT = 8943;
 	public final static int TERMINAL_ADMIN_PORT = 8942;
 	
@@ -97,7 +99,7 @@ public class ServerConfig
 
 //	public final static int REQUEST_DISPATCHER_POOL_SIZE = 50;
 	public final static int REQUEST_DISPATCHER_POOL_SIZE = 100;
-	public final static long REQUEST_DISPATCHER_THREAD_ALIVE_TIME = 500;
+//	public final static long REQUEST_DISPATCHER_THREAD_ALIVE_TIME = 500;
 //	public final static int REQUEST_QUEUE_SIZE = 500;
 	public final static int REQUEST_QUEUE_SIZE = 20;
 //	public final static int MAX_REQUEST_THREAD_SIZE = 50;
@@ -108,7 +110,7 @@ public class ServerConfig
 	 * The value is for testing the CPU usage. 04/21/2022, Bing Li
 	 */
 //	public final static long REQUEST_DISPATCHER_WAIT_TIME = 1000000000;
-	public final static int REQUEST_DISPATCHER_WAIT_ROUND = 5;
+//	public final static int REQUEST_DISPATCHER_WAIT_ROUND = 5;
 //	public final static long REQUEST_DISPATCHER_IDLE_CHECK_DELAY = 2000;
 	public final static long REQUEST_DISPATCHER_IDLE_CHECK_DELAY = 3000;
 //	public final static long REQUEST_DISPATCHER_IDLE_CHECK_PERIOD = 2000;
@@ -133,7 +135,7 @@ public class ServerConfig
 	 * The value is for testing the CPU usage. 04/21/2022, Bing Li
 	 */
 //	public final static long NOTIFICATION_DISPATCHER_WAIT_TIME = 1000000000;
-	public final static int NOTIFICATION_DISPATCHER_WAIT_ROUND = 5;
+//	public final static int NOTIFICATION_DISPATCHER_WAIT_ROUND = 5;
 	public final static long NOTIFICATION_DISPATCHER_IDLE_CHECK_DELAY = 3000;
 	public final static long NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD = 3000;
 

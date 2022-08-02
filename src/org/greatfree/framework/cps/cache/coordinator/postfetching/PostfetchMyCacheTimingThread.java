@@ -27,7 +27,7 @@ public class PostfetchMyCacheTimingThread extends NotificationObjectQueue<FetchM
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MyTimingDistributedCacheStore.MIDDLESTORE().postfetch(notification);
 					this.disposeObject(notification);
 				}

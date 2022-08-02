@@ -23,7 +23,7 @@ class MapPostfetchThread extends NotificationTaskQueue<ContainerMapPostfetchNoti
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					super.processNotification(notification);
 					super.disposeObject(notification);
 				}

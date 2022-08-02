@@ -27,7 +27,7 @@ public class PostfetchMyPointingMapThread extends NotificationObjectQueue<Postfe
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					MySortedDistributedMap.MIDDLE().postfetch(notification);
 					this.disposeObject(notification);
 				}

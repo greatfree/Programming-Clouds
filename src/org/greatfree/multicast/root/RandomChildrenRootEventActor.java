@@ -14,7 +14,7 @@ class RandomChildrenRootEventActor extends AsyncMulticastor<RandomChildrenMultic
 	}
 
 	@Override
-	public void perform(RandomChildrenMulticastNotification notification)
+	public void notify(RandomChildrenMulticastNotification notification)
 	{
 		try
 		{

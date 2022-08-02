@@ -65,6 +65,11 @@ public final class RemoteReader
 			this.isInitialized.set(true);
 		}
 	}
+	
+	public boolean isInitialized()
+	{
+		return this.isInitialized.get();
+	}
 
 	/*
 	 * Notify that the corresponding ObjectOutputStream is initialized. 11/07/2014, Bing Li

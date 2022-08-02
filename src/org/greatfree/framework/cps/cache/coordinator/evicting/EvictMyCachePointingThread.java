@@ -27,7 +27,7 @@ public class EvictMyCachePointingThread extends NotificationObjectQueue<EvictedN
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					Coordinator.CPS().replicate(notification.getValue());
 					this.disposeObject(notification);
 				}

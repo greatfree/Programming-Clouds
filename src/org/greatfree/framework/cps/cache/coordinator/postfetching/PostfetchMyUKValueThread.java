@@ -27,7 +27,7 @@ public class PostfetchMyUKValueThread extends NotificationObjectQueue<FetchMyUKV
 			{
 				try
 				{
-					notification = this.getNotification();
+					notification = this.dequeue();
 					
 					MyDistributedList.MIDDLE().postfetch(notification);
 					

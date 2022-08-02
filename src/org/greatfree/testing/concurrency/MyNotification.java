@@ -21,5 +21,4 @@ class MyNotification
 	{
 		return this.lastName;
 	}
-
 }

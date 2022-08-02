@@ -12,7 +12,8 @@ public class RegistryConfig
 //	public final static String PEER_REGISTRY_ADDRESS = "192.168.0.100";
 //	public final static String PEER_REGISTRY_ADDRESS = "192.168.0.117";
 //	public final static String PEER_REGISTRY_ADDRESS = "192.168.0.113";
-	public final static String PEER_REGISTRY_ADDRESS = "127.0.0.1";
+//	public final static String PEER_REGISTRY_ADDRESS = "127.0.0.1";
+	public final static String PEER_REGISTRY_ADDRESS = "192.168.1.18";
 //	public final static String PEER_REGISTRY_ADDRESS = "192.168.0.111";
 //	public final static String PEER_REGISTRY_ADDRESS = "192.168.88.105";
 //	public final static String PEER_REGISTRY_ADDRESS = "192.168.2.211";
@@ -44,8 +45,8 @@ public class RegistryConfig
 //	public final static int ASYNC_EVENTER_SIZE = 10;
 	public final static int ASYNC_EVENTER_SIZE = 50;
 	public final static int ASYNC_EVENTING_WAIT_TIME = 1000;
-	public final static int ASYNC_EVENTER_WAIT_TIME = 1000;
-	public final static int ASYNC_EVENTER_WAIT_ROUND = 5;
+	public final static int ASYNC_EVENT_QUEUE_WAIT_TIME = 1000;
+//	public final static int ASYNC_EVENTER_WAIT_ROUND = 5;
 	public final static long ASYNC_EVENT_IDLE_CHECK_DELAY = 3000;
 	public final static long ASYNC_EVENT_IDLE_CHECK_PERIOD = 3000;
 

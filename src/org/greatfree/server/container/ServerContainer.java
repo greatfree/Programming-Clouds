@@ -8,7 +8,7 @@ import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.server.CSServer;
 
 // Created: 12/18/2018, Bing Li
-public final class ServerContainer
+public class ServerContainer
 {
 	private CSServer<CSDispatcher> server;
 	
@@ -19,6 +19,29 @@ public final class ServerContainer
 		this.server = new CSServer.CSServerBuilder<CSDispatcher>()
 				.port(port)
 				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.maxIOCount(ServerConfig.MAX_SERVER_IO_COUNT)
+//				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)
+//				.serverThreadKeepAliveTime(ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME)
+//				.dispatcher(new CSDispatcher(RegistryConfig.DISPATCHER_THREAD_POOL_SIZE, RegistryConfig.DISPATCHER_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME))
+				.dispatcher(csd)
+				.build();
+
+		// Assign the server key to the message dispatchers in the server dispatcher. 03/30/2020, Bing Li
+		csd.init();
+		
+//		System.out.println("ServerContainer-Constructor(): server ID = " + this.server.getID());
+		
+		ServiceProvider.CS().init(this.server.getID(), task);
+	}
+	
+	public ServerContainer(int port, int listenerCount, int maxIOCount, ServerTask task) throws IOException
+	{
+		CSDispatcher csd = new CSDispatcher(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME);
+		
+		this.server = new CSServer.CSServerBuilder<CSDispatcher>()
+				.port(port)
+				.listenerCount(listenerCount)
+				.maxIOCount(maxIOCount)
 //				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)
 //				.serverThreadKeepAliveTime(ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME)
 //				.dispatcher(new CSDispatcher(RegistryConfig.DISPATCHER_THREAD_POOL_SIZE, RegistryConfig.DISPATCHER_THREAD_POOL_KEEP_ALIVE_TIME, RegistryConfig.SCHEDULER_THREAD_POOL_SIZE, RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME))
@@ -42,6 +65,7 @@ public final class ServerContainer
 		this.server = new CSServer.CSServerBuilder<CSDispatcher>()
 				.port(ServerProfile.CS().getPort())
 				.listenerCount(ServerProfile.CS().getListeningThreadCount())
+				.maxIOCount(ServerProfile.CS().getMaxIOCount())
 //				.serverThreadPoolSize(ServerProfile.CS().getServerThreadPoolSize())
 //				.serverThreadKeepAliveTime(ServerProfile.CS().getServerThreadKeepAliveTime())
 				.dispatcher(csd)

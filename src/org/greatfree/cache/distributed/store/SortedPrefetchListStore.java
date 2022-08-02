@@ -64,7 +64,7 @@ public class SortedPrefetchListStore<Value extends Pointing, Factory extends Cac
 				.threadCreator(builder.getThreadCreator())
 				.notificationQueueSize(builder.getMaxTaskSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -99,7 +99,7 @@ public class SortedPrefetchListStore<Value extends Pointing, Factory extends Cac
 		private ThreadCreator creator;
 		private int notificationQueueSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -207,11 +207,13 @@ public class SortedPrefetchListStore<Value extends Pointing, Factory extends Cac
 			return this;
 		}
 
+		/*
 		public PointingPrefetchListStoreBuilder<Value, Factory, CompoundKeyCreator, DescendantComp, Notification, PrefetchThread, ThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public PointingPrefetchListStoreBuilder<Value, Factory, CompoundKeyCreator, DescendantComp, Notification, PrefetchThread, ThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -339,11 +341,13 @@ public class SortedPrefetchListStore<Value extends Pointing, Factory extends Cac
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{

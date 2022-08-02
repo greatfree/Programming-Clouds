@@ -66,7 +66,7 @@ public class DistributedMap<Value extends Serializable, Factory extends CacheMap
 				.threadCreator(builder.getReplicateThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -77,7 +77,7 @@ public class DistributedMap<Value extends Serializable, Factory extends CacheMap
 				.threadCreator(builder.getFetchThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -88,7 +88,7 @@ public class DistributedMap<Value extends Serializable, Factory extends CacheMap
 				.threadCreator(builder.getEvictThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -118,7 +118,7 @@ public class DistributedMap<Value extends Serializable, Factory extends CacheMap
 		private EvictThreadCreator evictCreator;
 		private int notificationQueueSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -201,11 +201,13 @@ public class DistributedMap<Value extends Serializable, Factory extends CacheMap
 			return this;
 		}
 
+		/*
 		public DistributedMapBuilder<Value, Factory, ReplicateThread, ReplicateThreadCreator, PostfetchNotification, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 
 		public DistributedMapBuilder<Value, Factory, ReplicateThread, ReplicateThreadCreator, PostfetchNotification, PostfetchThread, PostfetchThreadCreator, EvictThread, EvictThreadCreator> idleCheckDelay(long idleCheckDelay)
 		{
@@ -302,11 +304,13 @@ public class DistributedMap<Value extends Serializable, Factory extends CacheMap
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{

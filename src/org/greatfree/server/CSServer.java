@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.greatfree.client.ServerIORegistry;
 import org.greatfree.concurrency.Runner;
+import org.greatfree.concurrency.ThreadPool;
+import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.Builder;
@@ -29,6 +30,7 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 	private int port;
 	// The count of listeners. 04/21/2017, Bing Li
 	private final int listenerCount;
+	private final int maxIOCount;
 	// The list keeps all of the threads that listen to connecting from clients of the server. When the server is shutdown, those threads can be killed to avoid possible missing. 08/10/2014, Bing Li
 //	private List<Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>>> listenerRunnerList;
 	private List<Runner<CSListener<Dispatcher>>> listenerRunnerList;
@@ -133,13 +135,63 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 	}
 	*/
 
+	/*
+	 * The constructor is usually used in the children of CSServer to simplify the builder patterns of its children. 06/15/2022, Bing Li
+	 */
+	public CSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher) throws IOException
+	{
+		this.id = dispatcher.getServerKey();
+		this.port = port;
+		
+		/*
+		 * The peer's socket is determined after registry. So the socket cannot be initialized here. 06/24/2022, Bing Li
+		 */
+//		this.socket = new ServerSocket(this.port);
+		if (listenerCount <= 0)
+		{
+			this.listenerCount = ServerConfig.LISTENING_THREAD_COUNT;
+		}
+		else
+		{
+			this.listenerCount = listenerCount;
+		}
+		if (maxIOCount <= 0)
+		{
+			this.maxIOCount = ServerConfig.MAX_SERVER_IO_COUNT;
+		}
+		else
+		{
+			this.maxIOCount = maxIOCount;
+		}
+		this.ioRegistry = new ServerIORegistry<CSServerIO<Dispatcher>>();
+		this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>>>();
+		this.messageProducer = new ServerMessageProducer<Dispatcher>();
+		this.dispatcher = dispatcher;
+		this.isStarted = new AtomicBoolean(false);
+	}
+	
 	public CSServer(CSServerBuilder<Dispatcher> builder) throws IOException
 	{
 //		this.id = Tools.generateUniqueKey();
 		this.id = builder.getDispatcher().getServerKey();
 		this.port = builder.getPort();
 		this.socket = new ServerSocket(this.port);
-		this.listenerCount = builder.getListenerCount();
+		if (builder.getListenerCount() <= 0)
+		{
+			this.listenerCount = ServerConfig.LISTENING_THREAD_COUNT;
+		}
+		else
+		{
+			this.listenerCount = builder.getListenerCount();
+		}
+		if (builder.getMaxIOCount() <= 0)
+		{
+			this.maxIOCount = ServerConfig.MAX_SERVER_IO_COUNT;
+		}
+		else
+		{
+			this.maxIOCount = builder.getMaxIOCount();
+		}
 //		this.listenerThreadPool = builder.getListenerThreadPool();
 //		this.serverThreadPoolSize = builder.getServerThreadPoolSize();
 //		this.serverThreadKeepAliveTime = builder.geServerThreadKeepAliveTime();
@@ -164,6 +216,7 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 		private int port;
 		// The count of listeners. 04/21/2017, Bing Li
 		private int listenerCount;
+		private int maxIOCount;
 		// The thread pool that is employed by server listeners. 04/21/2017, Bing Li
 //		private ThreadPool listenerThreadPool;
 		// The message dispatcher to handle incoming messages concurrently. 04/21/2017, Bing Li
@@ -186,6 +239,12 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 		public CSServerBuilder<Dispatcher> port(int port)
 		{
 			this.port = port;
+			return this;
+		}
+		
+		public CSServerBuilder<Dispatcher> maxIOCount(int maxIOCount)
+		{
+			this.maxIOCount = maxIOCount;
 			return this;
 		}
 		
@@ -260,6 +319,11 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 		{
 			return this.listenerCount;
 		}
+		
+		public int getMaxIOCount()
+		{
+			return this.maxIOCount;
+		}
 
 		/*
 		public ThreadPool getListenerThreadPool()
@@ -317,29 +381,40 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 		return this.id;
 	}
 	
-	/*
-	public int getPort()
+	protected int getPort()
 	{
 		return this.port;
 	}
 
-	public void setPort(int port) throws IOException
+	/*
+	 * The method is used for peers. Their sockets are initialized only after registry. The current project does not use it. The method is invoked in the Book project. 06/24/2022, Bing Li 
+	 */
+	protected void setPort(int port) throws IOException
 	{
+		/*
+		 * Nullify the old one. 06/18/2022, Bing Li
+		 */
+//		this.socket = null;
 		this.port = port;
 		this.socket = new ServerSocket(this.port);
 	}
-	*/
 
 	/*
-	public void setPort() throws IOException
+	 * The method is used for peers. Their sockets are initialized only after registry. The current project does not use it. The method is invoked in the Book project. 06/24/2022, Bing Li 
+	 */
+	protected void setPort() throws IOException
 	{
 		this.socket = new ServerSocket(this.port);
 	}
-	*/
 	
-	public boolean isStarted()
+	protected boolean isStarted()
 	{
 		return this.isStarted.get();
+	}
+	
+	protected ThreadPool getThreadPool()
+	{
+		return this.dispatcher.getThreadPool();
 	}
 	
 	public void start() throws ClassNotFoundException, RemoteReadException, IOException
@@ -365,7 +440,10 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 //			this.listenerRunnerList.add(new Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>>(new CSListener<Dispatcher>(this.socket, SharedThreadPool.SHARED().getPool(), this.messageProducer, this.ioRegistry), disposer, true));
 //			this.listenerRunnerList.add(new Runner<CSListener<Dispatcher>>(new CSListener<Dispatcher>(this.socket, SharedThreadPool.SHARED().getPool(), this.messageProducer, this.ioRegistry), true));
 //			this.listenerRunnerList.add(new Runner<CSListener<Dispatcher>>(new CSListener<Dispatcher>(this.socket, this.pool, this.messageProducer, this.ioRegistry), true));
-			this.listenerRunnerList.add(new Runner<CSListener<Dispatcher>>(new CSListener<Dispatcher>(this.socket, this.dispatcher.getThreadPool(), this.messageProducer, this.ioRegistry), true));
+			/*
+			 * The CSListener shares the thread pool of the dispatcher. Thus, the size of the pool is set upon the consideration of the count of the listeners. 06/03/2022, Bing Li
+			 */
+			this.listenerRunnerList.add(new Runner<CSListener<Dispatcher>>(new CSListener<Dispatcher>(this.socket, this.dispatcher.getThreadPool(), this.messageProducer, this.ioRegistry, this.maxIOCount), true));
 			this.listenerRunnerList.get(i).start();
 		}
 

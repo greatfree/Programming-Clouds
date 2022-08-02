@@ -53,7 +53,7 @@ public class PostfetchTerminalMap<Value extends Serializable, Factory extends Ca
 				.threadCreator(builder.getPostfetchThreadCreator())
 				.notificationQueueSize(builder.getNotificationQueueSize())
 				.dispatcherWaitTime(builder.getDispatcherWaitTime())
-				.waitRound(builder.getWaitRound())
+//				.waitRound(builder.getWaitRound())
 				.idleCheckDelay(builder.getIdleCheckDelay())
 				.idleCheckPeriod(builder.getIdleCheckPeriod())
 				.scheduler(builder.getScheduler())
@@ -83,7 +83,7 @@ public class PostfetchTerminalMap<Value extends Serializable, Factory extends Ca
 		private PostfetchThreadCreator postfetchCreator;
 		private int notificationQueueSize;
 		private long dispatcherWaitTime;
-		private int waitRound;
+//		private int waitRound;
 		private long idleCheckDelay;
 		private long idleCheckPeriod;
 		private ScheduledThreadPoolExecutor scheduler;
@@ -156,12 +156,14 @@ public class PostfetchTerminalMap<Value extends Serializable, Factory extends Ca
 			this.dispatcherWaitTime = dispatcherWaitTime;
 			return this;
 		}
-		
+
+		/*
 		public PostfetchTerminalMapBuilder<Value, Factory,  Notification, PostfetchThread, PostfetchThreadCreator, DB> waitRound(int waitRound)
 		{
 			this.waitRound = waitRound;
 			return this;
 		}
+		*/
 		
 		public PostfetchTerminalMapBuilder<Value, Factory,  Notification, PostfetchThread, PostfetchThreadCreator, DB> idleCheckDelay(long idleCheckDelay)
 		{
@@ -260,11 +262,13 @@ public class PostfetchTerminalMap<Value extends Serializable, Factory extends Ca
 		{
 			return this.dispatcherWaitTime;
 		}
-		
+
+		/*
 		public int getWaitRound()
 		{
 			return this.waitRound;
 		}
+		*/
 		
 		public long getIdleCheckDelay()
 		{
