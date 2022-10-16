@@ -8,7 +8,6 @@ import org.greatfree.client.RemoteReader;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
-import org.greatfree.util.NodeID;
 
 // Created: 08/14/2018, Bing Li
 public class BusinessReader
@@ -43,13 +42,14 @@ public class BusinessReader
 	/*
 	 * Shutdown the remote reader. 11/23/2014, Bing Li
 	 */
-	public void shutdown() throws IOException
+	public void shutdown() throws IOException, ClassNotFoundException
 	{
 		RemoteReader.REMOTE().shutdown();
 	}
 	
 	public MerchandiseResponse query(String query) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		return (MerchandiseResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.COORDINATOR_ADDRESS, ServerConfig.COORDINATOR_PORT, new MerchandiseRequest(query)));
+//		return (MerchandiseResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.COORDINATOR_ADDRESS, ServerConfig.COORDINATOR_PORT, new MerchandiseRequest(query)));
+		return (MerchandiseResponse)(RemoteReader.REMOTE().read(ServerConfig.COORDINATOR_ADDRESS, ServerConfig.COORDINATOR_PORT, new MerchandiseRequest(query)));
 	}
 }

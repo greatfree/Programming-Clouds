@@ -22,9 +22,9 @@ import org.greatfree.message.SystemMessageType;
 import org.greatfree.message.UnregisterPeerRequest;
 import org.greatfree.message.UnregisterPeerResponse;
 import org.greatfree.message.UnregisterPeerStream;
-import org.greatfree.message.multicast.PrimitiveClusterIPRequest;
+import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
-import org.greatfree.message.multicast.PrimitiveClusterIPStream;
+import org.greatfree.message.multicast.ClusterIPStream;
 import org.greatfree.server.MessageStream;
 import org.greatfree.server.ServerDispatcher;
 
@@ -47,7 +47,7 @@ class PeerRegistryDispatcher extends ServerDispatcher<ServerMessage>
 	private RequestDispatcher<PortRequest, PortStream, PortResponse, PortRequestThread, PortRequestThreadCreator> portRequestDispatcher;
 
 	// Declare a request dispatcher to respond IP addresses of the cluster requests concurrently. 04/17/2017, Bing Li
-	private RequestDispatcher<PrimitiveClusterIPRequest, PrimitiveClusterIPStream, ClusterIPResponse, ClusterIPRequestThread, ClusterIPRequestThreadCreator> clusterIPRequestDispatcher;
+	private RequestDispatcher<ClusterIPRequest, ClusterIPStream, ClusterIPResponse, ClusterIPRequestThread, ClusterIPRequestThreadCreator> clusterIPRequestDispatcher;
 
 	private RequestDispatcher<PeerAddressRequest, PeerAddressStream, PeerAddressResponse, PeerAddressRequestThread, PeerAddressRequestThreadCreator> peerIPRequestDispatcher;
 
@@ -91,7 +91,7 @@ class PeerRegistryDispatcher extends ServerDispatcher<ServerMessage>
 				.scheduler(super.getScheduler())
 				.build();
 
-		this.clusterIPRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<PrimitiveClusterIPRequest, PrimitiveClusterIPStream, ClusterIPResponse, ClusterIPRequestThread, ClusterIPRequestThreadCreator>()
+		this.clusterIPRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<ClusterIPRequest, ClusterIPStream, ClusterIPResponse, ClusterIPRequestThread, ClusterIPRequestThreadCreator>()
 				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
 //				.keepAliveTime(ServerConfig.REQUEST_DISPATCHER_THREAD_ALIVE_TIME)
 //				.threadPool(SharedThreadPool.SHARED().getPool())
@@ -199,7 +199,7 @@ class PeerRegistryDispatcher extends ServerDispatcher<ServerMessage>
 					super.execute(this.clusterIPRequestDispatcher);
 				}
 				// Enqueue the request into the dispatcher for concurrent responding. 04/17/2017, Bing Li
-				this.clusterIPRequestDispatcher.enqueue(new PrimitiveClusterIPStream(message.getOutStream(), message.getLock(), (PrimitiveClusterIPRequest) message.getMessage()));
+				this.clusterIPRequestDispatcher.enqueue(new ClusterIPStream(message.getOutStream(), message.getLock(), (ClusterIPRequest) message.getMessage()));
 				break;
 				
 			case SystemMessageType.PEER_ADDRESS_REQUEST:
@@ -215,7 +215,7 @@ class PeerRegistryDispatcher extends ServerDispatcher<ServerMessage>
 				break;
 				
 			case ClusterMessageType.IS_ROOT_ONLINE_REQUEST:
-				System.out.println("PEER_ADDRESS_REQUEST received @" + Calendar.getInstance().getTime());
+				System.out.println("IS_ROOT_ONLINE_REQUEST received @" + Calendar.getInstance().getTime());
 				// Check whether the port request dispatcher is ready. 04/17/2017, Bing Li
 				if (!this.isRootOnlineRequestDispatcher.isReady())
 				{

@@ -56,7 +56,7 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 	// The FreeClientPool that is used to initialize eventers. It must be shared with others. 11/20/2014, Bing Li
 	private FreeClientPool clientPool;
 	// The time to be waited when no notifications are available in each eventer. 11/20/2014, Bing Li
-	private final long eventQueueWaitTime;
+	private final long eventerQueueWaitTime;
 	// The delay time before a periodical idle-checking is started. 01/20/2016, Bing Li
 	private final long idleCheckDelay;
 	// The idle-checking period. 01/20/2016, Bing Li
@@ -156,7 +156,7 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 		this.collaborator = new Sync(true);
 		this.eventingWaitTime = builder.getEventingWaitTime();
 		this.clientPool = builder.getClientPool();
-		this.eventQueueWaitTime = builder.getEventQueueWaitTime();
+		this.eventerQueueWaitTime = builder.getEventQueueWaitTime();
 //		this.waitRound = builder.getWaitRound();
 		this.idleCheckDelay = builder.getIdleCheckDelay();
 		this.idleCheckPeriod = builder.getIdleCheckPeriod();
@@ -705,7 +705,7 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 										if (this.eventers.size() < this.eventerSize)
 										{
 											// Create a new eventer. 11/20/2014, Bing Li
-											Eventer<Notification> thread = new Eventer<Notification>(this.eventQueueSize, this.eventQueueWaitTime, this.clientPool);
+											Eventer<Notification> thread = new Eventer<Notification>(this.eventQueueSize, this.eventerQueueWaitTime, this.clientPool);
 											// Create an instance of Runner. 05/20/2018, Bing Li
 											runner = new Runner<Eventer<Notification>>(thread);
 											// Start the runner. 05/20/2018, Bing Li
@@ -744,7 +744,7 @@ public class AsyncRemoteEventer<Notification extends ServerMessage> extends Thre
 					if (this.eventers.size() <= 0)
 					{
 						// Create a new eventer. 11/20/2014, Bing Li
-						Eventer<Notification> thread = new Eventer<Notification>(this.eventQueueSize, this.eventQueueWaitTime, this.clientPool);
+						Eventer<Notification> thread = new Eventer<Notification>(this.eventQueueSize, this.eventerQueueWaitTime, this.clientPool);
 						// Create an instance of Runner. 05/20/2018, Bing Li
 						runner = new Runner<Eventer<Notification>>(thread);
 						// Start the runner. 05/20/2018, Bing Li

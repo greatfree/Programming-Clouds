@@ -88,7 +88,7 @@ class FrontEventer
 		}
 	}
 
-	public void dispose(long timeout) throws IOException
+	public void dispose(long timeout) throws IOException, ClassNotFoundException
 	{
 		this.fronter.dispose();
 		this.saveMyDataEventer.dispose();

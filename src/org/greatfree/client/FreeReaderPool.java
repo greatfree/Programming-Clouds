@@ -435,7 +435,7 @@ public class FreeReaderPool
 	/*
 	 * Check whether a particular IPPort is available by the IPPort itself. 11/06/2014, Bing Li
 	 */
-	public boolean IsSourceExisted(IPResource source)
+	public boolean isSourceExisted(IPResource source)
 	{
 		this.rscLock.lock();
 		try
@@ -497,7 +497,7 @@ public class FreeReaderPool
 	{
 		this.initReadCollaborator.signal();
 	}
-	
+
 	/*
 	 * Get the instance of FreeClient by the IP/port of the remote server. The argument, nodeKey, is used to notify the remote server to retrieve the client to the local end such that the feedback can be sent. 11/06/2014, Bing Li
 	 */
@@ -589,7 +589,7 @@ public class FreeReaderPool
 					if (busyResourceCount + idleResourceCount < this.poolSize)
 					{
 						// If the upper limit of the pool is not reached, it is time to create an instance of FreeClient by its IPPort. 11/06/2014, Bing Li
-						client = this.creator.createResourceInstance(src);
+						client = this.creator.createClientInstance(src);
 						// Check whether the newly created instance of FreeClient is valid. 11/06/2014, Bing Li
 						if (client != null)
 						{
@@ -610,7 +610,8 @@ public class FreeReaderPool
 						}
 
 						// The line sends a message to the remote server. If it receives the message and send a feedback, it indicates that the ObjectOutputStream is initialized on the server. Then, the local ObjectInputStream can be initialized. It avoids the possible getting blocked. 11/06/2014, Bing Li
-						client.initRead(nodeKey);
+//						client.initRead(nodeKey);
+						client.initRead();
 						// Wait for feedback from the remote server. 11/06/2014, Bing Li
 						this.initReadCollaborator.holdOn(UtilConfig.INIT_READ_WAIT_TIME);
 						// After the feedback is received, the ObjectInputStream can be initialized. 11/06/2014, Bing Li
@@ -748,7 +749,7 @@ public class FreeReaderPool
 							if (busyResourceCount + idleResourceCount < this.poolSize)
 							{
 								// If the upper limit of the pool is not reached, it is time to create an instance of FreeClient by its IPPort. 11/06/2014, Bing Li
-								client = this.creator.createResourceInstance(src);
+								client = this.creator.createClientInstance(src);
 								// Check whether the newly created instance of FreeClient is valid. 11/06/2014, Bing Li
 								if (client != null)
 								{
@@ -767,7 +768,8 @@ public class FreeReaderPool
 								}
 
 								// The line sends a message to the remote server. If it receives the message, it indicates that the ObjectOutputStream is initialized on the server. Then, the local ObjectInputStream can be initialized. It avoids the possible getting blocked. 11/06/2014, Bing Li
-								client.initRead(nodeKey);
+//								client.initRead(nodeKey);
+								client.initRead();
 								// Wait for feedback from the remote server. 11/06/2014, Bing Li
 								this.initReadCollaborator.holdOn(UtilConfig.INIT_READ_WAIT_TIME);
 								// After the feedback is received, the ObjectInputStream can be initialized. 11/06/2014, Bing Li
@@ -799,10 +801,10 @@ public class FreeReaderPool
 				}
 				else
 				{
-					return UtilConfig.NO_CLIENT;
+					return ClientConfig.NO_CLIENT;
 				}
 			}
 		}
-		return UtilConfig.NO_CLIENT;
+		return ClientConfig.NO_CLIENT;
 	}
 }

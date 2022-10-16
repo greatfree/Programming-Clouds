@@ -10,7 +10,7 @@ import org.greatfree.exceptions.RemoteReadException;
 public class StartBusinessClient
 {
 
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws IOException, ClassNotFoundException
 	{
 		BusinessReader.RR().init();
 		BusinessEventer.RE().init();

@@ -9,7 +9,6 @@ import org.greatfree.exceptions.FutureExceptionHandler;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.Builder;
-import org.greatfree.util.NodeID;
 
 /**
  * 
@@ -354,7 +353,7 @@ public class CSClient
 		}
 	}
 
-	public void dispose() throws IOException, InterruptedException
+	public void dispose() throws InterruptedException
 	{
 		if (this.clientPool != null)
 		{
@@ -406,7 +405,8 @@ public class CSClient
 	 */
 	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		return RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ip, port, request);
+//		return RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ip, port, request);
+		return RemoteReader.REMOTE().read(ip, port, request);
 	}
 	
 	public Future<ServerMessage> futureRead(String ip, int port, ServerMessage request)
@@ -419,7 +419,8 @@ public class CSClient
 
 	public ServerMessage read(String ip, int port, ServerMessage request, int timeout) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		return RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ip, port, request, timeout);
+//		return RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ip, port, request, timeout);
+		return RemoteReader.REMOTE().read(ip, port, request, timeout);
 	}
 
 	public Future<ServerMessage> futureRead(String ip, int port, ServerMessage request, int timeout)

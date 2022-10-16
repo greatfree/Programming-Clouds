@@ -43,7 +43,7 @@ class RootSyncMulticastor
 		this.treeBranchCount = treeBranchCount;
 	}
 
-	public void dispose() throws IOException, InterruptedException
+	public void dispose() throws IOException, InterruptedException, ClassNotFoundException
 	{
 		// Dispose the synchronous eventer
 		this.eventer.dispose();

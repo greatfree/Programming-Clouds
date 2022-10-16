@@ -34,7 +34,7 @@ class RootCSClient<Notification extends MulticastNotification, Request extends M
 		this.reader = new RootMulticastReader<Request, Response>(new SyncRemoteEventer<Request>(builder.getClientPool()), builder.getRootBranchCount(), builder.getTreeBranchCount(), builder.getWaitTime());
 	}
 	
-	public void dispose() throws IOException
+	public void dispose() throws IOException, ClassNotFoundException
 	{
 //		this.clientPool.dispose();
 		this.eventer.dispose();

@@ -10,7 +10,7 @@ import org.greatfree.exceptions.RemoteReadException;
 class StartCrawler
 {
 
-	public static void main(String[] args) throws InterruptedException, IOException
+	public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException
 	{
 		System.out.println("Crawler starting up ...");
 

@@ -26,7 +26,7 @@ public class RootClient
 		this.reader = new RootReader(this.multicastor, waitTime, pool);
 	}
 	
-	public void close() throws InterruptedException, IOException
+	public void close() throws InterruptedException, IOException, ClassNotFoundException
 	{
 		this.multicastor.dispose();
 		this.eventer.dispose();

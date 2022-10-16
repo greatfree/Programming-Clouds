@@ -38,7 +38,7 @@ public class BusinessEventer
 		}
 	}
 
-	public void dispose(long timeout) throws IOException
+	public void dispose(long timeout) throws IOException, ClassNotFoundException
 	{
 		this.fronter.dispose();
 		this.clientPool.dispose();

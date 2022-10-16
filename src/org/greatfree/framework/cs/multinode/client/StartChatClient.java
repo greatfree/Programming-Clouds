@@ -21,7 +21,7 @@ class StartChatClient
 	/*
 	 * The starting point of the chatting client. 09/21/2014, Bing Li
 	 */
-	public static void main(String[] args) throws InterruptedException, IOException
+	public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException
 	{
 		// Initialize the option which represents a user's intents of operations. 09/21/2014, Bing Li
 		int option = MenuOptions.NO_OPTION;

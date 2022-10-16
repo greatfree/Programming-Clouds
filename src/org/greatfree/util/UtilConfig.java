@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 
-import org.greatfree.client.FreeClient;
 import org.greatfree.concurrency.mapreduce.Sequence;
 import org.greatfree.server.PeerAccount;
 import org.w3c.dom.NodeList;
@@ -50,8 +49,6 @@ public class UtilConfig
 
 	public final static String NO_DIR = "";
 	
-	public final static FreeClient NO_CLIENT = null;
-
 	public final static String NO_QUEUE_KEY = "";
 	public final static int NO_QUEUE_SIZE = -1;
 	public final static int NO_STACK_SIZE = -1;

@@ -62,7 +62,7 @@ class ChatAdminEventer
 	/*
 	 * Dispose the eventer. 11/27/2014, Bing Li
 	 */
-	public void dispose(long timeout) throws InterruptedException, IOException
+	public void dispose(long timeout) throws InterruptedException, IOException, ClassNotFoundException
 	{
 		// Shutdown the client pool. 05/26/2017, Bing Li
 		this.clientPool.dispose();

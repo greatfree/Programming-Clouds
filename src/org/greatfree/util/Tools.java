@@ -48,6 +48,16 @@ public final class Tools
 	{
 		return UUID.randomUUID().toString();
 	}
+	
+	public static Set<String> generateUniqueKeys(int count)
+	{
+		Set<String> keys = Sets.newHashSet();
+		for (int i = 0; i < count; i++)
+		{
+			keys.add(generateUniqueKey());
+		}
+		return keys;
+	}
 
 	/*
 	 * Create a hash string upon the input string. 07/30/2014, Bing Li
@@ -68,7 +78,12 @@ public final class Tools
 			return UtilConfig.EMPTY_STRING;
 		}
 	}
-
+	
+	public static String getNodeKey(String nodeName)
+	{
+		return getHash(nodeName);
+	}
+	
 	private static String byteArrayToHex(byte[] a)
 	{
 		int hn, ln, cx;

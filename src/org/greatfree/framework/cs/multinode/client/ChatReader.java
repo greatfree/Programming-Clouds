@@ -15,7 +15,6 @@ import org.greatfree.framework.cs.multinode.message.PollNewChatsRequest;
 import org.greatfree.framework.cs.multinode.message.PollNewChatsResponse;
 import org.greatfree.framework.cs.multinode.message.PollNewSessionsRequest;
 import org.greatfree.framework.cs.multinode.message.PollNewSessionsResponse;
-import org.greatfree.util.NodeID;
 
 /*
  * The class wraps the class, RemoteReader, to send requests to the remote server and wait until relevant responses are received. 04/23/2017, Bing Li
@@ -57,7 +56,7 @@ class ChatReader
 	/*
 	 * Shutdown the remote reader. 11/23/2014, Bing Li
 	 */
-	public void shutdown() throws IOException
+	public void shutdown() throws IOException, ClassNotFoundException
 	{
 		/*
 		try
@@ -80,7 +79,7 @@ class ChatReader
 		try
 		{
 //			String userKey = Tools.getHash(userName);
-			return (ChatRegistryResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatRegistryRequest(userKey, userName, description)));
+			return (ChatRegistryResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatRegistryRequest(userKey, userName, description)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -96,7 +95,7 @@ class ChatReader
 	{
 		try
 		{
-			return (ChatPartnerResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatPartnerRequest(userKey)));
+			return (ChatPartnerResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatPartnerRequest(userKey)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -112,7 +111,7 @@ class ChatReader
 	{
 		try
 		{
-			return (PollNewSessionsResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new PollNewSessionsRequest(receiverKey, receiverName)));
+			return (PollNewSessionsResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new PollNewSessionsRequest(receiverKey, receiverName)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -131,7 +130,7 @@ class ChatReader
 		try
 		{
 //			System.out.println("1) checkNewChats starting .."); 
-			return (PollNewChatsResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new PollNewChatsRequest(sessionKey, receiverKey, receiverName)));
+			return (PollNewChatsResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new PollNewChatsRequest(sessionKey, receiverKey, receiverName)));
 //			ServerMessage msg = RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new PollNewChatsRequest(sessionKey, receiverKey, username));
 			
 //			System.out.println("1) checkNewChats: msg Received ...");

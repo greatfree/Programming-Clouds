@@ -1,7 +1,5 @@
 package org.greatfree.testing.coordinator.crawling;
 
-import java.io.IOException;
-
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.testing.coordinator.CoorConfig;
 
@@ -42,14 +40,7 @@ public class CrawlServerClientPool
 	 */
 	public void dispose()
 	{
-		try
-		{
-			this.clientPool.dispose();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		this.clientPool.dispose();
 	}
 	
 	/*

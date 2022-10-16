@@ -99,4 +99,10 @@ final public class SystemMessageType
 	
 	public final static int POLL_SERVER_STATUS_REQUEST = 118;
 	public final static int POLL_SERVER_STATUS_RESPONSE = 119;
+	
+	public final static int LEAVE_REQUEST = 120;
+	public final static int LEAVE_RESPONSE = 121;
+	
+	public final static int MULTICAST_CHILDREN_REQUEST = 122;
+	public final static int MULTICAST_CHILDREN_RESPONSE = 123;
 }

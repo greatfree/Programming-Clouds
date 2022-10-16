@@ -56,10 +56,16 @@ public class AccountRegistry
 	
 	public void add(PeerChatAccount account)
 	{
+		/*
+		 * Since the registry is managed by the internal system, it is safe to overwrite existing ones. The method is also called by low-level peer registry to simplify registry of the multicasting children. 10/14/2022, Bing Li
+		 */
+		this.accounts.put(account.getUserKey(), account);
+		/*
 		if (!this.accounts.containsKey(account.getUserKey()))
 		{
 			this.accounts.put(account.getUserKey(), account);
 		}
+		*/
 	}
 
 	public Collection<PeerChatAccount> getAllAccounts()

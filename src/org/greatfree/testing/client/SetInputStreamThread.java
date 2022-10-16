@@ -1,6 +1,5 @@
 package org.greatfree.testing.client;
 
-import org.greatfree.client.RemoteReader;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.message.InitReadFeedbackNotification;
@@ -36,7 +35,7 @@ public class SetInputStreamThread extends NotificationQueue<InitReadFeedbackNoti
 					// Dequeue the notification. 11/07/2014, Bing Li
 					notification = this.dequeue();
 					// Notify the instance of FreeClient that it is time to initialize the ObjectInputStream. 11/07/2014, Bing Li
-					RemoteReader.REMOTE().notifyOutStreamDone();
+//					RemoteReader.REMOTE().notifyOutStreamDone();
 					// Dispose the notification. 11/07/2014, Bing Li
 					this.disposeMessage(notification);
 				}

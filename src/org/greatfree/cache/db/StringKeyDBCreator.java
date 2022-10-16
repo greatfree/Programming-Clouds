@@ -9,7 +9,7 @@ public class StringKeyDBCreator implements Creatable<String, StringKeyDB>
 {
 
 	@Override
-	public StringKeyDB createResourceInstance(String source) throws IOException
+	public StringKeyDB createClientInstance(String source) throws IOException
 	{
 		return new StringKeyDB(source);
 	}

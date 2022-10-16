@@ -40,7 +40,7 @@ class RootMulticastEventer<Notification extends MulticastNotification>
 		this.treeBranchCount = treeBranchCount;
 	}
 	
-	public void dispose() throws IOException
+	public void dispose() throws IOException, ClassNotFoundException
 	{
 		this.eventer.dispose();
 	}

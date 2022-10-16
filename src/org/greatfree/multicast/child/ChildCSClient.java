@@ -20,7 +20,7 @@ class ChildCSClient<Notification extends MulticastNotification, Request extends 
 		this.reader = new ChildMulticastReader<Request>(builder.getLocalIPKey(), new SyncRemoteEventer<Request>(builder.getClientPool()), builder.getTreeBranchCount());
 	}
 	
-	public void dispose() throws IOException
+	public void dispose() throws IOException, ClassNotFoundException
 	{
 		this.eventer.dispose();
 		this.reader.dispose();

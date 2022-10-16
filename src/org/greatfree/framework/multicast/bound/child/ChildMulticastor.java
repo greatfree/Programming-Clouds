@@ -36,7 +36,7 @@ public class ChildMulticastor
 		}
 	}
 
-	public void stop() throws IOException, InterruptedException
+	public void stop() throws IOException, InterruptedException, ClassNotFoundException
 	{
 //		this.eventer.dispose();
 //		this.reader.dispose();

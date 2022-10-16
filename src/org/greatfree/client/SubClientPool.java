@@ -1,7 +1,5 @@
 package org.greatfree.client;
 
-import java.io.IOException;
-
 import org.greatfree.data.ClientConfig;
 
 /*
@@ -41,14 +39,7 @@ public class SubClientPool
 	 */
 	public void dispose()
 	{
-		try
-		{
-			this.clientPool.dispose();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		this.clientPool.dispose();
 	}
 	
 	/*

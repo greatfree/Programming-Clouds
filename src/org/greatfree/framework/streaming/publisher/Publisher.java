@@ -45,7 +45,7 @@ class Publisher
 		}
 	}
 
-	public void dispose() throws IOException, InterruptedException
+	public void dispose() throws IOException, InterruptedException, ClassNotFoundException
 	{
 		this.client.dispose();
 	}

@@ -10,7 +10,6 @@ import org.greatfree.testing.message.IsPublisherExistedRequest;
 import org.greatfree.testing.message.IsPublisherExistedResponse;
 import org.greatfree.testing.message.SearchKeywordRequest;
 import org.greatfree.testing.message.SearchKeywordResponse;
-import org.greatfree.util.NodeID;
 
 /*
  * The class wraps the class, RemoteReader, to send search requests to the remote server and wait until search results are received. 11/29/2014, Bing Li
@@ -23,7 +22,7 @@ public class SearchReader
 	{
 		try
 		{
-			return ((IsPublisherExistedResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.COORDINATOR_ADDRESS, ServerConfig.COORDINATOR_PORT_FOR_SEARCH, new IsPublisherExistedRequest(url)))).isExisted();
+			return ((IsPublisherExistedResponse)(RemoteReader.REMOTE().read(ServerConfig.COORDINATOR_ADDRESS, ServerConfig.COORDINATOR_PORT_FOR_SEARCH, new IsPublisherExistedRequest(url)))).isExisted();
 		}
 		catch (RemoteReadException e)
 		{
@@ -44,7 +43,7 @@ public class SearchReader
 	{
 		try
 		{
-			return ((SearchKeywordResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.COORDINATOR_ADDRESS, ServerConfig.COORDINATOR_PORT_FOR_SEARCH, new SearchKeywordRequest(keyword)))).getLinks();
+			return ((SearchKeywordResponse)(RemoteReader.REMOTE().read(ServerConfig.COORDINATOR_ADDRESS, ServerConfig.COORDINATOR_PORT_FOR_SEARCH, new SearchKeywordRequest(keyword)))).getLinks();
 		}
 		catch (RemoteReadException e)
 		{

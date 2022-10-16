@@ -12,8 +12,8 @@ import org.greatfree.message.SystemMessageType;
 import org.greatfree.server.InitReadFeedbackThread;
 import org.greatfree.server.InitReadFeedbackThreadCreator;
 import org.greatfree.server.MessageStream;
-import org.greatfree.server.RegisterClientThread;
-import org.greatfree.server.RegisterClientThreadCreator;
+import org.greatfree.testing.cluster.coordinator.client.RegisterClientThread;
+import org.greatfree.testing.cluster.coordinator.client.RegisterClientThreadCreator;
 import org.greatfree.testing.message.MessageType;
 import org.greatfree.testing.message.RegisterClientNotification;
 

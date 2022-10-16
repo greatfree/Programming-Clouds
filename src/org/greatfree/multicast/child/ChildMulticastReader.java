@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.greatfree.client.IPResource;
 import org.greatfree.client.SyncRemoteEventer;
 import org.greatfree.message.multicast.MulticastRequest;
 import org.greatfree.multicast.Tree;
@@ -31,7 +30,7 @@ class ChildMulticastReader<Request extends MulticastRequest>
 		this.treeBranchCount = treeBranchCount;
 	}
 	
-	public void dispose() throws IOException
+	public void dispose() throws IOException, ClassNotFoundException
 	{
 		this.eventer.dispose();
 	}
@@ -100,7 +99,8 @@ class ChildMulticastReader<Request extends MulticastRequest>
 //									this.eventer.notify(new IPPort(request.getIP(childrenKey)), request);
 									IPAddress ip = childrenFromRoot.get(childrenKey);
 //									this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), request);
-									this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
+//									this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
+									this.eventer.notify(ip.getIP(), ip.getPort(), request);
 									// Jump out the loop after sending the message successfully. 11/11/2014, Bing Li
 									break;
 								}
@@ -142,7 +142,8 @@ class ChildMulticastReader<Request extends MulticastRequest>
 //							this.eventer.notify(new IPPort(request.getIP(childrenKey)), request);
 							IPAddress ip = childrenFromRoot.get(childrenKey);
 //							this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), request);
-							this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
+//							this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
+							this.eventer.notify(ip.getIP(), ip.getPort(), request);
 						}
 						catch (IOException e)
 						{
@@ -175,7 +176,8 @@ class ChildMulticastReader<Request extends MulticastRequest>
 							// Send the message to the immediate node of the local node. 11/11/2014, Bing Li
 //							this.clientPool.send(new IPPort(request.getIP(entry.getKey())), request);
 //							this.eventer.notify(new IPResource(entry.getValue().getPeerKey(), entry.getValue().getPeerName(), entry.getValue().getIP(), entry.getValue().getPort()), request);
-							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), request);
+//							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), request);
+							this.eventer.notify(entry.getValue().getIP(), entry.getValue().getPort(), request);
 						}
 						catch (IOException e)
 						{

@@ -105,7 +105,7 @@ public class StartChatClient
 			// Dispose the chatting eventer. 05/25/2017, Bing Li
 			ChatEventer.RE().dispose(RegistryConfig.THREAD_POOL_SHUTDOWN_TIMEOUT);
 		}
-		catch (InterruptedException | IOException e)
+		catch (InterruptedException | IOException | ClassNotFoundException e)
 		{
 			ServerStatus.FREE().printException(e);
 		}

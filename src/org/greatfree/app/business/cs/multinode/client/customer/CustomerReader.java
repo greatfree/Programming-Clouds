@@ -15,8 +15,6 @@ import org.greatfree.chat.message.cs.business.CheckSalesResponse;
 import org.greatfree.client.RemoteReader;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.exceptions.RemoteReadException;
-import org.greatfree.util.NodeID;
-import org.greatfree.util.ServerStatus;
 
 /*
  * This is the reader that is employed by the customer to carry out the sales. It is implemented over the mature DIP of the C/S Chatting. 12/20/2017, Bing Li
@@ -60,14 +58,7 @@ public class CustomerReader
 	 */
 	public void shutdown()
 	{
-		try
-		{
-			RemoteReader.REMOTE().shutdown();
-		}
-		catch (IOException e)
-		{
-			ServerStatus.FREE().printException(e);
-		}
+		RemoteReader.REMOTE().shutdown();
 	}
 
 	/*
@@ -77,7 +68,8 @@ public class CustomerReader
 	{
 		try
 		{
-			return (CheckMerchandiseResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckMerchandiseRequest(vendorKey)));
+//			return (CheckMerchandiseResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckMerchandiseRequest(vendorKey)));
+			return (CheckMerchandiseResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckMerchandiseRequest(vendorKey)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -93,7 +85,8 @@ public class CustomerReader
 	{
 		try
 		{
-			return (CheckSalesResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckSalesRequest()));
+//			return (CheckSalesResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckSalesRequest()));
+			return (CheckSalesResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckSalesRequest()));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -109,7 +102,8 @@ public class CustomerReader
 	{
 		try
 		{
-			return (CheckCartResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckCartRequest(customerKey, vendorKey)));
+//			return (CheckCartResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckCartRequest(customerKey, vendorKey)));
+			return (CheckCartResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckCartRequest(customerKey, vendorKey)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -125,7 +119,8 @@ public class CustomerReader
 	{
 		try
 		{
-			return (CheckCustomerTransactionResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckCustomerTransactionRequest(customerKey)));
+//			return (CheckCustomerTransactionResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckCustomerTransactionRequest(customerKey)));
+			return (CheckCustomerTransactionResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new CheckCustomerTransactionRequest(customerKey)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{

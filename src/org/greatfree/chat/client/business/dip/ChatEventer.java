@@ -51,7 +51,7 @@ public class ChatEventer
 		}
 	}
 	
-	public void dispose(long timeout) throws InterruptedException, IOException
+	public void dispose(long timeout) throws InterruptedException, IOException, ClassNotFoundException
 	{
 		// Shutdown the client pool. 05/26/2017, Bing Li
 //		ChatClientPool.CLIENT().dispose();

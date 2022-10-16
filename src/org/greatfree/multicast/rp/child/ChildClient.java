@@ -24,7 +24,7 @@ public class ChildClient
 		this.reader = new ChildReader(this.multicastor, waitTime, pool);
 	}
 
-	public void close() throws IOException, InterruptedException
+	public void close() throws IOException, InterruptedException, ClassNotFoundException
 	{
 		this.multicastor.dispose();
 		this.eventer.dispose();

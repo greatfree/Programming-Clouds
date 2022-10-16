@@ -2,7 +2,6 @@ package org.greatfree.framework.container.p2p.registry;
 
 import java.io.IOException;
 
-import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.util.TerminateSignal;
@@ -13,7 +12,7 @@ class StartRegistryServer
 
 	public static void main(String[] args)
 	{
-		System.out.println("Registry server starting up ...");
+		System.out.println("Chatting registry server starting up ...");
 
 		try
 		{
@@ -24,9 +23,10 @@ class StartRegistryServer
 			e.printStackTrace();
 		}
 		
-		System.out.println("Registry server started ...");
+		System.out.println("Chatting registry server started ...");
 
 		// After the server is started, the loop check whether the flag of terminating is set. If the terminating flag is true, the process is ended. Otherwise, the process keeps running. 08/22/2014, Bing Li
+		/*
 		while (!TerminateSignal.SIGNAL().isTerminated())
 		{
 			try
@@ -39,6 +39,8 @@ class StartRegistryServer
 				e.printStackTrace();
 			}
 		}
+		*/
+		TerminateSignal.SIGNAL().waitTermination();
 	}
 
 }

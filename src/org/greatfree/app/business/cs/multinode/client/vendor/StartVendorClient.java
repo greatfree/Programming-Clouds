@@ -64,7 +64,7 @@ public class StartVendorClient
 			// Dispose the vendor eventer. 05/25/2017, Bing Li
 			VendorEventer.VE().dispose(RegistryConfig.THREAD_POOL_SHUTDOWN_TIMEOUT);
 		}
-		catch (InterruptedException | IOException e)
+		catch (InterruptedException | IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}

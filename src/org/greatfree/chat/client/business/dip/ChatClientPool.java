@@ -1,7 +1,5 @@
 package org.greatfree.chat.client.business.dip;
 
-import java.io.IOException;
-
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.framework.p2p.RegistryConfig;
 
@@ -42,14 +40,7 @@ public class ChatClientPool
 	 */
 	public void dispose()
 	{
-		try
-		{
-			this.pool.dispose();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		this.pool.dispose();
 	}
 
 	/*

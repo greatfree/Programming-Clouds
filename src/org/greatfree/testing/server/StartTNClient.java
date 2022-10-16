@@ -15,7 +15,7 @@ import org.greatfree.util.Rand;
 class StartTNClient
 {
 
-	public static void main(String[] args) throws IOException, InterruptedException
+	public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException
 	{
 		Scanner in = new Scanner(System.in);
 

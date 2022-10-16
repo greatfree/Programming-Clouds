@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.greatfree.client.FreeClientPool;
-import org.greatfree.client.IPResource;
 import org.greatfree.client.SyncRemoteEventer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.framework.multicast.rp.child.ChildPeer;
@@ -43,7 +42,7 @@ class ChildSyncMulticastor
 		this.treeBranchCount = treeBranchCount;
 	}
 	
-	public void dispose() throws IOException
+	public void dispose() throws IOException, ClassNotFoundException
 	{
 		this.eventer.dispose();
 	}
@@ -67,7 +66,7 @@ class ChildSyncMulticastor
 	/*
 	 * Disseminate the instance of Message synchronously. 11/11/2014, Bing Li
 	 */
-	public void notify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
+	public void notify(MulticastNotification notification) throws IOException, DistributedNodeFailedException, InterruptedException
 	{
 		// Declare a message to be forwarded, which contains data in the received message. 11/11/2014, Bing Li
 //		Message forwardMessage;
@@ -131,7 +130,8 @@ class ChildSyncMulticastor
 //										this.eventer.notify(new IPPort(notification.getIP(childrenKey)), notification);
 										IPAddress ip = childrenFromRoot.get(childrenKey);
 //										this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), notification);
-										this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), notification);
+//										this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), notification);
+										this.eventer.notify(ip.getIP(), ip.getPort(), notification);
 										// Jump out the loop after sending the message successfully. 11/11/2014, Bing Li
 										break;
 									}
@@ -175,7 +175,8 @@ class ChildSyncMulticastor
 //								this.eventer.notify(new IPPort(notification.getIP(childrenKey)), notification);
 								IPAddress ip = childrenFromRoot.get(childrenKey);
 //								this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), notification);
-								this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), notification);
+//								this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), notification);
+								this.eventer.notify(ip.getIP(), ip.getPort(), notification);
 							}
 							catch (IOException e)
 							{
@@ -217,7 +218,8 @@ class ChildSyncMulticastor
 							// Send the message to the immediate node of the local node. 11/11/2014, Bing Li
 //							this.clientPool.send(new IPPort(message.getIP(serverAddressEntry.getKey())), message);
 //							this.eventer.notify(new IPResource(entry.getValue().getPeerKey(), entry.getValue().getPeerName(), entry.getValue().getIP(), entry.getValue().getPort()), notification);
-							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), notification);
+//							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), notification);
+							this.eventer.notify(entry.getValue().getIP(), entry.getValue().getPort(), notification);
 						}
 						catch (IOException e)
 						{
@@ -243,7 +245,7 @@ class ChildSyncMulticastor
 	/*
 	 * Disseminate the instance of Message. The message here is the one which is just received. It must be forwarded by the local client. 11/11/2014, Bing Li
 	 */
-	public void read(RPMulticastRequest request) throws IOException, DistributedNodeFailedException
+	public void read(RPMulticastRequest request) throws IOException, DistributedNodeFailedException, InterruptedException
 	{
 		// Declare a message to be forwarded, which contains data in the received message. 11/11/2014, Bing Li
 //		Request forwardedRequest;
@@ -321,7 +323,8 @@ class ChildSyncMulticastor
 //										this.eventer.notify(new IPPort(request.getIP(childrenKey)), request);
 										IPAddress ip = childrenFromRoot.get(childrenKey);
 //										this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), request);
-										this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
+//										this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
+										this.eventer.notify(ip.getIP(), ip.getPort(), request);
 										// Jump out the loop after sending the message successfully. 11/11/2014, Bing Li
 										break;
 									}
@@ -367,7 +370,8 @@ class ChildSyncMulticastor
 //								this.eventer.notify(new IPPort(request.getIP(childrenKey)), request);
 								IPAddress ip = childrenFromRoot.get(childrenKey);
 //								this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), request);
-								this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
+//								this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), request);
+								this.eventer.notify(ip.getIP(), ip.getPort(), request);
 							}
 							catch (IOException e)
 							{
@@ -404,7 +408,8 @@ class ChildSyncMulticastor
 							// Send the message to the immediate node of the local node. 11/11/2014, Bing Li
 //							this.clientPool.send(new IPPort(request.getIP(entry.getKey())), request);
 //							this.eventer.notify(new IPResource(entry.getValue().getPeerKey(), entry.getValue().getPeerName(), entry.getValue().getIP(), entry.getValue().getPort()), request);
-							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), request);
+//							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), request);
+							this.eventer.notify(entry.getValue().getIP(), entry.getValue().getPort(), request);
 						}
 						catch (IOException e)
 						{

@@ -138,7 +138,7 @@ class MyServer
 	/*
 	 * Shutdown the server. 08/10/2014, Bing Li
 	 */
-	public void stop() throws IOException, InterruptedException
+	public void stop() throws IOException, InterruptedException, ClassNotFoundException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();

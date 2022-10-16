@@ -1,7 +1,5 @@
 package org.greatfree.testing.memory;
 
-import java.io.IOException;
-
 import org.greatfree.client.FreeClientPool;
 
 /*
@@ -41,14 +39,7 @@ public class SubClientPool
 	 */
 	public void dispose()
 	{
-		try
-		{
-			this.clientPool.dispose();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		this.clientPool.dispose();
 	}
 	
 	/*

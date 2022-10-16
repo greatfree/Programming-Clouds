@@ -11,7 +11,7 @@ import org.greatfree.exceptions.RemoteReadException;
 // Created: 10/07/2018, Bing Li
 class StartUsers
 {
-	public static void main(String[] args) throws IOException, InterruptedException
+	public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException
 	{
 		int option = MenuOptions.NO_OPTION;
 		Scanner in = new Scanner(System.in);

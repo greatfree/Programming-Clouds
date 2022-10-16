@@ -10,7 +10,7 @@ import org.greatfree.data.ServerConfig;
 public class Administrator
 {
 
-	public static void main(String[] args) throws InterruptedException, IOException
+	public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException
 	{
 		// Initialize the option, which represents the commands. 11/27/2014, Bing Li
 		int option = AdminConfig.NO_OPTION;

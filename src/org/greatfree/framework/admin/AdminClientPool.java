@@ -40,16 +40,9 @@ class AdminClientPool
 	/*
 	 * Dispose the free client pool. 04/17/2017, Bing Li
 	 */
-	public void dispose()
+	public void dispose() throws ClassNotFoundException, IOException
 	{
-		try
-		{
-			this.pool.dispose();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		this.pool.dispose();
 	}
 	
 	/*

@@ -4,6 +4,7 @@ import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.cluster.message.IsRootOnlineResponse;
@@ -14,6 +15,8 @@ import org.greatfree.framework.container.p2p.message.ChatRegistryRequest;
 import org.greatfree.framework.container.p2p.message.ClusterIPRequest;
 import org.greatfree.framework.container.p2p.message.IsRootOnlineRequest;
 import org.greatfree.framework.container.p2p.message.LeaveClusterNotification;
+import org.greatfree.framework.container.p2p.message.MulticastChildrenRequest;
+import org.greatfree.framework.container.p2p.message.MulticastChildrenResponse;
 import org.greatfree.framework.container.p2p.message.PartnersRequest;
 import org.greatfree.framework.container.p2p.message.PartnersResponse;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
@@ -40,7 +43,7 @@ import org.greatfree.util.UtilConfig;
 // Created: 01/12/2019, Bing Li
 class Register
 {
-//	private final static Logger log = Logger.getLogger("org.greatfree.framework.container.p2p.registry");
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.container.p2p.registry");
 
 	public static void register() throws SocketException
 	{
@@ -106,6 +109,10 @@ class Register
 	public static RegisterPeerResponse registerPeer(RegisterPeerRequest req)
 	{
 //		System.out.println("Register-registerPeer(): peerKey = " + req.getPeerKey());
+		/*
+		 * The line is added to simplify the registry of multicasting children. 10/14/2022, Bing Li
+		 */
+		AccountRegistry.APPLICATION().add(new PeerChatAccount(req.getPeerKey(), req.getPeerName()));
 		return new RegisterPeerResponse(PeerRegistry.SYSTEM().register(req.getPeerKey(), req.getPeerName(), req.getIP(), req.getPort()));
 	}
 	
@@ -116,19 +123,26 @@ class Register
 	
 	public static ClusterIPResponse retrieveClusterIP(ClusterIPRequest req)
 	{
-//		log.info("rootKey = " + req.getRootKey());
+		log.info("rootKey = " + req.getRootKey());
 		Set<String> childrenKeys = Clusters.SYSTEM().getChildKeys(req.getRootKey());
 		if (childrenKeys != UtilConfig.NO_KEYS)
 		{
-//			log.info("childrenKeys' size = " + childrenKeys.size());
+			log.info("childrenKeys' size = " + childrenKeys.size());
 			return new ClusterIPResponse(AccountRegistry.APPLICATION().getIPPorts(PeerRegistry.SYSTEM().getIPPorts(childrenKeys)));
 		}
 		else
 		{
+			log.info("no children found!");
 			return new ClusterIPResponse();
 		}
 	}
-	
+
+	public static MulticastChildrenResponse retrieveMulticastChildrenIPs(MulticastChildrenRequest req)
+	{
+//		log.info("rootKey = " + req.getRootKey());
+		return new MulticastChildrenResponse(AccountRegistry.APPLICATION().getIPPorts(PeerRegistry.SYSTEM().getIPPorts()));
+	}
+
 	public static PeerAddressResponse retrievePeerAddress(PeerAddressRequest req)
 	{
 		return new PeerAddressResponse(PeerRegistry.SYSTEM().getAddress(req.getPeerID()));

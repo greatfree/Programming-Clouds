@@ -12,10 +12,6 @@ import org.greatfree.message.ServerMessage;
 import org.greatfree.message.SystemMessageType;
 import org.greatfree.server.InitReadFeedbackThread;
 import org.greatfree.server.InitReadFeedbackThreadCreator;
-import org.greatfree.server.RegisterClientThread;
-import org.greatfree.server.RegisterClientThreadCreator;
-import org.greatfree.testing.message.MessageType;
-import org.greatfree.testing.message.RegisterClientNotification;
 
 /**
  * 
@@ -29,7 +25,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 	private String serverKey;
 	private ThreadPool pool;
 	private ScheduledThreadPoolExecutor scheduler;
-	private NotificationDispatcher<RegisterClientNotification, RegisterClientThread, RegisterClientThreadCreator> registerClientNotificationDispatcher;
+//	private NotificationDispatcher<RegisterClientNotification, RegisterClientThread, RegisterClientThreadCreator> registerClientNotificationDispatcher;
 	private NotificationDispatcher<InitReadNotification, InitReadFeedbackThread, InitReadFeedbackThreadCreator> initReadFeedbackNotificationDispatcher;
 	private AtomicBoolean isDown;
 	
@@ -41,6 +37,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 		this.scheduler.allowCoreThreadTimeOut(true);
 
 		// Initialize the client registration notification dispatcher. 11/30/2014, Bing Li
+		/*
 		this.registerClientNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<RegisterClientNotification, RegisterClientThread, RegisterClientThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 				.threadCreator(new RegisterClientThreadCreator())
@@ -51,6 +48,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 				.idleCheckPeriod(ServerConfig.NOTIFICATION_DISPATCHER_IDLE_CHECK_PERIOD)
 				.scheduler(this.scheduler)
 				.build();
+				*/
 
 		// Initialize the read initialization notification dispatcher. 11/30/2014, Bing Li
 		this.initReadFeedbackNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<InitReadNotification, InitReadFeedbackThread, InitReadFeedbackThreadCreator>()
@@ -88,7 +86,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 	{
 		this.isDown.set(true);
 		// Dispose the register dispatcher. 01/14/2016, Bing Li
-		this.registerClientNotificationDispatcher.dispose();
+//		this.registerClientNotificationDispatcher.dispose();
 		// Dispose the dispatcher for initializing reading feedback. 11/09/2014, Bing Li
 		this.initReadFeedbackNotificationDispatcher.dispose();
 		// Shutdown the derived server dispatcher. 11/04/2014, Bing Li
@@ -104,6 +102,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 		// Check the types of received messages. 11/09/2014, Bing Li
 		switch (message.getMessage().getType())
 		{
+			/*
 			case MessageType.REGISTER_CLIENT_NOTIFICATION:
 				// Check whether the registry notification dispatcher is ready. 01/14/2016, Bing Li
 				if (!this.registerClientNotificationDispatcher.isReady())
@@ -115,6 +114,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 				// Enqueue the notification into the dispatcher for concurrent processing. 01/14/2016, Bing Li
 				this.registerClientNotificationDispatcher.enqueue((RegisterClientNotification)message.getMessage());
 				break;
+				*/
 			
 			// If the message is the one of initializing notification. 11/09/2014, Bing Li
 			case SystemMessageType.INIT_READ_NOTIFICATION:

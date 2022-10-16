@@ -42,25 +42,10 @@ public class StopCrawlThread extends NotificationQueue<StopCrawlMultiNotificatio
 					{
 						// Disseminate the stop notification to all of the current crawler's children nodes. 11/27/2014, Bing Li
 						CrawlerMulticastor.CRAWLER().disseminateStopCrawlNotificationAmongSubCrawlServers(notification);
-					}
-					catch (InstantiationException e)
-					{
-						e.printStackTrace();
-					}
-					catch (IllegalAccessException e)
-					{
-						e.printStackTrace();
-					}
-					catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-					try
-					{
 						// Stop the current crawler. 11/27/2014, Bing Li
 						CrawlServer.CRAWL().stop();
 					}
-					catch (IOException e)
+					catch (InstantiationException | ClassNotFoundException | IOException | IllegalAccessException e)
 					{
 						e.printStackTrace();
 					}

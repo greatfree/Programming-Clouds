@@ -33,7 +33,7 @@ public class ChildMulticastor
 		}
 	}
 
-	public void stop() throws IOException, InterruptedException
+	public void stop() throws IOException, InterruptedException, ClassNotFoundException
 	{
 		this.client.close();
 	}

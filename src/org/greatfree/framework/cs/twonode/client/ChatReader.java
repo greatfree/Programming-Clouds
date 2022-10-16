@@ -8,7 +8,6 @@ import org.greatfree.data.ClientConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cs.multinode.message.ChatRegistryRequest;
 import org.greatfree.framework.cs.multinode.message.ChatRegistryResponse;
-import org.greatfree.util.NodeID;
 
 // Created: 05/13/2018, Bing Li
 public class ChatReader
@@ -46,7 +45,7 @@ public class ChatReader
 	/*
 	 * Shutdown the remote reader. 11/23/2014, Bing Li
 	 */
-	public void shutdown() throws IOException
+	public void shutdown() throws IOException, ClassNotFoundException
 	{
 		RemoteReader.REMOTE().shutdown();
 	}
@@ -57,6 +56,6 @@ public class ChatReader
 	public ChatRegistryResponse registerChat(String userKey, String userName, String description) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 //			String userKey = Tools.getHash(userName);
-		return (ChatRegistryResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatRegistryRequest(userKey, userName, description)));
+		return (ChatRegistryResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new ChatRegistryRequest(userKey, userName, description)));
 	}
 }

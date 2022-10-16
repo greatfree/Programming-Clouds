@@ -18,7 +18,6 @@ import org.greatfree.testing.message.TestRequest;
 import org.greatfree.testing.message.TestResponse;
 import org.greatfree.testing.message.WeatherRequest;
 import org.greatfree.testing.message.WeatherResponse;
-import org.greatfree.util.NodeID;
 
 /*
  * The class wraps the class, RemoteReader, to send requests to the remote server and wait until relevant responses are received. 09/22/2014, Bing Li
@@ -34,7 +33,7 @@ public class ClientReader
 	{
 		try
 		{
-			return (SignUpResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new SignUpRequest(userName, password)));
+			return (SignUpResponse)(RemoteReader.REMOTE().read(ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new SignUpRequest(userName, password)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -52,7 +51,7 @@ public class ClientReader
 	{
 		try
 		{
-			return (WeatherResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new WeatherRequest()));
+			return (WeatherResponse)(RemoteReader.REMOTE().read(ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new WeatherRequest()));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -69,7 +68,7 @@ public class ClientReader
 	{
 		try
 		{
-			return (ClientForBroadcastResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new ClientForBroadcastRequest(message)));
+			return (ClientForBroadcastResponse)(RemoteReader.REMOTE().read(ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new ClientForBroadcastRequest(message)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -87,7 +86,7 @@ public class ClientReader
 	{
 		try
 		{
-			return (ClientForUnicastResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new ClientForUnicastRequest(message)));
+			return (ClientForUnicastResponse)(RemoteReader.REMOTE().read(ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new ClientForUnicastRequest(message)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -105,7 +104,7 @@ public class ClientReader
 	{
 		try
 		{
-			return (ClientForAnycastResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new ClientForAnycastRequest(message)));
+			return (ClientForAnycastResponse)(RemoteReader.REMOTE().read(ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new ClientForAnycastRequest(message)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -120,7 +119,7 @@ public class ClientReader
 	{
 		try
 		{
-			return (TestResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new TestRequest(request)));
+			return (TestResponse)(RemoteReader.REMOTE().read(ServerConfig.SERVER_IP, ServerConfig.SERVER_PORT, new TestRequest(request)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{

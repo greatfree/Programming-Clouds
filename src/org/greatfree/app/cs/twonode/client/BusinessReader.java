@@ -10,7 +10,6 @@ import org.greatfree.chat.ChatConfig;
 import org.greatfree.client.RemoteReader;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.exceptions.RemoteReadException;
-import org.greatfree.util.NodeID;
 
 // Created: 07/27/2018, Bing Li
 public class BusinessReader
@@ -45,19 +44,21 @@ public class BusinessReader
 	/*
 	 * Shutdown the remote reader. 11/23/2014, Bing Li
 	 */
-	public void shutdown() throws IOException
+	public void shutdown() throws IOException, ClassNotFoundException
 	{
 		RemoteReader.REMOTE().shutdown();
 	}
 
 	public MerchandiseResponse query(String query) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		return (MerchandiseResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new MerchandiseRequest(query)));
+//		return (MerchandiseResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new MerchandiseRequest(query)));
+		return (MerchandiseResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new MerchandiseRequest(query)));
 	}
 	
 	public MerchandisePollResponse poll(String merchandise, int quantity) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		return (MerchandisePollResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new MerchandisePollRequest(merchandise, quantity)));
+//		return (MerchandisePollResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new MerchandisePollRequest(merchandise, quantity)));
+		return (MerchandisePollResponse)(RemoteReader.REMOTE().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new MerchandisePollRequest(merchandise, quantity)));
 	}
 	
 }

@@ -8,7 +8,6 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.threetier.message.FrontRequest;
 import org.greatfree.framework.cps.threetier.message.FrontResponse;
-import org.greatfree.util.NodeID;
 
 // Created: 07/06/2018, Bing Li
 class FrontReader
@@ -43,14 +42,15 @@ class FrontReader
 	/*
 	 * Shutdown the remote reader. 11/23/2014, Bing Li
 	 */
-	public void shutdown() throws IOException
+	public void shutdown() throws IOException, ClassNotFoundException
 	{
 		RemoteReader.REMOTE().shutdown();
 	}
 
 	public FrontResponse query(String query) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		return (FrontResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.COORDINATOR_ADDRESS, ServerConfig.COORDINATOR_PORT, new FrontRequest(query)));
+//		return (FrontResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ServerConfig.COORDINATOR_ADDRESS, //ServerConfig.COORDINATOR_PORT, new FrontRequest(query)));
+		return (FrontResponse)(RemoteReader.REMOTE().read(ServerConfig.COORDINATOR_ADDRESS, ServerConfig.COORDINATOR_PORT, new FrontRequest(query)));
 	}
 
 }

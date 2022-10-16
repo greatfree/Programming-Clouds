@@ -56,7 +56,7 @@ public class DNEventer
 	/*
 	 * Dispose the eventer. 11/23/2014, Bing Li
 	 */
-	public void dispose(long timeout) throws InterruptedException, IOException
+	public void dispose(long timeout) throws InterruptedException, IOException, ClassNotFoundException
 	{
 		// Dispose the online eventer. 11/23/2014, Bing Li
 		this.onlineEventer.dispose();

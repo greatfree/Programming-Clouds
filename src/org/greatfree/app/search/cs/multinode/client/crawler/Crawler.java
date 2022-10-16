@@ -44,7 +44,7 @@ class Crawler
 		}
 	}
 
-	public void dispose() throws IOException, InterruptedException
+	public void dispose() throws IOException, InterruptedException, ClassNotFoundException
 	{
 		SharedThreadPool.SHARED().dispose(ServerConfig.SHARED_THREAD_POOL_SHUTDOWN_TIMEOUT);
 		this.client.dispose();

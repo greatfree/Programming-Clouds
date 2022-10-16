@@ -40,7 +40,7 @@ public class ClientPool
 	/*
 	 * Dispose the free client pool. 11/23/2014, Bing Li
 	 */
-	public void dispose() throws IOException
+	public void dispose() throws IOException, ClassNotFoundException
 	{
 		this.pool.dispose();
 	}

@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.greatfree.client.IdleChecker;
 import org.greatfree.util.Builder;
@@ -33,7 +32,7 @@ public class ReaderPool<Query extends Request, Answer extends Response> extends 
 	private final long readerWaitTime;
 	private final long idleCheckDelay;
 	private final long idleCheckPeriod;
-	private ReentrantLock monitorLock;
+//	private ReentrantLock monitorLock;
 	private Reader<Query, Answer> reader;
 	
 	public ReaderPool(ReaderPoolBuilder<Query, Answer> builder)
@@ -49,7 +48,7 @@ public class ReaderPool<Query extends Request, Answer extends Response> extends 
 		this.readerWaitTime = builder.getReaderWaitTime();
 		this.idleCheckDelay = builder.getIdleCheckDelay();
 		this.idleCheckPeriod = builder.getIdleCheckPeriod();
-		this.monitorLock = new ReentrantLock();
+//		this.monitorLock = new ReentrantLock();
 		this.reader = builder.getReader();
 	}
 
@@ -243,9 +242,10 @@ public class ReaderPool<Query extends Request, Answer extends Response> extends 
 
 	public synchronized void read(Query query)
 	{
-		this.monitorLock.lock();
+//		RendezvousPoint.REDUCE().createPoint(query.getCollaboratorKey());
+//		this.monitorLock.lock();
 		this.requestQueue.add(query);
-		this.monitorLock.unlock();
+//		this.monitorLock.unlock();
 		this.collaborator.signal();
 	}
 

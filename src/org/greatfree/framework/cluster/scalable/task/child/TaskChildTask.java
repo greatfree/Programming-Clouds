@@ -53,7 +53,6 @@ class TaskChildTask implements ChildTask
 				}
 				break;
 		}
-		
 	}
 
 	@Override

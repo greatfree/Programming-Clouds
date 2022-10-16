@@ -12,7 +12,7 @@ import org.greatfree.reuse.Creatable;
 public class NodeDBCreator implements Creatable<String, NodeDB>
 {
 	@Override
-	public NodeDB createResourceInstance(String source) throws IOException
+	public NodeDB createClientInstance(String source) throws IOException
 	{
 		return new NodeDB(source);
 	}

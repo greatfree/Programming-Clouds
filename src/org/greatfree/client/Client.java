@@ -1,6 +1,5 @@
 package org.greatfree.client;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.greatfree.concurrency.ThreadPool;
@@ -49,7 +48,7 @@ class Client
 	/*
 	 * Dispose the client eventer. 04/29/2017, Bing Li
 	 */
-	public void dispose(long timeout) throws IOException, InterruptedException
+	public void dispose(long timeout) throws InterruptedException
 	{
 		this.clientPool.dispose();
 		this.threadPool.shutdown(timeout);

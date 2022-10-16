@@ -133,7 +133,7 @@ public class Searcher
 	/*
 	 * Stop the client. 11/23/2014, Bing Li
 	 */
-	public void stop() throws InterruptedException, IOException
+	public void stop() throws InterruptedException, IOException, ClassNotFoundException
 	{
 		// Close the listeners. 11/23/2014, Bing Li
 //		for (Runner<ClientListener, ClientListenerDisposer> runner : this.listenerRunners)

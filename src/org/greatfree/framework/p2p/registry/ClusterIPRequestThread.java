@@ -4,16 +4,16 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.message.multicast.PrimitiveClusterIPRequest;
+import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
-import org.greatfree.message.multicast.PrimitiveClusterIPStream;
+import org.greatfree.message.multicast.ClusterIPStream;
 
 /*
  * The thread retrieves all of the registered IPs of the distributed nodes within one cluster. 05/08/2017, Bing Li
  */
 
 // Created: 05/08/2017, Bing Li
-class ClusterIPRequestThread extends RequestQueue<PrimitiveClusterIPRequest, PrimitiveClusterIPStream, ClusterIPResponse>
+class ClusterIPRequestThread extends RequestQueue<ClusterIPRequest, ClusterIPStream, ClusterIPResponse>
 {
 
 	public ClusterIPRequestThread(int maxTaskSize)
@@ -24,7 +24,7 @@ class ClusterIPRequestThread extends RequestQueue<PrimitiveClusterIPRequest, Pri
 	@Override
 	public void run()
 	{
-		PrimitiveClusterIPStream request;
+		ClusterIPStream request;
 		ClusterIPResponse response;
 		while (!this.isShutdown())
 		{

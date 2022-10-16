@@ -1,7 +1,5 @@
 package org.greatfree.client;
 
-import java.io.IOException;
-
 import org.greatfree.data.ServerConfig;
 
 /*
@@ -42,7 +40,7 @@ public class ClientPoolSingleton
 	/*
 	 * Dispose the free client pool. 11/24/2014, Bing Li
 	 */
-	public void dispose() throws IOException
+	public void dispose()
 	{
 		this.pool.dispose();
 	}

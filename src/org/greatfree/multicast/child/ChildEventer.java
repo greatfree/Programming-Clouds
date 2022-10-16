@@ -35,7 +35,7 @@ final class ChildEventer
 	/*
 	 * Disseminate the instance of Message synchronously. 11/11/2014, Bing Li
 	 */
-	public void syncNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
+	public void syncNotify(MulticastNotification notification) throws IOException, DistributedNodeFailedException, InterruptedException
 	{
 		this.multicastor.notify(notification);
 	}

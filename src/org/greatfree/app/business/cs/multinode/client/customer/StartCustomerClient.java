@@ -64,7 +64,7 @@ public class StartCustomerClient
 			// Dispose the vendor eventer. 05/25/2017, Bing Li
 			CustomerEventer.CE().dispose(RegistryConfig.THREAD_POOL_SHUTDOWN_TIMEOUT);
 		}
-		catch (InterruptedException | IOException e)
+		catch (InterruptedException | IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}

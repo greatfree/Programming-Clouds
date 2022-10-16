@@ -69,7 +69,7 @@ class Administrator
 		{
 			ChatAdminEventer.RE().dispose(RegistryConfig.THREAD_POOL_SHUTDOWN_TIMEOUT);
 		}
-		catch (InterruptedException | IOException e)
+		catch (InterruptedException | IOException | ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}

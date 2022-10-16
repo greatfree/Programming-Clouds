@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.greatfree.client.IPResource;
 import org.greatfree.client.SyncRemoteEventer;
 import org.greatfree.message.multicast.MulticastNotification;
 import org.greatfree.multicast.Tree;
@@ -31,7 +30,7 @@ class ChildMulticastEventer<Notification extends MulticastNotification>
 		this.treeBranchCount = treeBranchCount;
 	}
 	
-	public void dispose() throws IOException
+	public void dispose() throws IOException, ClassNotFoundException
 	{
 		this.eventer.dispose();
 	}
@@ -102,7 +101,8 @@ class ChildMulticastEventer<Notification extends MulticastNotification>
 //										this.eventer.notify(new IPPort(message.getIP(childrenKey)), message);
 										IPAddress ip = childrenFromRoot.get(childrenKey);
 //										this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), message);
-										this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), message);
+//										this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), message);
+										this.eventer.notify(ip.getIP(), ip.getPort(), message);
 										// Jump out the loop after sending the message successfully. 11/11/2014, Bing Li
 										break;
 									}
@@ -144,7 +144,8 @@ class ChildMulticastEventer<Notification extends MulticastNotification>
 //								this.eventer.notify(new IPPort(message.getIP(childrenKey)), message);
 								IPAddress ip = childrenFromRoot.get(childrenKey);
 //								this.eventer.notify(new IPResource(ip.getPeerKey(), ip.getPeerName(), ip.getIP(), ip.getPort()), message);
-								this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), message);
+//								this.eventer.notify(new IPResource(ip.getIP(), ip.getPort()), message);
+								this.eventer.notify(ip.getIP(), ip.getPort(), message);
 							}
 							catch (IOException e)
 							{
@@ -185,7 +186,8 @@ class ChildMulticastEventer<Notification extends MulticastNotification>
 							// Send the message to the immediate node of the local node. 11/11/2014, Bing Li
 //							this.clientPool.send(new IPPort(message.getIP(serverAddressEntry.getKey())), message);
 //							this.eventer.notify(new IPResource(entry.getValue().getPeerKey(), entry.getValue().getPeerName(), entry.getValue().getIP(), entry.getValue().getPort()), message);
-							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), message);
+//							this.eventer.notify(new IPResource(entry.getValue().getIP(), entry.getValue().getPort()), message);
+							this.eventer.notify(entry.getValue().getIP(), entry.getValue().getPort(), message);
 						}
 						catch (IOException e)
 						{

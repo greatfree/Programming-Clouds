@@ -176,7 +176,7 @@ public class QueuedPool<Resource extends FreeObject, Creator extends Creatable<S
 	 */
 	public Resource create(String rscType) throws IOException, InterruptedException
 	{
-		return this.creator.createResourceInstance(rscType);
+		return this.creator.createClientInstance(rscType);
 	}
 	
 	/*
@@ -336,7 +336,7 @@ public class QueuedPool<Resource extends FreeObject, Creator extends Creatable<S
 				if (this.busyMap.size() + idleSize < this.poolSize)
 				{
 					// If the upper limit of the pool is not reached, create an instance of the resource. 11/03/2014, Bing Li
-					rsc = this.creator.createResourceInstance(rscType);
+					rsc = this.creator.createClientInstance(rscType);
 					// Put the newly created resource into the busy map. 11/03/2014, Bing Li
 					this.busyMap.put(rsc.getHashKey(), rsc);
 					// Return the newly created resource to the invoking thread. 11/03/2014, Bing Li
@@ -352,7 +352,7 @@ public class QueuedPool<Resource extends FreeObject, Creator extends Creatable<S
 						// Dispose the first resource of the longest idle queue. 11/03/2014, Bing Li
 						this.disposer.dispose(rsc);
 						// Create a new resource. 11/03/2014, Bing Li
-						rsc = this.creator.createResourceInstance(rscType);
+						rsc = this.creator.createClientInstance(rscType);
 						// Put the newly created resource into the busy map. 11/03/2014, Bing Li
 						this.busyMap.put(rsc.getHashKey(), rsc);
 						// Return the newly created resource to the invoking thread. 11/03/2014, Bing Li

@@ -9,7 +9,7 @@ public class IntegerKeyDBCreator implements Creatable<String, IntegerKeyDB>
 {
 
 	@Override
-	public IntegerKeyDB createResourceInstance(String source) throws IOException
+	public IntegerKeyDB createClientInstance(String source) throws IOException
 	{
 		return new IntegerKeyDB(source);
 	}

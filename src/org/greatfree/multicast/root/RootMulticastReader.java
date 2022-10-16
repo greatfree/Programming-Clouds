@@ -61,7 +61,7 @@ class RootMulticastReader<Request extends MulticastRequest, Response extends Mul
 	/*
 	 * Dispose the broadcast requestor. 11/28/2014, Bing Li
 	 */
-	public void dispose() throws IOException
+	public void dispose() throws IOException, ClassNotFoundException
 	{
 		/*
 		this.collaborator.setShutdown();

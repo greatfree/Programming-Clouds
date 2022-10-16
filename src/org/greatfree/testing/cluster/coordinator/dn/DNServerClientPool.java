@@ -1,10 +1,7 @@
 package org.greatfree.testing.cluster.coordinator.dn;
 
-import java.io.IOException;
-
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.testing.coordinator.CoorConfig;
-import org.greatfree.util.ServerStatus;
 
 // Created: 11/22/2016, Bing Li
 public class DNServerClientPool
@@ -39,14 +36,7 @@ public class DNServerClientPool
 	 */
 	public void dispose()
 	{
-		try
-		{
-			this.clientPool.dispose();
-		}
-		catch (IOException e)
-		{
-			ServerStatus.FREE().printException(e);
-		}
+		this.clientPool.dispose();
 	}
 	
 	/*

@@ -12,7 +12,6 @@ import org.greatfree.util.TerminateSignal;
 // Created: 04/02/2019, Bing Li
 class StartChatServer
 {
-
 	public static void main(String[] args)
 	{
 		System.out.println("Chatting server starting up ...");
@@ -42,5 +41,5 @@ class StartChatServer
 			}
 		}
 	}
-
 }
+

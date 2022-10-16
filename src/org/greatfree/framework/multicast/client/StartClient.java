@@ -11,7 +11,7 @@ import org.greatfree.testing.client.ClientMenu;
 final class StartClient
 {
 
-	public static void main(String[] args) throws IOException, InterruptedException
+	public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException
 	{
 		// Initialize the option which represents a user's intents of operations. 09/21/2014, Bing Li
 		int option = MenuOptions.NO_OPTION;

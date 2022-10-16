@@ -43,7 +43,7 @@ public class BusinessEventer
 		}
 	}
 
-	public void dispose(long timeout) throws InterruptedException, IOException
+	public void dispose(long timeout) throws InterruptedException, IOException, ClassNotFoundException
 	{
 		this.clientPool.dispose();
 		this.orderEventer.dispose();

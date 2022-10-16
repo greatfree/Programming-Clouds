@@ -65,7 +65,7 @@ public class StopDNThread extends NotificationQueue<StopDNMultiNotification>
 						// Stop the current crawler. 11/27/2014, Bing Li
 						DN.CLUSTER().stop();
 					}
-					catch (IOException e)
+					catch (IOException | ClassNotFoundException e)
 					{
 						e.printStackTrace();
 					}

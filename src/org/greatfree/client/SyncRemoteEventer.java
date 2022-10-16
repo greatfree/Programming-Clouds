@@ -30,7 +30,7 @@ public class SyncRemoteEventer<Notification extends ServerMessage>
 	/*
 	 * The resource consumed by the eventer is the FreeClient pool. Because it is shared, it should not be disposed here. Just leave the interface. 11/05/2014, Bing Li
 	 */
-	public void dispose() throws IOException
+	public void dispose()
 	{
 		this.clientPool.dispose();
 	}
@@ -63,11 +63,15 @@ public class SyncRemoteEventer<Notification extends ServerMessage>
 	{
 		this.clientPool.send(clientKey, message);
 	}
-	
+
+	/*
+	 * The IPResource is weird for programmers. It is better to hide it. 09/01/2022, Bing Li
+	 * 
 	public void notify(IPResource ipPort, Notification message) throws IOException
 	{
 		this.clientPool.send(ipPort, message);
 	}
+	*/
 	
 	public int getClientSize()
 	{

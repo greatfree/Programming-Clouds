@@ -28,7 +28,7 @@ import org.greatfree.framework.old.multicast.message.root.OldHelloWorldAnycastRe
 import org.greatfree.framework.old.multicast.message.root.RootIPAddressBroadcastNotificationCreator;
 import org.greatfree.framework.old.multicast.message.root.ShutdownChildrenBroadcastNotificationCreator;
 import org.greatfree.framework.p2p.RegistryConfig;
-import org.greatfree.message.multicast.PrimitiveClusterIPRequest;
+import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.multicast.root.abandoned.ClusterRootAnycastNotifier;
 import org.greatfree.multicast.root.abandoned.ClusterRootAnycastReader;
@@ -247,7 +247,7 @@ class ClusterRootSingleton
 		*/
 		
 		// Retrieve all of the registered IP addresses of the distributed nodes in the cluster from the registry server. 05/08/2017, Bing Li
-		ClusterIPResponse ipResponse = (ClusterIPResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new PrimitiveClusterIPRequest());
+		ClusterIPResponse ipResponse = (ClusterIPResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new ClusterIPRequest());
 		
 		if (ipResponse.getIPs() != null)
 		{

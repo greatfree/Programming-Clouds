@@ -14,7 +14,7 @@ class FreeClientCreator implements Creatable<IPResource, FreeClient>
 {
 	// The method to create instance of FreeClient by its IP address and the port number. 09/17/2024,
 	@Override
-	public FreeClient createResourceInstance(IPResource source) throws IOException
+	public FreeClient createClientInstance(IPResource source) throws IOException
 	{
 		// Invoke the constructor of FreeClient. 09/17/2014, Bing Li
 		return new FreeClient(source.getIP(), source.getPort(), source.getTimeout());

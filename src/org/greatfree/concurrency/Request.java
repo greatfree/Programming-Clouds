@@ -20,6 +20,11 @@ public abstract class Request
 		this.collaboratorKey = Tools.generateUniqueKey();
 	}
 
+	public Request(String collaboratorKey)
+	{
+		this.collaboratorKey = collaboratorKey;
+	}
+
 	public String getCollaboratorKey()
 	{
 		return this.collaboratorKey;

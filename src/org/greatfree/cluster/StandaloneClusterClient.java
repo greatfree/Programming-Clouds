@@ -40,7 +40,7 @@ public class StandaloneClusterClient
 		}
 	}
 	
-	public void dispose() throws IOException, InterruptedException
+	public void dispose() throws IOException, InterruptedException, ClassNotFoundException
 	{
 		StandaloneClient.CS().dispose();
 	}

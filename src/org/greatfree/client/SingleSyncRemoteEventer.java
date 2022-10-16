@@ -38,7 +38,7 @@ public final class SingleSyncRemoteEventer
 		}
 	}
 
-	public void dispose(long timeout) throws IOException
+	public void dispose(long timeout)
 	{
 		this.eventer.dispose();
 		this.clientPool.dispose();

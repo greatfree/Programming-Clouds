@@ -61,11 +61,7 @@ public class StartClient
 			// Stop the client server. 11/08/2014, Bing Li
 			ClientServer.CLIENT().stop();
 		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
+		catch (InterruptedException | ClassNotFoundException | IOException e)
 		{
 			e.printStackTrace();
 		}

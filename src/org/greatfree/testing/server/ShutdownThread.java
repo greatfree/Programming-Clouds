@@ -46,7 +46,7 @@ public class ShutdownThread extends NotificationQueue<ShutdownServerNotification
 						// Shutdown the server. 01/20/2016, Bing Li
 						MyServer.FREE().stop();
 					}
-					catch (IOException e)
+					catch (IOException | ClassNotFoundException e)
 					{
 						e.printStackTrace();
 					}

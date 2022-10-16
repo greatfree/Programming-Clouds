@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.greatfree.message.InitReadNotification;
@@ -18,8 +17,10 @@ import org.greatfree.util.UtilConfig;
  */
 
 // Created: 08/10/2014, Bing Li
-public class FreeClient extends FreeObject
+class FreeClient extends FreeObject
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.client");
+
 	private static final long serialVersionUID = 4934437466452541015L;
 	// A client socket that connects to the remote server socket at a remote end. In the system, the remote end is a node in a distributed cluster. 08/24/2014, Bing Li
 	private Socket socket;
@@ -33,6 +34,8 @@ public class FreeClient extends FreeObject
 	private ObjectInputStream in;
 	// The lock that keeps sending and receiving operations through the client atomic. The lock is used by RemoteReader. 08/24/2014, Bing Li
 	private ReentrantLock lock;
+	
+	private final String clientKey;
 
 	/*
 	 * Initialize the client. 08/24/2014, Bing Li
@@ -52,6 +55,7 @@ public class FreeClient extends FreeObject
 		this.lock = new ReentrantLock();
 
 		this.out = new ObjectOutputStream(this.socket.getOutputStream());
+		this.clientKey = Tools.generateUniqueKey();
 	}
 
 	public FreeClient(String serverAddress, int serverPort) throws IOException
@@ -64,6 +68,7 @@ public class FreeClient extends FreeObject
 		this.lock = new ReentrantLock();
 
 		this.out = new ObjectOutputStream(this.socket.getOutputStream());
+		this.clientKey = Tools.generateUniqueKey();
 	}
 
 	/*
@@ -73,6 +78,14 @@ public class FreeClient extends FreeObject
 	{
 		if (this.out != null)
 		{
+			/*
+			 * According to documentations, the close() includes the flush(). 10/10/2022, Bing Li
+			 * 
+			 * It does not work. 10/10/2022, Bing Li
+			 * 
+			 * The line is added to avoid possible data loss. I need to test whether it works. 10/10/2022, Bing Li
+			 */
+			this.out.flush();
 			this.out.close();
 		}
 		if (this.in != null)
@@ -108,13 +121,19 @@ public class FreeClient extends FreeObject
 	{
 		return this.serverPort;
 	}
-
+	
+	public boolean isClientKeyValid()
+	{
+		return this.clientKey != null;
+	}
+	
 	/*
 	 * Initialize the ObjectInputStream by sending a notification to the remote server. 11/04/2014, Bing Li
 	 */
-	public void initRead(String nodeKey) throws IOException
+//	public void initRead(String clientKey) throws IOException
+	public void initRead() throws IOException
 	{
-		this.send(new InitReadNotification(nodeKey));
+		this.send(new InitReadNotification(this.clientKey));
 	}
 
 	/*
@@ -123,6 +142,11 @@ public class FreeClient extends FreeObject
 	public void setInputStream() throws IOException
 	{
 		this.in = new ObjectInputStream(this.socket.getInputStream());
+	}
+	
+	public boolean isInputStreamValid()
+	{
+		return this.in != null;
 	}
 
 	/*
@@ -140,7 +164,7 @@ public class FreeClient extends FreeObject
 	/*
 	 * Send a request to the remote end and wait until a response is received. The same as the method of Send(), the synchronized descriptor intends to avoid potential memory leak in OutputObjectStream. 08/24/2014, Bing Li
 	 */
-	public synchronized ServerMessage sendWithResponse(ServerMessage request) throws IOException, ClassNotFoundException, SocketTimeoutException
+	public synchronized ServerMessage sendWithResponse(ServerMessage request) throws ClassNotFoundException, IOException
 	{
 		// Send the message to the remote end. 09/17/2014, Bing Li
 		this.out.writeObject(request);
@@ -148,6 +172,16 @@ public class FreeClient extends FreeObject
 		this.out.flush();
 		this.out.reset();
 		// Wait for the response from the remote end. 09/17/2014, Bing Li
+		/*
+		if (this.in != null)
+		{
+			log.info("ObjectInputStream is NOT null");
+		}
+		else
+		{
+			log.info("ObjectInputStream is null");
+		}
+		*/
 		return (ServerMessage)this.in.readObject();
 	}
 	

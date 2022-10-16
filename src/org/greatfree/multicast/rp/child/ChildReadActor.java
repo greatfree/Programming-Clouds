@@ -23,7 +23,7 @@ class ChildReadActor implements Notifier<RPMulticastRequest>
 		{
 			this.multicastor.read(request);
 		}
-		catch (IOException | DistributedNodeFailedException e)
+		catch (IOException | DistributedNodeFailedException | InterruptedException e)
 		{
 			e.printStackTrace();
 		}

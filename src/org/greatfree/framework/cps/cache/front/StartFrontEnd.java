@@ -12,7 +12,7 @@ import org.greatfree.exceptions.RemoteReadException;
 class StartFrontEnd
 {
 
-	public static void main(String[] args) throws InterruptedException, IOException
+	public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException
 	{
 		FrontReader.RR().init();
 		FrontEventer.RE().init();

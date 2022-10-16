@@ -23,7 +23,7 @@ class ChildEventActor implements Notifier<MulticastNotification>
 		{
 			this.multicastor.notify(notification);
 		}
-		catch (IOException | DistributedNodeFailedException e)
+		catch (IOException | DistributedNodeFailedException | InterruptedException e)
 		{
 			e.printStackTrace();
 		}

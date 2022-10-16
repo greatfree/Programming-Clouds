@@ -1,14 +1,11 @@
 package org.greatfree.client;
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import org.greatfree.message.ServerMessage;
-import org.greatfree.reuse.RetrievablePool;
 import org.greatfree.util.IPAddress;
-import org.greatfree.util.UtilConfig;
+import org.greatfree.util.Tools;
 
 /*
  * The pool, RetrievablePool, is mainly used for the resource of FreeClient. Some problems exist when instances of FreeClient are exposed outside since they might be disposed inside in the pool.
@@ -18,25 +15,36 @@ import org.greatfree.util.UtilConfig;
 
 public class FreeClientPool
 {
-	private final static Logger log = Logger.getLogger("org.greatfree.client");
+//	private final static Logger log = Logger.getLogger("org.greatfree.client");
 
 	// Declare an instance of Retrievable to hide instances of FreeClient from outside. 11/19/2014, Bing Li
-	private RetrievablePool<IPResource, FreeClient, FreeClientCreator, FreeClientDisposer> pool;
+//	private RetrievablePool<IPResource, FreeClient, FreeClientCreator, FreeClientDisposer> pool;
+	private ClientManager manager;
 
 	/*
 	 * Initialize the pool. 11/19/2014, Bing Li
 	 */
 	public FreeClientPool(int poolSize)
 	{
-		this.pool = new RetrievablePool<IPResource, FreeClient, FreeClientCreator, FreeClientDisposer>(poolSize, new FreeClientCreator(), new FreeClientDisposer());
+//		this.pool = new RetrievablePool<IPResource, FreeClient, FreeClientCreator, FreeClientDisposer>(poolSize, new FreeClientCreator(), new FreeClientDisposer());
+		this.manager = new ClientManager(poolSize);
 	}
-
+	
 	/*
+	 * 
+	 * The synchronized modifier is placed for the method to ensure data is sent out safely before closing. 10/10/2022, Bing Li
+	 * 
 	 * Dispose the resource, i.e., the pool in the case. 11/20/2014, Bing Li
 	 */
-	public void dispose() throws IOException
+	public synchronized void dispose()
 	{
-		this.pool.shutdown();
+//		this.pool.shutdown();
+		this.manager.shutdown();
+	}
+	
+	public ClientManager getManager()
+	{
+		return this.manager;
 	}
 
 	/*
@@ -44,10 +52,16 @@ public class FreeClientPool
 	 */
 	public void setIdleChecker(long delay, long period, long maxIdleTime)
 	{
-		this.pool.setIdleChecker(delay, period, maxIdleTime);
+//		this.pool.setIdleChecker(delay, period, maxIdleTime);
+		this.manager.setIdleChecker(delay, period, maxIdleTime);
 	}
 
 	/*
+	 * 
+	 * The problem is not resolved through adding synchronized. So it is removed again. The problem is caused by the sharing of FreeClientPool between the eventer and the reader. 10/10/2022, Bing Li
+	 * 
+	 * The synchronized modifier is placed for the method to ensure data is sent out safely before closing. 10/10/2022, Bing Li
+	 * 
 	 * Send a message to an IP/port which is enclosed in the instance of IPPort. The method wraps three steps as below. Thus, those stuffs are invisible to users such that it avoids possible conflicts to share instances of FreeClient. 11/20/2014, Bing Li
 	 * 
 	 * 		Getting an instance of FreeClient
@@ -59,137 +73,187 @@ public class FreeClientPool
 	public void send(IPResource ipPort, ServerMessage msg) throws IOException
 	{
 		// Get an instance of FreeClient by the instance of IPPort. 11/20/2014, Bing Li
-		FreeClient client = this.pool.get(ipPort);
+//		FreeClient client = this.pool.get(ipPort);
+		FreeClient client = this.manager.get(ipPort, false);
 		// Check whether the instance of FreeClient is valid. 11/20/2014, Bing Li
-		if (client != UtilConfig.NO_CLIENT)
+		if (client != ClientConfig.NO_CLIENT)
 		{
+//			log.info("notification is starting to send ...");
 //			System.out.println("FreeClientPool-send(): client is obtained!");
 			// Send the message. 11/20/2014, Bing Li
 			client.send(msg);
+//			log.info("notification is sent ...");
 			// Collect the instance of FreeClient. 11/20/2014, Bing Li
-			this.pool.collect(client);
+			this.manager.collect(client);
 		}
 		else
 		{
-			log.info("FreeClientPool-send(): client is not obtained!");
+//			log.info("FreeClientPool-send(): client is not obtained!");
 		}
 	}
 
 	/*
+	 *
+	 * The problem is not resolved through adding synchronized. So it is removed again. The problem is caused by the sharing of FreeClientPool between the eventer and the reader. 10/10/2022, Bing Li
+	 * 
+	 * The synchronized modifier is placed for the method to ensure data is sent out safely before closing. 10/10/2022, Bing Li
+	 * 
 	 * Send a message to an IP/port. It also ensures initializing, sending and collecting are invisible to users. 11/20/2014, Bing Li
 	 */
 	public void send(String ip, int port, ServerMessage msg) throws IOException
 	{
 		// Get an instance of FreeClient by the IP/port. 11/20/2014, Bing Li
-		FreeClient client = this.pool.get(new IPResource(ip, port));
+		FreeClient client = this.manager.get(new IPResource(ip, port), false);
 		// Check whether the instance of FreeClient is valid. 11/20/2014, Bing Li
-		if (client != UtilConfig.NO_CLIENT)
+		if (client != ClientConfig.NO_CLIENT)
 		{
 			// Send the message. 11/20/2014, Bing Li
 			client.send(msg);
 			// Collect the instance of FreeClient. 11/20/2014, Bing Li
-			this.pool.collect(client);
+			this.manager.collect(client);
 		}
 	}
 
 	/*
+	 * 
+	 * The problem is not resolved through adding synchronized. So it is removed again. The problem is caused by the sharing of FreeClientPool between the eventer and the reader. 10/10/2022, Bing Li
+	 * 
+	 * The synchronized modifier is placed for the method to ensure data is sent out safely before closing. 10/10/2022, Bing Li
+	 * 
 	 * Send a message to a remote node by its key. It also ensures initializing, sending and collecting are invisible to users. 11/20/2014, Bing Li
 	 */
 	public void send(String clientKey, ServerMessage msg) throws IOException
 	{
 		// Get an instance of FreeClient by the client key. 11/20/2014, Bing Li
-		FreeClient client = this.pool.get(clientKey);
+		FreeClient client = this.manager.get(clientKey, false);
 		// Check whether the instance of FreeClient is valid. 11/20/2014, Bing Li
-		if (client != UtilConfig.NO_CLIENT)
+		if (client != ClientConfig.NO_CLIENT)
 		{
-			log.info("server address: " + client.getServerAddress() + ", port = " + client.getServerPort());
+//			log.info("server address: " + client.getServerAddress() + ", port = " + client.getServerPort());
 //			System.out.println("FreeClientPool-send(): " + client);
 			// Send the message. 11/20/2014, Bing Li
 			client.send(msg);
 			// Collect the instance of FreeClient. 11/20/2014, Bing Li
-			this.pool.collect(client);
+			this.manager.collect(client);
 		}
 	}
 
 	/*
+	 * 
+	 * The problem is not resolved through adding synchronized. So it is removed again. The problem is caused by the sharing of FreeClientPool between the eventer and the reader. 10/10/2022, Bing Li
+	 * 
+	 * The synchronized modifier is placed for the method to ensure data is sent out safely before closing. 10/10/2022, Bing Li
+	 * 
 	 * Send a request message to a remote node in the form of IPPort and then wait until its corresponding response is received. It also ensures initializing, sending and collecting are invisible to users. 11/20/2014, Bing Li
 	 */
+	/*
 	public ServerMessage request(IPResource ipPort, ServerMessage req) throws IOException, ClassNotFoundException
 	{
 		// Get an instance of FreeClient by the instance of IPPort. 11/20/2014, Bing Li
-		FreeClient client = this.pool.get(ipPort);
+		FreeClient client = this.manager.get(ipPort);
 		// Check whether the instance of FreeClient is valid. 11/20/2014, Bing Li
-		if (client != UtilConfig.NO_CLIENT)
+		if (client != ClientConfig.NO_CLIENT)
 		{
 			// Send the message and wait until the corresponding response is received. 11/20/2014, Bing Li
 			ServerMessage res = client.sendWithResponse(req);
 			// Collect the instance of FreeClient. 11/20/2014, Bing Li
-			this.pool.collect(client);
+			this.manager.collect(client);
 			// Return the response. 11/20/2014, Bing Li
 			return res;
 		}
 		// If the instance of FreeClient is not valid, return null. 11/20/2014, Bing Li
 		return null;
 	}
+	*/
 
 	/*
+	 * 
+	 * The problem is not resolved through adding synchronized. So it is removed again. The problem is caused by the sharing of FreeClientPool between the eventer and the reader. 10/10/2022, Bing Li
+	 * 
+	 * The synchronized modifier is placed for the method to ensure data is sent out safely before closing. 10/10/2022, Bing Li
+	 * 
 	 * Send a request message to a remote node in the form of IP/port and then wait until its corresponding response is received. It also ensures initializing, sending and collecting are invisible to users. 11/20/2014, Bing Li
 	 */
+	/*
 	public ServerMessage request(String ip, int port, ServerMessage req) throws IOException, ClassNotFoundException
 	{
 		// Get an instance of FreeClient by the instance of IPPort. 11/20/2014, Bing Li
-		FreeClient client = this.pool.get(new IPResource(ip, port));
+		FreeClient client = this.manager.get(new IPResource(ip, port));
 		// Check whether the instance of FreeClient is valid. 11/20/2014, Bing Li
-		if (client != UtilConfig.NO_CLIENT)
+		if (client != ClientConfig.NO_CLIENT)
 		{
 			// Send the message and wait until the corresponding response is received. 11/20/2014, Bing Li
 			ServerMessage res = client.sendWithResponse(req);
 			// Collect the instance of FreeClient. 11/20/2014, Bing Li
-			this.pool.collect(client);
+			this.manager.collect(client);
 			// Return the response. 11/20/2014, Bing Li
 			return res;
 		}
 		// If the instance of FreeClient is not valid, return null. 11/20/2014, Bing Li
 		return null;
 	}
+	*/
 
+	/*
+	 *
+	 * The problem is not resolved through adding synchronized. So it is removed again. The problem is caused by the sharing of FreeClientPool between the eventer and the reader. 10/10/2022, Bing Li
+	 * 
+	 * The synchronized modifier is placed for the method to ensure data is sent out safely before closing. 10/10/2022, Bing Li
+	 */
+	/*
 	public ServerMessage request(String ip, int port, ServerMessage req, int timeout) throws IOException, ClassNotFoundException, SocketTimeoutException
 	{
 		// Get an instance of FreeClient by the instance of IPPort. 11/20/2014, Bing Li
-		FreeClient client = this.pool.get(new IPResource(ip, port, timeout));
+		FreeClient client = this.manager.get(new IPResource(ip, port, timeout));
 		// Check whether the instance of FreeClient is valid. 11/20/2014, Bing Li
-		if (client != UtilConfig.NO_CLIENT)
+		if (client != ClientConfig.NO_CLIENT)
 		{
 			// Send the message and wait until the corresponding response is received. 11/20/2014, Bing Li
 			ServerMessage res = client.sendWithResponse(req);
 			// Collect the instance of FreeClient. 11/20/2014, Bing Li
-			this.pool.collect(client);
+			this.manager.collect(client);
 			// Return the response. 11/20/2014, Bing Li
 			return res;
 		}
 		// If the instance of FreeClient is not valid, return null. 11/20/2014, Bing Li
 		return null;
 	}
+	*/
 
 	/*
+	 * 
+	 * The problem is not resolved through adding synchronized. So it is removed again. The problem is caused by the sharing of FreeClientPool between the eventer and the reader. 10/10/2022, Bing Li
+	 * 
+	 * The synchronized modifier is placed for the method to ensure data is sent out safely before closing. 10/10/2022, Bing Li
+	 * 
 	 * Send a request message to a remote node by its client key and then wait until its corresponding response is received. It also ensures initializing, sending and collecting are invisible to users. 11/20/2014, Bing Li
 	 */
+	/*
 	public ServerMessage request(String clientKey, ServerMessage req) throws IOException, ClassNotFoundException
 	{
 		// Get an instance of FreeClient by the client key. 11/20/2014, Bing Li
-		FreeClient client = this.pool.get(clientKey);
+		FreeClient client = this.manager.get(clientKey);
 		// Check whether the instance of FreeClient is valid. 11/20/2014, Bing Li
-		if (client != UtilConfig.NO_CLIENT)
+		if (client != ClientConfig.NO_CLIENT)
 		{
 			// Send the message and wait until the corresponding response is received. 11/20/2014, Bing Li
 			ServerMessage res = client.sendWithResponse(req);
 			// Collect the instance of FreeClient. 11/20/2014, Bing Li
-			this.pool.collect(client);
+			this.manager.collect(client);
 			// Return the response. 11/20/2014, Bing Li
 			return res;
 		}
 		// If the instance of FreeClient is not valid, return null. 11/20/2014, Bing Li
 		return null;
+	}
+	*/
+
+	/*
+	 * The method is used frequently for unicasting. 09/24/2022, Bing Li
+	 */
+	public IPAddress getClosestIP(String characterKey)
+	{
+		return this.getIPAddress(Tools.getClosestKey(characterKey, this.manager.getAllObjectKeys()));
 	}
 
 	/*
@@ -198,9 +262,9 @@ public class FreeClientPool
 //	public void addIP(String clientKey, String ip, int port)
 	public void addIP(String ip, int port)
 	{
-		IPResource ir = new IPResource(ip, port);
+//		IPResource ir = new IPResource(ip, port);
 //		log.info("IP key = " + ir.getObjectKey());
-		this.pool.addSource(ir);
+		this.manager.addIPResource(new IPResource(ip, port));
 	}
 
 	/*
@@ -213,12 +277,12 @@ public class FreeClientPool
 
 	public void clearAll()
 	{
-		this.pool.clearSource();
+		this.manager.clear();
 	}
 	
 	public void removeSource(String clientKey)
 	{
-		this.pool.removeSource(clientKey);
+		this.manager.removeIPResource(clientKey);
 	}
 	
 	/*
@@ -226,7 +290,7 @@ public class FreeClientPool
 	 */
 	public void removeIP(String clientKey) throws IOException
 	{
-		this.pool.removeResource(clientKey);
+		this.manager.removeClient(clientKey);
 	}
 
 	/*
@@ -235,7 +299,7 @@ public class FreeClientPool
 	public boolean isSourceExisted(String ip, int port)
 	{
 		// Check whether the source to create the instance of FreeClient is existed. 11/20/2014, Bing Li
-		return this.pool.isSourceExisted(new IPResource(ip, port));
+		return this.manager.isSourceExisted(new IPResource(ip, port));
 	}
 	
 	/*
@@ -243,7 +307,7 @@ public class FreeClientPool
 	 */
 	public boolean isClientExisted(String key)
 	{
-		return this.pool.isResourceExisted(key);
+		return this.manager.isResourceExisted(key);
 	}
 
 	/*
@@ -251,7 +315,7 @@ public class FreeClientPool
 	 */
 	public String getIP(String clientKey)
 	{
-		return this.pool.getSource(clientKey).getIP();
+		return this.manager.getIPResource(clientKey).getIP();
 	}
 
 	/*
@@ -259,7 +323,7 @@ public class FreeClientPool
 	 */
 	public IPAddress getIPAddress(String clientKey)
 	{
-		return this.pool.getSource(clientKey).getAddress();
+		return this.manager.getIPResource(clientKey).getAddress();
 	}
 
 	/*
@@ -267,12 +331,12 @@ public class FreeClientPool
 	 */
 	public int getClientSourceSize()
 	{
-		return this.pool.getSourceSize();
+		return this.manager.getSourceSize();
 	}
 	
 	public int getClientSize()
 	{
-		return this.pool.getClientSize();
+		return this.manager.getClientSize();
 	}
 
 	/*
@@ -280,7 +344,7 @@ public class FreeClientPool
 	 */
 	public IPResource getIPPort(String clientKey)
 	{
-		return this.pool.getSource(clientKey);
+		return this.manager.getIPResource(clientKey);
 	}
 
 	/*
@@ -288,7 +352,7 @@ public class FreeClientPool
 	 */
 	public Set<String> getClientKeys()
 	{
-		return this.pool.getAllObjectKeys();
+		return this.manager.getAllObjectKeys();
 	}
 
 	/*
@@ -296,7 +360,7 @@ public class FreeClientPool
 	 */
 	public int getBusyClientCount()
 	{
-		return this.pool.getBusyResourceSize();
+		return this.manager.getBusyClientSize();
 	}
 	
 	/*
@@ -304,7 +368,7 @@ public class FreeClientPool
 	 */
 	public int getIdleClientCount()
 	{
-		return this.pool.getIdleResourceSize();
+		return this.manager.getIdleClientSize();
 	}
 
 	/*
@@ -312,6 +376,11 @@ public class FreeClientPool
 	 */
 	public void removeClient(String clientKey) throws IOException
 	{
-		this.pool.removeResource(clientKey);
+		this.manager.removeClient(clientKey);
+	}
+	
+	public void remove(String clientKey)
+	{
+		this.manager.removeIPResource(clientKey);
 	}
 }

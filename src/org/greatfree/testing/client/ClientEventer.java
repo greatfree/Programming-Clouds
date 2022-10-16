@@ -77,7 +77,7 @@ public class ClientEventer
 	/*
 	 * Dispose the eventers. 11/07/2014, Bing Li
 	 */
-	public void dispose(long timeout) throws InterruptedException, IOException
+	public void dispose(long timeout) throws InterruptedException, IOException, ClassNotFoundException
 	{
 		this.onlineEventer.dispose();
 		this.registerClientEventer.dispose();

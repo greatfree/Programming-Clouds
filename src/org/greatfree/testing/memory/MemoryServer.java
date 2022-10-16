@@ -124,7 +124,7 @@ public class MemoryServer
 	/*
 	 * Stop the crawler. 11/28/2014, Bing Li
 	 */
-	public void stop() throws InterruptedException, IOException
+	public void stop() throws InterruptedException, IOException, ClassNotFoundException
 	{
 		// Set the terminating signal. The long time running task needs to be interrupted when the signal is set. 11/28/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();

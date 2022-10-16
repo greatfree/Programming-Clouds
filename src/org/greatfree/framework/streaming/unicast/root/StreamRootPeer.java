@@ -8,7 +8,7 @@ import org.greatfree.exceptions.DistributedNodeFailedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
-import org.greatfree.message.multicast.PrimitiveClusterIPRequest;
+import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
 import org.greatfree.message.multicast.container.RootAddressNotification;
 import org.greatfree.server.Peer;
@@ -77,7 +77,7 @@ class StreamRootPeer
 
 		this.peer.start();
 
-		ClusterIPResponse ipResponse = (ClusterIPResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new PrimitiveClusterIPRequest());
+		ClusterIPResponse ipResponse = (ClusterIPResponse)this.peer.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new ClusterIPRequest());
 		
 		if (ipResponse.getIPs() != null)
 		{

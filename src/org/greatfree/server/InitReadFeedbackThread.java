@@ -44,6 +44,9 @@ public class InitReadFeedbackThread extends NotificationQueue<InitReadNotificati
 					// Dequeue the notification. 11/09/2014, Bing Li
 					notification = this.dequeue();
 					/*
+					 * 
+					 * The message, InitReadFeedbackNotification, causes the CPU to raise 25%. So it is unnecessary to send it. At least, right now it is fine. I will refine the entire code later. 10/11/2022, Bing Li
+					 * 
 					 * So the thread is commented out. I will test whether any problems are caused by the removal. 04/22/2022, Bing Li
 					 * 
 					 * The below line causes the CPU usage to raise to 25% and the value never goes down. It is a big bug. The below line seems to be useless. 04/22/2022, Bing Li

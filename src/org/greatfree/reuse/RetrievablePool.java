@@ -723,7 +723,7 @@ public class RetrievablePool<Source extends FreeObject, Resource extends FreeObj
 				if (busyResourceCount + idleResourceCount < this.poolSize)
 				{
 					// If the upper limit of the pool is not reached, it is time to create an instance by its source. 09/17/2014, Bing Li
-					rsc = this.creator.createResourceInstance(source);
+					rsc = this.creator.createClientInstance(source);
 					// Check whether the newly created instance is valid. 09/17/2014, Bing Li
 					if (rsc != null)
 					{
@@ -876,7 +876,7 @@ public class RetrievablePool<Source extends FreeObject, Resource extends FreeObj
 						if (busyResourceCount + idleResourceCount < this.poolSize)
 						{
 							// If the upper limit of the pool is not reached, it is time to create an instance by its source. 09/17/2014, Bing Li
-							rsc = this.creator.createResourceInstance(src);
+							rsc = this.creator.createClientInstance(src);
 							// Check whether the newly created instance is valid. 09/17/2014, Bing Li
 							if (rsc != null)
 							{

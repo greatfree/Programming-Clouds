@@ -48,7 +48,7 @@ public final class StandaloneClient
 		}
 	}
 
-	public void dispose() throws IOException, InterruptedException
+	public void dispose() throws InterruptedException
 	{
 		if (this.client != null)
 		{

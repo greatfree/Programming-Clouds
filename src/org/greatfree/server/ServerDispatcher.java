@@ -5,13 +5,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.greatfree.concurrency.ThreadPool;
-import org.greatfree.concurrency.reactive.NotificationDispatcher;
+import org.greatfree.concurrency.reactive.RequestDispatcher;
 import org.greatfree.data.ServerConfig;
-import org.greatfree.message.InitReadNotification;
+import org.greatfree.message.LeaveRequest;
+import org.greatfree.message.LeaveResponse;
+import org.greatfree.message.LeaveStream;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.SystemMessageType;
-import org.greatfree.testing.message.MessageType;
-import org.greatfree.testing.message.RegisterClientNotification;
 import org.greatfree.util.Tools;
 
 /*
@@ -37,18 +37,29 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 	// The scheduler is used to check the status of threads managed by the dispatcher. 05/08/2018, Bing Li
 	private ScheduledThreadPoolExecutor scheduler;
 
+	/*
+	 * The registry dispatcher is not necessary. The client does not send such a message to the server. 10/11/2022, Bing Li
+	 */
 	// Declare a notification dispatcher to process the registration notification concurrently. 11/04/2014, Bing Li
-	private NotificationDispatcher<RegisterClientNotification, RegisterClientThread, RegisterClientThreadCreator> registerClientNotificationDispatcher;
+//	private NotificationDispatcher<RegisterClientNotification, RegisterClientThread, RegisterClientThreadCreator> registerClientNotificationDispatcher;
 	
 	/*
+	 *
+	 * The message, InitReadFeedbackNotification, causes the CPU to raise 25%. So it is unnecessary to send it. At least, right now it is fine. I will refine the entire code later. 10/11/2022, Bing Li
+	 * 
 	 * So the thread is commented out. I will test whether any problems are caused by the removal. 04/22/2022, Bing Li
 	 * 
 	 * The below line causes the CPU usage to raise to 25% and the value never goes down. It is a big bug. The below line seems to be useless. 04/22/2022, Bing Li
 	 *
 	 */
+	/*
+	 * After testing, the line is not necessary. 10/15/2022, Bing Li
+	 */
 	// Declare a notification dispatcher to deal with instances of InitReadNotification from a client concurrently such that the client can initialize its ObjectInputStream. 11/09/2014, Bing Li
-	private NotificationDispatcher<InitReadNotification, InitReadFeedbackThread, InitReadFeedbackThreadCreator> initReadFeedbackNotificationDispatcher;
+//	private NotificationDispatcher<InitReadNotification, InitReadFeedbackThread, InitReadFeedbackThreadCreator> initReadFeedbackNotificationDispatcher;
 	
+	private RequestDispatcher<LeaveRequest, LeaveStream, LeaveResponse, LeaveRequestThread, LeaveRequestThreadCreator> leaveRequestDispatcher;
+
 	// The boolean field is added to avoid processing incoming messages after the server dispatcher is shut down. 11/17/2019, Bing Li
 	private AtomicBoolean isDown;
 
@@ -72,6 +83,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 		this.scheduler.allowCoreThreadTimeOut(true);
 
 		// Initialize the client registration notification dispatcher. 11/30/2014, Bing Li
+		/*
 		this.registerClientNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<RegisterClientNotification, RegisterClientThread, RegisterClientThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 //				.keepAliveTime(ServerConfig.NOTIFICATION_DISPATCHER_THREAD_ALIVE_TIME)
@@ -86,8 +98,10 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 //				.scheduler(super.getSchedulerPool())
 				.scheduler(this.scheduler)
 				.build();
+				*/
 
 		// Initialize the read initialization notification dispatcher. 11/30/2014, Bing Li
+		/*
 		this.initReadFeedbackNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<InitReadNotification, InitReadFeedbackThread, InitReadFeedbackThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 //				.keepAliveTime(ServerConfig.NOTIFICATION_DISPATCHER_THREAD_ALIVE_TIME)
@@ -101,7 +115,18 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 //				.scheduler(super.getSchedulerPool())
 				.scheduler(this.scheduler)
 				.build();
-		
+				*/
+
+		this.leaveRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<LeaveRequest, LeaveStream, LeaveResponse, LeaveRequestThread, LeaveRequestThreadCreator>()
+				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
+				.threadCreator(new LeaveRequestThreadCreator())
+				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.REQUEST_DISPATCHER_WAIT_TIME)
+				.idleCheckDelay(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_PERIOD)
+				.scheduler(this.scheduler)
+				.build();
+
 		// The boolean field is added to avoid processing incoming messages after the server dispatcher is shut down. 11/17/2019, Bing Li
 		this.isDown = new AtomicBoolean(false);
 	}
@@ -118,6 +143,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 		this.scheduler.allowCoreThreadTimeOut(true);
 
 		// Initialize the client registration notification dispatcher. 11/30/2014, Bing Li
+		/*
 		this.registerClientNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<RegisterClientNotification, RegisterClientThread, RegisterClientThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 //				.keepAliveTime(ServerConfig.NOTIFICATION_DISPATCHER_THREAD_ALIVE_TIME)
@@ -132,8 +158,10 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 //				.scheduler(super.getSchedulerPool())
 				.scheduler(this.scheduler)
 				.build();
+				*/
 
 		// Initialize the read initialization notification dispatcher. 11/30/2014, Bing Li
+		/*
 		this.initReadFeedbackNotificationDispatcher = new NotificationDispatcher.NotificationDispatcherBuilder<InitReadNotification, InitReadFeedbackThread, InitReadFeedbackThreadCreator>()
 				.poolSize(ServerConfig.NOTIFICATION_DISPATCHER_POOL_SIZE)
 //				.keepAliveTime(ServerConfig.NOTIFICATION_DISPATCHER_THREAD_ALIVE_TIME)
@@ -147,7 +175,18 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 //				.scheduler(super.getSchedulerPool())
 				.scheduler(this.scheduler)
 				.build();
-		
+				*/
+
+		this.leaveRequestDispatcher = new RequestDispatcher.RequestDispatcherBuilder<LeaveRequest, LeaveStream, LeaveResponse, LeaveRequestThread, LeaveRequestThreadCreator>()
+				.poolSize(ServerConfig.REQUEST_DISPATCHER_POOL_SIZE)
+				.threadCreator(new LeaveRequestThreadCreator())
+				.requestQueueSize(ServerConfig.REQUEST_QUEUE_SIZE)
+				.dispatcherWaitTime(ServerConfig.REQUEST_DISPATCHER_WAIT_TIME)
+				.idleCheckDelay(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_DELAY)
+				.idleCheckPeriod(ServerConfig.REQUEST_DISPATCHER_IDLE_CHECK_PERIOD)
+				.scheduler(this.scheduler)
+				.build();
+
 		// The boolean field is added to avoid processing incoming messages after the server dispatcher is shut down. 11/17/2019, Bing Li
 		this.isDown = new AtomicBoolean(false);
 	}
@@ -177,9 +216,10 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 		this.isDown.set(true);
 //		System.out.println("ServerDispatcher-shutdown(): shutdown is performed ...");
 		// Dispose the register dispatcher. 01/14/2016, Bing Li
-		this.registerClientNotificationDispatcher.dispose();
+//		this.registerClientNotificationDispatcher.dispose();
 		// Dispose the dispatcher for initializing reading feedback. 11/09/2014, Bing Li
-		this.initReadFeedbackNotificationDispatcher.dispose();
+//		this.initReadFeedbackNotificationDispatcher.dispose();
+		this.leaveRequestDispatcher.dispose();
 		
 		// Shutdown the derived server dispatcher. 11/04/2014, Bing Li
 //		super.shutdown(timeout);
@@ -213,6 +253,7 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 		// Check the types of received messages. 11/09/2014, Bing Li
 		switch (message.getMessage().getType())
 		{
+			/*
 			case MessageType.REGISTER_CLIENT_NOTIFICATION:
 //				System.out.println("REGISTER_CLIENT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				// Check whether the registry notification dispatcher is ready. 01/14/2016, Bing Li
@@ -225,8 +266,10 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 				// Enqueue the notification into the dispatcher for concurrent processing. 01/14/2016, Bing Li
 				this.registerClientNotificationDispatcher.enqueue((RegisterClientNotification)message.getMessage());
 				break;
+				*/
 			
 			// If the message is the one of initializing notification. 11/09/2014, Bing Li
+		/*
 			case SystemMessageType.INIT_READ_NOTIFICATION:
 //				System.out.println("INIT_READ_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				// Check whether the reading initialization dispatcher is ready or not. 01/14/2016, Bing Li
@@ -238,6 +281,17 @@ public abstract class ServerDispatcher<Message extends ServerMessage>
 				}
 				// Enqueue the notification into the dispatcher for concurrent processing. 11/09/2014, Bing Li
 				this.initReadFeedbackNotificationDispatcher.enqueue((InitReadNotification)message.getMessage());
+				break;
+				*/
+				
+			case SystemMessageType.LEAVE_REQUEST:
+				if (!this.leaveRequestDispatcher.isReady())
+				{
+					// Execute the registry dispatcher as a thread. 04/17/2017, Bing Li
+					this.execute(this.leaveRequestDispatcher);
+				}
+				// Enqueue the request into the dispatcher for concurrent responding. 04/17/2017, Bing Li
+				this.leaveRequestDispatcher.enqueue(new LeaveStream(message.getOutStream(), message.getLock(), (LeaveRequest)message.getMessage()));
 				break;
 		}
 	}

@@ -12,7 +12,7 @@ import org.greatfree.reuse.Creatable;
 public class URLDBCreator implements Creatable<String, URLDB>
 {
 	@Override
-	public URLDB createResourceInstance(String source) throws IOException
+	public URLDB createClientInstance(String source) throws IOException
 	{
 		return new URLDB(source);
 	}

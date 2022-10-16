@@ -8,7 +8,7 @@ import org.greatfree.testing.message.UnregisterClientNotification;
  */
 
 // Created: 11/21/2016, Bing Li
-public class UnregisterClientThreadCreator implements NotificationQueueCreator<UnregisterClientNotification, UnregisterClientThread>
+final class UnregisterClientThreadCreator implements NotificationQueueCreator<UnregisterClientNotification, UnregisterClientThread>
 {
 
 	@Override

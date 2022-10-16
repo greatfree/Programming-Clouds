@@ -1,7 +1,5 @@
 package org.greatfree.data;
 
-import org.greatfree.client.FreeClient;
-
 /*
  * The class keeps constants of the testing sample code. 08/04/2014, Bing Li
  */
@@ -35,7 +33,7 @@ public class ServerConfig
 
 //	public final static int REMOTE_SERVER_PORT = 8962;
 	
-	public final static FreeClient NO_CLIENT = null;
+//	public final static FreeClient NO_CLIENT = null;
 
 	public final static int MY_SERVER = 1;
 

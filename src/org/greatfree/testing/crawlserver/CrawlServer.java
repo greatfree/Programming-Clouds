@@ -174,7 +174,7 @@ public class CrawlServer
 	/*
 	 * Stop the crawler. 11/24/2014, Bing Li
 	 */
-	public void stop() throws InterruptedException, IOException
+	public void stop() throws InterruptedException, IOException, ClassNotFoundException
 	{
 		// Set the terminating signal. The long time running task, scheduling the crawling URLs, needs to be interrupted when the signal is set. 11/24/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
@@ -190,15 +190,8 @@ public class CrawlServer
 		// Close the socket of the crawling server. 11/24/2014, Bing Li
 		this.serverSocket.close();
 		
-		try
-		{
-			// Stop the crawling consumer. 11/24/2014, Bing Li
-			this.crawlConsumerThreader.stop(ClientConfig.TIME_TO_WAIT_FOR_THREAD_TO_DIE);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
+		// Stop the crawling consumer. 11/24/2014, Bing Li
+		this.crawlConsumerThreader.stop(ClientConfig.TIME_TO_WAIT_FOR_THREAD_TO_DIE);
 
 		// Check whether the crawling state checker is valid. It might not be initialized if the crawling is not started. 11/27/2014, Bing Li
 		if (this.stateChecker != null)

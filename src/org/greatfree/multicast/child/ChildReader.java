@@ -32,7 +32,7 @@ final class ChildReader
 	/*
 	 * Disseminate the instance of Message. The message here is the one which is just received. It must be forwarded by the local client. 11/11/2014, Bing Li
 	 */
-	public void syncRead(MulticastRequest request) throws IOException, DistributedNodeFailedException
+	public void syncRead(MulticastRequest request) throws IOException, DistributedNodeFailedException, InterruptedException
 	{
 		this.multicastor.read(request);
 	}

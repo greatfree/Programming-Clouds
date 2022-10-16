@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.greatfree.client.IdleChecker;
 import org.greatfree.util.Builder;
@@ -16,6 +15,8 @@ import org.greatfree.util.UtilConfig;
 // Created: 09/09/2018, Bing Li
 public class NotifierPool<Notification> extends Thread implements IdleCheckable
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.concurrency");
+	
 	// The actors that are available to sent the messages concurrently.. 11/20/2014, Bing Li
 	private Map<String, Runner<NotificationThread<Notification>>> threads;
 	// The queue which contains the message to be processed. 11/20/2014, Bing Li
@@ -41,7 +42,7 @@ public class NotifierPool<Notification> extends Thread implements IdleCheckable
 	// When the actor has no messages to send, it has to wait. But if the waiting time is long enough, it needs to be disposed. The waitRound defines the count of outside-most loop in the run(). Because of it, the actor has killed after no messages are available for sufficient time. 01/20/2016, Bing Li 
 //	private final int waitRound;
 	// When self-disposing the dispatcher to save resources, it needs to keep synchronization between the message queue and the disposing. The lock is responsible for that. 02/01/2016, Bing Li
-	private ReentrantLock monitorLock;
+//	private ReentrantLock monitorLock;
 	// The actor which contains the function to be executed asynchronously. 09/10/2018, Bing Li
 	private Notifier<Notification> notifier;
 
@@ -64,7 +65,7 @@ public class NotifierPool<Notification> extends Thread implements IdleCheckable
 //		this.waitRound = builder.getWaitRound();
 		this.idleCheckDelay = builder.getIdleCheckDelay();
 		this.idleCheckPeriod = builder.getIdleCheckPeriod();
-		this.monitorLock = new ReentrantLock();
+//		this.monitorLock = new ReentrantLock();
 		this.notifier = builder.getNotifier();
 	}
 	
@@ -323,15 +324,22 @@ public class NotifierPool<Notification> extends Thread implements IdleCheckable
 	 */
 	public synchronized void notify(Notification message)
 	{
+//		log.info("one notification is enqueued");
 		// With the lock, the message queue keeps synchronized with self-disposing mechanism. 02/01/2016, Bing Li
-		this.monitorLock.lock();
+//		this.monitorLock.lock();
 		// Put the message into the queue. 11/20/2014, Bing Li
 		this.notificationQueue.add(message);
-		this.monitorLock.unlock();
+//		this.monitorLock.unlock();
 		// Signal the potential waiting thread to schedule actors to perform the action. 11/20/2014, Bing Li
 		this.collaborator.signal();
 	}
-	
+
+	/*
+	public Notification peek()
+	{
+		return this.notificationQueue.peek();
+	}
+	*/
 	
 	/*
 	 * The thread of the dispatcher is always running until no messages to be processed. If too many messages are received, more actors are created by the pool. If messages are limited, the count of threads created by the dispatcher is also small. It is true that no any threads are alive when no messages are received for a long time. 11/20/2014, Bing Li
@@ -434,12 +442,12 @@ public class NotifierPool<Notification> extends Thread implements IdleCheckable
 					// If the dispatcher is still alive, it denotes that no messages are available temporarily. Just wait for a while. 11/20/2014, Bing Li
 					this.collaborator.holdOn(this.poolingWaitTime);
 					// The lock keeps synchronized between the messageQueue and the self-disposing mechanism. When checking whether the dispatcher should be disposed, it needs to protect the dispatcher from receiving additional messages. 02/01/2016, Bing Li
-					this.monitorLock.lock();
-					try
-					{
+//					this.monitorLock.lock();
+//					try
+//					{
 						// Detect whether the message is empty. 01/20/2016, Bing Li
-						if (this.notificationQueue.size() <= 0)
-						{
+//						if (this.notificationQueue.size() <= 0)
+//						{
 							// Check whether the waitRound is infinite. 01/20/2016, Bing Li
 							/*
 							if (this.waitRound != UtilConfig.INFINITE_WAIT_ROUND)
@@ -468,12 +476,12 @@ public class NotifierPool<Notification> extends Thread implements IdleCheckable
 								break;
 							}
 							*/
-						}
-					}
-					finally
-					{
-						this.monitorLock.unlock();
-					}
+//						}
+//					}
+//					finally
+//					{
+//						this.monitorLock.unlock();
+//					}
 				}
 			}
 			/*

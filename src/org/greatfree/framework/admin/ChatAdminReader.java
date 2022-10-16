@@ -14,8 +14,6 @@ import org.greatfree.framework.streaming.StreamConfig;
 import org.greatfree.message.PeerAddressRequest;
 import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.util.IPAddress;
-import org.greatfree.util.NodeID;
-import org.greatfree.util.ServerStatus;
 import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
 
@@ -61,14 +59,7 @@ class ChatAdminReader
 	 */
 	public void shutdown()
 	{
-		try
-		{
-			RemoteReader.REMOTE().shutdown();
-		}
-		catch (IOException e)
-		{
-			ServerStatus.FREE().printException(e);
-		}
+		RemoteReader.REMOTE().shutdown();
 	}
 
 	/*
@@ -78,7 +69,8 @@ class ChatAdminReader
 	{
 		try
 		{
-			return (ChatPartnerResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), RegistryConfig.PEER_REGISTRY_ADDRESS, ChatConfig.CHAT_REGISTRY_PORT, new ChatPartnerRequest(userKey)));
+//			return (ChatPartnerResponse)(RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), RegistryConfig.PEER_REGISTRY_ADDRESS, ChatConfig.CHAT_REGISTRY_PORT, new ChatPartnerRequest(userKey)));
+			return (ChatPartnerResponse)(RemoteReader.REMOTE().read(RegistryConfig.PEER_REGISTRY_ADDRESS, ChatConfig.CHAT_REGISTRY_PORT, new ChatPartnerRequest(userKey)));
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
@@ -91,7 +83,8 @@ class ChatAdminReader
 	{
 		try
 		{
-			return ((PeerAddressResponse)RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new PeerAddressRequest(Tools.getHash(StreamConfig.PUBSUB_SERVER_NAME)))).getPeerAddress();
+//			return ((PeerAddressResponse)RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new PeerAddressRequest(Tools.getHash(StreamConfig.PUBSUB_SERVER_NAME)))).getPeerAddress();
+			return ((PeerAddressResponse)RemoteReader.REMOTE().read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new PeerAddressRequest(Tools.getHash(StreamConfig.PUBSUB_SERVER_NAME)))).getPeerAddress();
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException e)
 		{
