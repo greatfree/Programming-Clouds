@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import org.greatfree.admin.Menu;
 import org.greatfree.chat.message.ShutdownServerNotification;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.original.cs.twonode.message.StopChatClusterThroughRootNotification;
 import org.greatfree.framework.cluster.original.cs.twonode.message.StopOneChildOnClusterNotification;
@@ -14,7 +15,7 @@ import org.greatfree.framework.cluster.original.cs.twonode.message.StopServerOnC
 class Administrator
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		int option = AdminConfig.NO_OPTION;
 		// Initialize a scanner to wait for the administrator's commands. 11/27/2014, Bing Li

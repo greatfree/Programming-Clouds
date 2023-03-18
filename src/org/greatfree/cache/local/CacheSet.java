@@ -1,6 +1,7 @@
 package org.greatfree.cache.local;
 
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -18,8 +19,6 @@ import org.greatfree.exceptions.TerminalServerOverflowedException;
 import org.greatfree.util.Builder;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.SerializedKey;
-
-import com.google.common.collect.Sets;
 
 /*
  * The locking is updated for the current version. 08/21/2018, Bing Li
@@ -327,7 +326,9 @@ public class CacheSet<Value extends SerializedKey, Factory extends CacheMapFacto
 	public Map<String, Value> intersect(Set<String> keys)
 	{
 //		this.lock.readLock().lock();
-		Set<String> retrievalKeys = Sets.intersection(this.keys, keys);
+//		Set<String> retrievalKeys = Sets.intersection(this.keys, keys);
+		Set<String> retrievalKeys = new HashSet<String>(this.keys);
+		retrievalKeys.retainAll(keys);
 //		this.lock.readLock().unlock();
 		return this.cache.getAll(retrievalKeys);
 //		Set<String> intersectedKeys = Sets.intersection(this.keys, keys);
@@ -347,7 +348,9 @@ public class CacheSet<Value extends SerializedKey, Factory extends CacheMapFacto
 		this.lock.writeLock().unlock();
 		*/
 //		this.lock.readLock().lock();
-		Set<String> retrievalKeys = Sets.difference(this.keys, keys);
+//		Set<String> retrievalKeys = Sets.difference(this.keys, keys);
+		Set<String> retrievalKeys = new HashSet<String>(this.keys);
+		retrievalKeys.removeAll(keys);
 //		this.lock.readLock().unlock();
 		return this.cache.getAll(retrievalKeys);
 	}

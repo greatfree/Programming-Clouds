@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.replication.ReplicationConfig;
 import org.greatfree.framework.cluster.replication.message.ReplicationTaskNotification;
@@ -23,7 +24,7 @@ import org.greatfree.util.UtilConfig;
 class StartClient
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException
 	{
 		StandaloneClient.CS().init();
 		Scanner in = new Scanner(System.in);

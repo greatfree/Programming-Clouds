@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.message.ClusterApplicationID;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.cs.multinode.intercast.group.message.GroupChatApplicationID;
 import org.greatfree.framework.cluster.cs.multinode.intercast.group.message.GroupChatNotification;
@@ -56,6 +58,7 @@ import org.greatfree.util.UtilConfig;
 // Created: 04/07/2019, Bing Li
 class ChatTask implements ChildTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.cluster.cs.multinode.intercast.group.clusterserver.child");
 
 	@Override
 	public void processNotification(ClusterNotification notification)
@@ -66,58 +69,58 @@ class ChatTask implements ChildTask
 				InterJoinGroupNotification ijgn = (InterJoinGroupNotification)notification;
 				AccountRegistry.CS().add(ijgn.getAccount());
 				JoinGroupNotification jgn = (JoinGroupNotification)ijgn.getIntercastNotification();
-				System.out.println(jgn.getSenderName() + ": processNotification(): JOIN_GROUP_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info(jgn.getSenderName() + ": processNotification(): JOIN_GROUP_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				GroupRegistry.CS().addMember(jgn.getGroupKey(), jgn.getUserKey());
 				break;
 				
 			case GroupChatApplicationID.LEAVE_GROUP_NOTIFICATION:
 				InterLeaveGroupNotification ilgn = (InterLeaveGroupNotification)notification;
 				LeaveGroupNotification lgn = (LeaveGroupNotification)ilgn.getIntercastNotification();
-				System.out.println(lgn.getSenderName() + ": processNotification(): LEAVE_GROUP_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info(lgn.getSenderName() + ": processNotification(): LEAVE_GROUP_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				GroupRegistry.CS().removeMember(lgn.getGroupKey(), lgn.getUserKey());
 				break;
 				
 			case GroupChatApplicationID.INVITE_USER_NOTIFICATION:
 				InterInviteUserNotification iiun = (InterInviteUserNotification)notification;
 				InviteUserNotification iun = (InviteUserNotification)iiun.getIntercastNotification();
-				System.out.println(iun.getSenderName() + ": processNotification(): INVITE_USER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info(iun.getSenderName() + ": processNotification(): INVITE_USER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				GroupRegistry.CS().addMember(iun.getGroupKey(), iun.getUserKey());
 				break;
 				
 			case GroupChatApplicationID.REMOVE_USER_NOTIFICATION:
 				InterRemoveUserNotification irun = (InterRemoveUserNotification)notification;
 				RemoveUserNotification run = (RemoveUserNotification)irun.getIntercastNotification();
-				System.out.println(run.getSenderName() + ": processNotification(): REMOVE_USER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info(run.getSenderName() + ": processNotification(): REMOVE_USER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				GroupRegistry.CS().removeMember(run.getGroupKey(), run.getUserKey());
 				break;
 				
 			case GroupChatApplicationID.GROUP_CHAT_NOTIFICATION:
 				InterGroupChatNotification igcn = (InterGroupChatNotification)notification;
 				GroupChatNotification gcn = (GroupChatNotification)igcn.getIntercastNotification();
-				System.out.println(gcn.getSenderName() + ": processNotification(): GROUP_CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info(gcn.getSenderName() + ": processNotification(): GROUP_CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				System.out.println(AccountRegistry.CS().getUserName(gcn.getSenderKey()) + " says, " + gcn.getChatMessage());
 				PublicChatSessions.HUNGARY().addMessage(gcn.getGroupKey(), gcn.getSenderKey(), gcn.getChatMessage());
 				break;
 
 			case ClusterApplicationID.STOP_CHAT_CLUSTER_NOTIFICATION:
-				System.out.println("STOP_CHAT_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("STOP_CHAT_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				try
 				{
 					ChatChild.GROUP().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}
 				break;
 
 			case ClusterApplicationID.STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION:
-				System.out.println("STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				try
 				{
 					ChatChild.GROUP().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

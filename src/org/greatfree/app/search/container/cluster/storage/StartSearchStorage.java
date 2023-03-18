@@ -3,14 +3,17 @@ package org.greatfree.app.search.container.cluster.storage;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 01/14/2019, Bing Li
 class StartSearchStorage
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, IOException, ServerPortConflictedException
 	{
 		System.out.println("Search storage node starting up ...");
 
@@ -19,9 +22,13 @@ class StartSearchStorage
 		{
 			StorageNode.CLUSTER().start(new StorageTask());
 		}
-		catch (ClassNotFoundException | IOException | RemoteReadException | InterruptedException e)
+		catch (ClassNotFoundException | RemoteReadException | InterruptedException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Search storage node started ...");

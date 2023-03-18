@@ -1,7 +1,6 @@
 package org.greatfree.framework.container.cs.multinode.client;
 
-import java.io.IOException;
-
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.cs.twonode.client.ChatMaintainer;
 
@@ -17,7 +16,7 @@ class Checker implements Runnable
 			ChatMaintainer.CS_CONTAINER().checkNewSessions();
 			ChatMaintainer.CS_CONTAINER().checkNewChats();
 		}
-		catch (ClassNotFoundException | RemoteReadException | IOException e)
+		catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 		{
 			e.printStackTrace();
 		}

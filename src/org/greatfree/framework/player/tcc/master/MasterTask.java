@@ -1,10 +1,12 @@
 package org.greatfree.framework.player.tcc.master;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.greatfree.concurrency.threading.Player;
 import org.greatfree.concurrency.threading.ATMTask;
 import org.greatfree.concurrency.threading.message.TaskStateNotification;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.exceptions.ThreadAssignmentException;
 import org.greatfree.framework.threading.TaskConfig;
@@ -16,6 +18,8 @@ import org.greatfree.message.container.Request;
 // Created: 09/30/2019, Bing Li
 class MasterTask extends ATMTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.player.tcc.master");
+
 	private Player p1;
 	private Player p2;
 
@@ -35,31 +39,31 @@ class MasterTask extends ATMTask
 			{
 				if (rst.getThreadKey().equals(p1.getThreadKey()))
 				{
-					System.out.println("MasterTask-processNotification(): P2 is executed ... ");
+					log.info("MasterTask-processNotification(): P2 is executed ... ");
 					try
 					{
 						p2.notifyThreads(new PrintTaskNotification(p2.getThreadKey(), "B: Hello!", 1000));
 					}
-					catch (ClassNotFoundException | RemoteReadException | IOException | InterruptedException | ThreadAssignmentException e)
+					catch (ClassNotFoundException | RemoteReadException | InterruptedException | ThreadAssignmentException | RemoteIPNotExistedException | IOException e)
 					{
 						e.printStackTrace();
 					}
 				}
 				else if (rst.getThreadKey().equals(p2.getThreadKey()))
 				{
-					System.out.println("MasterTask-processNotification(): P1 is executed ... ");
+					log.info("MasterTask-processNotification(): P1 is executed ... ");
 					try
 					{
 						p1.notifyThreads(new PrintTaskNotification(p1.getThreadKey(), "A: Hello!", 1000));
 					}
-					catch (ClassNotFoundException | RemoteReadException | IOException | InterruptedException | ThreadAssignmentException e)
+					catch (ClassNotFoundException | RemoteReadException | IOException | InterruptedException | ThreadAssignmentException | RemoteIPNotExistedException e)
 					{
 						e.printStackTrace();
 					}
 				}
 				else
 				{
-					System.out.println("MasterTask-processNotification(): the thread key does not make sense ... ");
+					log.info("MasterTask-processNotification(): the thread key does not make sense ... ");
 				}
 			}
 		}

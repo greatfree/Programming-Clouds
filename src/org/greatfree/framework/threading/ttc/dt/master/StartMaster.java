@@ -5,7 +5,10 @@ import java.util.Scanner;
 import java.util.Set;
 
 import org.greatfree.concurrency.threading.ThreadConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.threading.ThreadInfo;
 import org.greatfree.framework.threading.message.PrintTaskNotification;
 
@@ -17,7 +20,7 @@ import org.greatfree.framework.threading.message.PrintTaskNotification;
 class StartMaster
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Thread master starting up ...");
 

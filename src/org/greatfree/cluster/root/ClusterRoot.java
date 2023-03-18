@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.cluster.root.container.RootServiceProvider;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.ClusterIPRequest;
 import org.greatfree.message.multicast.ClusterIPResponse;
@@ -33,6 +37,8 @@ import org.greatfree.util.IPAddress;
 // Created: 09/23/2018, Bing Li
 class ClusterRoot
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster.root");
+
 	private Peer<RootDispatcher> root;
 	private RootClient client;
 	private Map<String, String> children;
@@ -56,7 +62,7 @@ class ClusterRoot
 		}
 	}
 	
-	public void dispose(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void dispose(long timeout) throws InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException, IOException
 	{
 		this.root.stop(timeout);
 		this.client.close();
@@ -65,7 +71,7 @@ class ClusterRoot
 	}
 	
 //	public void init(ServerOnCluster root,  int rootBranchCount, int treeBranchCount, long waitTime)
-	public void init(PeerBuilder<RootDispatcher> builder,  int rootBranchCount, int treeBranchCount, long waitTime) throws IOException
+	public void init(PeerBuilder<RootDispatcher> builder,  int rootBranchCount, int treeBranchCount, long waitTime) throws IOException, ServerPortConflictedException
 	{
 		this.root = new Peer<RootDispatcher>(builder);
 		/*
@@ -82,19 +88,19 @@ class ClusterRoot
 		this.children = new ConcurrentHashMap<String, String>();
 	}
 	
-	public void start() throws ClassNotFoundException, RemoteReadException, IOException, DistributedNodeFailedException
+	public void start() throws ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException, IOException
 	{
 		this.root.start();
 		ClusterIPResponse ipResponse = (ClusterIPResponse)this.readRegistry(new ClusterIPRequest());
 		
 		if (ipResponse.getIPs() != null)
 		{
-			System.out.println("RootPeer-ipResponse: ip size = " + ipResponse.getIPs().size());
+			log.info("RootPeer-ipResponse: ip size = " + ipResponse.getIPs().size());
 			
 			// Add the IP addresses to the client pool. 05/08/2017, Bing Li
 			for (IPAddress ip : ipResponse.getIPs().values())
 			{
-				System.out.println("Distributed IPs = " + ip.getIP() + ", " + ip.getPort());
+				log.info("Distributed IPs = " + ip.getIP() + ", " + ip.getPort());
 				this.root.addPartners(ip.getIP(), ip.getPort());
 			}
 			
@@ -120,12 +126,12 @@ class ClusterRoot
 		return this.children.size();
 	}
 	
-	public ServerMessage readRegistry(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage readRegistry(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 		return this.root.read(this.root.getRegistryServerIP(), this.root.getRegistryServerPort(), request);
 	}
 	
-	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 		return this.root.read(ip, port, request);
 	}

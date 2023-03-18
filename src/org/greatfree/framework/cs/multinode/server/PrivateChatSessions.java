@@ -1,6 +1,7 @@
 package org.greatfree.framework.cs.multinode.server;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,8 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.greatfree.chat.ChatMessage;
 import org.greatfree.chat.ChatTools;
-
-import com.google.common.collect.Sets;
 
 /*
  * The class keeps the chatting sessions for private users. In the case, the private chatting is defined as the one that happens between two users only. 04/23/2017, Bing Li
@@ -157,7 +156,8 @@ public class PrivateChatSessions
 		
 		if (!this.newSessions.containsKey(receiverKey))
 		{
-			Set<String> sessionKeys = Sets.newHashSet();
+//			Set<String> sessionKeys = Sets.newHashSet();
+			Set<String> sessionKeys = new HashSet<String>();
 			this.newSessions.put(receiverKey, sessionKeys);
 		}
 		String sessionKey = ChatTools.getChatSessionKey(senderKey, receiverKey);

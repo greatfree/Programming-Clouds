@@ -7,6 +7,7 @@ import org.greatfree.chat.ChatConfig;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.concurrency.Scheduler;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.cs.multinode.unifirst.client.ChatMaintainer;
 import org.greatfree.framework.cluster.cs.multinode.unifirst.client.Checker;
@@ -18,7 +19,7 @@ import org.greatfree.util.TerminateSignal;
 class StartChatClient
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException
 	{
 		// Initialize the option which represents a user's intents of operations. 09/21/2014, Bing Li
 		int option = MenuOptions.NO_OPTION;

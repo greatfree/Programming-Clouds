@@ -49,7 +49,7 @@ public class RegistryServer
 		// Dispose the system-level registry. 05/01/2017, Bing Li
 		PeerRegistry.SYSTEM().dispose();
 		// Dispose the account registry. 04/30/2017, Bing Li
-		AccountRegistry.APPLICATION().dispose();
+		AccountRegistry.APP().dispose();
 
 		// Stop the two servers. 04/30/2017, Bing Li
 		this.peerRegistryServer.stop(timeout);
@@ -115,7 +115,8 @@ public class RegistryServer
 		// Register the ports to avoid potential conflicts. 05/02/2017, Bing Li
 		String localIP = Tools.getLocalIP();
 		// Register the main port. 05/02/2017, Bing Li
-		PeerRegistry.SYSTEM().register(ChatConfig.CHAT_REGISTRY_SERVER_KEY, ChatConfig.CHAT_REGISTRY_NAME, localIP, RegistryConfig.PEER_REGISTRY_PORT);
+//		PeerRegistry.SYSTEM().register(ChatConfig.CHAT_REGISTRY_SERVER_KEY, ChatConfig.CHAT_REGISTRY_NAME, localIP, RegistryConfig.PEER_REGISTRY_PORT, false, false);
+		PeerRegistry.SYSTEM().register(ChatConfig.CHAT_REGISTRY_SERVER_KEY, ChatConfig.CHAT_REGISTRY_NAME, localIP, RegistryConfig.PEER_REGISTRY_PORT, false, false);
 		// Register the chat registry port. 05/02/2017, Bing Li
 		PeerRegistry.SYSTEM().registeOthers(ChatConfig.CHAT_REGISTRY_SERVER_KEY, ChatConfig.CHAT_REGISTRY_PORT_KEY, localIP, ChatConfig.CHAT_REGISTRY_PORT);
 		// Register the registry administration port. 05/02/2017, Bing Li

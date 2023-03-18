@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.multicast.child.ChildMulticastor;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -49,7 +52,7 @@ class SubscriberPeer
 		}
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		this.peer.stop(timeout);
 		ChildMulticastor.CHILD().stop();
@@ -58,7 +61,7 @@ class SubscriberPeer
 		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 
-	public void start(String subscriber) throws IOException, ClassNotFoundException, RemoteReadException
+	public void start(String subscriber) throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.peer = new Peer.PeerBuilder<SubscriberDispatcher>()
 				.peerPort(ChatConfig.CHAT_SERVER_PORT)
@@ -99,12 +102,12 @@ class SubscriberPeer
 		System.out.println("Subscriber-start(): PubSub Address = " + this.pubSubAddress);
 	}
 	
-	public StreamResponse getRegisteredStreams() throws ClassNotFoundException, RemoteReadException, IOException
+	public StreamResponse getRegisteredStreams() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (StreamResponse)this.peer.read(this.pubSubAddress.getIP(), this.pubSubAddress.getPort(), new StreamRequest());
 	}
 
-	public SubscribeStreamResponse subscribe(String publisher, String topic) throws ClassNotFoundException, RemoteReadException, IOException
+	public SubscribeStreamResponse subscribe(String publisher, String topic) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		System.out.println("Subscriber-subscribe(): peer ID = " + this.peer.getPeerID());
 		return (SubscribeStreamResponse)this.peer.read(this.pubSubAddress.getIP(), this.pubSubAddress.getPort(), new SubscribeStreamRequest(this.peer.getPeerID(), publisher, topic));

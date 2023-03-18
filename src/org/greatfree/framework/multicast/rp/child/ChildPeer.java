@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.p2p.message.ChatRegistryRequest;
@@ -40,7 +43,7 @@ public class ChildPeer
 		}
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		this.peer.stop(timeout);
 		ChildMulticastor.CHILD().stop();
@@ -49,7 +52,7 @@ public class ChildPeer
 		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 
-	public void start() throws IOException, ClassNotFoundException, RemoteReadException
+	public void start() throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Initialize the child peer. 05/12/2017, Bing Li
 		this.peer = new Peer.PeerBuilder<ChildDispatcher>()

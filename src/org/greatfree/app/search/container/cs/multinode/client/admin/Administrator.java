@@ -7,6 +7,7 @@ import org.greatfree.admin.Menu;
 import org.greatfree.app.search.container.cluster.message.ShutdownChildrenAdminNotification;
 import org.greatfree.app.search.container.cluster.message.ShutdownSearchEntryNotification;
 import org.greatfree.cluster.StandaloneClusterClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.cs.multinode.message.ShutdownServerNotification;
 import org.greatfree.framework.multicast.MulticastConfig;
@@ -17,7 +18,7 @@ import org.greatfree.util.Tools;
 class Administrator
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		int option = AdminConfig.NO_OPTION;
 		// Initialize a scanner to wait for the administrator's commands. 11/27/2014, Bing Li

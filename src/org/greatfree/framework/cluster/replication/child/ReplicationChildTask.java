@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.replication.child.db.ChildDB;
 import org.greatfree.framework.cluster.replication.message.ReplicationApplicationID;
@@ -47,7 +48,7 @@ class ReplicationChildTask implements ChildTask
 				{
 					ReplicationChild.REPLICATED().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

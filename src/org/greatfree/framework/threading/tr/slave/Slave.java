@@ -6,7 +6,10 @@ import org.greatfree.concurrency.Scheduler;
 import org.greatfree.concurrency.threading.Distributer;
 import org.greatfree.concurrency.threading.ThreadConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.threading.AddTask;
 import org.greatfree.util.TerminateSignal;
 
@@ -38,7 +41,7 @@ class Slave
 		}
 	}
 	
-	public void stop(long timeout) throws InterruptedException, ClassNotFoundException, IOException, RemoteReadException
+	public void stop(long timeout) throws InterruptedException, ClassNotFoundException, IOException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		TerminateSignal.SIGNAL().setTerminated();
 		Scheduler.PERIOD().shutdown(timeout);
@@ -46,7 +49,7 @@ class Slave
 		this.slave.stop(timeout);
 	}
 
-	public void start() throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void start() throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		

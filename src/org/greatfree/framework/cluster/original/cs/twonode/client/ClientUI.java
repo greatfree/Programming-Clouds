@@ -1,10 +1,10 @@
 package org.greatfree.framework.cluster.original.cs.twonode.client;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 import org.greatfree.chat.ChatOptions;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.original.cs.twonode.message.ChatRegistryRequest;
 import org.greatfree.framework.cluster.original.cs.twonode.message.ChatRegistryResponse;
@@ -65,7 +65,7 @@ class ClientUI
 	/*
 	 * Send the users' option to the chatting server. 04/23/2017, Bing Li
 	 */
-	public void send(int option) throws ClassNotFoundException, RemoteReadException, IOException
+	public void send(int option) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		CollectedClusterResponse response;
 		List<ChatRegistryResponse> registryResponses;

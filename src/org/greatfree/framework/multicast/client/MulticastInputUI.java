@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import org.greatfree.chat.ChatMenu;
 import org.greatfree.chat.ChatOptions;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.HelloWorld;
 import org.greatfree.framework.multicast.message.ClientHelloWorldAnycastRequest;
@@ -71,7 +72,7 @@ class MulticastInputUI
 	/*
 	 * Send messages to the distributed nodes within the cluster. 04/23/2017, Bing Li
 	 */
-	public void send(int highOption, int option) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void send(int highOption, int option) throws InstantiationException, IllegalAccessException, InterruptedException, ClassNotFoundException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 		int index = 0;
 		ClientHelloWorldBroadcastResponse broadcastResponse;

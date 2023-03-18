@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 03/21/2020, Bing Li
 class StartClient
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException
 	{
 		ServiceAccessor.BROAD().init();
 		

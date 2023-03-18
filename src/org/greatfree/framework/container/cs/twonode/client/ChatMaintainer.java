@@ -1,19 +1,18 @@
 package org.greatfree.framework.container.cs.twonode.client;
 
-import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.chat.ChatMessage;
 import org.greatfree.chat.ChatTools;
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.cs.multinode.message.PollNewChatsRequest;
 import org.greatfree.framework.container.cs.multinode.message.PollNewSessionsRequest;
 import org.greatfree.framework.cs.multinode.message.PollNewChatsResponse;
 import org.greatfree.framework.cs.multinode.message.PollNewSessionsResponse;
-
-import com.google.common.collect.Sets;
 
 // Created: 01/11/2019, Bing Li
 public class ChatMaintainer
@@ -27,7 +26,8 @@ public class ChatMaintainer
 	private ChatMaintainer()
 	{
 //		this.localUserKey = Tools.generateUniqueKey();
-		this.participatedSessions = Sets.newHashSet();
+//		this.participatedSessions = Sets.newHashSet();
+		this.participatedSessions = new HashSet<String>();
 	}
 	
 	/*
@@ -96,7 +96,7 @@ public class ChatMaintainer
 	/*
 	 * Check whether new sessions are available on the chatting server. 04/24/2017, Bing Li
 	 */
-	public void checkNewSessions() throws ClassNotFoundException, RemoteReadException, IOException
+	public void checkNewSessions() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		PollNewSessionsResponse response = (PollNewSessionsResponse)StandaloneClient.CS().read(ChatConfig.CHAT_SERVER_ADDRESS, ChatConfig.CHAT_SERVER_PORT, new PollNewSessionsRequest(this.localUserKey, this.localUsername));
 		if (response.getNewSessionKeys() != null)
@@ -109,7 +109,7 @@ public class ChatMaintainer
 	/*
 	 * Check whether new chatting messages are available on the chatting server. 04/24/2017, Bing Li
 	 */
-	public void checkNewChats() throws ClassNotFoundException, RemoteReadException, IOException
+	public void checkNewChats() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		PollNewChatsResponse response;
 		for (String sessionKey : this.participatedSessions)

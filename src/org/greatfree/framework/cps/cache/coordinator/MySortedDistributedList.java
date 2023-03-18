@@ -1,6 +1,5 @@
 package org.greatfree.framework.cps.cache.coordinator;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.DescendantListPointingComparator;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedListFetchException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.TestCacheConfig;
 import org.greatfree.framework.cps.cache.coordinator.evicting.EvictMyPointingThread;
@@ -170,7 +170,7 @@ public class MySortedDistributedList
 //			return this.cache.getRange(new FetchMyPointingListNotification(this.cache.getCacheKey(), startIndex, endIndex, this.cache.getPrefetchCount()));
 	}
 	
-	public void prefetch(FetchMyPointingListNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void prefetch(FetchMyPointingListNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		response = Coordinator.CPS().prefetch(notification.getCurrentCacheSize() - 1, notification.getPrefetchCount());
 		PrefetchMyPointingsResponse response = Coordinator.CPS().prefetch(notification.getPrefetchStartIndex(), notification.getPrefetchEndIndex());
@@ -178,7 +178,7 @@ public class MySortedDistributedList
 		this.cache.addAllLocally(response.getPointings());
 	}
 	
-	public void postfetch(FetchMyPointingListNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void postfetch(FetchMyPointingListNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (notification.getType() == FetchConfig.POSTFETCH_RESOURCE_BY_KEY)
 		{

@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.greatfree.message.InitReadNotification;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.FreeObject;
 import org.greatfree.util.Tools;
@@ -17,6 +16,11 @@ import org.greatfree.util.UtilConfig;
  */
 
 // Created: 08/10/2014, Bing Li
+
+/*
+ * The access attribute is changed temporarily for testing. 10/26/2022, Bing Li
+ */
+// public class FreeClient extends FreeObject
 class FreeClient extends FreeObject
 {
 //	private final static Logger log = Logger.getLogger("org.greatfree.client");
@@ -49,7 +53,7 @@ class FreeClient extends FreeObject
 		this.serverPort = serverPort;
 		this.socket = new Socket(this.serverAddress, this.serverPort);
 		/*
-		 * I want to test whether the timeout works or not. 03/25/2020, Bing Lis
+		 * I want to test whether the timeout works or not. 03/25/2020, Bing Li
 		 */
 		this.socket.setSoTimeout(timeout);
 		this.lock = new ReentrantLock();
@@ -76,25 +80,35 @@ class FreeClient extends FreeObject
 	 */
 	public void dispose() throws IOException
 	{
-		if (this.out != null)
+//		log.info("The client for " + this.serverAddress + ":" + this.serverPort + " is being closed ..." + ", hash = " + this.hashCode());
+		this.lock.lock();
+		try
 		{
-			/*
-			 * According to documentations, the close() includes the flush(). 10/10/2022, Bing Li
-			 * 
-			 * It does not work. 10/10/2022, Bing Li
-			 * 
-			 * The line is added to avoid possible data loss. I need to test whether it works. 10/10/2022, Bing Li
-			 */
-			this.out.flush();
-			this.out.close();
+			if (this.out != null)
+			{
+				/*
+				 * According to documentations, the close() includes the flush(). 10/10/2022, Bing Li
+				 * 
+				 * It does not work. 10/10/2022, Bing Li
+				 * 
+				 * The line is added to avoid possible data loss. I need to test whether it works. 10/10/2022, Bing Li
+				 */
+				this.out.flush();
+				this.out.close();
+			}
+			if (this.in != null)
+			{
+				this.in.close();
+			}
+			if (this.socket != null)
+			{
+				this.socket.close();
+			}
 		}
-		if (this.in != null)
+		finally
 		{
-			this.in.close();
-		}
-		if (this.socket != null)
-		{
-			this.socket.close();
+//			log.info("The client for " + this.serverAddress + ":" + this.serverPort + " is closed ...");
+			this.lock.unlock();
 		}
 	}
 
@@ -128,19 +142,24 @@ class FreeClient extends FreeObject
 	}
 	
 	/*
+	 * The method is not needed. 10/26/2022, Bing Li
+	 * 
 	 * Initialize the ObjectInputStream by sending a notification to the remote server. 11/04/2014, Bing Li
 	 */
 //	public void initRead(String clientKey) throws IOException
+	/*
 	public void initRead() throws IOException
 	{
 		this.send(new InitReadNotification(this.clientKey));
 	}
+	*/
 
 	/*
 	 * Initialize the ObjectInputStream after getting a feedback from the server. That means the server has already initialized the corresponding ObjectOutputStream. 11/04/2014, Bing Li
 	 */
 	public void setInputStream() throws IOException
 	{
+//		log.info("Input stream is initialized ...");
 		this.in = new ObjectInputStream(this.socket.getInputStream());
 	}
 	

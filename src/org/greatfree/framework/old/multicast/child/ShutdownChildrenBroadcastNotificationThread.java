@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.multicast.message.OldShutdownChildrenBroadcastNotification;
@@ -58,7 +59,7 @@ class ShutdownChildrenBroadcastNotificationThread extends NotificationQueue<OldS
 					{
 						ClusterChildSingleton.CLUSTER().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					}
-					catch (ClassNotFoundException | RemoteReadException e)
+					catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 					{
 						e.printStackTrace();
 					}

@@ -9,7 +9,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.greatfree.concurrency.Runner;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.server.CSServer.CSServerBuilder;
 import org.greatfree.util.ServerStatus;
@@ -96,54 +99,72 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 //	public AbstractCSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher) throws IOException
 //	public AbstractCSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher, boolean isPeer) throws IOException
 //	public AbstractCSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher, boolean isRegistryNeeded) throws IOException
-	public AbstractCSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher, boolean isPeer) throws IOException
+//	public AbstractCSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher, boolean isPeer) throws IOException
+	public AbstractCSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher, boolean isPeer, boolean isDisabled) throws ServerPortConflictedException
 	{
-//		this.hashKey = Tools.generateUniqueKey();
-		this.serverKey = dispatcher.getServerKey();
-		
-		this.port = port;
-		
-		/*
-		 * The abstract CSServer is used only for peer. 06/24/2022, Bing Li
-		 */
-		if (!isPeer)
+		if (!isDisabled)
 		{
-			this.socket = new ServerSocket(this.port);
+//			this.hashKey = Tools.generateUniqueKey();
+			this.serverKey = dispatcher.getServerKey();
+			
+			this.port = port;
+			
+			/*
+			 * The abstract CSServer is used only for peer. 06/24/2022, Bing Li
+			 */
+			if (!isPeer)
+			{
+				try
+				{
+					this.socket = new ServerSocket(this.port);
+				}
+				catch (IOException e)
+				{
+					throw new ServerPortConflictedException(this.port);
+				}
+			}
+//			this.socket = new ServerSocket(this.port);
+			if (listenerCount <= 0)
+			{
+				this.listenerCount = ServerConfig.LISTENING_THREAD_COUNT;
+			}
+			else
+			{
+				this.listenerCount = listenerCount;
+			}
+			
+			if (maxIOCount <= 0)
+			{
+				this.maxIOCount = ServerConfig.MAX_SERVER_IO_COUNT;
+			}
+			else
+			{
+				this.maxIOCount = maxIOCount;
+			}
+//			this.listenerThreadPool = listenerThreadPool;
+//			this.serverThreadPoolSize = serverThreadPoolSize;
+//			this.serverThreadKeepAliveTime = serverThreadKeepAliveTime;
+//			this.schedulerPoolSize = schedulerPoolSize;
+//			this.schedulerKeepAliveTime = schedulerKeepAliveTime;
+			this.ioRegistry = new ServerIORegistry<CSServerIO<Dispatcher>>();
+
+//			this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>>>();
+			this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>>>();
+			// Initialize the message producer to dispatcher messages. 11/23/2014, Bing Li
+			this.messageProducer = new ServerMessageProducer<Dispatcher>();
+			this.dispatcher = dispatcher;
+//			System.out.println("AbstractCSServer-Constructor(): dispatcher hashCode = " + this.dispatcher.hashCode());
+//			this.dispatcher.setServerKey(this.hashKey);
+			this.isStarted = new AtomicBoolean(false);
+//			this.timeout = timeout;
 		}
-//		this.socket = new ServerSocket(this.port);
-		if (listenerCount <= 0)
+		else
 		{
 			this.listenerCount = ServerConfig.LISTENING_THREAD_COUNT;
-		}
-		else
-		{
-			this.listenerCount = listenerCount;
-		}
-		
-		if (maxIOCount <= 0)
-		{
 			this.maxIOCount = ServerConfig.MAX_SERVER_IO_COUNT;
+			this.dispatcher = dispatcher;
+			this.isStarted = new AtomicBoolean(false);
 		}
-		else
-		{
-			this.maxIOCount = maxIOCount;
-		}
-//		this.listenerThreadPool = listenerThreadPool;
-//		this.serverThreadPoolSize = serverThreadPoolSize;
-//		this.serverThreadKeepAliveTime = serverThreadKeepAliveTime;
-//		this.schedulerPoolSize = schedulerPoolSize;
-//		this.schedulerKeepAliveTime = schedulerKeepAliveTime;
-		this.ioRegistry = new ServerIORegistry<CSServerIO<Dispatcher>>();
-
-//		this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>>>();
-		this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>>>();
-		// Initialize the message producer to dispatcher messages. 11/23/2014, Bing Li
-		this.messageProducer = new ServerMessageProducer<Dispatcher>();
-		this.dispatcher = dispatcher;
-//		System.out.println("AbstractCSServer-Constructor(): dispatcher hashCode = " + this.dispatcher.hashCode());
-//		this.dispatcher.setServerKey(this.hashKey);
-		this.isStarted = new AtomicBoolean(false);
-//		this.timeout = timeout;
 	}
 
 	/*
@@ -163,40 +184,49 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 
 	public AbstractCSServer(CSServerBuilder<Dispatcher> builder) throws IOException
 	{
-//		this.hashKey = Tools.generateUniqueKey();
-		this.serverKey = builder.getDispatcher().getServerKey();
-		this.port = builder.getPort();
-		this.socket = new ServerSocket(this.port);
-		if (builder.getListenerCount() <= 0)
+		if (!builder.isDisabled())
+		{
+//			this.hashKey = Tools.generateUniqueKey();
+			this.serverKey = builder.getDispatcher().getServerKey();
+			this.port = builder.getPort();
+			this.socket = new ServerSocket(this.port);
+			if (builder.getListenerCount() <= 0)
+			{
+				this.listenerCount = ServerConfig.LISTENING_THREAD_COUNT;
+			}
+			else
+			{
+				this.listenerCount = builder.getListenerCount();
+			}
+			if (builder.getListenerCount() <= 0)
+			{
+				this.maxIOCount = ServerConfig.MAX_SERVER_IO_COUNT;
+			}
+			else
+			{
+				this.maxIOCount = builder.getMaxIOCount();
+			}
+//			this.listenerThreadPool = builder.getListenerThreadPool();
+//			this.serverThreadPoolSize = builder.getServerThreadPoolSize();
+//			this.serverThreadKeepAliveTime = builder.geServerThreadKeepAliveTime();
+			
+//			this.schedulerPoolSize = builder.getSchedulerPoolSize();
+//			this.schedulerKeepAliveTime = builder.getSchedulerKeepAliveTime();
+			this.ioRegistry = new ServerIORegistry<CSServerIO<Dispatcher>>();
+//			this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>>>();
+			this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>>>();
+			this.messageProducer = new ServerMessageProducer<Dispatcher>();
+			this.dispatcher = builder.getDispatcher();
+//			this.dispatcher.setServerKey(this.hashKey);
+			this.isStarted = new AtomicBoolean(false);
+//			this.timeout = builder.getTimeout();
+		}
+		else
 		{
 			this.listenerCount = ServerConfig.LISTENING_THREAD_COUNT;
-		}
-		else
-		{
-			this.listenerCount = builder.getListenerCount();
-		}
-		if (builder.getListenerCount() <= 0)
-		{
 			this.maxIOCount = ServerConfig.MAX_SERVER_IO_COUNT;
+			this.isStarted = new AtomicBoolean(false);
 		}
-		else
-		{
-			this.maxIOCount = builder.getMaxIOCount();
-		}
-//		this.listenerThreadPool = builder.getListenerThreadPool();
-//		this.serverThreadPoolSize = builder.getServerThreadPoolSize();
-//		this.serverThreadKeepAliveTime = builder.geServerThreadKeepAliveTime();
-		
-//		this.schedulerPoolSize = builder.getSchedulerPoolSize();
-//		this.schedulerKeepAliveTime = builder.getSchedulerKeepAliveTime();
-		this.ioRegistry = new ServerIORegistry<CSServerIO<Dispatcher>>();
-//		this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>>>();
-		this.listenerRunnerList = new ArrayList<Runner<CSListener<Dispatcher>>>();
-		this.messageProducer = new ServerMessageProducer<Dispatcher>();
-		this.dispatcher = builder.getDispatcher();
-//		this.dispatcher.setServerKey(this.hashKey);
-		this.isStarted = new AtomicBoolean(false);
-//		this.timeout = builder.getTimeout();
 	}
 	
 	/*
@@ -218,22 +248,37 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 		return this.port;
 	}
 	
-	protected void setPort(int port) throws IOException
+	protected void setPort(int port) throws ServerPortConflictedException
 	{
+		
 		/*
 		 * Nullify the old one. 06/18/2022, Bing Li
 		 */
 //		this.socket = null;
-		this.port = port;
-		this.socket = new ServerSocket(this.port);
+		try
+		{
+			this.port = port;
+			this.socket = new ServerSocket(this.port);
+		}
+		catch (IOException e)
+		{
+			throw new ServerPortConflictedException(this.port);
+		}
 	}
 
 	/*
 	 * Since the ServerSocket is initialized, it is not reasonable to initialize it again with the same port. 06/18/2022, Bing Li
 	 */
-	protected void setPort() throws IOException
+	protected void setPort() throws ServerPortConflictedException
 	{
-		this.socket = new ServerSocket(this.port);
+		try
+		{
+			this.socket = new ServerSocket(this.port);
+		}
+		catch (IOException e)
+		{
+			throw new ServerPortConflictedException(this.port);
+		}
 	}
 	
 	protected boolean isStarted()
@@ -247,7 +292,7 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 		return this.dispatcher.getThreadPool();
 	}
 	
-	protected void start() throws ClassNotFoundException, RemoteReadException, IOException
+	protected void start() throws ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Set the ID as the server. 05/11/2017, Bing Li
 		ServerStatus.FREE().addServerID(this.serverKey);
@@ -278,31 +323,37 @@ public abstract class AbstractCSServer<Dispatcher extends ServerDispatcher<Serve
 	}
 	
 //	protected void stop() throws IOException, InterruptedException, RemoteReadException, ClassNotFoundException
-	protected void stop(long timeout) throws IOException, InterruptedException, RemoteReadException, ClassNotFoundException
+	protected void stop(long timeout) throws InterruptedException, RemoteReadException, ClassNotFoundException, RemoteIPNotExistedException, IOException
 	{
-		// Close the socket for the server. 08/10/2014, Bing Li
-		this.socket.close();
-
-		// Stop all of the threads that listen to clients' connecting to the server. 08/10/2014, Bing Li
-//		for (Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>> runner : this.listenerRunnerList)
-		for (Runner<CSListener<Dispatcher>> runner : this.listenerRunnerList)
+		/*
+		 * If the socket is null, it indicates that the server is disabled. 03/05/2023, Bing Li
+		 */
+		if (this.socket != null)
 		{
-			runner.stop();
+			// Close the socket for the server. 08/10/2014, Bing Li
+			this.socket.close();
+
+			// Stop all of the threads that listen to clients' connecting to the server. 08/10/2014, Bing Li
+//			for (Runner<CSListener<Dispatcher>, CSListenerDisposer<Dispatcher>> runner : this.listenerRunnerList)
+			for (Runner<CSListener<Dispatcher>> runner : this.listenerRunnerList)
+			{
+				runner.stop();
+			}
+
+			// Dispose the message producer. 11/23/2014, Bing Li
+			this.messageProducer.dispose(timeout);
+//			this.messageProducer.dispose();
+
+			// Dispose the thread pool. 05/11/2017, Bing Li
+//			SharedThreadPool.SHARED().dispose(timeout);
+//			this.pool.shutdown(timeout);
+			
+			// Shutdown the scheduler. 02/02/2016, Bing Li
+//			Scheduler.GREATFREE().shutdown();
+
+			// Shutdown the IO registry. 11/07/2014, Bing Li
+			this.ioRegistry.removeAllIOs();
 		}
-
-		// Dispose the message producer. 11/23/2014, Bing Li
-		this.messageProducer.dispose(timeout);
-//		this.messageProducer.dispose();
-
-		// Dispose the thread pool. 05/11/2017, Bing Li
-//		SharedThreadPool.SHARED().dispose(timeout);
-//		this.pool.shutdown(timeout);
-		
-		// Shutdown the scheduler. 02/02/2016, Bing Li
-//		Scheduler.GREATFREE().shutdown();
-
-		// Shutdown the IO registry. 11/07/2014, Bing Li
-		this.ioRegistry.removeAllIOs();
 		// Set the flag to indicate the server is stopped. 07/05/2017, Bing Li
 		this.isStarted.set(false);
 	}

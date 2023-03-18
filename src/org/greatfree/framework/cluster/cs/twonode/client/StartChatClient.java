@@ -5,13 +5,14 @@ import java.util.Scanner;
 
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cs.twonode.client.ChatMaintainer;
 
 // Created: 01/13/2019, Bing Li
 class StartChatClient
 {
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		// Initialize the option which represents a user's intents of operations. 09/21/2014, Bing Li
 		int option = MenuOptions.NO_OPTION;

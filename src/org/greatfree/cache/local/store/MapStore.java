@@ -2,6 +2,7 @@ package org.greatfree.cache.local.store;
 
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,8 +21,6 @@ import org.greatfree.exceptions.TerminalServerOverflowedException;
 import org.greatfree.util.Builder;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.UniqueKey;
-
-import com.google.common.collect.Sets;
 
 // Created: 11/02/2019, Bing Li
 public class MapStore<Value extends UniqueKey, Factory extends CacheMapFactorable<String, Value>, CompoundKeyCreator extends CompoundKeyCreatable<String>> implements CacheEventable<String, Value>
@@ -191,7 +190,8 @@ public class MapStore<Value extends UniqueKey, Factory extends CacheMapFactorabl
 		
 		if (!this.keys.containsKey(mapKey))
 		{
-			Set<String> keys = Sets.newHashSet();
+//			Set<String> keys = Sets.newHashSet();
+			Set<String> keys = new HashSet<String>();
 			this.keys.put(mapKey, keys);
 		}
 		
@@ -205,7 +205,8 @@ public class MapStore<Value extends UniqueKey, Factory extends CacheMapFactorabl
 	{
 		if (!this.keys.containsKey(mapKey))
 		{
-			Set<String> keys = Sets.newHashSet();
+//			Set<String> keys = Sets.newHashSet();
+			Set<String> keys = new HashSet<String>();
 			this.keys.put(mapKey, keys);
 		}
 		String key;
@@ -226,7 +227,8 @@ public class MapStore<Value extends UniqueKey, Factory extends CacheMapFactorabl
 	
 	public Map<String, Value> get(String mapKey, Set<String> keys)
 	{
-		Set<String> cKeys = Sets.newHashSet();
+//		Set<String> cKeys = Sets.newHashSet();
+		Set<String> cKeys = new HashSet<String>();
 		for (String key : keys)
 		{
 			cKeys.add(this.keyCreator.createCompoundKey(mapKey, key));

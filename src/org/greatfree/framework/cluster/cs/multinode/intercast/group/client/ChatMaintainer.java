@@ -1,10 +1,11 @@
 package org.greatfree.framework.cluster.cs.multinode.intercast.group.client;
 
-import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.greatfree.chat.ChatTools;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.cs.multinode.intercast.group.clusterserver.child.GroupChatMessage;
 import org.greatfree.framework.cluster.cs.multinode.intercast.group.message.PollGroupChatRequest;
@@ -13,8 +14,6 @@ import org.greatfree.framework.cluster.cs.twonode.client.ChatClient;
 import org.greatfree.framework.cs.multinode.server.CSAccount;
 import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Tools;
-
-import com.google.common.collect.Sets;
 
 // Created: 04/06/2019, Bing Li
 class ChatMaintainer
@@ -70,8 +69,10 @@ class ChatMaintainer
 		this.localUserKey = ChatTools.getUserKey(username);
 		this.groupName = groupName;
 		this.groupKey = ChatTools.getUserKey(groupName);
-		this.memberKeys = Sets.newHashSet();
-		this.displayedChats = Sets.newHashSet();
+//		this.memberKeys = Sets.newHashSet();
+		this.memberKeys = new HashSet<String>();
+//		this.displayedChats = Sets.newHashSet();
+		this.displayedChats = new HashSet<String>();
 	}
 	
 	public boolean isGroupCreator()
@@ -130,7 +131,7 @@ class ChatMaintainer
 		this.memberKeys.add(account.getUserKey());
 	}
 	
-	public void checkNewChats() throws ClassNotFoundException, RemoteReadException, IOException
+	public void checkNewChats() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		List<PollGroupChatResponse> responses;
 		PollGroupChatRequest request = new PollGroupChatRequest(this.localUserKey, this.groupKey, ChatConfig.MESSAGE_COUNT, ChatConfig.CHAT_MESSAGE_OBTAINED_PERIOD, this.localUsername);

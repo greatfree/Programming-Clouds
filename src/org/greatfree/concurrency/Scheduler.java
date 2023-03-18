@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 // Created: 02/01/2016, Bing Li
-public class Scheduler
+public final class Scheduler
 {
 	// Declare the instance of ScheduledThreadPoolExecutor. 02/01/2016, Bing Li
 	private ScheduledThreadPoolExecutor scheduler;
@@ -43,8 +43,12 @@ public class Scheduler
 	{
 		if (!this.scheduler.isShutdown())
 		{
-			this.scheduler.shutdownNow();
+			/*
+			 * The shutting down is fixed as follows. 03/18/2023, Bing Li
+			 */
+			this.scheduler.shutdown();
 			this.scheduler.awaitTermination(timeout, TimeUnit.MICROSECONDS);
+			this.scheduler.shutdownNow();
 		}
 	}
 

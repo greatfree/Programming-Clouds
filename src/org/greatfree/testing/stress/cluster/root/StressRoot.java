@@ -5,7 +5,10 @@ import java.io.IOException;
 import org.greatfree.cluster.RootTask;
 import org.greatfree.cluster.root.container.ClusterServerContainer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.testing.stress.cluster.StressConfig;
 import org.greatfree.util.TerminateSignal;
 
@@ -50,13 +53,13 @@ class StressRoot
 		this.server.stopCluster();
 	}
 	
-	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 	
-	public void start(int port, String registryIP, int registryPort, RootTask task) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException
+	public void start(int port, String registryIP, int registryPort, RootTask task) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.server = new ClusterServerContainer(port, StressConfig.STRESS_ROOT_NAME, registryIP, registryPort, task);
 		this.server.start();

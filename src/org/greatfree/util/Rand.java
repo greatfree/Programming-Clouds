@@ -1,10 +1,10 @@
 package org.greatfree.util;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 /*
  * This code is used to generate different random number in integer, float and double by enclosing the one, Random, in JDK. 11/10/2014, Bing Li
@@ -158,13 +158,68 @@ public class Rand
 	
 	public static Set<String> getRandomSet(Set<String> set, int size)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		for (int i = 0; i < size; i++)
 		do
 		{
 			keys.add(getRandomStringInSet(set));
 		}
 		while (keys.size() < size);
+		return keys;
+	}
+
+	public static List<String> getRandomList(List<String> list, int size)
+	{
+		Set<Integer> indexes = new HashSet<Integer>();
+		if (list.size() > size)
+		{
+			do
+			{
+				indexes.add(Rand.getRandom(list.size()));
+			}
+			while (indexes.size() < size);
+		}
+		else
+		{
+			return list;
+		}
+
+		List<String> keys = new ArrayList<String>();
+		for (int entry : indexes)
+		{
+			keys.add(list.get(entry));
+		}
+		return keys;
+	}
+
+	public static List<String> getRandomListExcept(List<String> list, int size, String key)
+	{
+		Set<Integer> indexes = new HashSet<Integer>();
+		if (list.size() > size)
+		{
+			do
+			{
+				indexes.add(Rand.getRandom(list.size()));
+			}
+			while (indexes.size() < size);
+		}
+		else
+		{
+			list.remove(key);
+			return list;
+		}
+
+		List<String> keys = new ArrayList<String>();
+		String sk;
+		for (int entry : indexes)
+		{
+			sk = list.get(entry);
+			if (!sk.equals(key))
+			{
+				keys.add(list.get(entry));
+			}
+		}
 		return keys;
 	}
 
@@ -197,7 +252,8 @@ public class Rand
 	public static String getRandomSetElementExcept(Set<String> set, String elementKey)
 	{
 		// The reason to initialize a new set to keep the set is to avoid updating the input set. Otherwise, it is possible to affect other code. 08/01/2015, Bing Li
-		Set<String> backupSet = Sets.newHashSet();
+//		Set<String> backupSet = Sets.newHashSet();
+		Set<String> backupSet = new HashSet<String>();
 		backupSet.addAll(set);
 		backupSet.remove(elementKey);
 		return getRandomStringInSet(backupSet);
@@ -209,9 +265,12 @@ public class Rand
 	public static String getRandomSetElementExcept(Set<String> set, Set<String> elementKeys)
 	{
 		// The reason to initialize a new set to keep the set is to avoid updating the input set. Otherwise, it is possible to affect other code. 08/01/2015, Bing Li
-		Set<String> backupSet = Sets.newHashSet();
+//		Set<String> backupSet = Sets.newHashSet();
+		Set<String> backupSet = new HashSet<String>();
 		backupSet.addAll(set);
-		return getRandomStringInSet(Sets.difference(backupSet, elementKeys));
+		backupSet.removeAll(elementKeys);
+//		return getRandomStringInSet(Sets.difference(backupSet, elementKeys));
+		return getRandomStringInSet(backupSet);
 	}
 
 }

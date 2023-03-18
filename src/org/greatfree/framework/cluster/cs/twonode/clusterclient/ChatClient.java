@@ -6,7 +6,10 @@ import java.util.List;
 import org.greatfree.cluster.root.container.ClusterPeerContainer;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -53,12 +56,12 @@ class ChatClient
 	}
 	*/
 	
-	public void stop() throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, DistributedNodeFailedException
+	public void stop() throws ClassNotFoundException, InterruptedException, RemoteReadException, DistributedNodeFailedException, IOException, RemoteIPNotExistedException
 	{
 		this.client.stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 	}
 	
-	public void init(String clientName) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException
+	public void init(String clientName) throws ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, IOException, ServerPortConflictedException
 	{
 		this.client = new ClusterPeerContainer(clientName, new ChatClientTask());
 		this.client.start();
@@ -87,7 +90,7 @@ class ChatClient
 		this.client.asyncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
 	}
 	
-	public ServerMessage read(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.client.read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
 	}

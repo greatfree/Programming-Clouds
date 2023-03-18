@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.admin.Menu;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.original.cs.twonode.admin.AdminConfig;
 import org.greatfree.framework.cluster.original.cs.twonode.admin.AdminMenu;
@@ -15,7 +16,7 @@ import org.greatfree.framework.container.cs.multinode.message.ShutdownServerNoti
 // Created: 01/13/2019, Bing Li
 class Administrator
 {
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException
 	{
 		int option = AdminConfig.NO_OPTION;
 		// Initialize a scanner to wait for the administrator's commands. 11/27/2014, Bing Li

@@ -11,7 +11,10 @@ import org.greatfree.cache.db.StringKeyDB;
 import org.greatfree.cache.db.StringKeyDBPool;
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.server.Peer;
 import org.greatfree.testing.cache.distributed.DistributedMapIntegerValueFactory;
@@ -24,7 +27,7 @@ import org.greatfree.util.Tools;
 class DistributedChildMapSaveTester
 {
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, RemoteReadException, InstantiationException, IllegalAccessException, InterruptedException
+	public static void main(String[] args) throws IOException, ClassNotFoundException, RemoteReadException, InstantiationException, IllegalAccessException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		String rootPath = "/home/libing/Temp/";
 		String cacheName = "IntegerChildMap";

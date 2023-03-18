@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.greatfree.admin.Menu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.scalable.ScalableConfig;
 import org.greatfree.framework.cluster.scalable.message.StopPoolClusterNotification;
@@ -24,7 +25,7 @@ class Admin
 	private static IPAddress poolClusterIP;
 	private static IPAddress taskClusterIP;
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		StandaloneClient.CS().init();
 		poolClusterIP = StandaloneClient.CS().getIPAddress(registryIP, registryPort, ScalableConfig.POOL_CLUSTER_ROOT_KEY);

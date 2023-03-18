@@ -3,19 +3,26 @@ package org.greatfree.framework.old.multicast.child;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 05/12/2017, Bing Li
 class StartChild
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Starting up the child ...");
 		try
 		{
 			ClusterChildSingleton.CLUSTER().start();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 		catch (ClassNotFoundException | IOException | RemoteReadException e)
 		{

@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.cluster.StandaloneClusterClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.multicast.MultiConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -20,7 +21,7 @@ import org.greatfree.framework.p2p.RegistryConfig;
 final class StartClient
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException
 	{
 		int option = MultiOptions.NO_OPTION;
 		Scanner in = new Scanner(System.in);

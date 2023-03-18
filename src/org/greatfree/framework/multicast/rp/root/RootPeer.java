@@ -5,7 +5,10 @@ import java.io.IOException;
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.message.multicast.ClusterIPRequest;
@@ -40,7 +43,7 @@ public class RootPeer
 		}
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		this.peer.stop(timeout);
 		RootMulticastor.ROOT().stop();
@@ -49,7 +52,7 @@ public class RootPeer
 		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 
-	public void start() throws IOException, ClassNotFoundException, RemoteReadException, InstantiationException, IllegalAccessException, InterruptedException, DistributedNodeFailedException
+	public void start() throws IOException, ClassNotFoundException, RemoteReadException, InstantiationException, IllegalAccessException, InterruptedException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.peer = new Peer.PeerBuilder<RootDispatcher>()
 				.peerPort(ChatConfig.CHAT_SERVER_PORT)

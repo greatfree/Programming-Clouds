@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.greatfree.client.StandaloneClient;
 import org.greatfree.cluster.message.HeavyWorkloadNotification;
 import org.greatfree.cluster.message.SuperfluousResourcesNotification;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.scalable.ScalableConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -23,7 +24,7 @@ import org.greatfree.util.UtilConfig;
 class StartClient
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException
 	{
 		StandaloneClient.CS().init();
 		Scanner in = new Scanner(System.in);

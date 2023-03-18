@@ -1,11 +1,12 @@
 package org.greatfree.framework.cluster.cs.multinode.unifirst.client;
 
-import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.greatfree.chat.ChatMessage;
 import org.greatfree.chat.ChatTools;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.cs.multinode.unifirst.message.PollNewChatsRequest;
 import org.greatfree.framework.cluster.cs.multinode.unifirst.message.PollNewSessionsRequest;
@@ -14,8 +15,6 @@ import org.greatfree.framework.cluster.cs.multinode.wurb.message.PollNewSessions
 import org.greatfree.framework.cluster.cs.twonode.client.ChatClient;
 import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Tools;
-
-import com.google.common.collect.Sets;
 
 // Created: 02/15/2019, Bing Li
 public class ChatMaintainer
@@ -28,7 +27,8 @@ public class ChatMaintainer
 	
 	private ChatMaintainer()
 	{
-		this.participatedSessions = Sets.newHashSet();
+//		this.participatedSessions = Sets.newHashSet();
+		this.participatedSessions = new HashSet<String>();
 	}
 	
 	/*
@@ -94,7 +94,7 @@ public class ChatMaintainer
 		this.participatedSessions.add(sessionKey);
 	}
 
-	public void checkNewSessions() throws ClassNotFoundException, RemoteReadException, IOException
+	public void checkNewSessions() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		CollectedClusterResponse response = (CollectedClusterResponse)ChatClient.CONTAINER().read(new PollNewSessionsRequest(this.localUserKey, this.localUsername));
 		List<PollNewSessionsResponse> responses = Tools.filter(response.getResponses(), PollNewSessionsResponse.class);
@@ -112,7 +112,7 @@ public class ChatMaintainer
 		}
 	}
 	
-  	public void checkNewChats() throws ClassNotFoundException, RemoteReadException, IOException
+  	public void checkNewChats() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		List<PollNewChatsResponse> responses;
 		CollectedClusterResponse response;

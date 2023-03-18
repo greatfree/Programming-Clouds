@@ -183,7 +183,7 @@ class ChildDispatcher extends ServerDispatcher<ServerMessage>
 	@Override
 	public void process(MessageStream<ServerMessage> message)
 	{
-		log.info("One message to be processed ...");
+//		log.info("One message to be processed ...");
 		switch (message.getMessage().getType())
 		{
 			case MulticastMessageType.ROOT_IPADDRESS_BROADCAST_NOTIFICATION:

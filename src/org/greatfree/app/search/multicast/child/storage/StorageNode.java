@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.multicast.child.ChildMulticastor;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -42,7 +45,7 @@ class StorageNode
 		}
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, RemoteIPNotExistedException, IOException
 	{
 		this.peer.stop(timeout);
 		ChildMulticastor.CHILD().stop();
@@ -50,7 +53,7 @@ class StorageNode
 		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 	
-	public void start() throws IOException, ClassNotFoundException, RemoteReadException
+	public void start() throws ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.peer = new Peer.PeerBuilder<StorageDispatcher>()
 				.peerPort(ChatConfig.CHAT_SERVER_PORT)

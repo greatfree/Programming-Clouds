@@ -2,19 +2,19 @@ package org.greatfree.framework.player.mrtc.master;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.greatfree.concurrency.threading.Player;
 import org.greatfree.concurrency.threading.PlayerSystem;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.MRStates;
 import org.greatfree.framework.threading.message.ReduceInvokeNotification;
 import org.greatfree.framework.threading.mrtc.MRConfig;
 import org.greatfree.util.Rand;
 import org.greatfree.util.Tools;
-
-import com.google.common.collect.Sets;
 
 // Created: 10/01/2019, Bing Li
 class MRCoordinator
@@ -43,7 +43,7 @@ class MRCoordinator
 	/*
 	 * Create threads/players. 04/03/2020, Bing Li
 	 */
-	public void createPlayer() throws ClassNotFoundException, RemoteReadException, IOException
+	public void createPlayer() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		// PlayerSystem is the kernel to interact with slaves for threading. 04/03/2020, Bing Li
 		Set<String> slaveKeys = PlayerSystem.THREADING().getAllSlaves();
@@ -70,7 +70,8 @@ class MRCoordinator
 	private Set<String> getInitialMRSlaves()
 	{
 		// Choose initial MR slaves. 10/02/2019, Bing Li
-		Set<String> initMRSlaveKeys = Sets.newHashSet();
+//		Set<String> initMRSlaveKeys = Sets.newHashSet();
+		Set<String> initMRSlaveKeys = new HashSet<String>();
 		if (this.players.size() <= MRConfig.MINIMUM_MUTLI_SLAVE_SIZE)
 		{
 			initMRSlaveKeys.addAll(this.players.keySet());
@@ -114,7 +115,8 @@ class MRCoordinator
 		{
 			for (String entry : initMRSlaveKeys)
 			{
-				threadKeys = Sets.newHashSet();
+//				threadKeys = Sets.newHashSet();
+				threadKeys = new HashSet<String>();
 				size = Rand.getRandom(this.players.get(entry).getThreadKeys().size());
 				if (this.players.get(entry).getThreadKeys().size() > size)
 				{
@@ -134,7 +136,8 @@ class MRCoordinator
 		else
 		{
 			// If only the RP is the slave in the 1st hop, choose threads randomly on the RP. 10/02/2019, Bing Li
-			threadKeys = Sets.newHashSet();
+//			threadKeys = Sets.newHashSet();
+			threadKeys = new HashSet<String>();
 			size = Rand.getRandom(this.players.get(rp).getThreadKeys().size());
 			if (this.players.get(rp).getThreadKeys().size() > size)
 			{
@@ -201,7 +204,8 @@ class MRCoordinator
 		{
 			for (String entry : initMRSlaveKeys)
 			{
-				threadKeys = Sets.newHashSet();
+//				threadKeys = Sets.newHashSet();
+				threadKeys = new HashSet<String>();
 				size = Rand.getRandom(this.players.get(entry).getThreadKeys().size());
 				if (this.players.get(entry).getThreadKeys().size() > size)
 				{
@@ -221,7 +225,8 @@ class MRCoordinator
 		else
 		{
 			// If only the RP is the slave in the next hop, choose threads randomly on the RP. 10/02/2019, Bing Li
-			threadKeys = Sets.newHashSet();
+//			threadKeys = Sets.newHashSet();
+			threadKeys = new HashSet<String>();
 			size = Rand.getRandom(this.players.get(rp).getThreadKeys().size());
 			if (this.players.get(rp).getThreadKeys().size() > size)
 			{

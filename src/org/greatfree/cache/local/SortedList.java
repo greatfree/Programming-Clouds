@@ -3,6 +3,7 @@ package org.greatfree.cache.local;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,8 +18,6 @@ import org.greatfree.util.Builder;
 import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.Pointing;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The list cache that sorts only a predefined count of data is implemented. When data is saved in the list, each data should have a unique key. It must employ the constructor Pointing(long points) of Pointing. 02/15/2019, Bing Li
@@ -338,7 +337,8 @@ public class SortedList<Value extends Pointing, Factory extends CacheMapFactorab
 //				this.lock.writeLock().lock();
 
 				int index = 0;
-				Set<String> removedKeys = Sets.newHashSet();
+//				Set<String> removedKeys = Sets.newHashSet();
+				Set<String> removedKeys = new HashSet<String>();
 //				for (Map.Entry<String, Float> entry : allPoints.entrySet())
 				for (Map.Entry<String, Float> entry : sp.entrySet())
 				{
@@ -485,7 +485,8 @@ public class SortedList<Value extends Pointing, Factory extends CacheMapFactorab
 				Map<String, Float> sp = CollectionSorter.sortDescendantByValue(this.sortedPoints);
 
 				int index = 0;
-				Set<String> removedKeys = Sets.newHashSet();
+//				Set<String> removedKeys = Sets.newHashSet();
+				Set<String> removedKeys = new HashSet<String>();
 //				this.lock.readLock().unlock();
 //				this.lock.writeLock().lock();
 				for (Map.Entry<String, Float> entry : sp.entrySet())

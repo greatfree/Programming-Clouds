@@ -8,7 +8,10 @@ import java.util.Set;
 import org.greatfree.concurrency.Scheduler;
 import org.greatfree.concurrency.threading.message.AllSlavesNotification;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.message.container.Notification;
 import org.greatfree.util.IPPort;
 
@@ -36,7 +39,7 @@ public class PlayerSystem
 		}
 	}
 
-	public void dispose(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void dispose(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 //		TerminateSignal.SIGNAL().setTerminated();
 //		TerminateSignal.SIGNAL().notifyAllTermination();
@@ -58,7 +61,7 @@ public class PlayerSystem
 	/*
 	 * When multiple slaves serve, the startup method is invoked. 09/29/2019, Bing Li
 	 */
-	public void startSlave(int port) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void startSlave(int port) throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		this.dt = new Distributer.DistributerBuilder()
@@ -73,7 +76,7 @@ public class PlayerSystem
 	/*
 	 * When multiple slaves serve, the startup method is invoked. 09/29/2019, Bing Li
 	 */
-	public void startSlave(int port, ATMTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void startSlave(int port, ATMTask task) throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		this.dt = new Distributer.DistributerBuilder()
@@ -90,7 +93,7 @@ public class PlayerSystem
 	 * When one slave serves for one master only, the startup method is invoked. 09/29/2019, Bing Li
 	 */
 //	public void startSlave(String slaveName, int port, String masterName) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
-	public void startSlave(String slaveName, int port) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void startSlave(String slaveName, int port) throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		this.dt = new Distributer.DistributerBuilder()
@@ -107,7 +110,7 @@ public class PlayerSystem
 	 * When a master manages multiple slaves, the startup method is invoked. 09/29/2019, Bing Li
 	 */
 //	public void startMaster(String masterName, int port, PlayerTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
-	public void startMaster(int port, ATMTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void startMaster(int port, ATMTask task) throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.dt = new Distributer.DistributerBuilder()
 			.name(DistributerIDs.ID().getNickName())
@@ -125,7 +128,7 @@ public class PlayerSystem
 	/*
 	 * When one master manages one slave only, the startup method is invoked. 09/29/2019, Bing Li
 	 */
-	public void startMaster(String masterName, int port, String slaveName, ATMTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void startMaster(String masterName, int port, String slaveName, ATMTask task) throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.dt = new Distributer.DistributerBuilder()
 				.name(masterName)
@@ -149,7 +152,7 @@ public class PlayerSystem
 	/*
 	 * The method creates a player which has one only thread on the default slave. 10/01/2019, Bing Li
 	 */
-	public Player create() throws ClassNotFoundException, RemoteReadException, IOException
+	public Player create() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		String threadKey = this.dt.createThread();
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
@@ -159,7 +162,7 @@ public class PlayerSystem
 		return ThreadConfig.NO_PLAYER;
 	}
 	
-	public Player create(int size) throws ClassNotFoundException, RemoteReadException, IOException
+	public Player create(int size) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		Set<String> threadKeys = this.dt.createThreads(size);
 		if (threadKeys != ThreadConfig.NO_THREAD_KEYS)
@@ -172,7 +175,7 @@ public class PlayerSystem
 	/*
 	 * The method creates a player which has one only thread on the specified slave. 10/01/2019, Bing Li
 	 */
-	public Player create(String slaveKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public Player create(String slaveKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		String threadKey = this.dt.createThread(slaveKey);
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
@@ -185,7 +188,7 @@ public class PlayerSystem
 	/*
 	 * The method creates a player which has one only thread on the specified slave. 10/01/2019, Bing Li
 	 */
-	public Player create(String slaveKey, long readTimeout) throws ClassNotFoundException, RemoteReadException, IOException
+	public Player create(String slaveKey, long readTimeout) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		String threadKey = this.dt.createThread(slaveKey);
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
@@ -198,7 +201,7 @@ public class PlayerSystem
 	/*
 	 * The method creates a player which has a number of threads on the specified slave. 10/01/2019, Bing Li
 	 */
-	public Player create(String slaveKey, int size) throws ClassNotFoundException, RemoteReadException, IOException
+	public Player create(String slaveKey, int size) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		Set<String> threadKeys = this.dt.createThreads(slaveKey, size);
 		if (threadKeys != ThreadConfig.NO_THREAD_KEYS)
@@ -211,7 +214,7 @@ public class PlayerSystem
 	/*
 	 * The method creates a number of players which has a number of threads on the specified slaves. 10/01/2019, Bing Li
 	 */
-	public Map<String, Player> create(Map<String, Integer> slaveThreadNumbers) throws ClassNotFoundException, RemoteReadException, IOException
+	public Map<String, Player> create(Map<String, Integer> slaveThreadNumbers) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		Map<String, Set<String>> allThreadKeys = this.dt.createThreads(slaveThreadNumbers);
 		DistributerIDs.ID().setThreadKeys(allThreadKeys);
@@ -230,7 +233,7 @@ public class PlayerSystem
 	/*
 	 * The method reuses a player which has one only thread on the default slave. 10/01/2019, Bing Li
 	 */
-	public Player reuse() throws ClassNotFoundException, RemoteReadException, IOException
+	public Player reuse() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		String threadKey = this.dt.reuseThread();
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
@@ -243,7 +246,7 @@ public class PlayerSystem
 	/*
 	 * The method reuses a player which has one only thread on the specified slave. 10/01/2019, Bing Li
 	 */
-	public Player reuse(String slaveKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public Player reuse(String slaveKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		String threadKey = this.dt.reuseThread(slaveKey);
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
@@ -256,7 +259,7 @@ public class PlayerSystem
 	/*
 	 * The method reuses a player which has one only thread on the specified slave. 10/01/2019, Bing Li
 	 */
-	public Player reuse(String slaveKey, long readTimeout) throws ClassNotFoundException, RemoteReadException, IOException
+	public Player reuse(String slaveKey, long readTimeout) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		String threadKey = this.dt.reuseThread(slaveKey);
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
@@ -269,7 +272,7 @@ public class PlayerSystem
 	/*
 	 * The method reuses a player which has a number of threads on the specified slave. 10/01/2019, Bing Li
 	 */
-	public Player reuse(String slaveKey, int size) throws ClassNotFoundException, RemoteReadException, IOException
+	public Player reuse(String slaveKey, int size) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		Set<String> threadKeys = this.dt.reuseThreads(size);
 		if (threadKeys != ThreadConfig.NO_THREAD_KEYS)
@@ -282,7 +285,7 @@ public class PlayerSystem
 	/*
 	 * The method reuses a number of players which has a number of threads on the specified slaves. 10/01/2019, Bing Li
 	 */
-	public Map<String, Player> reuse(Map<String, Integer> slaveThreadNumbers) throws ClassNotFoundException, RemoteReadException, IOException
+	public Map<String, Player> reuse(Map<String, Integer> slaveThreadNumbers) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		Map<String, Set<String>> allThreadKeys = this.dt.createThreads(slaveThreadNumbers);
 		DistributerIDs.ID().setThreadKeys(allThreadKeys);

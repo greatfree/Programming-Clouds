@@ -1,7 +1,9 @@
 package org.greatfree.cluster.root.container;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +14,10 @@ import java.util.logging.Logger;
 import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.container.p2p.message.ClusterIPRequest;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.multicast.ClusterIPResponse;
@@ -34,8 +39,6 @@ import org.greatfree.server.container.Peer;
 import org.greatfree.server.container.Peer.PeerBuilder;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The reason to design the class, ClusterRoot, intends to connect with the registry server which is implemented in the container manner. 01/13/2019, Bing Li
@@ -71,7 +74,7 @@ final class ClusterRoot
 		}
 	}
 	
-	public void dispose(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void dispose(long timeout) throws InterruptedException, ClassNotFoundException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 		this.root.stop(timeout);
 		this.client.close();
@@ -84,7 +87,7 @@ final class ClusterRoot
 		}
 	}
 	
-	public void init(PeerBuilder<RootDispatcher> builder, int rootBranchCount, int treeBranchCount, long waitTime) throws IOException
+	public void init(PeerBuilder<RootDispatcher> builder, int rootBranchCount, int treeBranchCount, long waitTime) throws SocketException, ServerPortConflictedException
 	{
 		this.root = new Peer<RootDispatcher>(builder);
 		this.client = new RootClient(this.root.getClientPool(), rootBranchCount, treeBranchCount, waitTime, this.root.getPool());
@@ -93,7 +96,7 @@ final class ClusterRoot
 		this.partitionedChildren = null;
 	}
 	
-	public void init(PeerBuilder<RootDispatcher> builder,  int rootBranchCount, int treeBranchCount, long waitTime, int replicas) throws IOException
+	public void init(PeerBuilder<RootDispatcher> builder,  int rootBranchCount, int treeBranchCount, long waitTime, int replicas) throws IOException, ServerPortConflictedException
 	{
 		this.root = new Peer<RootDispatcher>(builder);
 		this.client = new RootClient(this.root.getClientPool(), rootBranchCount, treeBranchCount, waitTime, this.root.getPool());
@@ -102,7 +105,7 @@ final class ClusterRoot
 		this.partitionedChildren = new CopyOnWriteArrayList<Set<String>>();
 	}
 	
-	public void start() throws ClassNotFoundException, RemoteReadException, IOException, DistributedNodeFailedException
+	public void start() throws ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException, IOException
 	{
 		this.root.start();
 		ClusterIPResponse ipResponse = (ClusterIPResponse)this.readRegistry(new ClusterIPRequest(this.root.getPeerID()));
@@ -157,7 +160,8 @@ final class ClusterRoot
 			}
 			if (!isFound)
 			{
-				Set<String> childrenKeys = Sets.newHashSet();
+//				Set<String> childrenKeys = Sets.newHashSet();
+				Set<String> childrenKeys = new HashSet<String>();
 				childrenKeys.add(ipKey);
 				this.partitionedChildren.add(childrenKeys);
 			}
@@ -168,7 +172,8 @@ final class ClusterRoot
 		}
 		else
 		{
-			Set<String> childrenKeys = Sets.newHashSet();
+//			Set<String> childrenKeys = Sets.newHashSet();
+			Set<String> childrenKeys = new HashSet<String>();
 			childrenKeys.add(ipKey);
 			this.partitionedChildren.add(childrenKeys);
 		}
@@ -254,7 +259,7 @@ final class ClusterRoot
 	}
 	*/
 	
-	public ServerMessage readRegistry(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage readRegistry(ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.root.read(this.root.getRegistryServerIP(), this.root.getRegistryServerPort(), request);
 	}
@@ -741,7 +746,8 @@ final class ClusterRoot
 //			this.client.unicastNearestNotify(in.getClientKey(), in);
 
 			IPAddress ip;
-			Set<IPAddress> ips = Sets.newHashSet();
+//			Set<IPAddress> ips = Sets.newHashSet();
+			Set<IPAddress> ips = new HashSet<IPAddress>();
 			Map<String, Set<String>> cds = new HashMap<String, Set<String>>();
 			/*
 			 * When receiving an intercast notification, the root needs to set the destination IP addresses for its children since it has all of the IP addresses of the children in the cluster. 02/28/2019, Bing Li
@@ -754,7 +760,8 @@ final class ClusterRoot
 //				in.setDestinationIP(this.root.getIP(this.children.get(in.getDestinationKey())));
 				ip = this.root.getIP(this.client.getNearestChildKey(in.getDestinationKey()));
 				in.setDestinationIP(ip);
-				Set<String> ds = Sets.newHashSet();
+//				Set<String> ds = Sets.newHashSet();
+				Set<String> ds = new HashSet<String>();
 				cds.put(ip.getIPKey(), ds);
 				/*
 				 * One child must have multiple application-level IDs. 06/18/2022, Bing Li
@@ -772,7 +779,8 @@ final class ClusterRoot
 					ips.add(ip);
 					if (!cds.containsKey(ip.getIPKey()))
 					{
-						Set<String> ds = Sets.newHashSet();
+//						Set<String> ds = Sets.newHashSet();
+						Set<String> ds = new HashSet<String>();
 						cds.put(ip.getIPKey(), ds);
 					}
 					/*
@@ -798,7 +806,7 @@ final class ClusterRoot
 		}
 	}
 
-	public CollectedClusterResponse processIntercastRequest(IntercastRequest ir) throws ClassNotFoundException, RemoteReadException, IOException
+	public CollectedClusterResponse processIntercastRequest(IntercastRequest ir) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (this.children.size() > 0)
 		{
@@ -810,7 +818,8 @@ final class ClusterRoot
 //			this.client.unicastNearestNotify(ir.getClientKey(), ir);
 			
 			IPAddress ip;
-			Set<IPAddress> ips = Sets.newHashSet();
+//			Set<IPAddress> ips = Sets.newHashSet();
+			Set<IPAddress> ips = new HashSet<IPAddress>();
 			Map<String, Set<String>> cds = new HashMap<String, Set<String>>();
 			/*
 			 * When receiving an intercast notification, the root needs to set the destination IP addresses for its children since it has all of the IP addresses of the children in the cluster. 02/28/2019, Bing Li
@@ -820,7 +829,8 @@ final class ClusterRoot
 //				ir.setDestinationIP(this.root.getIP(this.children.get(ir.getDestinationKey())));
 				ip = this.root.getIP(this.client.getNearestChildKey(ir.getDestinationKey()));
 				ir.setDestinationIP(ip);
-				Set<String> ds = Sets.newHashSet();
+//				Set<String> ds = Sets.newHashSet();
+				Set<String> ds = new HashSet<String>();
 				cds.put(ip.getIPKey(), ds);
 				cds.get(ip.getIPKey()).add(ir.getDestinationKey());
 				ir.setChildDestination(cds);
@@ -835,7 +845,8 @@ final class ClusterRoot
 					ips.add(ip);
 					if (!cds.containsKey(ip.getIPKey()))
 					{
-						Set<String> ds = Sets.newHashSet();
+//						Set<String> ds = Sets.newHashSet();
+						Set<String> ds = new HashSet<String>();
 						cds.put(ip.getIPKey(), ds);
 					}
 					cds.get(ip.getIPKey()).add(entry);

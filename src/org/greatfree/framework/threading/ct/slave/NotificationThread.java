@@ -1,11 +1,11 @@
 package org.greatfree.framework.threading.ct.slave;
 
-import java.io.IOException;
 import java.util.concurrent.RejectedExecutionException;
 
 import org.greatfree.concurrency.threading.NotificationQueue;
 import org.greatfree.concurrency.threading.message.ATMNotification;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.message.PrintTaskNotification;
 import org.greatfree.util.ServerStatus;
@@ -86,7 +86,7 @@ class NotificationThread extends NotificationQueue<ATMNotification>
 					System.out.println("NotificationThread-TASK_NOTIFICATION: ended ...");
 					this.disposeMessage(notification);
 				}
-				catch (InterruptedException | ClassNotFoundException | RemoteReadException | IOException | RejectedExecutionException e)
+				catch (InterruptedException | ClassNotFoundException | RemoteReadException | RejectedExecutionException | RemoteIPNotExistedException e)
 				{
 					/*
 					try

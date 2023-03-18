@@ -3,6 +3,7 @@ package org.greatfree.multicast.root;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,6 @@ import org.greatfree.util.IPAddress;
 import org.greatfree.util.Rand;
 import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 // Created: 08/23/2018, Bing Li
 class RootMulticastReader<Request extends MulticastRequest, Response extends MulticastResponse>
@@ -292,7 +291,8 @@ class RootMulticastReader<Request extends MulticastRequest, Response extends Mul
 	 */
 	public List<Response> broadcastNearestly(Set<String> dataKeys, Request request) throws InstantiationException, IllegalAccessException, InterruptedException, IOException
 	{
-		Set<String> nearestClientKeys = Sets.newHashSet();
+//		Set<String> nearestClientKeys = Sets.newHashSet();
+		Set<String> nearestClientKeys = new HashSet<String>();
 		for (String dataKey : dataKeys)
 		{
 			nearestClientKeys.add(Tools.getClosestKey(dataKey, this.reader.getClientKeys()));

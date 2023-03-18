@@ -1,7 +1,5 @@
 package org.greatfree.cluster.root;
 
-import java.util.logging.Logger;
-
 import org.greatfree.server.container.ContainerXML;
 import org.greatfree.server.container.PeerProfile;
 import org.greatfree.server.container.ServerProfile;
@@ -11,7 +9,7 @@ import org.greatfree.util.XPathOnDiskReader;
 // Created: 01/13/2019, Bing Li
 public class ClusterProfile
 {
-	private final static Logger log = Logger.getLogger("org.greatfree.cluster.root");
+//	private final static Logger log = Logger.getLogger("org.greatfree.cluster.root");
 
 	private int schedulerPoolSize;
 	private long schedulerKeepAliveTime;
@@ -67,7 +65,7 @@ public class ClusterProfile
 //	public void init(String registryIP, int registryPort)
 	public void init(String registryIP, int registryPort, boolean isDefault)
 	{
-		log.info("ClusterProfile-init(String ip, int port): ip = " + registryIP + ", port = " + registryPort);
+//		log.info("ClusterProfile-init(String ip, int port): ip = " + registryIP + ", port = " + registryPort);
 		
 //		ServerProfile.CS().setDefault(false);
 		ServerProfile.CS().setDefault(isDefault);

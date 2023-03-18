@@ -3,14 +3,17 @@ package org.greatfree.framework.threading.mrtc.slave;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.threading.mrtc.NodeIDs;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 09/22/2019, Bing Li
 class StartSlave
 {
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("MR Slave, " + NodeIDs.ID().getLocalName() + ", starting up ...");
 

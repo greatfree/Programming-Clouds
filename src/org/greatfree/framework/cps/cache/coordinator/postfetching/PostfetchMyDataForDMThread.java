@@ -1,9 +1,8 @@
 package org.greatfree.framework.cps.cache.coordinator.postfetching;
 
-import java.io.IOException;
-
 import org.greatfree.concurrency.reactive.NotificationObjectQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.coordinator.MyDistributedMap;
 import org.greatfree.framework.cps.cache.message.postfetch.PostfetchMyDataNotification;
@@ -40,7 +39,7 @@ public class PostfetchMyDataForDMThread extends NotificationObjectQueue<Postfetc
 					MyDistributedMap.MIDDLE().postfetch(notification);
 					this.disposeObject(notification);
 				}
-				catch (InterruptedException | ClassNotFoundException | RemoteReadException | IOException e)
+				catch (InterruptedException | ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

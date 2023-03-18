@@ -3,7 +3,10 @@ package org.greatfree.framework.streaming.broadcast.pubsub;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.streaming.StreamConfig;
 import org.greatfree.util.TerminateSignal;
 
@@ -11,7 +14,7 @@ import org.greatfree.util.TerminateSignal;
 class StartPubSub
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Pub/Sub server starting up ...");
 		
@@ -22,6 +25,10 @@ class StartPubSub
 		catch (IOException | ClassNotFoundException | RemoteReadException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Pub/Sub server started ...");

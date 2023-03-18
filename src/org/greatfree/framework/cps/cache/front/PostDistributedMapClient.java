@@ -3,6 +3,7 @@ package org.greatfree.framework.cps.cache.front;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,8 +11,6 @@ import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.data.MyData;
 import org.greatfree.util.Rand;
 import org.greatfree.util.Time;
-
-import com.google.common.collect.Sets;
 
 // Created: 08/04/2018, Bing Li
 class PostDistributedMapClient
@@ -45,7 +44,8 @@ class PostDistributedMapClient
 	public static void loadDataByKeysFromPostDistributedMap() throws ClassNotFoundException, RemoteReadException, IOException
 	{
 //		int maxIndex = 15000;
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		Map<String, MyData> data;
 		for (int i = 0; i < 100; i++)
 		{

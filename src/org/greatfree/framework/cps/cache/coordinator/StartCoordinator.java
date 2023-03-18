@@ -3,13 +3,16 @@ package org.greatfree.framework.cps.cache.coordinator;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 07/06/2018, Bing Li
 class StartCoordinator
 {
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Coordinator starting up ...");
 		Coordinator.CPS().start("Coordinator");

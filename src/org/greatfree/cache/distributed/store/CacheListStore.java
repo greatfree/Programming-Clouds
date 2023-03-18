@@ -1,6 +1,7 @@
 package org.greatfree.cache.distributed.store;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,8 +17,6 @@ import org.greatfree.cache.local.RootCache;
 import org.greatfree.exceptions.TerminalServerOverflowedException;
 import org.greatfree.util.UniqueKey;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 // Created: 02/24/2019, Bing Li
 abstract class CacheListStore<Value extends UniqueKey, Factory extends CacheMapFactorable<String, Value>, CompoundKeyCreator extends CompoundKeyCreatable<String>> extends RootCache<String, Value, Factory, StringKeyDB>
@@ -461,7 +460,8 @@ abstract class CacheListStore<Value extends UniqueKey, Factory extends CacheMapF
 	
 	protected void clearAt2ndBase(String listKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 		if (this.listKeys.containsKey(listKey))
 		{

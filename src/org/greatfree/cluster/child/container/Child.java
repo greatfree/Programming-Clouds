@@ -3,13 +3,17 @@ package org.greatfree.cluster.child.container;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 import org.greatfree.cluster.message.IsRootOnlineResponse;
 import org.greatfree.cluster.message.JoinNotification;
 import org.greatfree.cluster.message.LeaveNotification;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.container.p2p.message.ChatRegistryRequest;
 import org.greatfree.framework.container.p2p.message.IsRootOnlineRequest;
 import org.greatfree.framework.container.p2p.message.LeaveClusterNotification;
@@ -39,6 +43,7 @@ import org.greatfree.server.container.PeerProfile;
 import org.greatfree.server.container.ServerProfile;
 import org.greatfree.server.container.Peer.PeerBuilder;
 import org.greatfree.util.IPAddress;
+import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
 
 /*
@@ -67,6 +72,7 @@ final class Child
 	 * The class is added to the child. That is an interesting design which supports the client's to perform inter-multicasting. 02/28/2019, Bing Li
 	 */
 	private RootClient subRootClient;
+	private AtomicInteger anycastResponseSize;
 
 	private Child()
 	{
@@ -87,7 +93,7 @@ final class Child
 		}
 	}
 
-	public void dispose(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void dispose(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		this.child.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), new LeaveNotification(this.child.getPeerID()));
 		this.leaveCluster();
@@ -104,15 +110,16 @@ final class Child
 		this.subRootClient.close();
 	}
 
-	public void init(PeerBuilder<ChildDispatcher> builder, int rootBranchCount, int treeBranchCount, long waitTime) throws IOException
+	public void init(PeerBuilder<ChildDispatcher> builder, int rootBranchCount, int treeBranchCount, long waitTime, int anyResponseSize) throws IOException, ServerPortConflictedException
 	{
 		this.child = new Peer<ChildDispatcher>(builder);
 		this.client = new ChildClient(this.child.getLocalIPKey(), this.child.getClientPool(), treeBranchCount, this.child.getPool());
 		this.subRootClient = new RootClient(this.child.getClientPool(), rootBranchCount, treeBranchCount, waitTime, this.child.getPool());
+		this.anycastResponseSize = new AtomicInteger(anyResponseSize);
 	}
 
 //	public void start(String rootKey, int treeBranchCount) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
-	public void start(String rootKey) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void start(String rootKey) throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, IOException, ServerPortConflictedException
 	{
 		this.rootKey = rootKey;
 		this.child.start();
@@ -208,6 +215,16 @@ final class Child
 		return this.child.getPeerID();
 	}
 	*/
+	
+	public String getLocalIPKey()
+	{
+		return this.child.getLocalIPKey();
+	}
+	
+	public int getAnycastResponseSize()
+	{
+		return this.anycastResponseSize.get();
+	}
 
 	/*
 	 * The child is enabled to interact with the root through notification synchronously. 09/14/2020, Bing Li
@@ -228,7 +245,7 @@ final class Child
 	/*
 	 * The child is enabled to interact with the root through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
 	 */
-	public ChildRootResponse readRoot(ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ChildRootResponse readRoot(ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (ChildRootResponse)this.child.read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
 	}
@@ -236,7 +253,7 @@ final class Child
 	/*
 	 * The child is enabled to interact with the collaborator through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
 	 */
-	public ChildRootResponse readCollaborator(IPAddress ip, ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ChildRootResponse readCollaborator(IPAddress ip, ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (ChildRootResponse)this.child.read(ip.getIP(), ip.getPort(), request);
 	}
@@ -312,7 +329,10 @@ final class Child
 			this.asyncNotify(notification);
 		}
 	}
-	
+
+	/*
+	 * InterAnycastRequest is not forwarded. 03/12/2023, Bing Li
+	 */
 	public void forward(ClusterRequest request)
 	{
 		if (request.getRequestType() == MulticastMessageType.BROADCAST_REQUEST || request.getRequestType() == MulticastMessageType.INTER_BROADCAST_REQUEST)
@@ -322,7 +342,9 @@ final class Child
 	}
 
 	/*
-	 * The method is added to forward intercasting notifications. 04/26/2019, Bing Li
+	 * InterAnycastRequest is not forwarded. 03/12/2023, Bing Li
+	 * 
+	 * The method is added to forward intercasting requests. 04/26/2019, Bing Li
 	 */
 	public void forward(InterChildrenRequest request)
 	{
@@ -400,7 +422,7 @@ final class Child
 	/*
 	 * It allows the child to interact with any nodes through reading. 09/22/2021, Bing Li
 	 */
-	public ServerMessage read(IPAddress ip, Request request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(IPAddress ip, Request request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.child.read(ip.getIP(), ip.getPort(), request);
 	}
@@ -408,7 +430,7 @@ final class Child
 	/*
 	 * The method reads from the registry server to get the IP address of any node. 09/21/2021, Bing Li
 	 */
-	public IPAddress getIPAddress(String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public IPAddress getIPAddress(String nodeKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (!ServerProfile.CS().isDefault())
 		{
@@ -545,6 +567,7 @@ final class Child
 	/*
 	 * The method is written in the aircraft from Zhuhai to Xi'An. 03/02/2019, Bing Li
 	 */
+//	public void interAnycastNotify(InterChildrenNotification icn) throws IOException, DistributedNodeFailedException
 	public void interAnycastNotify(InterChildrenNotification icn) throws IOException, DistributedNodeFailedException
 	{
 		/*
@@ -595,9 +618,11 @@ final class Child
 		return new CollectedClusterResponse(icr.getApplicationID(), this.subRootClient.broadcastRead(icr, icr.getIntercastRequest().getChildDestinations().keySet()));
 	}
 	
-	public CollectedClusterResponse interAnycastRead(InterChildrenRequest icr) throws DistributedNodeFailedException, IOException
+//	public CollectedClusterResponse interAnycastRead(InterChildrenRequest icr) throws DistributedNodeFailedException, IOException
+	public CollectedClusterResponse interAnycastRead(InterChildrenRequest icr, int n) throws DistributedNodeFailedException, IOException
 	{
 //		return new Response(this.subRootClient.anycastRead(icr, icr.getIntercastRequest().getChildDestinations().keySet()));
-		return new CollectedClusterResponse(icr.getApplicationID(), this.subRootClient.anycastRead(icr, icr.getIntercastRequest().getChildDestinations().keySet()));
+//		return new CollectedClusterResponse(icr.getApplicationID(), this.subRootClient.anycastRead(icr, icr.getIntercastRequest().getChildDestinations().keySet()));
+		return new CollectedClusterResponse(icr.getApplicationID(), this.subRootClient.anycastRead(icr, Tools.getRandomSet(icr.getIntercastRequest().getChildDestinations().keySet(), n)));
 	}
 }

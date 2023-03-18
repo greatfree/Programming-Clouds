@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cluster.cs.twonode.clusterserver.ChatServer;
 import org.greatfree.framework.cluster.cs.twonode.clusterserver.ChatServerTask;
 import org.greatfree.util.TerminateSignal;
@@ -33,7 +36,7 @@ I am considering how to use it to improve the chatting and whether I can use it 
 class StartChatServer
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Chatting server starting up ...");
 
@@ -44,6 +47,10 @@ class StartChatServer
 		catch (ClassNotFoundException | IOException | RemoteReadException | DistributedNodeFailedException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Chatting server started ...");

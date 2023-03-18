@@ -1,6 +1,7 @@
 package org.greatfree.cache.db;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.greatfree.cache.factory.TimingListIndexes;
 import org.greatfree.util.FileManager;
 
-import com.google.common.collect.Sets;
 import com.sleepycat.persist.EntityCursor;
 
 // Created: 05/08/2018, Bing Li
@@ -66,7 +66,8 @@ public class TimingListIndexDB
 	public Set<String> getKeys()
 	{
 		EntityCursor<TimingListIndexEntity> results = this.env.getEntityStore().getPrimaryIndex(String.class, TimingListIndexEntity.class).entities();
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		for (TimingListIndexEntity entry : results)
 		{
 			keys.add(entry.getCacheKey());

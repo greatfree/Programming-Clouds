@@ -3,7 +3,10 @@ package org.greatfree.framework.container.multicast.root;
 import java.io.IOException;
 
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.container.multicast.MultiConfig;
 import org.greatfree.util.TerminateSignal;
 
@@ -17,7 +20,7 @@ import org.greatfree.util.TerminateSignal;
 final class StartRoot
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, DistributedNodeFailedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Root starting up ...");
 		Root.MC().start(MultiConfig.REGISTRY_SERVER_IP, MultiConfig.REGISTRY_SERVER_PORT, new EntryTask());

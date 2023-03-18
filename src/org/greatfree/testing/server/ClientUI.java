@@ -1,11 +1,11 @@
 package org.greatfree.testing.server;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.chat.ChatOptions;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.p2p.message.ChatPartnerResponse;
 import org.greatfree.framework.p2p.message.ChatRegistryResponse;
@@ -64,7 +64,7 @@ class ClientUI
 	/*
 	 * Send the users' option to the chatting server. 04/23/2017, Bing Li
 	 */
-	public void send(org.greatfree.testing.server.ChatPeer peer, int option) throws ClassNotFoundException, RemoteReadException, IOException
+	public void send(org.greatfree.testing.server.ChatPeer peer, int option) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		ChatRegistryResponse chatRegistryResponse;
 		ChatPartnerResponse chatPartnerResponse = null;

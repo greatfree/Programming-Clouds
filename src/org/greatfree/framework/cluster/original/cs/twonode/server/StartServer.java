@@ -3,7 +3,10 @@ package org.greatfree.framework.cluster.original.cs.twonode.server;
 import java.io.IOException;
 
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.util.TerminateSignal;
 
@@ -11,13 +14,17 @@ import org.greatfree.util.TerminateSignal;
 class StartServer
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Chatting server starting up ...");
 
 		try
 		{
 			ChatServer.CSCLUSTER().start(MulticastConfig.CLUSTER_SERVER_ROOT_NAME, new ChatServerTask());
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 		catch (ClassNotFoundException | IOException | RemoteReadException | DistributedNodeFailedException e)
 		{

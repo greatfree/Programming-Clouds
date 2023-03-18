@@ -8,13 +8,14 @@ import org.greatfree.app.container.cs.multinode.business.message.MerchandiseResp
 import org.greatfree.app.container.cs.multinode.business.message.ShutdownBusinessServerNotification;
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 01/24/2019, Bing Li
 final class StartCustomerClient
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		StandaloneClient.CS().init();
 

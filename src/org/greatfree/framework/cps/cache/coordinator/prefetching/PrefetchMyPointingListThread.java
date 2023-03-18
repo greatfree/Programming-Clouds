@@ -1,9 +1,8 @@
 package org.greatfree.framework.cps.cache.coordinator.prefetching;
 
-import java.io.IOException;
-
 import org.greatfree.concurrency.reactive.NotificationObjectQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.coordinator.MySortedDistributedList;
 import org.greatfree.framework.cps.cache.message.FetchMyPointingListNotification;
@@ -38,7 +37,7 @@ public class PrefetchMyPointingListThread extends NotificationObjectQueue<FetchM
 					MySortedDistributedList.MIDDLE().prefetch(notification);
 					this.disposeObject(notification);
 				}
-				catch (InterruptedException | ClassNotFoundException | RemoteReadException | IOException e)
+				catch (InterruptedException | ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

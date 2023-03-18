@@ -9,6 +9,7 @@ import org.greatfree.concurrency.Scheduler;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.DescendantListPointingComparator;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.exceptions.StoreOverflowException;
 import org.greatfree.framework.cps.cache.TestCacheConfig;
@@ -101,7 +102,7 @@ public class MySortedPrefetchListStore
 		return this.store.get(new PrefetchMyCachePointingListStoreNotification(listKey, index, this.store.getSize(listKey), this.store.getPrefetchCount()));
 	}
 
-	public void prefetch(PrefetchMyCachePointingListStoreNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void prefetch(PrefetchMyCachePointingListStoreNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		PrefetchMyCachePointingsResponse response = Coordinator.CPS().prefetchPointings(notification.getCacheKey(), notification.getPrefetchStartIndex(), notification.getPrefetchEndIndex());
 		System.out.println("MyPointingPrefetchListStore-prefetch(): cache key " + notification.getCacheKey() + ", pointings' size = " + response.getPointings().size());

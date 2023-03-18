@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cluster.cs.twonode.clusterserver.ChatServer;
 import org.greatfree.framework.cluster.cs.twonode.clusterserver.ChatServerTask;
 import org.greatfree.util.TerminateSignal;
@@ -12,13 +15,17 @@ import org.greatfree.util.TerminateSignal;
 // Created: 04/02/2019, Bing Li
 class StartChatServer
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Chatting server starting up ...");
 
 		try
 		{
 			ChatServer.CONTAINER().start(ServerConfig.COORDINATOR_PORT, new ChatServerTask());
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 		catch (ClassNotFoundException | IOException | RemoteReadException | DistributedNodeFailedException e)
 		{

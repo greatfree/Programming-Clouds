@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.enterprise.message.EntityBeanRequest;
 import org.greatfree.framework.cps.enterprise.message.EntityBeanResponse;
@@ -34,7 +35,7 @@ class EntityBeanRequestThread extends RequestQueue<EntityBeanRequest, EntityBean
 					this.respond(request.getOutStream(), request.getLock(), response);
 					this.disposeMessage(request, response);
 				}
-				catch (ClassNotFoundException | RemoteReadException | IOException e)
+				catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException | IOException e)
 				{
 					e.printStackTrace();
 				}

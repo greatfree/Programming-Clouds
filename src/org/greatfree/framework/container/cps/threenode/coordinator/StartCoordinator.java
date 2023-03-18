@@ -3,7 +3,10 @@ package org.greatfree.framework.container.cps.threenode.coordinator;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.util.TerminateSignal;
 
@@ -11,7 +14,7 @@ import org.greatfree.util.TerminateSignal;
 public class StartCoordinator
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Coordinator starting up ...");
 
@@ -22,6 +25,10 @@ public class StartCoordinator
 		catch (ClassNotFoundException | IOException | RemoteReadException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Coordinator started ...");

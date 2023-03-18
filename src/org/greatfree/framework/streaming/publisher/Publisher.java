@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.client.CSClient;
 import org.greatfree.data.ClientConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -50,7 +51,7 @@ class Publisher
 		this.client.dispose();
 	}
 	
-	public void init(String publisherName) throws ClassNotFoundException, RemoteReadException, IOException
+	public void init(String publisherName) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		this.client = new CSClient.CSClientBuilder()
 				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)

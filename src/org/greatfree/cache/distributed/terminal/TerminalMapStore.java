@@ -2,6 +2,7 @@ package org.greatfree.cache.distributed.terminal;
 
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,8 +23,6 @@ import org.greatfree.cache.local.CacheMapFactorable;
 import org.greatfree.exceptions.TerminalServerOverflowedException;
 import org.greatfree.util.Builder;
 import org.greatfree.util.FileManager;
-
-import com.google.common.collect.Sets;
 
 /*
  * The cache is tested in the Clouds project. 08/27/2018, Bing Li
@@ -274,7 +273,8 @@ public class TerminalMapStore<Value extends StoreElement, Factory extends CacheM
 //		this.lock.readLock().lock();
 		if (!this.keys.containsKey(mapKey))
 		{
-			Set<String> keys = Sets.newHashSet();
+//			Set<String> keys = Sets.newHashSet();
+			Set<String> keys = new HashSet<String>();
 //			this.lock.readLock().unlock();
 //			this.lock.writeLock().lock();
 			this.keys.put(mapKey, keys);
@@ -309,7 +309,8 @@ public class TerminalMapStore<Value extends StoreElement, Factory extends CacheM
 //		this.lock.readLock().lock();
 		if (!this.keys.containsKey(mapKey))
 		{
-			Set<String> keys = Sets.newHashSet();
+//			Set<String> keys = Sets.newHashSet();
+			Set<String> keys = new HashSet<String>();
 //			this.lock.readLock().unlock();
 //			this.lock.writeLock().lock();
 			this.keys.put(mapKey, keys);
@@ -486,7 +487,8 @@ public class TerminalMapStore<Value extends StoreElement, Factory extends CacheM
 		if (rscKeys != null)
 		{
 //			Map<String, Value> cValues = this.cache.getAll(rscKeys);
-			Set<String> keys = Sets.newHashSet();
+//			Set<String> keys = Sets.newHashSet();
+			Set<String> keys = new HashSet<String>();
 			for (String entry : rscKeys)
 			{
 				if (this.cache.containsKey(entry))
@@ -574,7 +576,8 @@ public class TerminalMapStore<Value extends StoreElement, Factory extends CacheM
 	public void remove(String mapKey, Set<String> keys)
 	{
 		String key;
-		Set<String> removalKeys = Sets.newHashSet();
+//		Set<String> removalKeys = Sets.newHashSet();
+		Set<String> removalKeys = new HashSet<String>();
 		for (String k : keys)
 		{
 			key = this.keyCreator.createCompoundKey(mapKey, k);

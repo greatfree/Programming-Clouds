@@ -14,6 +14,7 @@ import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.FutureExceptionHandler;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -150,7 +151,7 @@ public final class StandaloneClient
 		this.client.asyncNotify(ip, port, notification);
 	}
 	
-	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.client.read(ip, port, request);
 	}
@@ -173,7 +174,7 @@ public final class StandaloneClient
 	/*
 	 * The method is common in many cases to access the IP of one node. 09/09/2020, Bing Li 
 	 */
-	public IPAddress getIPAddress(String registryIP, int registryPort, String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public IPAddress getIPAddress(String registryIP, int registryPort, String nodeKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return ((PeerAddressResponse)this.client.read(registryIP, registryPort, new PeerAddressRequest(nodeKey))).getPeerAddress();
 	}
@@ -181,7 +182,7 @@ public final class StandaloneClient
 	/*
 	 * The method is useful for most storage systems, which need the partition information to design the upper level distribution strategy. 09/09/2020, Bing Li
 	 */
-	public int getPartitionSize(String clusterIP, int clusterPort) throws ClassNotFoundException, RemoteReadException, IOException
+	public int getPartitionSize(String clusterIP, int clusterPort) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return ((PartitionSizeResponse)this.client.read(clusterIP,  clusterPort, new PartitionSizeRequest())).getPartitionSize();
 	}
@@ -191,7 +192,7 @@ public final class StandaloneClient
 	 * 
 	 * The message is an internal one, like the PartitionSizeRequest/PartitionSizeResponse, which is processed by the cluster root only. Programmers do not need to do anything but send it. So it inherits ServerMessage. 09/12/2020, Bing Li
 	 */
-	public int getClusterSize(String clusterIP, int clusterPort) throws ClassNotFoundException, RemoteReadException, IOException
+	public int getClusterSize(String clusterIP, int clusterPort) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return ((ClusterSizeResponse)this.client.read(clusterIP,  clusterPort, new ClusterSizeRequest())).getSize();
 	}
@@ -199,7 +200,7 @@ public final class StandaloneClient
 	/*
 	 * When additional children are needed by the task cluster, sometimes those children should be initialized or configured before joining. The method serves this goal. 09/13/2020, Bing Li
 	 */
-	public Set<String> getChildrenKeys(String clusterIP, int clusterPort, int size) throws ClassNotFoundException, RemoteReadException, IOException
+	public Set<String> getChildrenKeys(String clusterIP, int clusterPort, int size) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return ((AdditionalChildrenResponse)this.client.read(clusterIP, clusterPort, new AdditionalChildrenRequest(size))).getChildrenKeys();
 	}

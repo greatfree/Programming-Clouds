@@ -6,7 +6,10 @@ import org.greatfree.cluster.RootTask;
 import org.greatfree.cluster.root.ClusterProfile;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.server.container.PeerProfile;
@@ -14,7 +17,8 @@ import org.greatfree.server.container.ServerProfile;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 01/13/2019, Bing Li
-public final class ClusterServerContainer
+// public final class ClusterServerContainer
+public class ClusterServerContainer
 {
 	private ClusterServer server;
 	private RootTask task;
@@ -84,6 +88,46 @@ public final class ClusterServerContainer
 				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
 				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
 				.schedulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
+				.rootBranchCount(MulticastConfig.ROOT_BRANCH_COUNT)
+				.treeBranchCount(MulticastConfig.SUB_BRANCH_COUNT)
+				.requestWaitTime(MulticastConfig.BROADCAST_REQUEST_WAIT_TIME)
+				.build();
+
+		this.task = task;
+	}
+
+	/*
+	 * Broker is the cluster to play the role of keeping messages for clients, which can access those messages through polling. 03/06/2023, Bing Li
+	 */
+	public ClusterServerContainer(int port, String rootName, String registryServerIP, int registryServerPort, RootTask task, boolean isBroker) throws IOException
+	{
+		ClusterProfile.CLUSTER().init(registryServerIP, registryServerPort, false);
+
+		this.server = new ClusterServer.ServerOnClusterBuilder()
+				.peerPort(port)
+				.peerName(rootName)
+				.registryServerIP(registryServerIP)
+				.registryServerPort(registryServerPort)
+				.isRegistryNeeded(true)
+				.listenerCount(ServerConfig.LISTENING_THREAD_COUNT)
+				.maxIOCount(ServerConfig.MAX_SERVER_IO_COUNT)
+				.serverThreadPoolSize(ServerConfig.SHARED_THREAD_POOL_SIZE)
+				.serverThreadKeepAliveTime(ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME)
+				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
+				.readerClientSize(RegistryConfig.READER_CLIENT_SIZE)
+				.syncEventerIdleCheckDelay(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_DELAY)
+				.syncEventerIdleCheckPeriod(RegistryConfig.SYNC_EVENTER_IDLE_CHECK_PERIOD)
+				.syncEventerMaxIdleTime(RegistryConfig.SYNC_EVENTER_MAX_IDLE_TIME)
+				.asyncEventQueueSize(RegistryConfig.ASYNC_EVENT_QUEUE_SIZE)
+				.asyncEventerSize(RegistryConfig.ASYNC_EVENTER_SIZE)
+				.asyncEventingWaitTime(RegistryConfig.ASYNC_EVENTING_WAIT_TIME)
+				.asyncEventQueueWaitTime(RegistryConfig.ASYNC_EVENT_QUEUE_WAIT_TIME)
+//				.asyncEventerWaitRound(RegistryConfig.ASYNC_EVENTER_WAIT_ROUND)
+				.asyncEventIdleCheckDelay(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_DELAY)
+				.asyncEventIdleCheckPeriod(RegistryConfig.ASYNC_EVENT_IDLE_CHECK_PERIOD)
+				.schedulerPoolSize(RegistryConfig.SCHEDULER_THREAD_POOL_SIZE)
+				.schedulerKeepAliveTime(RegistryConfig.SCHEDULER_THREAD_POOL_KEEP_ALIVE_TIME)
+				.isBroker(isBroker)
 				.rootBranchCount(MulticastConfig.ROOT_BRANCH_COUNT)
 				.treeBranchCount(MulticastConfig.SUB_BRANCH_COUNT)
 				.requestWaitTime(MulticastConfig.BROADCAST_REQUEST_WAIT_TIME)
@@ -213,13 +257,14 @@ public final class ClusterServerContainer
 //		this.server.stop(timeout);
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 		if (!this.server.isChildrenEmpty())
 		{
 			TerminateSignal.SIGNAL().waitTermination(timeout);
 		}
 		
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		// With the updating of notify/wait, the line is not needed. But to keep compatible, just leave it here for some time. 08/25/2021, Bing Li
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
@@ -229,7 +274,7 @@ public final class ClusterServerContainer
 		this.server.stop(timeout);
 	}
 
-	public void start() throws ClassNotFoundException, IOException, RemoteReadException, DistributedNodeFailedException
+	public void start() throws ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException, IOException
 	{
 		this.server.start(this.task);
 	}

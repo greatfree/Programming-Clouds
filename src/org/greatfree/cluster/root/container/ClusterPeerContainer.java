@@ -9,7 +9,10 @@ import org.greatfree.cluster.root.ClusterProfile;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.message.ServerMessage;
@@ -164,7 +167,7 @@ public class ClusterPeerContainer
 	}
 	*/
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, DistributedNodeFailedException
+	public void stop(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, DistributedNodeFailedException, IOException, RemoteIPNotExistedException
 	{
 		ServerStatus.FREE().setShutdown();
 		this.server.stopCluster();
@@ -176,13 +179,13 @@ public class ClusterPeerContainer
 		this.client.dispose();
 	}
 
-	public void start() throws ClassNotFoundException, IOException, RemoteReadException, DistributedNodeFailedException
+	public void start() throws ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException, IOException
 	{
 //		this.client.init(this.server.getThreadPool());
 		this.server.start(this.task);
 	}
 	
-	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		return ClusterRoot.CONTAINER().read(ip, port, request);
 		return this.client.read(ip, port, request);

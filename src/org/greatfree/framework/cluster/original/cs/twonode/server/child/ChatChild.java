@@ -6,7 +6,10 @@ import org.greatfree.chat.ChatConfig;
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.child.ClusterChild;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cs.twonode.server.AccountRegistry;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -37,7 +40,7 @@ class ChatChild
 		}
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
@@ -49,7 +52,7 @@ class ChatChild
 		this.child.stop(timeout);
 	}
 
-	public void start(String rootKey, ChildTask chatTask) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException
+	public void start(String rootKey, ChildTask chatTask) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.child = new ClusterChild.ClusterChildBuilder()
 				.peerPort(ChatConfig.CHAT_SERVER_PORT)

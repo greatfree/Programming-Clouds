@@ -3,14 +3,17 @@ package org.greatfree.framework.multicast.bound.child;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 08/26/2018, Bing Li
 public class StartChild
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Multicast child starting up ...");
 
@@ -22,6 +25,10 @@ public class StartChild
 		catch (ClassNotFoundException | IOException | RemoteReadException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Multicast child started ...");

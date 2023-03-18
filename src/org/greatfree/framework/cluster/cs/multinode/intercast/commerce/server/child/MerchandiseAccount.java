@@ -1,8 +1,7 @@
 package org.greatfree.framework.cluster.cs.multinode.intercast.commerce.server.child;
 
+import java.util.HashSet;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 // Created: 07/18/2019, Bing Li
 class MerchandiseAccount
@@ -14,7 +13,8 @@ class MerchandiseAccount
 	public MerchandiseAccount(String merchandiseKey)
 	{
 		this.merchandiseKey = merchandiseKey;
-		this.followers = Sets.newHashSet();
+//		this.followers = Sets.newHashSet();
+		this.followers = new HashSet<String>();
 	}
 
 	public String getMerchandiseKey()

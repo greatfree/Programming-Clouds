@@ -2,6 +2,7 @@ package org.greatfree.demo.cluster.mncs.server.child;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 import org.greatfree.app.container.cs.multinode.business.server.MerchandiseDB;
 import org.greatfree.cluster.ChildTask;
@@ -11,6 +12,7 @@ import org.greatfree.demo.cluster.mncs.message.BusinessApplicationID;
 import org.greatfree.demo.cluster.mncs.message.MerchandiseRequest;
 import org.greatfree.demo.cluster.mncs.message.MerchandiseResponse;
 import org.greatfree.demo.cluster.mncs.message.PostMerchandiseNotification;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.message.multicast.container.InterChildrenNotification;
@@ -24,6 +26,7 @@ import org.greatfree.message.multicast.container.CollectedClusterResponse;
 // Created: 02/17/2019, Bing Li
 class BusinessChildTask implements ChildTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.demo.cluster.mncs.server.child");
 
 	@Override
 	public void processNotification(ClusterNotification notification)
@@ -31,30 +34,30 @@ class BusinessChildTask implements ChildTask
 		switch (notification.getApplicationID())
 		{
 			case BusinessApplicationID.POST_MERCHANDISE_NOTIFICATION:
-				System.out.println("POST_MERCHANDISE_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("POST_MERCHANDISE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				PostMerchandiseNotification pn = (PostMerchandiseNotification)notification;
 				MerchandiseDB.CS().saveMerchandise(pn.getMerchandise());
 				break;
 
 			case ClusterApplicationID.STOP_CHAT_CLUSTER_NOTIFICATION:
-				System.out.println("STOP_CHAT_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("STOP_CHAT_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				try
 				{
 					BusinessChild.BUSINESS_CLUSTER_CHILD().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}
 				break;
 
 			case ClusterApplicationID.STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION:
-				System.out.println("STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				try
 				{
 					BusinessChild.BUSINESS_CLUSTER_CHILD().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

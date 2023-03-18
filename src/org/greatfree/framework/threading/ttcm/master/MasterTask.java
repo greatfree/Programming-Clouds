@@ -2,8 +2,10 @@ package org.greatfree.framework.threading.ttcm.master;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 import org.greatfree.concurrency.threading.message.TaskStateNotification;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.TaskConfig;
 import org.greatfree.framework.threading.ThreadInfo;
@@ -18,11 +20,12 @@ import org.greatfree.util.ServerStatus;
 // Created: 09/13/2019, Bing Li
 class MasterTask implements ServerTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.threading.ttcm.slave");
 
 	@Override
 	public void processNotification(Notification notification)
 	{
-		System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
+		log.info("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 		TaskStateNotification rst = (TaskStateNotification)notification;
 		if (rst.getTaskKey().equals(TaskConfig.PING_TASK_KEY))
 		{
@@ -37,7 +40,7 @@ class MasterTask implements ServerTask
 						Master.THREADING().execute(ThreadInfo.ASYNC().getThreadBKey());
 					}
 				}
-				catch (IOException | ClassNotFoundException | RemoteReadException e)
+				catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					ServerStatus.FREE().printException(e);
 				}
@@ -55,7 +58,7 @@ class MasterTask implements ServerTask
 						Master.THREADING().execute(ThreadInfo.ASYNC().getThreadAKey());
 					}
 				}
-				catch (IOException | ClassNotFoundException | RemoteReadException e)
+				catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					ServerStatus.FREE().printException(e);
 				}
@@ -77,12 +80,12 @@ class MasterTask implements ServerTask
 			if (ThreadInfo.ASYNC().getThreadAKey().equals(threadKey))
 			{
 				Master.THREADING().assignTask(new PingNotification(ThreadInfo.ASYNC().getThreadAKey(), ThreadInfo.ASYNC().getThreadA() + " PINGS", 1000));
-				System.out.println("MasterTask-assignTask(): PingNotification is sent to Thread A ...");
+				log.info("MasterTask-assignTask(): PingNotification is sent to Thread A ...");
 			}
 			else
 			{
 				Master.THREADING().assignTask(new PongNotification(ThreadInfo.ASYNC().getThreadBKey(), ThreadInfo.ASYNC().getThreadB() + " PONGS", 1000));
-				System.out.println("MasterTask-assignTask(): PongNotification is sent to Thread B ...");
+				log.info("MasterTask-assignTask(): PongNotification is sent to Thread B ...");
 			}
 		}
 		catch (ClassNotFoundException | RemoteReadException | IOException | InterruptedException e)

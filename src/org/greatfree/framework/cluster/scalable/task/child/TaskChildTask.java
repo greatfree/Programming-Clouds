@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.scalable.message.ScalableApplicationID;
 import org.greatfree.message.multicast.MulticastResponse;
@@ -35,7 +36,7 @@ class TaskChildTask implements ChildTask
 				{
 					TaskChild.TASK().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}
@@ -47,7 +48,7 @@ class TaskChildTask implements ChildTask
 				{
 					TaskChild.TASK().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

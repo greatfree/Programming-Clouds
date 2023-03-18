@@ -1,13 +1,13 @@
 package org.greatfree.cache.db;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.greatfree.util.FileManager;
 
-import com.google.common.collect.Sets;
 import com.sleepycat.persist.EntityCursor;
 
 // Created: 05/07/2018, Bing Li
@@ -67,7 +67,8 @@ public class MapKeysDB
 	public Set<String> getKeys()
 	{
 		EntityCursor<MapKeysEntity> results = this.env.getEntityStore().getPrimaryIndex(String.class, MapKeysEntity.class).entities();
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		for (MapKeysEntity entry : results)
 		{
 			keys.add(entry.getMapKey());
@@ -110,7 +111,8 @@ public class MapKeysDB
 		{
 			if (!mapKeys.containsKey(entry.getMapKey()))
 			{
-				valueKeys = Sets.newHashSet();
+//				valueKeys = Sets.newHashSet();
+				valueKeys = new HashSet<String>();
 				valueKeys.add(entry.getValueKey());
 				mapKeys.put(entry.getMapKey(), valueKeys);
 			}

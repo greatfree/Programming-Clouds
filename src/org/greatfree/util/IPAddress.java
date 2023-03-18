@@ -2,6 +2,8 @@ package org.greatfree.util;
 
 import java.io.Serializable;
 
+import org.greatfree.exceptions.PeerNameIsNullException;
+
 /*
  * The IP address information is enclosed in the class. It is usually transmitted from the registry server to a cluster root. So, it must implement the interface of Serializable. 05/08/2017, Bing Li
  */
@@ -60,9 +62,16 @@ public class IPAddress implements Serializable
 	/*
 	 * The method is used in WindCry, not Wind. 06/20/2022, Bing Li
 	 */
-	public void setPeerName(String peerName)
+	public void setPeerName(String peerName) throws PeerNameIsNullException
 	{
-		this.peerName = peerName;
+		if (peerName != null)
+		{
+			this.peerName = peerName;
+		}
+		else
+		{
+			throw new PeerNameIsNullException(this.ip, this.port);
+		}
 	}
 	
 	public String getIPKey()
@@ -82,6 +91,20 @@ public class IPAddress implements Serializable
 	
 	public String toString()
 	{
-		return "IPAddress = " + this.peerName + UtilConfig.COLON + this.ip + UtilConfig.COLON + this.port;
+		if (!this.peerName.equals(UtilConfig.EMPTY_STRING))
+		{
+			return "IPAddress = " + this.peerName + UtilConfig.COLON + this.ip + UtilConfig.COLON + this.port;
+		}
+		else
+		{
+			return "IPAddress = " + this.ip + UtilConfig.COLON + this.port;
+		}
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		IPAddress objIP = (IPAddress)obj;
+		return this.ip.equals(objIP.getIP()) && this.port == objIP.getPort();
 	}
 }

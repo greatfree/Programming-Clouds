@@ -10,6 +10,7 @@ import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedListFetchException;
 import org.greatfree.exceptions.IndexOutOfRangeException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.TestCacheConfig;
 import org.greatfree.framework.cps.cache.coordinator.evicting.EvictStackThread;
@@ -126,7 +127,7 @@ public class MyDistributedReadStackStore
 		}
 	}
 	
-	public void prefetch(FetchStackNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void prefetch(FetchStackNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		PopMyStoreDataResponse response;
 		if (!notification.isPeeking())
@@ -150,7 +151,7 @@ public class MyDistributedReadStackStore
 		}
 	}
 	
-	public void postfetch(FetchStackNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void postfetch(FetchStackNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		PopMyStoreDataResponse response;
 		if (!notification.isPeeking())

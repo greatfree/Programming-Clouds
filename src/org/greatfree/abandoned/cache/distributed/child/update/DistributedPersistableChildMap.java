@@ -22,7 +22,10 @@ import org.greatfree.cache.message.BroadValuesRequest;
 import org.greatfree.cache.message.ClearNotification;
 import org.greatfree.cache.message.CloseNotification;
 import org.greatfree.cache.message.RemoveKeysNotification;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.server.Peer;
 import org.greatfree.util.Builder;
 import org.greatfree.util.FileManager;
@@ -154,7 +157,7 @@ public class DistributedPersistableChildMap implements ChildMapDistributable
 		}
 
 		@Override
-		public DistributedPersistableChildMap build() throws IOException
+		public DistributedPersistableChildMap build()
 		{
 			return new DistributedPersistableChildMap(this);
 		}
@@ -209,7 +212,7 @@ public class DistributedPersistableChildMap implements ChildMapDistributable
 	 * Open the distributed persistable map. 07/09/2017, Bing Li
 	 */
 	@Override
-	public void open() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException
+	public void open() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		ChildMapRegistry.CACHE().register(this);
 		this.child.init();
@@ -219,7 +222,7 @@ public class DistributedPersistableChildMap implements ChildMapDistributable
 	 * Close the distributed persistable map. 07/09/2017, Bing Li
 	 */
 	@Override
-	public void close(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void close(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		ChildMapRegistry.CACHE().unregister(this);
 		this.db.removeAll();

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.message.ClusterApplicationID;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.multicast.message.HelloWorldAnycastNotification;
 import org.greatfree.framework.container.multicast.message.HelloWorldAnycastRequest;
@@ -67,7 +68,7 @@ final class SubTask implements ChildTask
 				{
 					Child.MC().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}
@@ -79,7 +80,7 @@ final class SubTask implements ChildTask
 				{
 					Child.MC().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

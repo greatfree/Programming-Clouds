@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.multicast.message.OldHelloWorldBroadcastNotification;
 import org.greatfree.framework.multicast.message.OldHelloWorldBroadcastRequest;
@@ -70,7 +73,7 @@ class ClusterChildSingleton
 	/*
 	 * Stop the child root. 05/12/2017, Bing Li
 	 */
-	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
@@ -93,7 +96,7 @@ class ClusterChildSingleton
 	/*
 	 * Start the child peer. 05/12/2017, Bing Li
 	 */
-	public void start() throws IOException, ClassNotFoundException, RemoteReadException
+	public void start() throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Initialize the child peer. 05/12/2017, Bing Li
 		this.childPeer = new Peer.PeerBuilder<InstanceOfChildDispatcher>()

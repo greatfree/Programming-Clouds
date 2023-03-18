@@ -10,6 +10,7 @@ import org.greatfree.concurrency.threading.message.TaskInvokeRequest;
 import org.greatfree.concurrency.threading.message.TaskNotification;
 import org.greatfree.concurrency.threading.message.TaskRequest;
 import org.greatfree.concurrency.threading.message.TaskResponse;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.exceptions.ThreadAssignmentException;
 import org.greatfree.util.Tools;
@@ -126,7 +127,7 @@ public class Player
 	 * 
 	 * The message which describes the task the thread to be accomplished. 09/28/2019, Bing Li
 	 */
-	public void notifyThreads(TaskNotification notification) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, ThreadAssignmentException
+	public void notifyThreads(TaskNotification notification) throws ClassNotFoundException, RemoteReadException, InterruptedException, ThreadAssignmentException, RemoteIPNotExistedException, IOException
 	{
 		if (!notification.getThreadKey().equals(ThreadConfig.NO_THREAD_KEY))
 		{
@@ -155,7 +156,7 @@ public class Player
 	/*
 	 * The methods need to detect whether the threads are alive or not remotely. So the performance is low. 10/05/2019, Bing Li
 	 */
-	public TaskResponse readThread(TaskRequest request) throws ClassNotFoundException, RemoteReadException, IOException, ThreadAssignmentException
+	public TaskResponse readThread(TaskRequest request) throws ClassNotFoundException, RemoteReadException, ThreadAssignmentException, RemoteIPNotExistedException
 	{
 		if (!request.getThreadKey().equals(ThreadConfig.NO_THREAD_KEY))
 		{
@@ -174,7 +175,7 @@ public class Player
 	/*
 	 * The methods need to detect whether the threads are alive or not remotely. So the performance is low. 10/05/2019, Bing Li
 	 */
-	public Set<TaskResponse> readThreads(TaskRequest request) throws ClassNotFoundException, RemoteReadException, IOException, ThreadAssignmentException
+	public Set<TaskResponse> readThreads(TaskRequest request) throws ClassNotFoundException, RemoteReadException, ThreadAssignmentException, RemoteIPNotExistedException
 	{
 		if (request.getThreadKeys() != ThreadConfig.NO_THREAD_KEYS)
 		{
@@ -193,7 +194,7 @@ public class Player
 		}
 	}
 
-	public void notifyThreads(TaskInvokeNotification notification) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void notifyThreads(TaskInvokeNotification notification) throws ClassNotFoundException, RemoteReadException, InterruptedException, IOException
 	{
 		this.dt.assignTask(this.slaveKey, notification);
 	}
@@ -213,12 +214,12 @@ public class Player
 		this.dt.notify(notification);
 	}
 	
-	public TaskResponse readThread(InteractRequest request) throws ClassNotFoundException, RemoteReadException, IOException, ThreadAssignmentException, InterruptedException
+	public TaskResponse readThread(InteractRequest request) throws ClassNotFoundException, RemoteReadException, ThreadAssignmentException, InterruptedException, RemoteIPNotExistedException
 	{
 		return this.dt.readThread(request, this.readTimeout);
 	}
 	
-	public Set<TaskResponse> readThreads(InteractRequest request) throws ClassNotFoundException, RemoteReadException, IOException, ThreadAssignmentException
+	public Set<TaskResponse> readThreads(InteractRequest request) throws ClassNotFoundException, RemoteReadException, ThreadAssignmentException, RemoteIPNotExistedException
 	{
 		return this.dt.readThreads(request, this.readTimeout);
 	}

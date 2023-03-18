@@ -30,7 +30,10 @@ import org.greatfree.cache.message.root.PutNotificationCreator;
 import org.greatfree.cache.message.root.RemoveKeyNotificationCreator;
 import org.greatfree.cache.message.root.RemoveKeysNotificationCreator;
 import org.greatfree.cache.message.root.UniGetRequestCreator;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.old.multicast.root.ClusterRoot;
 import org.greatfree.multicast.root.abandoned.ClusterRootBroadcastNotifier;
@@ -103,7 +106,7 @@ class MapClusterRoot<Key extends CacheKey<String>, Value extends CacheKey<String
 	 * Initialize the cache cluster root. 07/05/2017, Bing Li
 	 */
 	@Override
-	public void init() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException
+	public void init() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Start the cluster root on the system level. 07/05/2017, Bing Li
 		super.start();
@@ -146,7 +149,7 @@ class MapClusterRoot<Key extends CacheKey<String>, Value extends CacheKey<String
 	 * Terminate the cache cluster root. 07/05/2017, Bing Li
 	 */
 	@Override
-	public void terminate(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void terminate(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		// Stop the cluster root on the system level. 07/05/2017, Bing Li
 		super.stop(timeout);

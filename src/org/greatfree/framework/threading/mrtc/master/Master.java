@@ -7,7 +7,10 @@ import java.util.Set;
 
 import org.greatfree.concurrency.threading.Distributer;
 import org.greatfree.concurrency.threading.ThreadConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.threading.MRStates;
 import org.greatfree.framework.threading.message.ReduceNotification;
 import org.greatfree.framework.threading.mrtc.MRConfig;
@@ -41,7 +44,7 @@ class Master
 		}
 	}
 
-	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		Set<String> slaveKeys = NodeIDs.ID().getAllSlaves();
 		for (String entry : slaveKeys)
@@ -53,7 +56,7 @@ class Master
 		this.master.stop(timeout);
 	}
 	
-	public void start() throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void start() throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.master = new Distributer.DistributerBuilder()
 				.name(NodeIDs.ID().getLocalName())
@@ -77,7 +80,7 @@ class Master
 	/*
 	 * Get the slaves' names. 12/19/2019, Bing Li
 	 */
-	public Map<String, String> getSlaveNames() throws ClassNotFoundException, RemoteReadException, IOException
+	public Map<String, String> getSlaveNames() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		Map<String, String> names = this.master.getSlaveNames();
 		names.remove(NodeIDs.ID().getLocalKey());
@@ -87,12 +90,12 @@ class Master
 	/*
 	 * Create a certain number of threads on the specified slaves. 12/19/2019, Bing Li
 	 */
-	public Map<String, Set<String>> obtainThreads(Map<String, Integer> threadCounts) throws ClassNotFoundException, RemoteReadException, IOException
+	public Map<String, Set<String>> obtainThreads(Map<String, Integer> threadCounts) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.master.reuseThreads(threadCounts);
 	}
 	
-	public String obtainThread(String slaveKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public String obtainThread(String slaveKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.master.reuseThread(slaveKey);
 	}
@@ -107,7 +110,7 @@ class Master
 	 */
 //	public void initMR(String path, int currentHop, int maxHop) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
 //	public void initMR(int currentHop, int maxHop) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
-	public void initMR(int maxHop) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void initMR(int maxHop) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 //		System.out.println("1) Master-initMR(): maxHop = " + maxHop);
 
@@ -218,7 +221,7 @@ class Master
 	 * Start a new hop for the round of the MR game. 01/10/2020, Bing Li
 	 */
 //	public void continueMR(String mrKey, String path, int currentHop, int maxHop) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
-	public void continueMR(String mrKey, int currentHop, int maxHop) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void continueMR(String mrKey, int currentHop, int maxHop) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		// Clear the current MR concurrency degree since it is out of date. 01/20/2020, Bing Li
 		MRStates.CONCURRENCY().removeCD(mrKey);

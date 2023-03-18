@@ -7,6 +7,7 @@ import java.util.Scanner;
 import org.greatfree.chat.ChatOptions;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.cs.multinode.unifirst.message.AddPartnerNotification;
 import org.greatfree.framework.cluster.cs.multinode.unifirst.message.ChatPartnerRequest;
@@ -67,7 +68,7 @@ class ClientUI
 		System.out.println(ClientMenu.INPUT_PROMPT);
 	}
 
-	public void send(int option) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void send(int option) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		List<ChatRegistryResponse> crReses;
 		List<ChatPartnerResponse> cpReses;

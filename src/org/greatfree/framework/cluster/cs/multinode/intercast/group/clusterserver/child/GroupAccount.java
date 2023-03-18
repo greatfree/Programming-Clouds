@@ -1,8 +1,7 @@
 package org.greatfree.framework.cluster.cs.multinode.intercast.group.clusterserver.child;
 
+import java.util.HashSet;
 import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 // Created: 04/07/2019, Bing Li
 class GroupAccount
@@ -18,7 +17,8 @@ class GroupAccount
 		this.groupKey = groupKey;
 		this.groupName = groupName;
 		this.description = description;
-		this.members = Sets.newHashSet();
+//		this.members = Sets.newHashSet();
+		this.members = new HashSet<String>();
 	}
 
 	public String getGroupKey()

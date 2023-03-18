@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.cps.message.FrontNotification;
 import org.greatfree.framework.container.cps.message.FrontRequest;
@@ -59,7 +60,7 @@ public class ClientUI
 		System.out.println(ClientMenu.INPUT_PROMPT);
 	}
 
-	public void send(int option) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void send(int option) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		FrontResponse response;
 		switch (option)

@@ -1,13 +1,12 @@
 package org.greatfree.server;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The class is used to keep all of the ServerIOs, which are assigned to each client for the interactions between the server and the corresponding client. 08/04/2014, Bing Li
@@ -49,7 +48,8 @@ public class ServerIORegistry<IO extends ServerIO>
 	 */
 	public Set<String> getIPs()
 	{
-		Set<String> ips = Sets.newHashSet();
+//		Set<String> ips = Sets.newHashSet();
+		Set<String> ips = new HashSet<String>();
 		for (IO io : this.ioRegistry.values())
 		{
 			ips.add(io.getIP());

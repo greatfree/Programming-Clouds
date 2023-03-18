@@ -2,6 +2,7 @@ package org.greatfree.framework.threading.ct.master;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 import org.greatfree.concurrency.threading.message.TaskStateNotification;
 import org.greatfree.concurrency.threading.message.ATMMessageType;
@@ -22,15 +23,17 @@ import org.greatfree.util.Time;
 // Created: 09/16/2019, Bing Li
 class MasterTaskC implements ServerTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.threading.ct.master");
+	
 	@Override
 	public void processNotification(Notification notification)
 	{
 		Master.MASTER().setEndTime();
-		System.out.println("It takes " + Time.getTimespanInMilliSecond(Master.MASTER().getEndTime(), Master.MASTER().getStartTime()) + " ms");
+		log.info("It takes " + Time.getTimespanInMilliSecond(Master.MASTER().getEndTime(), Master.MASTER().getStartTime()) + " ms");
 		switch (notification.getApplicationID())
 		{
 			case ATMMessageType.TASK_STATE_NOTIFICATION:
-				System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				TaskStateNotification rst = (TaskStateNotification)notification;
 				if (rst.getTaskKey().equals(TaskConfig.PRINT_TASK_KEY))
 				{

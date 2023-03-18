@@ -6,6 +6,7 @@ import java.util.concurrent.RejectedExecutionException;
 
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.FutureExceptionHandler;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.util.Builder;
@@ -403,10 +404,17 @@ public class CSClient
 	/*
 	 * Read remotely, i.e., send a request and wait until a response is received. 05/01/2017, Bing Li
 	 */
-	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
-//		return RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ip, port, request);
-		return RemoteReader.REMOTE().read(ip, port, request);
+		try
+		{
+//			return RemoteReader.REMOTE().read(NodeID.DISTRIBUTED().getKey(), ip, port, request);
+			return RemoteReader.REMOTE().read(ip, port, request);
+		}
+		catch (IOException e)
+		{
+			throw new RemoteIPNotExistedException(ip, port);
+		}
 	}
 	
 	public Future<ServerMessage> futureRead(String ip, int port, ServerMessage request)

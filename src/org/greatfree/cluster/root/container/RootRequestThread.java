@@ -13,7 +13,6 @@ import org.greatfree.message.multicast.container.CollectedClusterResponse;
 // Created: 01/13/2019, Bing Li
 class RootRequestThread extends RequestQueue<ClusterRequest, ClusterRequestStream, CollectedClusterResponse>
 {
-
 	public RootRequestThread(int maxTaskSize)
 	{
 		super(maxTaskSize);
@@ -33,10 +32,10 @@ class RootRequestThread extends RequestQueue<ClusterRequest, ClusterRequestStrea
 				{
 					response = ClusterRoot.CONTAINER().processRequest(request.getMessage());
 					
-					System.out.println("RootRequestThread-run(): " + request.getMessage().getCollaboratorKey() + "'s response is obtained and to be sent back to the client ...");
+//					System.out.println("RootRequestThread-run(): " + request.getMessage().getCollaboratorKey() + "'s response is obtained and to be sent back to the client ...");
 					
 					super.respond(request.getOutStream(), request.getLock(), response);
-					System.out.println("RootRequestThread-run(): " + request.getMessage().getCollaboratorKey() + "'s response is done to send back to the client ...");
+//					System.out.println("RootRequestThread-run(): " + request.getMessage().getCollaboratorKey() + "'s response is done to send back to the client ...");
 					super.disposeMessage(request, response);
 				}
 				catch (IOException | DistributedNodeFailedException | ClassNotFoundException | RemoteReadException e)
@@ -54,5 +53,4 @@ class RootRequestThread extends RequestQueue<ClusterRequest, ClusterRequestStrea
 			}
 		}
 	}
-
 }

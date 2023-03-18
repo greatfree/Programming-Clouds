@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import org.greatfree.chat.ChatOptions;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.original.cs.twonode.message.AreYouReadyRequest;
 import org.greatfree.framework.cluster.original.cs.twonode.message.AreYouReadyResponse;
@@ -22,7 +23,7 @@ import org.greatfree.util.Tools;
 // Created: 01/15/2019, Bing Li
 class ClientTasks
 {
-	public static void register() throws ClassNotFoundException, RemoteReadException, IOException, DistributedNodeFailedException
+	public static void register() throws ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, RemoteIPNotExistedException, IOException
 	{
 		CollectedClusterResponse response = (CollectedClusterResponse)ChatClient.CCC().read(new ChatRegistryRequest(ChatMaintainer.CS().getLocalUserKey(), ChatMaintainer.CS().getLocalUsername(), ChatMaintainer.CS().getLocalUsername() + " is a great & free guy!"));
 		List<ChatRegistryResponse> registryResponses = Tools.filter(response.getResponses(), ChatRegistryResponse.class);

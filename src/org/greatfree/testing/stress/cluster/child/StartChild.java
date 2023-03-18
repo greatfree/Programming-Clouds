@@ -2,7 +2,10 @@ package org.greatfree.testing.stress.cluster.child;
 
 import java.io.IOException;
 
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.testing.stress.cluster.StressConfig;
 import org.greatfree.util.Env;
 import org.greatfree.util.TerminateSignal;
@@ -23,7 +26,7 @@ import org.greatfree.util.TerminateSignal;
 class StartChild
 {
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		Env.CONFIG().setupAtRHome(StressConfig.HOME);
 		Env.CONFIG().confirmRegistry();

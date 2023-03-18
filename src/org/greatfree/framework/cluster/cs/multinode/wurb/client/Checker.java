@@ -1,7 +1,6 @@
 package org.greatfree.framework.cluster.cs.multinode.wurb.client;
 
-import java.io.IOException;
-
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 02/04/2019, Bing Li
@@ -20,7 +19,7 @@ class Checker implements Runnable
 			ChatMaintainer.CLUSTER_CONTAINER().checkNewChats();
 //			System.out.println("Checker-run(): checkNewChats() is done ...");
 		}
-		catch (ClassNotFoundException | RemoteReadException | IOException e)
+		catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 		{
 			e.printStackTrace();
 		}

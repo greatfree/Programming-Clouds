@@ -6,14 +6,17 @@ import java.util.Scanner;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 04/30/2017, Bing Li
 class StartChatPeer
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Initialize the option which represents a user's intents of operations. 09/21/2014, Bing Li
 		int option = MenuOptions.NO_OPTION;
@@ -55,7 +58,7 @@ class StartChatPeer
 				// Send the option to the server. 09/21/2014, Bing Li
 				ClientUI.PEER().send(option);
 			}
-			catch (NumberFormatException | ClassNotFoundException | RemoteReadException | IOException e)
+			catch (NumberFormatException | ClassNotFoundException | RemoteReadException e)
 			{
 				option = MenuOptions.NO_OPTION;
 				System.out.println(ClientMenu.WRONG_OPTION);

@@ -1,6 +1,5 @@
 package org.greatfree.framework.cps.cache.coordinator;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,6 +9,7 @@ import org.greatfree.concurrency.Scheduler;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedMapFetchException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.TestCacheConfig;
 import org.greatfree.framework.cps.cache.coordinator.evicting.EvictMyDataThread;
@@ -129,7 +129,7 @@ public class MyDistributedMap
 		return this.cache.getValues(new PostfetchMyDataNotification(myDataKeys));
 	}
 	
-	public void postfetch(PostfetchMyDataNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void postfetch(PostfetchMyDataNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (notification.getResourceKeys() != null)
 		{

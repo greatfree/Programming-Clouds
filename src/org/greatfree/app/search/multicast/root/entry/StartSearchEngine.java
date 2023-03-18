@@ -4,14 +4,17 @@ import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 09/28/2018, Bing Li
 class StartSearchEngine
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Search entry starting up ...");
 
@@ -19,9 +22,13 @@ class StartSearchEngine
 		{
 			SearchEntry.SEARCH().start();
 		}
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IOException | RemoteReadException | InterruptedException | DistributedNodeFailedException e)
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | RemoteReadException | InterruptedException | DistributedNodeFailedException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Search entry started ...");

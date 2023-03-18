@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.greatfree.admin.Menu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.replication.ReplicationConfig;
 import org.greatfree.framework.cluster.replication.message.StopReplicationClusterNotification;
@@ -21,7 +22,7 @@ class Admin
 	private static int registryPort = RegistryConfig.PEER_REGISTRY_PORT;
 	private static IPAddress replicationClusterIP;
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException
 	{
 		StandaloneClient.CS().init();
 		replicationClusterIP = StandaloneClient.CS().getIPAddress(registryIP, registryPort, ReplicationConfig.REPLICATION_ROOT_KEY);

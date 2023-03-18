@@ -7,7 +7,10 @@ import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.peer.ChatMaintainer;
 import org.greatfree.util.ServerStatus;
 import org.greatfree.util.TerminateSignal;
@@ -16,7 +19,7 @@ import org.greatfree.util.TerminateSignal;
 class InstanceChatPeerTester
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Initialize the option which represents a user's intents of operations. 09/21/2014, Bing Li
 		int option = MenuOptions.NO_OPTION;
@@ -42,6 +45,10 @@ class InstanceChatPeerTester
 		{
 			peer.start();
 		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
+		}
 		catch (ClassNotFoundException | IOException | RemoteReadException e)
 		{
 			e.printStackTrace();
@@ -65,7 +72,7 @@ class InstanceChatPeerTester
 				// Send the option to the polling server. 09/21/2014, Bing Li
 				ClientUI.TEST().send(peer, option);
 			}
-			catch (NumberFormatException | ClassNotFoundException | RemoteReadException | IOException e)
+			catch (NumberFormatException | ClassNotFoundException | RemoteReadException e)
 			{
 				option = MenuOptions.NO_OPTION;
 				System.out.println(ClientMenu.WRONG_OPTION);

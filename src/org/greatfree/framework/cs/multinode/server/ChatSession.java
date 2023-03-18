@@ -2,14 +2,13 @@ package org.greatfree.framework.cs.multinode.server;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.greatfree.chat.ChatMessage;
 import org.greatfree.framework.cs.twonode.server.AccountRegistry;
-
-import com.google.common.collect.Sets;
 
 /*
  * It keeps all of the messages in a session. As a simulation system, it is too simple. Actually, the ranking by time and a persistent mechanism are required for a practical system. 04/23/2017, Bing Li
@@ -37,7 +36,8 @@ class ChatSession
 		// Generate the unique key. 04/23/2017, Bing Li
 //		this.key = Tools.generateUniqueKey();
 		this.sessionKey = sessionKey;
-		this.partners = Sets.newHashSet();
+//		this.partners = Sets.newHashSet();
+		this.partners = new HashSet<String>();
 		
 		this.messages = new ArrayList<ChatMessage>();
 		this.lock = new ReentrantLock();

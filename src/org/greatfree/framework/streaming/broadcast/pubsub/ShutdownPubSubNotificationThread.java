@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.streaming.message.ShutdownPubSubNotification;
 
@@ -30,7 +31,7 @@ class ShutdownPubSubNotificationThread extends NotificationQueue<ShutdownPubSubN
 					PubSubServer.BROAD_STREAM().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);
 				}
-				catch (InterruptedException | ClassNotFoundException | IOException | RemoteReadException e)
+				catch (InterruptedException | ClassNotFoundException | IOException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

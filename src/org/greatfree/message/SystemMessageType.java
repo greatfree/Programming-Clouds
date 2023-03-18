@@ -105,4 +105,15 @@ final public class SystemMessageType
 	
 	public final static int MULTICAST_CHILDREN_REQUEST = 122;
 	public final static int MULTICAST_CHILDREN_RESPONSE = 123;
+	
+	public final static int PEER_DISABLE_STATE_REQUEST = 124;
+	public final static int PEER_DISABLE_STATE_RESPONSE = 125;
+	
+	public final static int SEARCH_BROKER_REQUEST = 126;
+	public final static int SEARCH_BROKER_RESPONSE = 127;
+
+	public final static int RESPONSE = 128;
+
+	public final static int POLL_BROKER_REQUEST = 129;
+	public final static int POLL_BROKER_RESPONSE = 130;
 }

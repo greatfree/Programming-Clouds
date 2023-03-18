@@ -1,6 +1,7 @@
 package org.greatfree.framework.p2p.registry;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,8 +12,6 @@ import org.greatfree.server.PeerAccount;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * All of the signed-in peers must be retained in the registry. 05/01/2017, Bing Li
@@ -31,6 +30,8 @@ public class PeerRegistry
 
 	// Busy ports are retained in the collection. 05/01/2017, Bing Li
 	private Map<String, Set<Integer>> busyPorts;
+	
+	private Map<String, IPAddress> brokerIPs;
 
 	/*
 	 * Initialize. 11/09/2014, Bing Li
@@ -41,6 +42,7 @@ public class PeerRegistry
 		this.accounts = new ConcurrentHashMap<String, PeerAccount>();
 		// Initialize the busy ports collection. 05/01/2017, Bing Li
 		this.busyPorts = new ConcurrentHashMap<String, Set<Integer>>();
+		this.brokerIPs = new ConcurrentHashMap<String, IPAddress>();
 	}
 
 	/*
@@ -71,6 +73,25 @@ public class PeerRegistry
 		
 		this.busyPorts.clear();
 		this.busyPorts = null;
+		
+		this.brokerIPs.clear();
+		this.brokerIPs = null;
+	}
+
+	/*
+	public void addBroker(IPAddress ip)
+	{
+		this.brokerIPs.put(ip.getPeerKey(), ip);
+	}
+	*/
+	
+	public IPAddress getBroker()
+	{
+		if (this.brokerIPs.size() > 0)
+		{
+			return this.brokerIPs.get(Tools.getRandomSetElement(this.brokerIPs.keySet()));
+		}
+		return UtilConfig.NO_IP_ADDRESS;
 	}
 
 	/*
@@ -102,6 +123,28 @@ public class PeerRegistry
 		}
 		return UtilConfig.NO_IP_ADDRESS;
 	}
+	
+	public boolean isServerDisabled(String peerKey)
+	{
+		PeerAccount account = this.get(peerKey);
+		if (account != UtilConfig.NO_PEER_ACCOUNT)
+		{
+			return account.isServerDisabled();
+		}
+		return true;
+	}
+
+	/*
+	public boolean isClientDisabled(String peerKey)
+	{
+		PeerAccount account = this.get(peerKey);
+		if (account != UtilConfig.NO_PEER_ACCOUNT)
+		{
+			return account.isClientDisabled();
+		}
+		return true;
+	}
+	*/
 
 	/*
 	 * Get all of the IP addresses registered in the registry. 05/30/2017, Bing Li
@@ -161,14 +204,17 @@ public class PeerRegistry
 	 * Register one peer. 05/30/2017, Bing Li
 	 */
 	// public void register(String peerKey, String peerName, String ip, int port, int serverCount)
-	public synchronized int register(String peerKey, String peerName, String ip, int port)
+//	public synchronized int register(String peerKey, String peerName, String ip, int port, boolean isSD, boolean isCD)
+//	public synchronized int register(String peerKey, String peerName, String ip, int port, boolean isSD)
+	public synchronized int register(String peerKey, String peerName, String ip, int port, boolean isSD, boolean isBroker)
 	{
 		if (!this.accounts.containsKey(peerKey))
 		{
 			String ipKey = Tools.getHash(ip);
 			if (!this.busyPorts.containsKey(ipKey))
 			{
-				Set<Integer> ports = Sets.newHashSet();
+//				Set<Integer> ports = Sets.newHashSet();
+				Set<Integer> ports = new HashSet<Integer>();
 				ports.add(port);
 				this.busyPorts.put(ipKey, ports);
 			}
@@ -176,8 +222,21 @@ public class PeerRegistry
 			{
 				port = this.getIdlePort(ipKey, port);
 			}
-			// this.accounts.put(peerKey, new PeerAccount(peerKey, peerName, ip, port, ++port));
-			this.accounts.put(peerKey, new PeerAccount(peerKey, peerName, ip, port));
+//			if (!isSD && !isCD)
+			if (!isSD)
+			{
+				// this.accounts.put(peerKey, new PeerAccount(peerKey, peerName, ip, port, ++port));
+				this.accounts.put(peerKey, new PeerAccount(peerKey, peerName, ip, port));
+			}
+			else
+			{
+//				this.accounts.put(peerKey, new PeerAccount(peerKey, peerName, ip, port, isSD, isCD));
+				this.accounts.put(peerKey, new PeerAccount(peerKey, peerName, ip, port, isSD));
+			}
+			if (isBroker)
+			{
+				this.brokerIPs.put(peerKey, new IPAddress(ip, port));
+			}
 		}
 //		System.out.println("PeerRegistry-register(): port = " + port);
 		return port;

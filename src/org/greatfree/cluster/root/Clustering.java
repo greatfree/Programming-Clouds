@@ -1,7 +1,9 @@
 package org.greatfree.cluster.root;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.PeerAddressRequest;
 import org.greatfree.message.PeerAddressResponse;
@@ -10,9 +12,11 @@ import org.greatfree.util.TerminateSignal;
 // Created: 10/01/2018, Bing Li
 class Clustering
 {
-	public static void addChild(String childID) throws ClassNotFoundException, RemoteReadException, IOException
+	private final static Logger log = Logger.getLogger("org.greatfree.cluster.root");
+
+	public static void addChild(String childID) throws ClassNotFoundException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
-		System.out.println("Clustering-addChild(): childID = " + childID);
+		log.info("Clustering-addChild(): childID = " + childID);
 		PeerAddressResponse response = (PeerAddressResponse)ClusterRoot.CLUSTER().readRegistry(new PeerAddressRequest(childID));
 		
 //		System.out.println("Clustering-addChild(): key = " + response.getPeerAddress().getIPKey());
@@ -25,7 +29,7 @@ class Clustering
 	
 	public static void removeChild(String childID) throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		System.out.println("Clustering-removeChild(): childID = " + childID);
+		log.info("Clustering-removeChild(): childID = " + childID);
 //		PeerAddressResponse response = (PeerAddressResponse)ClusterRoot.ROOT().readRegistry(new PeerAddressRequest(childID));
 		
 //		System.out.println("Clustering-removeChild(): key = " + response.getPeerAddress().getIPKey());
@@ -34,15 +38,15 @@ class Clustering
 		
 //		ClusterRoot.ROOT().removeChild(response.getPeerAddress().getIPKey());
 		ClusterRoot.CLUSTER().removeChild(childID);
-		System.out.println("Clustering-removeChild(): children count = " + ClusterRoot.CLUSTER().getChildrenCount());
+		log.info("Clustering-removeChild(): children count = " + ClusterRoot.CLUSTER().getChildrenCount());
 		if (ClusterRoot.CLUSTER().getChildrenCount() <= 0)
 		{
-			System.out.println("Clustering-removeChild(): notified!");
+			log.info("Clustering-removeChild(): notified!");
 			TerminateSignal.SIGNAL().notifyTermination();
 		}
 		else
 		{
-			System.out.println("Clustering-removeChild(): NOT notified!");
+			log.info("Clustering-removeChild(): NOT notified!");
 		}
 	}
 }

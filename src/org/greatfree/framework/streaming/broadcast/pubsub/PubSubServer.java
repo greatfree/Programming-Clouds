@@ -3,7 +3,10 @@ package org.greatfree.framework.streaming.broadcast.pubsub;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.streaming.StreamConfig;
 import org.greatfree.server.Peer;
@@ -33,7 +36,7 @@ class PubSubServer
 		}
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		TerminateSignal.SIGNAL().setTerminated();
 //		PeerRegistry.SYSTEM().dispose();
@@ -42,7 +45,7 @@ class PubSubServer
 		this.peer.stop(timeout);
 	}
 
-	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException
+	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.peer = new Peer.PeerBuilder<PubSubDispatcher>()
 				.peerPort(StreamConfig.PUBSUB_SERVER_PORT)

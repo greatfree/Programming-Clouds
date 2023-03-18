@@ -3,7 +3,10 @@ package org.greatfree.framework.cps.threetier.coordinator;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cps.threetier.message.CoordinatorNotification;
 import org.greatfree.framework.cps.threetier.message.CoordinatorRequest;
 import org.greatfree.framework.cps.threetier.message.CoordinatorResponse;
@@ -37,7 +40,7 @@ class Coordinator
 		}
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		TerminateSignal.SIGNAL().setTerminated();
 		TerminateSignal.SIGNAL().notifyAllTermination();
@@ -46,7 +49,7 @@ class Coordinator
 		this.manServer.stop(timeout);
 	}
 	
-	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException
+	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Initialize the peer. 06/05/2017, Bing Li
 		this.peer = new Peer.PeerBuilder<CoordinatorDispatcher>()
@@ -108,7 +111,7 @@ class Coordinator
 //		System.out.println("Coordinator notify(): " + notification + " is being sent to the terminal DONE ...");
 	}
 	
-	public CoordinatorResponse query(String query) throws ClassNotFoundException, RemoteReadException, IOException
+	public CoordinatorResponse query(String query) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (CoordinatorResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new CoordinatorRequest(query));
 	}

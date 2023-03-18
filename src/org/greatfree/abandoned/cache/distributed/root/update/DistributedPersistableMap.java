@@ -16,7 +16,10 @@ import org.greatfree.abandoned.cache.distributed.CacheValue;
 import org.greatfree.abandoned.cache.distributed.root.DistributedCacheRootDispatcher;
 import org.greatfree.cache.PersistableMapFactorable;
 import org.greatfree.cache.db.StringKeyDB;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.server.Peer;
 import org.greatfree.util.Builder;
 import org.greatfree.util.FileManager;
@@ -238,7 +241,7 @@ public class DistributedPersistableMap implements MapDistributable
 	 * Open the distributed persistable map. 07/09/2017, Bing Li
 	 */
 	@Override
-	public void open() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException
+	public void open() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		MapRegistry.CACHE().register(this);
 		this.root.init();
@@ -248,7 +251,7 @@ public class DistributedPersistableMap implements MapDistributable
 	 * Close the distributed persistable map. 07/09/2017, Bing Li
 	 */
 	@Override
-	public void close(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void close(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		MapRegistry.CACHE().unregister(this);
 		this.db.removeAll();

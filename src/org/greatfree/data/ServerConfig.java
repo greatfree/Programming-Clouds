@@ -166,5 +166,4 @@ public class ServerConfig
 //	public final static long MR_WAIT_TIME = 100;
 	public final static long MR_WAIT_TIME = 2000;
 	public final static long MR_SHUTDOWN_TIME = 10000;
-	
 }

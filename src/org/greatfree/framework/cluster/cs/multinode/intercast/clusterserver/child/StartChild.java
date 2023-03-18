@@ -3,7 +3,10 @@ package org.greatfree.framework.cluster.cs.multinode.intercast.clusterserver.chi
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cluster.cs.multinode.wurb.clusterserver.child.ChatChild;
 import org.greatfree.util.TerminateSignal;
 
@@ -11,13 +14,17 @@ import org.greatfree.util.TerminateSignal;
 class StartChild
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Chatting child starting up ...");
 
 		try
 		{
 			ChatChild.CLUSTER_CONTAINER().start(new ChatTask());
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 		catch (ClassNotFoundException | IOException | RemoteReadException | InterruptedException e)
 		{

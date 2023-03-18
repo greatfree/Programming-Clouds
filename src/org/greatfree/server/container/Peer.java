@@ -1,38 +1,51 @@
 package org.greatfree.server.container;
 
 import java.io.IOException;
+import java.net.SocketException;
+import java.util.List;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import org.greatfree.client.CSClient;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.FutureExceptionHandler;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.message.ServerMessage;
+import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.server.AbstractCSServer;
 import org.greatfree.server.ServerDispatcher;
 import org.greatfree.util.Builder;
 import org.greatfree.util.IPAddress;
 import org.greatfree.util.ServerStatus;
+import org.greatfree.util.Tools;
 
 /*
  * The reason to design the class, Peer, intends to connect with the registry server which is implemented in the container manner. 01/13/2019, Bing Li
  */
-
 public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends AbstractCSServer<Dispatcher>
 {
-//	private final static Logger log = Logger.getLogger("org.greatfree.server.container");
+	private final static Logger log = Logger.getLogger("org.greatfree.server.container");
 
 	private Register<Dispatcher> register;
 	private CSClient client;
 
-	public Peer(PeerBuilder<Dispatcher> builder) throws IOException
+	private AtomicBoolean isServerDisabled;
+//	private AtomicBoolean isClientDisabled;
+	private AtomicBoolean isBroker;
+	private final String serverKey;
+
+	public Peer(PeerBuilder<Dispatcher> builder) throws ServerPortConflictedException, SocketException
 	{
 //		super(builder.getPeerPort(), builder.getListenerCount(), builder.getListenerThreadPoolSize(), builder.getListenerThreadKeepAliveTime(), builder.getDispatcher(), true);
 //		super(builder.getPeerPort(), builder.getListenerCount(), builder.getDispatcher(), true);
 //		super(builder.getPeerPort(), builder.getListenerCount(), builder.getMaxIOCount(), builder.getDispatcher());
 //		super(builder.getPeerPort(), builder.getListenerCount(), builder.getMaxIOCount(), builder.getDispatcher(), builder.isRegistryNeeded());
-		super(builder.getPeerPort(), builder.getListenerCount(), builder.getMaxIOCount(), builder.getDispatcher(), true);
+		super(builder.getPeerPort(), builder.getListenerCount(), builder.getMaxIOCount(), builder.getDispatcher(), true, builder.isServerDisabled());
 		
 		this.register = new Register<Dispatcher>(builder.getPeerName(), builder.getRegistryServerIP(), builder.getRegistryServerPort(), builder.isRegistryNeeded());
 		
@@ -55,6 +68,12 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 				.readTimeoutExceptionHandler(builder.getReadExceptionHandler())
 				.pool(super.getThreadPool())
 				.build();
+		
+		this.isServerDisabled = new AtomicBoolean(builder.isServerDisabled());
+//		this.isClientDisabled = new AtomicBoolean(builder.isClientDisabled());
+		this.isBroker = new AtomicBoolean(builder.isBroker());
+		log.info("isBroker = " + this.isBroker);
+		this.serverKey = builder.getDispatcher().getServerKey();
 	}
 
 	/*
@@ -91,6 +110,10 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		private long schedulerKeepAliveTime;
 
 		private FutureExceptionHandler futureHandler;
+		
+		private boolean isServerDisabled = false;
+//		private boolean isClientDisabled;
+		private boolean isBroker = false;
 
 		public PeerBuilder()
 		{
@@ -238,9 +261,9 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 			return this;
 		}
 		
-		public PeerBuilder<Dispatcher> scheulerKeepAliveTime(long scheulerKeepAliveTime)
+		public PeerBuilder<Dispatcher> schedulerKeepAliveTime(long schedulerKeepAliveTime)
 		{
-			this.schedulerKeepAliveTime = scheulerKeepAliveTime;
+			this.schedulerKeepAliveTime = schedulerKeepAliveTime;
 			return this;
 		}
 		
@@ -249,11 +272,39 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 			this.futureHandler = futureHandler;
 			return this;
 		}
+		
+		public PeerBuilder<Dispatcher> isServerDisabled(boolean isDisabled)
+		{
+			this.isServerDisabled = isDisabled;
+			return this;
+		}
+		
+		public PeerBuilder<Dispatcher> isBroker(boolean isDisabled)
+		{
+			this.isBroker = isDisabled;
+			return this;
+		}
+
+		/*
+		public PeerBuilder<Dispatcher> isClientDisabled(boolean isDisabled)
+		{
+			this.isClientDisabled = isDisabled;
+			return this;
+		}
+		*/
 
 		@Override
-		public Peer<Dispatcher> build() throws IOException
+		public Peer<Dispatcher> build()
 		{
-			return new Peer<Dispatcher>(this);
+			try
+			{
+				return new Peer<Dispatcher>(this);
+			}
+			catch (SocketException | ServerPortConflictedException e)
+			{
+				e.printStackTrace();
+				return null;
+			}
 		}
 		
 		public String getPeerName()
@@ -384,6 +435,23 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		{
 			return this.futureHandler;
 		}
+		
+		public boolean isServerDisabled()
+		{
+			return this.isServerDisabled;
+		}
+		
+		/*
+		public boolean isClientDisabled()
+		{
+			return this.isClientDisabled;
+		}
+		*/
+		
+		public boolean isBroker()
+		{
+			return this.isBroker;
+		}
 	}
 
 	/*
@@ -401,9 +469,41 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		return super.isStarted();
 	}
 	
+	public boolean isRegistered()
+	{
+		return this.register.isRegistered();
+	}
+	
+	public boolean isServerDisabled()
+	{
+		return this.isServerDisabled.get();
+	}
+	
+	public boolean isBroker()
+	{
+		return this.isBroker.get();
+	}
+
+	/*
+	public boolean isClientDisabled()
+	{
+		return this.isClientDisabled.get();
+	}
+	*/
+	
+	public String getServerKey()
+	{
+		return this.serverKey;
+	}
+	
 	public String getPeerName()
 	{
 		return this.register.getPeerName(); 
+	}
+	
+	public void setPeerName(String pn)
+	{
+		this.register.setPeerName(pn);
 	}
 	
 	public String getPeerID()
@@ -423,12 +523,12 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 		return super.getPort();
 	}
 	
-	public void setPort(int port) throws IOException
+	public void setPort(int port) throws ServerPortConflictedException
 	{
 		super.setPort(port);
 	}
 
-	public void setPort() throws IOException
+	public void setPort() throws ServerPortConflictedException
 	{
 		super.setPort();
 	}
@@ -453,17 +553,30 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 	{
 		return super.getThreadPool();
 	}
+	
+	/*
+	public void register() throws ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
+	{
+		this.register.register(this.client, this);
+	}
+	*/
 
 	/*
 	 * Start the peer. 04/29/2017, Bing Li
 	 */
 //	public synchronized void start(boolean isRegistryNeeded) throws ClassNotFoundException, RemoteReadException, IOException
-	public synchronized void start() throws ClassNotFoundException, RemoteReadException, IOException
+	public synchronized void start() throws ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.register.register(this.client, this);
-		// Start the server. 04/29/2017, Bing Li
-		super.start();
-//		this.client.init(super.getThreadPool());
+		if (!this.isServerDisabled.get())
+		{
+			if (this.register.isRegistered())
+			{
+				// Start the server. 04/29/2017, Bing Li
+				super.start();
+//				this.client.init(super.getThreadPool());
+			}
+		}
 	}
 
 	/*
@@ -472,26 +585,32 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 	/*
 	 * Shutdown the peer. 04/29/2017, Bing Li
 	 */
-	public synchronized void stop(long timeout) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public synchronized void stop(long timeout) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
+		if (this.register.isRegistered())
+		{
+//			System.out.println("===> Peer-stop(): starting ...");
+			this.register.unregister(this.client);
+			// Since here is a request, it is required to wait for the response before shutting down. 01/16/2019, Bing Li
+			/*
+			try
+			{
+				Thread.sleep(timeout);
+			}
+			catch (InterruptedException e)
+			{
+//				System.out.println("===> Peer-stop(): sleep is INTERRUPTED ...");
+				ServerStatus.FREE().printException(e);
+			}
+			*/
+		}
 		// The line aims to hide exceptions when the system is shutdown. 03/19/2020, Bing Li
 		ServerStatus.FREE().setShutdown();
-//		System.out.println("===> Peer-stop(): starting ...");
-		this.register.unregister(this.client);
-		// Since here is a request, it is required to wait for the response before shutting down. 01/16/2019, Bing Li
-		/*
-		try
-		{
-			Thread.sleep(timeout);
-		}
-		catch (InterruptedException e)
-		{
-//			System.out.println("===> Peer-stop(): sleep is INTERRUPTED ...");
-			ServerStatus.FREE().printException(e);
-		}
-		*/
 		this.client.dispose();
-		super.stop(timeout);
+		if (this.register.isRegistered())
+		{
+			super.stop(timeout);
+		}
 	}
 	
 	public Future<ServerMessage> futureRead(String ip, int port, ServerMessage request)
@@ -534,7 +653,7 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 	/*
 	 * Read remotely, i.e., send a request and wait until a response is received. 05/01/2017, Bing Li
 	 */
-	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.client.read(ip, port, request);
 	}
@@ -542,6 +661,12 @@ public class Peer<Dispatcher extends ServerDispatcher<ServerMessage>> extends Ab
 	public ServerMessage read(String ip, int port, ServerMessage request, int timeout) throws ClassNotFoundException, RemoteReadException, IOException
 	{
 		return this.client.read(ip, port, request, timeout);
+	}
+
+	public <T> List<T> read(String ip, int port, ServerMessage request, Class<T> c) throws ClassNotFoundException, RemoteReadException, IOException, RemoteIPNotExistedException
+	{
+		CollectedClusterResponse response = (CollectedClusterResponse)this.client.read(ip, port, request);
+		return Tools.filter(response.getResponses(), c);
 	}
 
 	/*

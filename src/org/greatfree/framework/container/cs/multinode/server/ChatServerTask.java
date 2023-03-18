@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.greatfree.chat.ChatMessage;
 import org.greatfree.data.ServerConfig;
@@ -32,26 +33,28 @@ import org.greatfree.util.UtilConfig;
 // Created: 01/06/2019, Bing Li
 public class ChatServerTask implements ServerTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.container.cs.multinode.server");
+
 	@Override
 	public void processNotification(Notification notification)
 	{
 		switch (notification.getApplicationID())
 		{
 			case SystemMessageType.ADD_PARTNER_NOTIFICATION:
-				System.out.println("ADD_PARTNER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("ADD_PARTNER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				AddPartnerNotification apn = (AddPartnerNotification)notification;
 				PrivateChatSessions.HUNGARY().addSession(apn.getPartnerKey(), apn.getLocalUserKey());
 				break;
 				
 			case SystemMessageType.CHAT_NOTIFICATION:
-				System.out.println("CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ChatNotification cn = (ChatNotification)notification;
 				// When new messages are available, they are retained in the server for polling. 05/25/2017, Bing Li
 				PrivateChatSessions.HUNGARY().addMessage(cn.getSessionKey(), cn.getSenderKey(), cn.getReceiverKey(), cn.getMessage());
 				break;
 				
 			case SystemMessageType.SHUTDOWN_SERVER_NOTIFICATION:
-				System.out.println("SHUTDOWN_SERVER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("SHUTDOWN_SERVER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ServerStatus.FREE().setShutdown();
 				try
 				{
@@ -71,13 +74,13 @@ public class ChatServerTask implements ServerTask
 		switch (request.getApplicationID())
 		{
 			case SystemMessageType.CHAT_REGISTRY_REQUEST:
-					System.out.println("CHAT_REGISTRY_REQUEST received @" + Calendar.getInstance().getTime());
+					log.info("CHAT_REGISTRY_REQUEST received @" + Calendar.getInstance().getTime());
 					ChatRegistryRequest crr = (ChatRegistryRequest)request;
 					AccountRegistry.CS().add(new CSAccount(crr.getUserKey(), crr.getUserName(), crr.getDescription()));
 				return new ChatRegistryResponse(true);
 				
 			case SystemMessageType.CHAT_PARTNER_REQUEST:
-					System.out.println("CHAT_PARTNER_REQUEST received @" + Calendar.getInstance().getTime());
+					log.info("CHAT_PARTNER_REQUEST received @" + Calendar.getInstance().getTime());
 					ChatPartnerRequest cpr = (ChatPartnerRequest)request;
 					// Check whether the account is existed or not? Bing Li
 					if (AccountRegistry.CS().isAccountExisted(cpr.getUserKey()))
@@ -94,7 +97,7 @@ public class ChatServerTask implements ServerTask
 					}
 					
 			case SystemMessageType.POLL_NEW_SESSIONS_REQUEST:
-					System.out.println("POLL_NEW_SESSIONS_REQUEST received @" + Calendar.getInstance().getTime());
+					log.info("POLL_NEW_SESSIONS_REQUEST received @" + Calendar.getInstance().getTime());
 					PollNewSessionsRequest pnsr = (PollNewSessionsRequest)request;
 					if (PrivateChatSessions.HUNGARY().isSessionExisted(pnsr.getReceiverKey()))
 					{
@@ -110,17 +113,17 @@ public class ChatServerTask implements ServerTask
 					}
 					
 			case SystemMessageType.POLL_NEW_CHATS_REQUEST:
-					System.out.println("POLL_NEW_CHATS_REQUEST received @" + Calendar.getInstance().getTime());
+					log.info("POLL_NEW_CHATS_REQUEST received @" + Calendar.getInstance().getTime());
 					PollNewChatsRequest pncr = (PollNewChatsRequest)request;
 					List<ChatMessage> chatMessages = PrivateChatSessions.HUNGARY().getNewMessages(pncr.getChatSessionKey(), pncr.getReceiverKey());
 					if (chatMessages != null)
 					{
-						System.out.println("PollNewChatsThread: " + pncr.getUsername() + " chatting messages are detected ...");
+						log.info("PollNewChatsThread: " + pncr.getUsername() + " chatting messages are detected ...");
 						return new PollNewChatsResponse(chatMessages);
 					}
 					else
 					{
-						System.out.println("PollNewChatsThread: " + pncr.getUsername() + " NO chatting messages are existed ...");
+						log.info("PollNewChatsThread: " + pncr.getUsername() + " NO chatting messages are existed ...");
 						return new PollNewChatsResponse(new ArrayList<ChatMessage>());
 					}
 		}

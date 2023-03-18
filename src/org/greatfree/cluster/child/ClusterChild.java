@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.child.container.ChildServiceProvider;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.server.Peer.PeerBuilder;
 import org.greatfree.util.Builder;
 
@@ -14,7 +17,7 @@ public class ClusterChild
 {
 	private final int treeBranchCount;
 	
-	public ClusterChild(ClusterChildBuilder builder) throws IOException
+	public ClusterChild(ClusterChildBuilder builder) throws IOException, ServerPortConflictedException
 	{
 		PeerBuilder<ChildDispatcher> peerBuilder = new PeerBuilder<ChildDispatcher>();
 
@@ -271,7 +274,15 @@ public class ClusterChild
 		@Override
 		public ClusterChild build() throws IOException
 		{
-			return new ClusterChild(this);
+			try
+			{
+				return new ClusterChild(this);
+			}
+			catch (IOException | ServerPortConflictedException e)
+			{
+				e.printStackTrace();
+			}
+			return null;
 		}
 
 		/*
@@ -421,14 +432,14 @@ public class ClusterChild
 		}
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, RemoteIPNotExistedException, IOException
 	{
 //		super.stop(timeout);
 //		TerminateSignal.SIGNAL().notifyAllTermination();
 		Child.CLUSTER().dispose(timeout);
 	}
 
-	public void start(String rootKey, ChildTask task) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void start(String rootKey, ChildTask task) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		ChildServiceProvider.CHILD().init(task);
 		Child.CLUSTER().start(rootKey, this.treeBranchCount);

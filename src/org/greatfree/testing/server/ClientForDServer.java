@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.testing.message.DRequest;
 import org.greatfree.testing.message.DResponse;
@@ -13,7 +14,7 @@ import org.greatfree.testing.message.ShutdownDServerNotification;
 class ClientForDServer
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException
 	{
 		StandaloneClient.CS().init();
 		Scanner in = new Scanner(System.in);

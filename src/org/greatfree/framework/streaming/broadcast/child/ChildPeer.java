@@ -5,7 +5,10 @@ import java.util.Map;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.multicast.child.ChildMulticastor;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -50,7 +53,7 @@ class ChildPeer
 		}
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		this.peer.stop(timeout);
 		ChildMulticastor.CHILD().stop();
@@ -60,7 +63,7 @@ class ChildPeer
 		TerminateSignal.SIGNAL().notifyAllTermination();
 	}
 
-	public void start() throws IOException, ClassNotFoundException, RemoteReadException
+	public void start() throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.peer = new Peer.PeerBuilder<ChildDispatcher>()
 				.peerPort(ChatConfig.CHAT_SERVER_PORT)
@@ -116,7 +119,7 @@ class ChildPeer
 		this.peer.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
 	}
 	
-	public Map<String, IPAddress> getSubscriberIPs(String publisher, String topic) throws ClassNotFoundException, RemoteReadException, IOException
+	public Map<String, IPAddress> getSubscriberIPs(String publisher, String topic) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		SubscribersResponse sr = (SubscribersResponse)this.peer.read(this.pubSubAddress.getIP(), this.pubSubAddress.getPort(), new SubscribersRequest(publisher, topic));
 		if (sr.getSubscribers() != StreamConfig.NO_SUBSCRIBERS)

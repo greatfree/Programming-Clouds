@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.streaming.StreamConfig;
 import org.greatfree.util.FileManager;
@@ -13,7 +14,7 @@ import org.greatfree.util.UtilConfig;
 // Created: 03/20/2020, Bing Li
 class StartPublisher
 {
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException
 	{
 		Scanner in = new Scanner(System.in);
 		System.out.println("What is your name as a publisher?");

@@ -5,7 +5,10 @@ import java.util.Set;
 
 import org.greatfree.concurrency.threading.Distributer;
 import org.greatfree.concurrency.threading.ThreadConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.exceptions.ThreadAssignmentException;
 import org.greatfree.framework.threading.message.AddRequest;
 import org.greatfree.framework.threading.message.AddResponse;
@@ -40,7 +43,7 @@ class Master
 		}
 	}
 	
-	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.master.killAll(timeout);
@@ -48,7 +51,7 @@ class Master
 		this.master.stop(timeout);
 	}
 
-	public void start(ServerTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void start(ServerTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.master = new Distributer.DistributerBuilder()
 			.name(ThreadConfig.MASTER)
@@ -61,7 +64,7 @@ class Master
 		this.master.start();
 	}
 	
-	public Set<String> obtainThreadKeys(int size) throws ClassNotFoundException, RemoteReadException, IOException
+	public Set<String> obtainThreadKeys(int size) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.master.reuseThreads(size);
 	}
@@ -76,7 +79,7 @@ class Master
 		return (AddResponse)this.master.assignTask(task, timeout);
 	}
 	
-	public boolean isAlive(String threadKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public boolean isAlive(String threadKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.master.isAlive(threadKey);
 	}

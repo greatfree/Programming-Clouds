@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.threading.ThreadConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 /*
@@ -14,13 +17,17 @@ import org.greatfree.util.TerminateSignal;
 // Created: 09/10/2019, Bing Li
 class StartSlave
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Thread slave starting up ...");
 		
 		try
 		{
 			Slave.SLAVE().start(ThreadConfig.SLAVE, ThreadConfig.MASTER, new SlaveTask());
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 		catch (IOException | ClassNotFoundException | RemoteReadException e)
 		{

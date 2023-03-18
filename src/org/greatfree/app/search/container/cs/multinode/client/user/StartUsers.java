@@ -7,6 +7,7 @@ import org.greatfree.app.search.container.cluster.message.LocationNotification;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.cluster.StandaloneClusterClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -16,7 +17,7 @@ import org.greatfree.util.Tools;
 class StartUsers
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		int option = MenuOptions.NO_OPTION;
 		Scanner in = new Scanner(System.in);

@@ -1,6 +1,7 @@
 package org.greatfree.cache.distributed.terminal;
 
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -22,8 +23,6 @@ import org.greatfree.exceptions.TerminalServerOverflowedException;
 import org.greatfree.util.Builder;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.SerializedKey;
-
-import com.google.common.collect.Sets;
 
 /*
  * The cache is not so useful. If needed, it can be replaced with the map-based caches. 08/30/2018, Bing Li
@@ -397,52 +396,48 @@ public class TerminalSet<Value extends SerializedKey, Factory extends CacheMapFa
 	
 	public Map<String, Value> intersect(Set<String> keys)
 	{
-		Set<String> intersectedKeys = null;
+//		Set<String> intersectedKeys = null;
 //		this.lock.readLock().lock();
-		intersectedKeys = Sets.intersection(this.keys, keys);
+//		intersectedKeys = Sets.intersection(this.keys, keys);
+		Set<String> intersectedKeys = new HashSet<String>(this.keys);
+		intersectedKeys.retainAll(keys);
 //		this.lock.readLock().unlock();
 
-		if (intersectedKeys != null)
+		Map<String, Value> values = this.cache.getAll(intersectedKeys);
+		if (values.size() >= intersectedKeys.size())
 		{
-			Map<String, Value> values = this.cache.getAll(intersectedKeys);
-			if (values.size() >= intersectedKeys.size())
-			{
-				return values;
-			}
-//			this.lock.readLock().lock();
-			Map<String, Value> loadedValues = this.db.getMap(intersectedKeys);
-//			this.lock.readLock().unlock();
-			if (loadedValues != null)
-			{
-				values.putAll(loadedValues);
-			}
 			return values;
 		}
-		return null;
+//			this.lock.readLock().lock();
+		Map<String, Value> loadedValues = this.db.getMap(intersectedKeys);
+//			this.lock.readLock().unlock();
+		if (loadedValues != null)
+		{
+			values.putAll(loadedValues);
+		}
+		return values;
 	}
 	
 	public Map<String, Value> difference(Set<String> keys)
 	{
-		Set<String> differentKeys = null;
+//		Set<String> differentKeys = null;
 //		this.lock.readLock().lock();
-		differentKeys = Sets.difference(this.keys, keys);
+//		differentKeys = Sets.difference(this.keys, keys);
+		Set<String> differentKeys = new HashSet<String>(this.keys);
+		differentKeys.removeAll(keys);
 //		this.lock.readLock().unlock();
 
-		if (differentKeys != null)
+		Map<String, Value> values = this.cache.getAll(differentKeys);
+		if (values.size() >= differentKeys.size())
 		{
-			Map<String, Value> values = this.cache.getAll(differentKeys);
-			if (values.size() >= differentKeys.size())
-			{
-				return values;
-			}
-			Map<String, Value> loadedValues = this.db.getMap(differentKeys);
-			if (loadedValues != null)
-			{
-				values.putAll(loadedValues);
-			}
 			return values;
 		}
-		return null;
+		Map<String, Value> loadedValues = this.db.getMap(differentKeys);
+		if (loadedValues != null)
+		{
+			values.putAll(loadedValues);
+		}
+		return values;
 	}
 	
 	// To be reasonable as a storage, the remove methods can be retained. But it suggests to invoke the methods as few as possible. 06/15/2018, Bing Li

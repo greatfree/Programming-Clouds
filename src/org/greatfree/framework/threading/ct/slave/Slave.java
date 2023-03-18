@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.threading.ThreadConfig;
 import org.greatfree.concurrency.threading.message.TaskStateNotification;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.container.p2p.message.ChatPartnerRequest;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.p2p.message.ChatPartnerResponse;
@@ -42,7 +45,7 @@ class Slave
 		}
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		DistributedThreadPool.POOL().dispose(timeout);
 		ChatMaintainer.PEER().dispose();
@@ -52,7 +55,7 @@ class Slave
 		this.slave.stop(timeout);
 	}
 
-	public void start(String slaveName, String masterName, ServerTask task) throws IOException, ClassNotFoundException, RemoteReadException
+	public void start(String slaveName, String masterName, ServerTask task) throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.slave = new PeerContainer(slaveName, ThreadConfig.THREAD_PORT, task, true);
 		this.slave.start();
@@ -63,7 +66,7 @@ class Slave
 		ServerStatus.FREE().init();
 	}
 	
-	private void obtainMasterAddress() throws ClassNotFoundException, RemoteReadException, IOException
+	private void obtainMasterAddress() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		ChatPartnerResponse response = (ChatPartnerResponse)this.slave.read(RegistryConfig.PEER_REGISTRY_ADDRESS, RegistryConfig.PEER_REGISTRY_PORT, new ChatPartnerRequest(ChatMaintainer.PEER().getPartnerKey()));
 		ChatMaintainer.PEER().setPartnerIP(response.getIP());
@@ -72,7 +75,7 @@ class Slave
 		ServerStatus.FREE().addServerID(ChatMaintainer.PEER().getLocalUserKey());
 	}
 
-	public void notifyState(String threadKey, String taskKey, int instructType, String instructKey, boolean isDone) throws ClassNotFoundException, RemoteReadException, IOException
+	public void notifyState(String threadKey, String taskKey, int instructType, String instructKey, boolean isDone) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (ChatMaintainer.PEER().getPartnerIP() == null)
 		{

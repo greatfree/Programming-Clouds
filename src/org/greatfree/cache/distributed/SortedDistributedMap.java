@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,8 +29,6 @@ import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.Pointing;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The list cache that sorts only a predefined count of data is implemented. When data is saved in the list, each data should have a unique key. It must employ the constructor Pointing(long points) of Pointing. 02/15/2019, Bing Li
@@ -553,7 +552,8 @@ public class SortedDistributedMap<Value extends Pointing, Factory extends CacheM
 			int obsSize = this.obsoleteKeys.size();
 
 			int index = 0;
-			Set<String> removedKeys = Sets.newHashSet();
+//			Set<String> removedKeys = Sets.newHashSet();
+			Set<String> removedKeys = new HashSet<String>();
 
 //			for (Map.Entry<String, Float> entry : this.sortedPoints.entrySet())
 			for (Map.Entry<String, Float> entry : sp.entrySet())
@@ -622,7 +622,8 @@ public class SortedDistributedMap<Value extends Pointing, Factory extends CacheM
 			int obsSize = this.obsoleteKeys.size();
 
 			int index = 0;
-			Set<String> removedKeys = Sets.newHashSet();
+//			Set<String> removedKeys = Sets.newHashSet();
+			Set<String> removedKeys = new HashSet<String>();
 //			this.lock.readLock().unlock();
 //			this.lock.writeLock().lock();
 //			for (Map.Entry<String, Float> entry : this.sortedPoints.entrySet())
@@ -676,7 +677,8 @@ public class SortedDistributedMap<Value extends Pointing, Factory extends CacheM
 		Map<String, Float> sp = CollectionSorter.sortDescendantByValue(this.sortedPoints);
 
 		int index = 0;
-		Set<String> removedKeys = Sets.newHashSet();
+//		Set<String> removedKeys = Sets.newHashSet();
+		Set<String> removedKeys = new HashSet<String>();
 //		for (Map.Entry<String, Float> entry : this.sortedPoints.entrySet())
 		for (Map.Entry<String, Float> entry : sp.entrySet())
 		{
@@ -731,7 +733,8 @@ public class SortedDistributedMap<Value extends Pointing, Factory extends CacheM
 		Map<String, Float> sp = CollectionSorter.sortDescendantByValue(this.sortedPoints);
 
 		int index = 0;
-		Set<String> removedKeys = Sets.newHashSet();
+//		Set<String> removedKeys = Sets.newHashSet();
+		Set<String> removedKeys = new HashSet<String>();
 		for (Map.Entry<String, Float> entry : sp.entrySet())
 		{
 			if (index < this.sortSize)

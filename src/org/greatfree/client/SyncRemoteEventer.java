@@ -14,6 +14,8 @@ import org.greatfree.util.Rand;
 // Created: 11/05/2014, Bing Li
 public class SyncRemoteEventer<Notification extends ServerMessage>
 {
+//	private final static Logger log = Logger.getLogger("org.greatfree.client");
+
 	// The pool for FreeClient is needed to issue relevant clients to send notifications. 11/05/2014, Bing Li
 	private FreeClientPool clientPool;
 
@@ -104,6 +106,11 @@ public class SyncRemoteEventer<Notification extends ServerMessage>
 	public IPAddress getIPAddress(String clientKey)
 	{
 		return this.clientPool.getIPAddress(clientKey);
+	}
+	
+	public void remove(String clientKey)
+	{
+		this.clientPool.remove(clientKey);
 	}
 	
 	public void removeClient(String clientKey) throws IOException

@@ -1,13 +1,12 @@
 package org.greatfree.framework.cs.twonode.server;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.greatfree.framework.cs.multinode.server.CSAccount;
-
-import com.google.common.collect.Sets;
 
 /*
  * This is an account registry. All of the accounts of the chatting system are retained in it. 04/16/2017, Bing Li
@@ -108,7 +107,8 @@ public class AccountRegistry
 	
 	public Set<CSAccount> getAccounts(Set<String> userKeys)
 	{
-		Set<CSAccount> accounts = Sets.newHashSet();
+//		Set<CSAccount> accounts = Sets.newHashSet();
+		Set<CSAccount> accounts = new HashSet<CSAccount>();
 		for (String entry : userKeys)
 		{
 			accounts.add(this.getAccount(entry));

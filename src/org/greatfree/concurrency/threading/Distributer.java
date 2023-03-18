@@ -2,10 +2,12 @@ package org.greatfree.concurrency.threading;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.logging.Logger;
 
 import org.greatfree.concurrency.threading.message.AllSlaveIPsNotification;
 import org.greatfree.concurrency.threading.message.ExecuteNotification;
@@ -25,7 +27,10 @@ import org.greatfree.concurrency.threading.message.TaskNotification;
 import org.greatfree.concurrency.threading.message.TaskRequest;
 import org.greatfree.concurrency.threading.message.TaskResponse;
 import org.greatfree.concurrency.threading.message.TaskStateNotification;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.exceptions.ThreadAssignmentException;
 import org.greatfree.framework.container.p2p.message.AllPeerNamesRequest;
 import org.greatfree.framework.container.p2p.message.AllPeerNamesResponse;
@@ -44,11 +49,11 @@ import org.greatfree.util.ServerStatus;
 import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
 
-import com.google.common.collect.Sets;
-
 // Created: 09/21/2019, Bing Li
 public class Distributer
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.concurrency.threading");
+
 	private PeerContainer peer;
 	private final String dtName;
 	private final String dtKey;
@@ -296,7 +301,7 @@ public class Distributer
 		*/
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, RemoteIPNotExistedException, IOException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
@@ -316,15 +321,15 @@ public class Distributer
 	}
 	
 //	private void initPeer(ServerTask task) throws IOException, ClassNotFoundException, RemoteReadException
-	private void initPeer() throws IOException, ClassNotFoundException, RemoteReadException
+	private void initPeer() throws ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
-		System.out.println("Distributer-initPeer(): dtName = " + this.dtName);
+		log.info("Distributer-initPeer(): dtName = " + this.dtName);
 		this.peer = new PeerContainer(this.dtName, this.port, this.task, true);
 		this.peer.start();
 	}
 
 //	private void initSalve(ServerTask task) throws IOException, ClassNotFoundException, RemoteReadException
-	private void initSalve() throws IOException, ClassNotFoundException, RemoteReadException
+	private void initSalve() throws ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.initPeer();
 //		this.isMaster = false;
@@ -357,7 +362,7 @@ public class Distributer
 //	public void start(ServerTask task) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException
 //	public void start(String localKey, ServerTask task, boolean isMaster) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException
 //	public void start(ServerTask task, boolean isMaster) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException
-	public void start() throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException
+	public void start() throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		if (!this.isMaster)
 		{
@@ -398,7 +403,7 @@ public class Distributer
 				}
 				ips.put(this.peer.getPeerID(), new IPPort(this.peer.getPeerIP(), this.peer.getPeerPort()));
 				
-				System.out.println("Distributer-start(): slaves size = " + this.slaves.size());
+				log.info("Distributer-start(): slaves size = " + this.slaves.size());
 				
 				for (IPPort entry : this.slaves.values())
 				{
@@ -413,7 +418,7 @@ public class Distributer
 				ChatPartnerResponse response = (ChatPartnerResponse)this.peer.read(this.peer.getRegistryIP(), this.peer.getRegistryPort(), new ChatPartnerRequest(this.slaveKey));
 				this.slaves.put(this.slaveKey, new IPPort(response.getIP(), response.getPort()));
 				
-				System.out.println("Distributer-start(): peer name = " + this.peer.getPeerName());
+				log.info("Distributer-start(): peer name = " + this.peer.getPeerName());
 				
 				this.peer.syncNotify(response.getIP(), response.getPort(), new MasterNotification(this.peer.getPeerName(), this.peer.getPeerID(), this.peer.getPeerIP(), this.peer.getPeerPort()));
 				ServerStatus.FREE().init();
@@ -538,7 +543,7 @@ public class Distributer
 	/*
 	 * Different from reusing threads methods, the method creates new threads after it is invoked. 09/30/2019, Bing Li
 	 */
-	public Map<String, Set<String>> createThreads(Map<String, Integer> slaveThreadSizes) throws ClassNotFoundException, RemoteReadException, IOException
+	public Map<String, Set<String>> createThreads(Map<String, Integer> slaveThreadSizes) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		Set<String> threadKeys;
 		IPPort ip;
@@ -566,7 +571,7 @@ public class Distributer
 	/*
 	 * Different from reusing threads methods, the method creates new threads after it is invoked. 09/30/2019, Bing Li
 	 */
-	public Set<String> createThreads(int size) throws ClassNotFoundException, RemoteReadException, IOException
+	public Set<String> createThreads(int size) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		IPPort ip = this.slaves.get(this.slaveKey);
 		Set<String> threadKeys = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest(size))).getThreadKeys();
@@ -581,7 +586,7 @@ public class Distributer
 		return threadKeys;
 	}
 
-	public Set<String> createThreads(String slaveKey, int size) throws ClassNotFoundException, RemoteReadException, IOException
+	public Set<String> createThreads(String slaveKey, int size) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		IPPort ip = this.slaves.get(slaveKey);
 		Set<String> threadKeys = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest(size))).getThreadKeys();
@@ -599,7 +604,7 @@ public class Distributer
 	/*
 	 * Different from reusing threads methods, the method creates new threads after it is invoked. 09/30/2019, Bing Li
 	 */
-	public String createThread(String slaveKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public String createThread(String slaveKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		IPPort ip = this.slaves.get(slaveKey);
 		String threadKey = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest())).getThreadKey();
@@ -607,7 +612,8 @@ public class Distributer
 		{
 			if (!this.slaveThreadKeys.containsKey(slaveKey))
 			{
-				Set<String> tKeys = Sets.newHashSet();
+//				Set<String> tKeys = Sets.newHashSet();
+				Set<String> tKeys = new HashSet<String>();
 				this.slaveThreadKeys.put(slaveKey, tKeys);
 			}
 			this.slaveThreadKeys.get(slaveKey).add(threadKey);
@@ -616,7 +622,7 @@ public class Distributer
 		return ThreadConfig.NO_THREAD_KEY;
 	}
 
-	public String createThread() throws ClassNotFoundException, RemoteReadException, IOException
+	public String createThread() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		IPPort ip = this.slaves.get(this.slaveKey);
 		String threadKey = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest())).getThreadKey();
@@ -624,7 +630,8 @@ public class Distributer
 		{
 			if (!this.slaveThreadKeys.containsKey(this.slaveKey))
 			{
-				Set<String> tKeys = Sets.newHashSet();
+//				Set<String> tKeys = Sets.newHashSet();
+				Set<String> tKeys = new HashSet<String>();
 				this.slaveThreadKeys.put(this.slaveKey, tKeys);
 			}
 			this.slaveThreadKeys.get(this.slaveKey).add(threadKey);
@@ -636,7 +643,7 @@ public class Distributer
 	/*
 	 * To avoid the method is invoked many times, it is necessary to reuse existing threads. That is why the method is upgraded compared with the old version. 09/29/2019, Bing Li
 	 */
-	public Map<String, Set<String>> reuseThreads(Map<String, Integer> slaveThreadSizes) throws ClassNotFoundException, RemoteReadException, IOException
+	public Map<String, Set<String>> reuseThreads(Map<String, Integer> slaveThreadSizes) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		Set<String> threadKeys;
 		IPPort ip;
@@ -688,7 +695,7 @@ public class Distributer
 	/*
 	 * To avoid the method is invoked many times, it is necessary to reuse existing threads. That is why the method is upgraded compared with the old version. 09/29/2019, Bing Li
 	 */
-	public Set<String> reuseThreads(int size) throws ClassNotFoundException, RemoteReadException, IOException
+	public Set<String> reuseThreads(int size) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		int updatedSize = 0;
 		if (this.slaveThreadKeys.containsKey(this.slaveKey))
@@ -723,7 +730,7 @@ public class Distributer
 	/*
 	 * To avoid the method is invoked many times, it is necessary to reuse existing threads. That is why the method is upgraded compared with the old version. 09/29/2019, Bing Li
 	 */
-	public String reuseThread(String slaveKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public String reuseThread(String slaveKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		IPPort ip = this.slaves.get(slaveKey);
 		if (this.slaveThreadKeys.containsKey(slaveKey))
@@ -733,7 +740,8 @@ public class Distributer
 				return Rand.getRandomStringInSet(this.slaveThreadKeys.get(slaveKey));
 			}
 		}
-		Set<String> threadKeys = Sets.newHashSet();
+//		Set<String> threadKeys = Sets.newHashSet();
+		Set<String> threadKeys = new HashSet<String>();
 		this.slaveThreadKeys.put(slaveKey, threadKeys);
 		String threadKey = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest())).getThreadKey();
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
@@ -747,7 +755,7 @@ public class Distributer
 	/*
 	 * To avoid the method is invoked many times, it is necessary to reuse existing threads. That is why the method is upgraded compared with the old version. 09/29/2019, Bing Li
 	 */
-	public String reuseThread() throws ClassNotFoundException, RemoteReadException, IOException
+	public String reuseThread() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		IPPort ip = this.slaves.get(this.slaveKey);
 		if (this.slaveThreadKeys.containsKey(this.slaveKey))
@@ -757,7 +765,8 @@ public class Distributer
 				return Rand.getRandomStringInSet(this.slaveThreadKeys.get(this.slaveKey));
 			}
 		}
-		Set<String> threadKeys = Sets.newHashSet();
+//		Set<String> threadKeys = Sets.newHashSet();
+		Set<String> threadKeys = new HashSet<String>();
 		this.slaveThreadKeys.put(this.slaveKey, threadKeys);
 		String threadKey = ((ATMThreadResponse)this.peer.read(ip.getIP(), ip.getPort(), new ATMThreadRequest())).getThreadKey();
 		if (!threadKey.equals(ThreadConfig.NO_THREAD_KEY))
@@ -913,18 +922,18 @@ public class Distributer
 		this.peer.asyncNotify(ip.getIP(), ip.getPort(), notification);
 	}
 	
-	public TaskResponse readThread(InteractRequest request, long timeout) throws ClassNotFoundException, RemoteReadException, IOException, ThreadAssignmentException, InterruptedException
+	public TaskResponse readThread(InteractRequest request, long timeout) throws ClassNotFoundException, RemoteReadException, ThreadAssignmentException, InterruptedException, RemoteIPNotExistedException
 	{
 		if (!request.getThreadKey().equals(ThreadConfig.NO_THREAD_KEY))
 		{
 			Worker.ATM().addSync(request.getCollaboratorKey());
 			if (!this.slaves.containsKey(request.getDestinationSlaveKey()))
 			{
-				System.out.println("Distributer-readThread(): try to obtain destination slave IP address ...");
+				log.info("Distributer-readThread(): try to obtain destination slave IP address ...");
 				this.obtainSlaveAddress(request.getDestinationSlaveKey());
 			}
 			IPPort ip = this.slaves.get(request.getDestinationSlaveKey());
-			System.out.println("Distributer-readThread(): ip = " + ip.getIP() + ", port = " + ip.getPort());
+			log.info("Distributer-readThread(): ip = " + ip.getIP() + ", port = " + ip.getPort());
 			this.peer.asyncNotify(ip.getIP(), ip.getPort(), request);
 			Worker.ATM().holdOn(request.getCollaboratorKey(), timeout);
 			return Worker.ATM().getResponse(request.getCollaboratorKey());
@@ -935,7 +944,7 @@ public class Distributer
 		}
 	}
 	
-	public Set<TaskResponse> readThreads(InteractRequest request, long timeout) throws ClassNotFoundException, RemoteReadException, IOException, ThreadAssignmentException
+	public Set<TaskResponse> readThreads(InteractRequest request, long timeout) throws ClassNotFoundException, RemoteReadException, ThreadAssignmentException, RemoteIPNotExistedException
 	{
 		if (request.getThreadKeys() != ThreadConfig.NO_THREAD_KEYS)
 		{
@@ -967,13 +976,13 @@ public class Distributer
 		this.peer.asyncNotify(ip.getIP(), ip.getPort(), new ExecuteNotification(threadKey));
 	}
 
-	public boolean isAlive(String slaveKey, String threadKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public boolean isAlive(String slaveKey, String threadKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		IPPort ip = this.slaves.get(slaveKey);
 		return ((IsAliveResponse)this.peer.read(ip.getIP(), ip.getPort(), new IsAliveRequest(threadKey))).isAlive();
 	}
 
-	public boolean isAlive(String threadKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public boolean isAlive(String threadKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		IPPort ip = this.slaves.get(this.slaveKey);
 		return ((IsAliveResponse)this.peer.read(ip.getIP(), ip.getPort(), new IsAliveRequest(threadKey))).isAlive();
@@ -1114,7 +1123,7 @@ public class Distributer
 			{
 				this.obtainMasterAddress();
 			}
-			catch (ClassNotFoundException | RemoteReadException | IOException e)
+			catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 			{
 				ServerStatus.FREE().printException(e);
 			}
@@ -1122,15 +1131,15 @@ public class Distributer
 		this.peer.asyncNotify(this.masterIP, this.masterPort, response);
 	}
 	
-	public void asyncNotifySlave(String slaveKey, TaskResponse response) throws ClassNotFoundException, RemoteReadException, IOException
+	public void asyncNotifySlave(String slaveKey, TaskResponse response) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (!this.slaves.containsKey(slaveKey))
 		{
 			// Since the master IP is saved in the slaves, it is not necessary to retrieve the master IP from the registry server. I need to test why it happens. 10/06/2019, Bing Li
-			System.out.println("Distributer-asyncNotifySlave(): obtaining slave address ...");
+			log.info("Distributer-asyncNotifySlave(): obtaining slave address ...");
 			this.obtainSlaveAddress(slaveKey);
 		}
-		System.out.println("Distributer-asyncNotifySlave(): slave address: " + this.slaves.get(slaveKey).getIP() + ":" + this.slaves.get(slaveKey).getPort());
+		log.info("Distributer-asyncNotifySlave(): slave address: " + this.slaves.get(slaveKey).getIP() + ":" + this.slaves.get(slaveKey).getPort());
 		this.peer.asyncNotify(this.slaves.get(slaveKey).getIP(), this.slaves.get(slaveKey).getPort(), response);
 	}
 	
@@ -1151,18 +1160,18 @@ public class Distributer
 		Worker.ATM().addTask(t);
 	}
 	
-	private void obtainMasterAddress() throws ClassNotFoundException, RemoteReadException, IOException
+	private void obtainMasterAddress() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		ChatPartnerResponse response = (ChatPartnerResponse)this.peer.read(this.peer.getRegistryIP(), this.peer.getRegistryPort(), new ChatPartnerRequest(this.masterKey));
 		this.masterIP = response.getIP();
-		System.out.println("Distributer-obtainMasterAddress(): masterIP = " + this.masterIP);
+		log.info("Distributer-obtainMasterAddress(): masterIP = " + this.masterIP);
 		this.masterPort = response.getPort();
-		System.out.println("Distributer-obtainMasterAddress(): masterPort = " + this.masterPort);
+		log.info("Distributer-obtainMasterAddress(): masterPort = " + this.masterPort);
 		ServerStatus.FREE().addServerID(this.masterKey);
 		ServerStatus.FREE().addServerID(this.peer.getPeerID());
 	}
 	
-	private void obtainSlaveAddress(String slaveKey) throws ClassNotFoundException, RemoteReadException, IOException
+	private void obtainSlaveAddress(String slaveKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		ChatPartnerResponse response = (ChatPartnerResponse)this.peer.read(this.peer.getRegistryIP(), this.peer.getRegistryPort(), new ChatPartnerRequest(slaveKey));
 		this.slaves.put(slaveKey, new IPPort(response.getIP(), response.getPort()));
@@ -1170,7 +1179,7 @@ public class Distributer
 		ServerStatus.FREE().addServerID(this.peer.getPeerID());
 	}
 	
-	public Map<String, String> getSlaveNames() throws ClassNotFoundException, RemoteReadException, IOException
+	public Map<String, String> getSlaveNames() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return ((AllPeerNamesResponse)this.peer.read(this.peer.getRegistryIP(), this.peer.getRegistryPort(), new AllPeerNamesRequest())).getAllNames();
 	}
@@ -1181,10 +1190,10 @@ public class Distributer
 		{
 			try
 			{
-				System.out.println("Distributer-asyncNotifyState(): dt hashCode = " + super.hashCode());
+				log.info("Distributer-asyncNotifyState(): dt hashCode = " + super.hashCode());
 				this.obtainMasterAddress();
 			}
-			catch (ClassNotFoundException | RemoteReadException | IOException e)
+			catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 			{
 				e.printStackTrace();
 			}

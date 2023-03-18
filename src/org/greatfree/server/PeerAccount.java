@@ -18,6 +18,8 @@ public class PeerAccount
 //	private int adminPort;
 //	private List<Integer> ports;
 	private Map<String, Integer> otherPorts;
+	private boolean isServerDisabled;
+//	private boolean isClientDisabled;
 	
 //	public PeerAccount(String peerKey, String peerName, String ip, int peerPort, int adminPort)
 	public PeerAccount(String peerKey, String peerName, String ip, int peerPort)
@@ -30,6 +32,20 @@ public class PeerAccount
 //		this.ports = new ArrayList<Integer>();
 //		this.ports.add(peerPort);
 		this.otherPorts = new ConcurrentHashMap<String, Integer>();
+		this.isServerDisabled = false;
+//		this.isClientDisabled = false;
+	}
+
+//	public PeerAccount(String peerKey, String peerName, String ip, int peerPort, boolean isSD, boolean isCD)
+	public PeerAccount(String peerKey, String peerName, String ip, int peerPort, boolean isSD)
+	{
+		this.peerKey = peerKey;
+		this.peerName = peerName;
+		this.ip = ip;
+		this.peerPort = peerPort;
+		this.otherPorts = new ConcurrentHashMap<String, Integer>();
+		this.isServerDisabled = isSD;
+//		this.isClientDisabled = isCD;
 	}
 
 	public String getPeerKey()
@@ -76,6 +92,18 @@ public class PeerAccount
 	public List<Integer> getPorts()
 	{
 		return this.ports;
+	}
+	*/
+	
+	public boolean isServerDisabled()
+	{
+		return this.isServerDisabled;
+	}
+
+	/*
+	public boolean isClientDisabled()
+	{
+		return this.isClientDisabled;
 	}
 	*/
 }

@@ -3,6 +3,7 @@ package org.greatfree.multicast.root.abandoned;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,6 @@ import org.greatfree.util.IPAddress;
 import org.greatfree.util.Rand;
 import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * This is the implementation to send a broadcast request to all of the nodes in a particular cluster to retrieve data on each of them. It is also required to collect the results and then form a response to return the root. 11/28/2014, Bing Li
@@ -260,7 +259,8 @@ abstract class BaseBroadcastReader<RequestedData extends Serializable, Request e
 	 */
 	public Map<String, Response> broadcastNearestly(Set<String> dataKeys, RequestedData messagedData) throws InstantiationException, IllegalAccessException, InterruptedException, IOException
 	{
-		Set<String> nearestClientKeys = Sets.newHashSet();
+//		Set<String> nearestClientKeys = Sets.newHashSet();
+		Set<String> nearestClientKeys = new HashSet<String>();
 		for (String dataKey : dataKeys)
 		{
 			nearestClientKeys.add(Tools.getClosestKey(dataKey, this.clientPool.getClientKeys()));

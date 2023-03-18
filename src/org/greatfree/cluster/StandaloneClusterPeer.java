@@ -2,7 +2,10 @@ package org.greatfree.cluster;
 
 import java.io.IOException;
 
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
 import org.greatfree.message.PeerAddressResponse;
 import org.greatfree.message.ServerMessage;
@@ -43,12 +46,12 @@ public class StandaloneClusterPeer
 		}
 	}
 
-	public void dispose(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void dispose(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, RemoteIPNotExistedException, IOException
 	{
 		PeerContainerSingleton.P2P().stop(timeout);
 	}
 	
-	public void start(String peerName, String registryIP, int registryPort, ServerTask task, String rootKey) throws ClassNotFoundException, IOException, RemoteReadException
+	public void start(String peerName, String registryIP, int registryPort, ServerTask task, String rootKey) throws ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		PeerContainerSingleton.P2P().start(peerName, registryPort, registryIP, registryPort, task, true);
 		this.registryIP = registryIP;
@@ -62,7 +65,7 @@ public class StandaloneClusterPeer
 		return this.rootAddress;
 	}
 	
-	public IPAddress getIPAddress(String partnerName) throws ClassNotFoundException, RemoteReadException, IOException
+	public IPAddress getIPAddress(String partnerName) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return ((PeerAddressResponse)PeerContainerSingleton.P2P().read(this.registryIP, this.registryPort, new PeerAddressRequest(PeerContainer.getPeerKey(partnerName)))).getPeerAddress();
 	}
@@ -77,7 +80,7 @@ public class StandaloneClusterPeer
 		PeerContainerSingleton.P2P().asyncNotify(ip, port, notification);
 	}
 	
-	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return PeerContainerSingleton.P2P().read(ip, port, request);
 	}
@@ -92,7 +95,7 @@ public class StandaloneClusterPeer
 		PeerContainerSingleton.P2P().asyncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
 	}
 	
-	public ServerMessage readRoot(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage readRoot(ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return PeerContainerSingleton.P2P().read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
 	}
@@ -107,7 +110,7 @@ public class StandaloneClusterPeer
 		PeerContainerSingleton.P2P().asyncNotify(this.registryIP, this.registryPort, notification);
 	}
 	
-	public ServerMessage readRegistry(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage readRegistry(ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return PeerContainerSingleton.P2P().read(this.registryIP, this.registryPort, request);
 	}

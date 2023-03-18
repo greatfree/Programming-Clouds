@@ -2,6 +2,7 @@ package org.greatfree.framework.threading.mrtc.slave;
 
 import java.util.Calendar;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.greatfree.concurrency.threading.ATMTask;
 import org.greatfree.concurrency.threading.message.AllSlavesNotification;
@@ -15,6 +16,7 @@ import org.greatfree.message.container.Request;
 // Created: 09/22/2019, Bing Li
 class MRSlaveTask extends ATMTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.threading.mrtc.slave");
 
 	@Override
 	public void processNotification(Notification notification)
@@ -22,14 +24,14 @@ class MRSlaveTask extends ATMTask
 		switch (notification.getApplicationID())
 		{
 			case ATMMessageType.TASK_STATE_NOTIFICATION:
-				System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				return;
 				
 			/*
 			 * The message is sent from the master when the MR is initialized. It let all of the slaves know about the threads of each slave such that they can perform Map/Reduce among them. 12/19/2019, Bing Li
 			 */
 			case ATMMessageType.ALL_SLAVES_NOTIFICATION:
-				System.out.println("ALL_SLAVES_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("ALL_SLAVES_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				AllSlavesNotification ann = (AllSlavesNotification)notification;
 				// Keep the master name. 01/08/2020, Bing Li
 				Slave.THREADING().setMasterName(ann.getMasterName());
@@ -49,7 +51,7 @@ class MRSlaveTask extends ATMTask
 				 * The message is sent by Distributer. When it is started as a master, the slaves IPs are obtained from the registry server and sent to the slaves for possible concurrent tasks. 01/08/2020, Bing Li
 				 */
 			case ATMMessageType.ALL_SLAVE_IPS_NOTIFICATION:
-				System.out.println("ALL_SLAVE_IPS_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("ALL_SLAVE_IPS_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				AllSlaveIPsNotification asin = (AllSlaveIPsNotification)notification;
 				// Keep the IP addresses. 01/08/2020, Bing Li
 				Slave.THREADING().addIPs(asin.getIPs());

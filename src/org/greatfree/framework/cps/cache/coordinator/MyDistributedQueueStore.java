@@ -1,6 +1,5 @@
 package org.greatfree.framework.cps.cache.coordinator;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.greatfree.cache.distributed.store.DistributedQueueStore;
@@ -10,6 +9,7 @@ import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedListFetchException;
 import org.greatfree.exceptions.IndexOutOfRangeException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.TestCacheConfig;
 import org.greatfree.framework.cps.cache.coordinator.evicting.EvictQueueThread;
@@ -138,7 +138,7 @@ public class MyDistributedQueueStore
 		}
 	}
 	
-	public void prefetch(FetchQueueNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void prefetch(FetchQueueNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		DequeueMyStoreDataResponse response;
 		if (!notification.isPeeking())
@@ -167,7 +167,7 @@ public class MyDistributedQueueStore
 		this.store.enqueueLocally(notification.getCacheKey(), response.getData());
 	}
 	
-	public void postfetch(FetchQueueNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void postfetch(FetchQueueNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		DequeueMyStoreDataResponse response;
 		if (!notification.isPeeking())

@@ -7,7 +7,10 @@ import org.greatfree.chat.ChatConfig;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.peer.ChatMaintainer;
 import org.greatfree.util.TerminateSignal;
 
@@ -15,7 +18,7 @@ import org.greatfree.util.TerminateSignal;
 class StartChatPeer
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Initialize the option which represents a user's intents of operations. 09/21/2014, Bing Li
 		int option = MenuOptions.NO_OPTION;

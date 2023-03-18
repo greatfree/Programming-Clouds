@@ -1,9 +1,8 @@
 package org.greatfree.framework.cps.cache.coordinator.postfetching;
 
-import java.io.IOException;
-
 import org.greatfree.concurrency.reactive.NotificationObjectQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.coordinator.MyDistributedList;
 import org.greatfree.framework.cps.cache.message.postfetch.FetchMyUKValueNotification;
@@ -33,7 +32,7 @@ public class PostfetchMyUKValueThread extends NotificationObjectQueue<FetchMyUKV
 					
 					this.disposeObject(notification);
 				}
-				catch (InterruptedException | ClassNotFoundException | RemoteReadException | IOException e)
+				catch (InterruptedException | ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

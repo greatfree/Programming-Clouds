@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.greatfree.cluster.message.JoinNotification;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 10/01/2018, Bing Li
@@ -31,7 +32,7 @@ class JoinNotificationThread extends NotificationQueue<JoinNotification>
 //					System.out.println("2) JoinNotificationThread ......");
 					this.disposeMessage(notification);
 				}
-				catch (InterruptedException | ClassNotFoundException | RemoteReadException | IOException e)
+				catch (InterruptedException | ClassNotFoundException | RemoteReadException | IOException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

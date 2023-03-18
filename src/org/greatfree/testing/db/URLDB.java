@@ -2,6 +2,7 @@ package org.greatfree.testing.db;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +13,6 @@ import org.greatfree.util.FileManager;
 import org.greatfree.util.FreeObject;
 import org.greatfree.util.Tools;
 
-import com.google.common.collect.Sets;
 import com.sleepycat.persist.EntityCursor;
 
 /*
@@ -77,7 +77,8 @@ public class URLDB extends FreeObject
 	public Set<String> loadAllURLKeys()
 	{
 		EntityCursor<URLEntity> results = this.env.getEntityStore().getPrimaryIndex(String.class, URLEntity.class).entities();
-		Set<String> urlKeys = Sets.newHashSet();
+//		Set<String> urlKeys = Sets.newHashSet();
+		Set<String> urlKeys = new HashSet<String>();
 		for (URLEntity entity : results)
 		{
 			urlKeys.add(entity.getKey());

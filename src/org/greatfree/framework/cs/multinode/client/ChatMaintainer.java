@@ -1,13 +1,12 @@
 package org.greatfree.framework.cs.multinode.client;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.greatfree.chat.ChatMessage;
 import org.greatfree.chat.ChatTools;
 import org.greatfree.framework.cs.multinode.message.PollNewChatsResponse;
 import org.greatfree.framework.cs.multinode.message.PollNewSessionsResponse;
-
-import com.google.common.collect.Sets;
 
 /*
  * The class checks whether new sessions or new chat messages are available on the chatting server. 04/24/2017, Bing Li
@@ -25,7 +24,8 @@ class ChatMaintainer
 	private ChatMaintainer()
 	{
 //		this.localUserKey = Tools.generateUniqueKey();
-		this.participatedSessions = Sets.newHashSet();
+//		this.participatedSessions = Sets.newHashSet();
+		this.participatedSessions = new HashSet<String>();
 	}
 	
 	/*

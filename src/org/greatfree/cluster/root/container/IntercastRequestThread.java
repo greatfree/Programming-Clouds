@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.multicast.container.IntercastRequest;
 import org.greatfree.message.multicast.container.IntercastRequestStream;
@@ -34,7 +35,7 @@ class IntercastRequestThread extends RequestQueue<IntercastRequest, IntercastReq
 					this.respond(request.getOutStream(), request.getLock(), response);
 					this.disposeMessage(request, response);
 				}
-				catch (ClassNotFoundException | RemoteReadException | IOException e)
+				catch (ClassNotFoundException | RemoteReadException | IOException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

@@ -185,6 +185,8 @@ final class ClientManager
 	{
 		// Get the current time which is used to calculate the idle time length. 11/06/2014, Bing Li
 		Date currentTime = Calendar.getInstance().getTime();
+		
+//		log.info("Idle clients' size = " + this.idleMap.size());
 
 		// The map is used to keep the sorted instances of FreeClient to select the longest idle one conveniently. 11/06/2014, Bing Li
 		Map<String, FreeClient> sortedResourceMap;
@@ -618,11 +620,13 @@ final class ClientManager
 						// After the feedback is received, the ObjectInputStream can be initialized. 11/06/2014, Bing Li
 						client.setInputStream();
 					}
+//					log.info("Client (" + client + ") is created ... isRead = " + isRead);
 					return client;
 				}
 			}
 			else
 			{
+//				log.info("Client (" + client + ") is reused ... isRead = " + isRead);
 				if (!client.isInputStreamValid() && isRead)
 				{
 					client.setInputStream();
@@ -775,12 +779,14 @@ final class ClientManager
 								// After the feedback is received, the ObjectInputStream can be initialized. 11/06/2014, Bing Li
 								client.setInputStream();
 							}
+//							log.info("Client (" + client + ") is created ... isRead = " + isRead);
 							// Return the resource to the invoker. 09/17/2014, Bing Li
 							return client;
 						}
 					}
 					else
 					{
+//						log.info("Client (" + client + ") is reused ... isRead = " + isRead);
 						if (!client.isInputStreamValid() && isRead)
 						{
 							client.setInputStream();

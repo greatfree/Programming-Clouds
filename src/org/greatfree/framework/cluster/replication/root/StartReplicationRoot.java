@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cluster.replication.ReplicationConfig;
 import org.greatfree.util.TerminateSignal;
 
@@ -16,7 +19,7 @@ import org.greatfree.util.TerminateSignal;
 class StartReplicationRoot
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Replication root starting up ...");
 
@@ -27,6 +30,10 @@ class StartReplicationRoot
 		catch (ClassNotFoundException | IOException | RemoteReadException | DistributedNodeFailedException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Replication root started ...");

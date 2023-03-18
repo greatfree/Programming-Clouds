@@ -1,13 +1,12 @@
 package org.greatfree.testing.memory;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.greatfree.reuse.ResourceCache;
 import org.greatfree.testing.data.CrawledLink;
 import org.greatfree.util.Tools;
-
-import com.google.common.collect.Sets;
 
 /*
  * This is a data storage in memory to keep crawled links as one port of the distributed memory system. 11/28/2014, Bing Li
@@ -96,7 +95,8 @@ public class LinkPond
 		// Get all of the links from the cache. 11/29/2014, Bing Li
 		Map<String, LinkRecord> records = this.cache.getResources();
 		// Initialize a set to take the retrieved linnks. 11/29/2014, Bing Li
-		Set<String> links = Sets.newHashSet();
+//		Set<String> links = Sets.newHashSet();
+		Set<String> links = new HashSet<String>();
 		// Scan each link to compare with the URL key. 11/29/2014, Bing Li
 		for (LinkRecord record : records.values())
 		{

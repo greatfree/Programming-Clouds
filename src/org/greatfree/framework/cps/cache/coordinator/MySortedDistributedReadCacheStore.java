@@ -11,6 +11,7 @@ import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.DescendantListPointingComparator;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedListFetchException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.TestCacheConfig;
 import org.greatfree.framework.cps.cache.coordinator.evicting.EvictMyCachePointingThread;
@@ -101,13 +102,13 @@ public class MySortedDistributedReadCacheStore
 		return this.store.getRange(new FetchMyCachePointingNotification(mapKey, startIndex, endIndex, this.store.getCacheSize(mapKey), this.store.getPrefetchCount()));
 	}
 	
-	public void prefetch(FetchMyCachePointingNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void prefetch(FetchMyCachePointingNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		PrefetchMyCachePointingsResponse response = Coordinator.CPS().prefetchPointings(notification.getCacheKey(), notification.getPrefetchStartIndex(), notification.getPrefetchEndIndex());
 		this.store.putAllLocally(notification.getCacheKey(), response.getPointings());
 	}
 
-	public void postfetch(FetchMyCachePointingNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void postfetch(FetchMyCachePointingNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (notification.getType() == FetchConfig.FETCH_RESOURCE_BY_INDEX)
 		{

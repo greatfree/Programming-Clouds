@@ -5,7 +5,10 @@ import java.util.Scanner;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cs.multinode.message.AddPartnerNotification;
 import org.greatfree.framework.cs.multinode.message.PollNewSessionsRequest;
 import org.greatfree.framework.cs.multinode.message.PollNewSessionsResponse;
@@ -19,7 +22,7 @@ import org.greatfree.util.TerminateSignal;
 class StartPeer
 {
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Initialize a command input console for users to interact with the system. 09/21/2014, Bing Li
 		Scanner in = new Scanner(System.in);

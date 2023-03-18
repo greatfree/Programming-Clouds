@@ -3,7 +3,10 @@ package org.greatfree.testing.stress.cluster.root;
 import java.io.IOException;
 
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.testing.stress.cluster.StressConfig;
 import org.greatfree.util.Env;
 import org.greatfree.util.TerminateSignal;
@@ -24,7 +27,7 @@ import org.greatfree.util.TerminateSignal;
 class StartRoot
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, DistributedNodeFailedException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, DistributedNodeFailedException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		Env.CONFIG().setupAtRHome(StressConfig.HOME);
 		Env.CONFIG().confirmRegistry();

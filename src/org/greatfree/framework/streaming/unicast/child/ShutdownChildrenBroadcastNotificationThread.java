@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.child.ChildMulticastor;
 import org.greatfree.framework.multicast.message.ShutdownChildrenBroadcastNotification;
@@ -34,7 +35,7 @@ class ShutdownChildrenBroadcastNotificationThread extends NotificationQueue<Shut
 					ChildPeer.UNICAST().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);
 				}
-				catch (InterruptedException | IOException | ClassNotFoundException | RemoteReadException | InstantiationException | IllegalAccessException | DistributedNodeFailedException e)
+				catch (InterruptedException | IOException | ClassNotFoundException | RemoteReadException | InstantiationException | IllegalAccessException | DistributedNodeFailedException | RemoteIPNotExistedException e)
 				{
 					ServerStatus.FREE().printException(e);
 				}

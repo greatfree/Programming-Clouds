@@ -3,7 +3,10 @@ package org.greatfree.framework.cluster.cs.multinode.unifirst.clusterserver.chil
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cluster.cs.multinode.wurb.clusterserver.child.ChatChild;
 import org.greatfree.util.TerminateSignal;
 
@@ -31,7 +34,7 @@ I am considering how to use it to improve the chatting and whether I can use it 
 class StartChild
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Chatting child starting up ...");
 
@@ -42,6 +45,10 @@ class StartChild
 		catch (ClassNotFoundException | IOException | RemoteReadException | InterruptedException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Chatting child started ...");

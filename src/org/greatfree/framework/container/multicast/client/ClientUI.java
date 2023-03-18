@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.greatfree.cluster.StandaloneClusterClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.cs.multinode.message.ShutdownServerNotification;
 import org.greatfree.framework.container.multicast.message.HelloWorldAnycastNotification;
@@ -76,7 +77,7 @@ final class ClientUI
 		System.out.println(MultiMenu.MENU_TAIL);
 	}
 	
-	public void send(int option) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void send(int option) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		CollectedClusterResponse response;
 		List<HelloWorldBroadcastResponse> hwbrs;

@@ -9,6 +9,7 @@ import org.greatfree.concurrency.Scheduler;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.DescendantListPointingComparator;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.TestCacheConfig;
 import org.greatfree.framework.cps.cache.coordinator.evicting.EvictMyPointingThread;
@@ -123,7 +124,7 @@ public class MySortedDistributedMap
 		return this.cache.get(new PostfetchMyPointingMapNotification(this.cache.getMaximumKey()));
 	}
 
-	public void postfetch(PostfetchMyPointingMapNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void postfetch(PostfetchMyPointingMapNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (!notification.getResourceKey().equals(UtilConfig.EMPTY_STRING))
 		{

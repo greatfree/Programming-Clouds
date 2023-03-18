@@ -3,6 +3,7 @@ package org.greatfree.cache.distributed.terminal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,8 +22,6 @@ import org.greatfree.util.Builder;
 import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.Pointing;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The list cache that sorts only a predefined count of data is implemented. When data is saved in the list, each data should have a unique key. It must employ the constructor Pointing(long points) of Pointing. 02/15/2019, Bing Li
@@ -301,7 +300,8 @@ public class SortedTerminalList<Value extends Pointing, Factory extends CacheMap
 				int obsSize = this.obsoleteKeys.size();
 
 				int index = 0;
-				Set<String> removedKeys = Sets.newHashSet();
+//				Set<String> removedKeys = Sets.newHashSet();
+				Set<String> removedKeys = new HashSet<String>();
 				for (Map.Entry<String, Float> entry : sp.entrySet())
 				{
 					if (index < this.sortSize)
@@ -428,7 +428,8 @@ public class SortedTerminalList<Value extends Pointing, Factory extends CacheMap
 //				this.lock.readLock().unlock();
 
 				int index = 0;
-				Set<String> removedKeys = Sets.newHashSet();
+//				Set<String> removedKeys = Sets.newHashSet();
+				Set<String> removedKeys = new HashSet<String>();
 //				this.lock.readLock().unlock();
 //				this.lock.writeLock().lock();
 				for (Map.Entry<String, Float> entry : sp.entrySet())

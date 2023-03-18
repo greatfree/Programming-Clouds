@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.streaming.Stream;
 import org.greatfree.framework.streaming.broadcast.pubsub.StreamRegistry;
@@ -43,7 +44,7 @@ class SubscribeStreamRequestThread extends RequestQueue<SubscribeStreamRequest, 
 						StreamRegistry.PUBSUB().addAddress(request.getMessage().getSubscriber(), ip);
 						PubSubServer.UNI_STREAM().subscribe(new SubscribeNotification(Stream.generateKey(request.getMessage().getPublisher(), request.getMessage().getTopic()), request.getMessage().getSubscriber(), ip));
 					}
-					catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+					catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 					{
 						e.printStackTrace();
 					}

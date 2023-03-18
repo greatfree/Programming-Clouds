@@ -2,9 +2,11 @@ package org.greatfree.framework.threading.ct.master;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 import org.greatfree.concurrency.threading.message.TaskStateNotification;
 import org.greatfree.concurrency.threading.message.ATMMessageType;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.TaskConfig;
 import org.greatfree.framework.threading.ThreadInfo;
@@ -21,13 +23,15 @@ import org.greatfree.util.ServerStatus;
 // Created: 09/16/2019, Bing Li
 class MasterTaskA implements ServerTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.threading.ct.master");
+
 	@Override
 	public void processNotification(Notification notification)
 	{
 		switch (notification.getApplicationID())
 		{
 			case ATMMessageType.TASK_STATE_NOTIFICATION:
-				System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				TaskStateNotification rst = (TaskStateNotification)notification;
 				if (rst.getTaskKey().equals(TaskConfig.PRINT_TASK_KEY))
 				{
@@ -41,16 +45,16 @@ class MasterTaskA implements ServerTask
 //							Thread.sleep(8000);
 							if (!Master.MASTER().isAlive(ThreadInfo.ASYNC().getThreadAKey()))
 							{
-								System.out.println("MasterTask-processNotification(): The thread is NOT Alive");
+								log.info("MasterTask-processNotification(): The thread is NOT Alive");
 								Master.MASTER().execute(ThreadInfo.ASYNC().getThreadAKey());
 							}
 							else
 							{
-								System.out.println("MasterTask-processNotification(): The thread is Alive");
+								log.info("MasterTask-processNotification(): The thread is Alive");
 //								Master.MASTER().signal(ThreadInfo.ASYNC().getThreadAKey());
 							}
 						}
-						catch (IOException | InterruptedException | ClassNotFoundException | RemoteReadException e)
+						catch (IOException | InterruptedException | ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 						{
 							ServerStatus.FREE().printException(e);
 						}

@@ -7,6 +7,7 @@ import org.greatfree.app.cps.message.MerchandiseResponse;
 import org.greatfree.app.cps.message.MerchandiseStream;
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 08/14/2018, Bing Li
@@ -37,7 +38,7 @@ public class MerchandiseRequestThread extends RequestQueue<MerchandiseRequest, M
 					this.respond(request.getOutStream(), request.getLock(), response);
 					this.disposeMessage(request, response);
 				}
-				catch (ClassNotFoundException | RemoteReadException | IOException e)
+				catch (ClassNotFoundException | RemoteReadException | IOException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

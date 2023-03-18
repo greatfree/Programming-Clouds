@@ -3,6 +3,7 @@ package org.greatfree.cache.local.store;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,8 +25,6 @@ import org.greatfree.exceptions.IndexOutOfRangeException;
 import org.greatfree.util.Builder;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 // Created: 06/20/2017, Bing Li
 //public class PersistableStackStore<Resource extends SerializedKey<Integer>, Factory extends PersistableMapFactorable<String, Resource>, CompoundKeyCreator extends CompoundKeyCreatable<Integer>>
@@ -788,7 +787,8 @@ public class StackStore<Value extends Serializable, Factory extends CacheMapFact
 	
 	public void removeStack(String stackKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 //		String stackKey = this.keyCreator.createPrefixKey(stackKey);
 		if (this.keys.containsKey(stackKey))

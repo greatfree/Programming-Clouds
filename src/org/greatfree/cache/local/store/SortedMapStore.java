@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,8 +30,6 @@ import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.Pointing;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 // Created: 03/07/2019, Bing Li
 public class SortedMapStore<Value extends Pointing, Factory extends CacheMapFactorable<String, Value>, CompoundKeyCreator extends CompoundKeyCreatable<String>, DescendantComp extends Comparator<Value>> implements CacheEventable<String, Value>
@@ -448,7 +447,8 @@ public class SortedMapStore<Value extends Pointing, Factory extends CacheMapFact
 //				allPoints = CollectionSorter.sortDescendantByValue(allPoints);
 				Map<String, Float> sp = CollectionSorter.sortDescendantByValue(allPoints);
 				int index = 0;
-				Set<String> removedKeys = Sets.newHashSet();
+//				Set<String> removedKeys = Sets.newHashSet();
+				Set<String> removedKeys = new HashSet<String>();
 				indexes.clearKeys();
 				for (Map.Entry<String, Float> entry : sp.entrySet())
 				{
@@ -540,7 +540,8 @@ public class SortedMapStore<Value extends Pointing, Factory extends CacheMapFact
 			}
 //			allPoints = CollectionSorter.sortDescendantByValue(allPoints);
 			Map<String, Float> sp = CollectionSorter.sortDescendantByValue(allPoints);
-			Set<String> removedKeys = Sets.newHashSet();
+//			Set<String> removedKeys = Sets.newHashSet();
+			Set<String> removedKeys = new HashSet<String>();
 			indexes.clearKeys();
 			for (Map.Entry<String, Float> entry : sp.entrySet())
 			{

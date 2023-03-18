@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,8 +28,6 @@ import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.Pointing;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The version is tested in the Clouds project. 08/22/2018, Bing Li
@@ -340,7 +339,8 @@ abstract class SortedListStore<Value extends Pointing, Factory extends CacheMapF
 //				allPoints = CollectionSorter.sortDescendantByValue(allPoints);
 				Map<String, Float> sp = CollectionSorter.sortDescendantByValue(allPoints);
 				int index = 0;
-				Set<String> removedKeys = Sets.newHashSet();
+//				Set<String> removedKeys = Sets.newHashSet();
+				Set<String> removedKeys = new HashSet<String>();
 				indexes.clearKeys();
 				for (Map.Entry<String, Float> entry : sp.entrySet())
 				{
@@ -445,7 +445,8 @@ abstract class SortedListStore<Value extends Pointing, Factory extends CacheMapF
 			}
 //			allPoints = CollectionSorter.sortDescendantByValue(allPoints);
 			Map<String, Float> sp = CollectionSorter.sortDescendantByValue(allPoints);
-			Set<String> removedKeys = Sets.newHashSet();
+//			Set<String> removedKeys = Sets.newHashSet();
+			Set<String> removedKeys = new HashSet<String>();
 			indexes.clearKeys();
 //			for (Map.Entry<String, Float> entry : allPoints.entrySet())
 			for (Map.Entry<String, Float> entry : sp.entrySet())
@@ -708,7 +709,8 @@ abstract class SortedListStore<Value extends Pointing, Factory extends CacheMapF
 	
 	protected void removeAtBase(String listKey, Set<String> rscKeys)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 		if (this.listIndexes.containsKey(listKey))
 		{
@@ -904,7 +906,8 @@ abstract class SortedListStore<Value extends Pointing, Factory extends CacheMapF
 	
 	protected void clearAtBase(String listKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 		if (this.listIndexes.containsKey(listKey))
 		{

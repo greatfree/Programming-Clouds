@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.threetier.message.CoordinatorResponse;
 import org.greatfree.framework.cps.threetier.message.FrontRequest;
@@ -39,7 +40,7 @@ class FrontRequestThread extends RequestQueue<FrontRequest, FrontStream, FrontRe
 					this.respond(request.getOutStream(), request.getLock(), response);
 					this.disposeMessage(request, response);
 				}
-				catch (ClassNotFoundException | RemoteReadException | IOException e)
+				catch (ClassNotFoundException | RemoteReadException | IOException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

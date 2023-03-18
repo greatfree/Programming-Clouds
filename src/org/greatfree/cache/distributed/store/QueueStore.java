@@ -3,6 +3,7 @@ package org.greatfree.cache.distributed.store;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,8 +24,6 @@ import org.greatfree.cache.local.CacheMapFactorable;
 import org.greatfree.exceptions.IndexOutOfRangeException;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The version is created and tested in the Clouds project. 08/22/2018, Bing Li
@@ -541,7 +540,8 @@ abstract class QueueStore<Value extends Serializable, Factory extends CacheMapFa
 	
 	protected void removeQueueAtBase(String queueKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 		if (this.keys.containsKey(queueKey))
 		{

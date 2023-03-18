@@ -138,7 +138,7 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 	/*
 	 * The constructor is usually used in the children of CSServer to simplify the builder patterns of its children. 06/15/2022, Bing Li
 	 */
-	public CSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher) throws IOException
+	public CSServer(int port, int listenerCount, int maxIOCount, Dispatcher dispatcher)
 	{
 		this.id = dispatcher.getServerKey();
 		this.port = port;
@@ -232,6 +232,8 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 		// Timeout to check incoming messages. 05/28/2018, Bing Li
 //		private long timeout;
 		
+		private boolean isDisabled;
+		
 		public CSServerBuilder()
 		{
 		}
@@ -293,6 +295,12 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 		public CSServerBuilder<Dispatcher> dispatcher(Dispatcher dispatcher)
 		{
 			this.dispatcher = dispatcher;
+			return this;
+		}
+
+		public CSServerBuilder<Dispatcher> isDisabled(boolean isDisabled)
+		{
+			this.isDisabled = isDisabled;
 			return this;
 		}
 
@@ -367,6 +375,11 @@ public class CSServer<Dispatcher extends ServerDispatcher<ServerMessage>>
 			return this.timeout;
 		}
 		*/
+		
+		public boolean isDisabled()
+		{
+			return this.isDisabled;
+		}
 	}
 
 	/*

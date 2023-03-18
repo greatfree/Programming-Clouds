@@ -42,9 +42,9 @@ class ChatPartnerRequestThread extends RequestQueue<ChatPartnerRequest, ChatPart
 				{
 					// Get the account. 04/16/2017, Bing Li
 					account = PeerRegistry.SYSTEM().get(request.getMessage().getPartnerKey());
-					if (AccountRegistry.APPLICATION().isAccountExisted(request.getMessage().getPartnerKey()))
+					if (AccountRegistry.APP().isAccountExisted(request.getMessage().getPartnerKey()))
 					{
-						chatAccount = AccountRegistry.APPLICATION().getAccount(request.getMessage().getPartnerKey());
+						chatAccount = AccountRegistry.APP().getAccount(request.getMessage().getPartnerKey());
 						// Generate the response. 04/16/2017, Bing Li
 						response = new ChatPartnerResponse(account.getPeerKey(), account.getPeerName(), chatAccount.getDescription(), chatAccount.getPreference(), account.getIP(), account.getPeerPort());
 					}

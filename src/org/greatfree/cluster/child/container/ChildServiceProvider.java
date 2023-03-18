@@ -232,7 +232,7 @@ public class ChildServiceProvider
 		}
 		else
 		{
-			return Child.CONTAINER().interAnycastRead(icr);
+			return Child.CONTAINER().interAnycastRead(icr, Child.CONTAINER().getAnycastResponseSize());
 		}
 	}
 

@@ -12,7 +12,7 @@ class StartRegistryServer
 
 	public static void main(String[] args)
 	{
-		System.out.println("Chatting registry server starting up ...");
+		System.out.println("Registry server starting up ...");
 
 		try
 		{
@@ -23,7 +23,7 @@ class StartRegistryServer
 			e.printStackTrace();
 		}
 		
-		System.out.println("Chatting registry server started ...");
+		System.out.println("Registry server started ...");
 
 		// After the server is started, the loop check whether the flag of terminating is set. If the terminating flag is true, the process is ended. Otherwise, the process keeps running. 08/22/2014, Bing Li
 		/*

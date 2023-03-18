@@ -1,6 +1,7 @@
 package org.greatfree.cache.db;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.greatfree.util.FileManager;
 
-import com.google.common.collect.Sets;
 import com.sleepycat.persist.EntityCursor;
 
 // Created: 02/21/2019, Bing Li
@@ -78,7 +78,8 @@ public class ListIndexDB
 	public Set<String> getKeys()
 	{
 		EntityCursor<ListIndexEntity> results = this.env.getEntityStore().getPrimaryIndex(String.class, ListIndexEntity.class).entities();
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		for (ListIndexEntity entry : results)
 		{
 			keys.add(entry.getListKey());

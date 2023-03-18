@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 12/31/2018, Bing Li
@@ -35,7 +36,7 @@ public class StartFrontEnd
 				// Send the option to the polling server. 09/21/2014, Bing Li
 				ClientUI.CPS().send(option);
 			}
-			catch (NumberFormatException | ClassNotFoundException | RemoteReadException | IOException | InterruptedException e)
+			catch (NumberFormatException | ClassNotFoundException | RemoteReadException | IOException | InterruptedException | RemoteIPNotExistedException e)
 			{
 				e.printStackTrace();
 				option = MenuOptions.NO_OPTION;

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.greatfree.app.search.container.cluster.message.CrawledPagesNotification;
 import org.greatfree.app.search.multicast.message.Page;
 import org.greatfree.cluster.StandaloneClusterClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -14,7 +15,7 @@ import org.greatfree.util.Tools;
 class StartCrawler
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		System.out.println("Crawler starting up ...");
 		StandaloneClusterClient.CONTAINER().init(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, Tools.getHash(MulticastConfig.CLUSTER_SERVER_ROOT_NAME));

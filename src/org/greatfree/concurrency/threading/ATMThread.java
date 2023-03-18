@@ -1,8 +1,8 @@
 package org.greatfree.concurrency.threading;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.logging.Logger;
 
 import org.greatfree.concurrency.threading.message.ATMNotification;
 import org.greatfree.concurrency.threading.message.InteractNotification;
@@ -13,12 +13,15 @@ import org.greatfree.concurrency.threading.message.TaskNotification;
 import org.greatfree.concurrency.threading.message.TaskRequest;
 import org.greatfree.concurrency.threading.message.ATMMessageType;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.ServerStatus;
 
 // Created: 09/13/2019, Bing Li
 class ATMThread extends NotificationQueue<ATMNotification>
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.concurrency.threading");
+
 	public ATMThread(int taskSize)
 	{
 		super(taskSize);
@@ -63,39 +66,39 @@ class ATMThread extends NotificationQueue<ATMNotification>
 					switch (notification.getApplicationID())
 					{
 						case ATMMessageType.TASK_NOTIFICATION:
-							System.out.println("THREAD: TASK_NOTIFICATION received @" + Calendar.getInstance().getTime());
+							log.info("THREAD: TASK_NOTIFICATION received @" + Calendar.getInstance().getTime());
 //						tn = (TaskNotification)notification;
 							Worker.ATM().processNotification(super.getKey(), (TaskNotification)notification);
 							break;
 							
 						case ATMMessageType.TASK_INVOKE_NOTIFICATION:
-							System.out.println("THREAD: TASK_INVOKE_NOTIFICATION received @" + Calendar.getInstance().getTime());
+							log.info("THREAD: TASK_INVOKE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 							Worker.ATM().processNotification(super.getKey(), (TaskInvokeNotification)notification);
 							break;
 							
 						case ATMMessageType.TASK_REQUEST:
-							System.out.println("THREAD: TASK_REQUEST received @" + Calendar.getInstance().getTime());
+							log.info("THREAD: TASK_REQUEST received @" + Calendar.getInstance().getTime());
 							Worker.ATM().processRequest(super.getKey(), (TaskRequest)notification);
 							break;
 							
 						case ATMMessageType.TASK_INVOKE_REQUEST:
-							System.out.println("THREAD: TASK_INVOKE_REQUEST received @" + Calendar.getInstance().getTime());
+							log.info("THREAD: TASK_INVOKE_REQUEST received @" + Calendar.getInstance().getTime());
 							Worker.ATM().processRequest(super.getKey(), (TaskInvokeRequest)notification);
 							break;
 							
 						case ATMMessageType.INTERACT_NOTIFICATION:
-							System.out.println("THREAD: INTERACT_NOTIFICATION received @" + Calendar.getInstance().getTime());
+							log.info("THREAD: INTERACT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 							Worker.ATM().processNotification(super.getKey(), (InteractNotification)notification);
 							break;
 							
 						case ATMMessageType.INTERACT_REQUEST:
-							System.out.println("THREAD: INTERACT_REQUEST received @" + Calendar.getInstance().getTime());
+							log.info("THREAD: INTERACT_REQUEST received @" + Calendar.getInstance().getTime());
 							Worker.ATM().processRequest(super.getKey(), (InteractRequest)notification);
 							break;
 					}
 					super.disposeMessage(notification);
 				}
-				catch (InterruptedException | ClassNotFoundException | RemoteReadException | IOException | RejectedExecutionException e)
+				catch (InterruptedException | ClassNotFoundException | RemoteReadException | RejectedExecutionException | RemoteIPNotExistedException e)
 				{
 					ServerStatus.FREE().printException(e);
 				}

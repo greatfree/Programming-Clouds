@@ -3,6 +3,7 @@ package org.greatfree.cluster.root.container;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
 import org.greatfree.message.PeerAddressResponse;
@@ -13,7 +14,7 @@ final class Clustering
 {
 	private final static Logger log = Logger.getLogger("org.greatfree.cluster.root.container");
 
-	public static void addChild(String childID) throws ClassNotFoundException, RemoteReadException, IOException
+	public static void addChild(String childID) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		System.out.println("Clustering-addChild(): childID = " + childID);
 		PeerAddressResponse response = (PeerAddressResponse)ClusterRoot.CONTAINER().readRegistry(new PeerAddressRequest(childID));

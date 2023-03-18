@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.client.CSClient;
 import org.greatfree.data.ClientConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -47,7 +48,7 @@ class SearchClient
 		this.client.dispose();
 	}
 	
-	public void init() throws ClassNotFoundException, RemoteReadException, IOException
+	public void init() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		this.client = new CSClient.CSClientBuilder()
 				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
@@ -81,7 +82,7 @@ class SearchClient
 		this.client.asyncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
 	}
 	
-	public ServerMessage read(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.client.read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
 	}

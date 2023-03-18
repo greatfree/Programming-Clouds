@@ -3,6 +3,7 @@ package org.greatfree.cache.distributed.terminal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,8 +23,6 @@ import org.greatfree.cache.local.CacheEventable;
 import org.greatfree.cache.local.CacheMapFactorable;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * When designing the class, I attempt to use it to lower the load to implement a terminal cache. But since the DB needs to work with the internal algorithm of the class, it is not so convenient. So the class is not useful at this moment. Just keep it for a while before abandoning it. 06/18/2018, Bing Li
@@ -404,7 +403,8 @@ abstract class StackStore<Value extends Serializable, Factory extends CacheMapFa
 	
 	protected void removeStack(String stackKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 		if (this.keys.containsKey(stackKey))
 		{

@@ -5,7 +5,10 @@ import java.io.IOException;
 import org.greatfree.cluster.RootTask;
 import org.greatfree.cluster.root.container.ClusterServerContainer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.util.TerminateSignal;
 
@@ -38,13 +41,13 @@ class BusinessServer
 		this.server.stopCluster();
 	}
 
-	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stopServer(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 	
-	public void start(int port, RootTask task) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException
+	public void start(int port, RootTask task) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.server = new ClusterServerContainer(port, MulticastConfig.CLUSTER_SERVER_ROOT_NAME, task);
 		this.server.start();

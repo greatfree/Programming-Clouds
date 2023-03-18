@@ -1,6 +1,7 @@
 package org.greatfree.cache.db;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.greatfree.cache.factory.SortedListIndexes;
 import org.greatfree.util.FileManager;
 
-import com.google.common.collect.Sets;
 import com.sleepycat.persist.EntityCursor;
 
 // Created: 05/06/2018, Bing Li
@@ -67,7 +67,8 @@ public class SortedListIndexDB
 	public Set<String> getKeys()
 	{
 		EntityCursor<SortedListIndexEntity> results = this.env.getEntityStore().getPrimaryIndex(String.class, SortedListIndexEntity.class).entities();
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		for (SortedListIndexEntity entry : results)
 		{
 			keys.add(entry.getListKey());

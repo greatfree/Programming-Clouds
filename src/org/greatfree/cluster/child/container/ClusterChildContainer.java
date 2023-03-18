@@ -8,7 +8,10 @@ import org.greatfree.cluster.message.PathRequest;
 import org.greatfree.cluster.message.PathResponse;
 import org.greatfree.cluster.root.ClusterProfile;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.message.ServerMessage;
@@ -20,6 +23,7 @@ import org.greatfree.message.multicast.container.ClusterNotification;
 import org.greatfree.server.container.PeerProfile;
 import org.greatfree.server.container.ServerProfile;
 import org.greatfree.util.IPAddress;
+import org.greatfree.util.TerminateSignal;
 import org.greatfree.util.Tools;
 
 // Created: 01/13/2019, Bing Li
@@ -59,6 +63,7 @@ public class ClusterChildContainer
 				.rootBranchCount(MulticastConfig.ROOT_BRANCH_COUNT)
 				.treeBranchCount(MulticastConfig.SUB_BRANCH_COUNT)
 				.requestWaitTime(MulticastConfig.BROADCAST_REQUEST_WAIT_TIME)
+				.anyResponseSize(MulticastConfig.ANYCAST_RESPONSE_SIZE)
 				.build();
 
 		this.task = task;
@@ -95,6 +100,7 @@ public class ClusterChildContainer
 				.rootBranchCount(MulticastConfig.ROOT_BRANCH_COUNT)
 				.treeBranchCount(MulticastConfig.SUB_BRANCH_COUNT)
 				.requestWaitTime(MulticastConfig.BROADCAST_REQUEST_WAIT_TIME)
+				.anyResponseSize(MulticastConfig.ANYCAST_RESPONSE_SIZE)
 				.build();
 
 		this.task = task;
@@ -131,6 +137,7 @@ public class ClusterChildContainer
 				.rootBranchCount(MulticastConfig.ROOT_BRANCH_COUNT)
 				.treeBranchCount(MulticastConfig.SUB_BRANCH_COUNT)
 				.requestWaitTime(MulticastConfig.BROADCAST_REQUEST_WAIT_TIME)
+				.anyResponseSize(MulticastConfig.ANYCAST_RESPONSE_SIZE)
 				.build();
 
 		this.task = task;
@@ -175,7 +182,7 @@ public class ClusterChildContainer
 	/*
 	 * The method is able to get the IP address of any node. 09/22/2021, Bing Li
 	 */
-	public IPAddress getIPAddress(String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public IPAddress getIPAddress(String nodeKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.child.getIPAddress(nodeKey);
 	}
@@ -215,7 +222,7 @@ public class ClusterChildContainer
 	/*
 	 * It allows the child to interact with any nodes through reading. 09/22/2021, Bing Li
 	 */
-	public ServerMessage read(IPAddress ip, Request request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(IPAddress ip, Request request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.child.read(ip, request);
 	}
@@ -239,7 +246,7 @@ public class ClusterChildContainer
 	/*
 	 * The method is not so useful. But sometimes when testing a cluster in a single machine, it makes sense. The children needs to get independent absolute paths on the same disk. So it is necessary to synchronize the paths with the root of the cluster. 09/23/2021, Bing Li
 	 */
-	public String getAbsolutePath(String relativePath) throws ClassNotFoundException, RemoteReadException, IOException
+	public String getAbsolutePath(String relativePath) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		PathResponse pr = (PathResponse)this.readRoot(new PathRequest(relativePath));
 		if (pr != null)
@@ -252,7 +259,7 @@ public class ClusterChildContainer
 	/*
 	 * The child is enabled to interact with the root through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
 	 */
-	public ChildRootResponse readRoot(ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ChildRootResponse readRoot(ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.child.readRoot(request);
 	}
@@ -260,13 +267,14 @@ public class ClusterChildContainer
 	/*
 	 * The child is enabled to interact with the collaborator through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
 	 */
-	public ChildRootResponse readCollaborator(IPAddress ip, ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ChildRootResponse readCollaborator(IPAddress ip, ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.child.readCollaborator(ip, request);
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
+		TerminateSignal.SIGNAL().notifyAllTermination();
 		// With the updating of notify/wait, the line is not needed. But to keep compatible, just leave it here for some time. 08/25/2021, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
 		// I attempt to change the SP pattern to replace the while-true loop with the notify/wait structure. 08/25/2021, Bing Li
@@ -274,12 +282,12 @@ public class ClusterChildContainer
 		this.child.stop(timeout);
 	}
 	
-	public void start(String rootKey) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void start(String rootKey) throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, IOException, ServerPortConflictedException
 	{
 		this.child.start(rootKey, this.task);
 	}
 	
-	public void start() throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void start() throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, IOException, ServerPortConflictedException
 	{
 		/*
 		if (!ServerProfile.CS().isDefault())
@@ -292,5 +300,10 @@ public class ClusterChildContainer
 		}
 		*/
 		this.child.start(ClusterProfile.CLUSTER().getRootKey(), this.task);
+	}
+	
+	public String getLocalIPKey()
+	{
+		return this.child.getLocalIPKey();
 	}
 }

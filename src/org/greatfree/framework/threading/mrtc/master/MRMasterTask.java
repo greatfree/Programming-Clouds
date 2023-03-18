@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import org.greatfree.concurrency.threading.ATMTask;
 import org.greatfree.concurrency.threading.message.ATMMessageType;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.MRStates;
 import org.greatfree.framework.threading.message.MRFinalNotification;
@@ -81,7 +82,7 @@ class MRMasterTask extends ATMTask
 								// If the current hop is less than the maximum hop of the MR game in the round, it indicates that the MR game of this round is NOT done. So, a new hop for the round is started. 01/10/2020, Bing Li
 								Master.THREADING().continueMR(mrfn.getMRKey(), mrfn.getCurrentHop(), mrfn.getMaxHop());
 							}
-							catch (ClassNotFoundException | RemoteReadException | IOException | InterruptedException e)
+							catch (ClassNotFoundException | RemoteReadException | IOException | InterruptedException | RemoteIPNotExistedException e)
 							{
 								e.printStackTrace();
 							}

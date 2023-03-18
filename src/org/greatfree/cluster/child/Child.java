@@ -8,7 +8,10 @@ import org.greatfree.cluster.message.IsRootOnlineResponse;
 import org.greatfree.cluster.message.JoinNotification;
 import org.greatfree.cluster.message.LeaveNotification;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.p2p.message.ChatRegistryRequest;
 import org.greatfree.message.multicast.MulticastNotification;
@@ -53,7 +56,7 @@ class Child
 		}
 	}
 
-	public void dispose(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void dispose(long timeout) throws InterruptedException, ClassNotFoundException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 		this.child.syncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), new LeaveNotification(this.child.getPeerID()));
 		this.child.stop(timeout);
@@ -61,12 +64,12 @@ class Child
 	}
 	
 //	public void init(PeerBuilder<ChildDispatcher> builder, int treeBranchCount) throws IOException
-	public void init(PeerBuilder<ChildDispatcher> builder) throws IOException
+	public void init(PeerBuilder<ChildDispatcher> builder) throws IOException, ServerPortConflictedException
 	{
 		this.child = new Peer<ChildDispatcher>(builder);
 	}
 	
-	public void start(String rootKey, int treeBranchCount) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void start(String rootKey, int treeBranchCount) throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException, IOException
 	{
 		this.child.start();
 		this.client = new ChildClient(child.getLocalIPKey(), child.getClientPool(), treeBranchCount, child.getPool());

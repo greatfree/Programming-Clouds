@@ -6,7 +6,10 @@ import org.greatfree.app.cps.message.MerchandiseRequest;
 import org.greatfree.app.cps.message.MerchandiseResponse;
 import org.greatfree.app.cps.message.OrderNotification;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.server.CSServer;
 import org.greatfree.server.Peer;
@@ -37,7 +40,7 @@ public class VendorCoordinator
 		}
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 //		TerminateSignal.SIGNAL().setTerminated();
 		TerminateSignal.SIGNAL().notifyAllTermination();
@@ -46,7 +49,7 @@ public class VendorCoordinator
 		this.manServer.stop(timeout);
 	}
 	
-	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException
+	public void start(String username) throws ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException, IOException
 	{
 		this.peer = new Peer.PeerBuilder<VendorCoordinatorDispatcher>()
 				.peerPort(ServerConfig.COORDINATOR_PORT)
@@ -102,7 +105,7 @@ public class VendorCoordinator
 		this.peer.syncNotify(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new OrderNotification(merchandise, count));
 	}
 
-	public MerchandiseResponse query(String query) throws ClassNotFoundException, RemoteReadException, IOException
+	public MerchandiseResponse query(String query) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (MerchandiseResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new MerchandiseRequest(query));
 	}

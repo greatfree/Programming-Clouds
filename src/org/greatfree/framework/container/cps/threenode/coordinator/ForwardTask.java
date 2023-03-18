@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.cps.message.CPSApplicationID;
 import org.greatfree.message.ServerMessage;
@@ -50,7 +51,7 @@ public class ForwardTask implements ServerTask
 				{
 					Coordinator.CPS_CONTAINER().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (IOException | InterruptedException | ClassNotFoundException | RemoteReadException e)
+				catch (IOException | InterruptedException | ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}
@@ -69,7 +70,7 @@ public class ForwardTask implements ServerTask
 				{
 					return Coordinator.CPS_CONTAINER().read(request);
 				}
-				catch (ClassNotFoundException | RemoteReadException | IOException e)
+				catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

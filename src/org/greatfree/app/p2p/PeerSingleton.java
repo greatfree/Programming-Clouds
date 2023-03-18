@@ -7,7 +7,10 @@ import org.greatfree.app.p2p.message.GreetingResponse;
 import org.greatfree.app.p2p.message.HelloNotification;
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.p2p.message.ChatPartnerRequest;
 import org.greatfree.framework.p2p.message.ChatPartnerResponse;
@@ -40,16 +43,15 @@ class PeerSingleton
 		}
 	}
 
-	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void stop(long timeout) throws InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException, IOException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
 		TerminateSignal.SIGNAL().notifyAllTermination();
-
 		this.im.stop(timeout);
 	}
 
-	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException
+	public void start(String username) throws ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, IOException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.im = new Peer.PeerBuilder<InstantDispatcher>()
 				.peerPort(ChatConfig.CHAT_SERVER_PORT)
@@ -85,17 +87,17 @@ class PeerSingleton
 		this.im.start();
 	}
 
-	public ChatRegistryResponse registerChat(String localUserKey, String localUserName, String description, String preference) throws ClassNotFoundException, RemoteReadException, IOException
+	public ChatRegistryResponse registerChat(String localUserKey, String localUserName, String description, String preference) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (ChatRegistryResponse)this.im.read(RegistryConfig.PEER_REGISTRY_ADDRESS, ChatConfig.CHAT_REGISTRY_PORT, new ChatRegistryRequest(localUserKey, localUserName, description, preference));
 	}
 
-	public ChatPartnerResponse searchUser(String userKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public ChatPartnerResponse searchUser(String userKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (ChatPartnerResponse)this.im.read(RegistryConfig.PEER_REGISTRY_ADDRESS, ChatConfig.CHAT_REGISTRY_PORT, new ChatPartnerRequest(userKey));
 	}
 
-	public GreetingResponse greet(String ip, int port, String greeting) throws ClassNotFoundException, RemoteReadException, IOException
+	public GreetingResponse greet(String ip, int port, String greeting) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (GreetingResponse)this.im.read(ip, port, new GreetingRequest(greeting));
 	}

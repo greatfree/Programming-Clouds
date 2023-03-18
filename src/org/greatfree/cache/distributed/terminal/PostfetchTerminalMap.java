@@ -1,6 +1,7 @@
 package org.greatfree.cache.distributed.terminal;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,8 +22,6 @@ import org.greatfree.concurrency.reactive.NotificationObjectQueue;
 import org.greatfree.concurrency.reactive.NotificationObjectThreadCreatable;
 import org.greatfree.exceptions.TerminalServerOverflowedException;
 import org.greatfree.util.Builder;
-
-import com.google.common.collect.Sets;
 
 /*
  * The version is updated in its locking only. 08/22/2018, Bing Li
@@ -440,7 +439,9 @@ public class PostfetchTerminalMap<Value extends Serializable, Factory extends Ca
 		}
 		
 		Set<String> obtainedRscKeys = v.keySet();
-		Set<String> unavailableRscKeys = Sets.difference(notification.getResourceKeys(), obtainedRscKeys);
+//		Set<String> unavailableRscKeys = Sets.difference(notification.getResourceKeys(), obtainedRscKeys);
+		Set<String> unavailableRscKeys = new HashSet<String>(notification.getResourceKeys());
+		unavailableRscKeys.removeAll(obtainedRscKeys);
 		/*
 		this.lock.readLock().lock();
 		try

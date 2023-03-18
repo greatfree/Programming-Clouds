@@ -3,7 +3,10 @@ package org.greatfree.framework.threading.ttc.dt.slave;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.threading.PrintTask;
 import org.greatfree.util.TerminateSignal;
 
@@ -14,7 +17,7 @@ import org.greatfree.util.TerminateSignal;
 // Created: 09/13/2019, Bing Li
 class StartSlave
 {
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Thread slave starting up ...");
 

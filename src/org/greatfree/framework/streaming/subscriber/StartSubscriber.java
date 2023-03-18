@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.streaming.RegisteredStream;
 import org.greatfree.framework.streaming.message.StreamResponse;
 import org.greatfree.framework.streaming.message.SubscribeStreamResponse;
@@ -14,7 +17,7 @@ import org.greatfree.util.UtilConfig;
 class StartSubscriber
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		Scanner in = new Scanner(System.in);
 		System.out.println("Tell me your name as a subscriber: ");
@@ -24,6 +27,10 @@ class StartSubscriber
 		try
 		{
 			SubscriberPeer.CHILD().start(subscriberName);
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 		catch (IOException | ClassNotFoundException | RemoteReadException e)
 		{

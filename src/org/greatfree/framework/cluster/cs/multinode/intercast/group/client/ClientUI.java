@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.greatfree.chat.ChatOptions;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.cs.multinode.intercast.group.message.GroupMembersRequest;
 import org.greatfree.framework.cluster.cs.multinode.intercast.group.message.GroupMembersResponse;
@@ -84,7 +85,7 @@ class ClientUI
 		System.out.println(ClientMenu.INPUT_PROMPT);
 	}
 	
-	public void send(int option) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void send(int option) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		List<GroupRegistryResponse> grReses;
 		List<UserRegistryResponse> crReses;

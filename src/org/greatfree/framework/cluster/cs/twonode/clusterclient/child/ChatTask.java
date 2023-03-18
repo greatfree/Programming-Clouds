@@ -6,6 +6,7 @@ import java.util.Calendar;
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.message.ClusterApplicationID;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.original.cs.twonode.message.AreYouReadyRequest;
 import org.greatfree.framework.cluster.original.cs.twonode.message.AreYouReadyResponse;
@@ -42,7 +43,7 @@ class ChatTask implements ChildTask
 				{
 					ChatChild.CCC().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

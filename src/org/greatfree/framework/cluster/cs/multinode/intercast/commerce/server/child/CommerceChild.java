@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.child.container.ClusterChildContainer;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.util.TerminateSignal;
 
@@ -32,7 +35,7 @@ class CommerceChild
 		}
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
@@ -42,9 +45,8 @@ class CommerceChild
 		this.child.stop(timeout);
 	}
 	
-	public void start(ChildTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void start(ChildTask task) throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException, IOException
 	{
-		
 		this.child = new ClusterChildContainer(task);
 		this.child.start(MulticastConfig.CLUSTER_SERVER_ROOT_KEY);
 	}

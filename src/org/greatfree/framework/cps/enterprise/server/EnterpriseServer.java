@@ -3,7 +3,10 @@ package org.greatfree.framework.cps.enterprise.server;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.server.Peer;
@@ -33,14 +36,14 @@ class EnterpriseServer
 		}
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		TerminateSignal.SIGNAL().setTerminated();
 		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.peer.stop(timeout);
 	}
 
-	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException
+	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.peer = new Peer.PeerBuilder<EnterpriseDispatcher>()
 				.peerPort(ServerConfig.COORDINATOR_PORT)
@@ -75,7 +78,7 @@ class EnterpriseServer
 		this.peer.syncNotify(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, notification);
 	}
 	
-	public ServerMessage query(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage query(ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, request);
 	}

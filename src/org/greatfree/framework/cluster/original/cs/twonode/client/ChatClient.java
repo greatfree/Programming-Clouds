@@ -6,6 +6,7 @@ import org.greatfree.client.CSClient;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ClientConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
@@ -49,7 +50,7 @@ class ChatClient
 		this.client.dispose();
 	}
 	
-	public void init() throws ClassNotFoundException, RemoteReadException, IOException
+	public void init() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);
 		this.client = new CSClient.CSClientBuilder()
@@ -87,7 +88,7 @@ class ChatClient
 		this.client.asyncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
 	}
 	
-	public ServerMessage read(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.client.read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
 	}

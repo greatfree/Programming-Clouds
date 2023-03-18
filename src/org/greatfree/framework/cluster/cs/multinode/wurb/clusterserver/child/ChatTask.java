@@ -2,10 +2,12 @@ package org.greatfree.framework.cluster.cs.multinode.wurb.clusterserver.child;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.message.ClusterApplicationID;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.cs.multinode.wurb.message.AddPartnerNotification;
 import org.greatfree.framework.cluster.cs.multinode.wurb.message.ChatApplicationID;
@@ -34,6 +36,7 @@ import org.greatfree.util.UtilConfig;
 // Created: 01/28/2019, Bing Li
 class ChatTask implements ChildTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.cluster.cs.multinode.wurb.clusterserver.child");
 
 	@Override
 	public void processNotification(ClusterNotification notification)
@@ -41,37 +44,37 @@ class ChatTask implements ChildTask
 		switch (notification.getApplicationID())
 		{
 			case ChatApplicationID.ADD_PARTNER_NOTIFICATION:
-				System.out.println("ADD_PARTNER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("ADD_PARTNER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				AddPartnerNotification apn = (AddPartnerNotification)notification;
 				PrivateChatSessions.HUNGARY().addSession(apn.getPartnerKey(), apn.getLocalUserKey());
 				break;
 
 			case ChatApplicationID.CHAT_NOTIFICATION:
-				System.out.println("CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("CHAT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ChatNotification cn = (ChatNotification)notification;
 //				System.out.println("ChatTask-processNotification(): " + cn.getSessionKey() + ", " + cn.getSenderKey() + ", " + cn.getReceiverKey() + ", " + cn.getMessage());
 				PrivateChatSessions.HUNGARY().addMessage(cn.getSessionKey(), cn.getSenderKey(), cn.getReceiverKey(), cn.getMessage());
 				break;
 				
 			case ClusterApplicationID.STOP_CHAT_CLUSTER_NOTIFICATION:
-				System.out.println("STOP_CHAT_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("STOP_CHAT_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				try
 				{
 					ChatChild.CLUSTER_CONTAINER().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}
 				break;
 
 			case ClusterApplicationID.STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION:
-				System.out.println("STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("STOP_ONE_CHILD_ON_CLUSTER_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				try
 				{
 					ChatChild.CLUSTER_CONTAINER().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

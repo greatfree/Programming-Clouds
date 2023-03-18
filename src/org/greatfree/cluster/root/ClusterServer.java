@@ -5,7 +5,10 @@ import java.io.IOException;
 import org.greatfree.cluster.RootTask;
 import org.greatfree.cluster.root.container.RootServiceProvider;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cluster.original.cs.twonode.message.StopChatClusterNotification;
 import org.greatfree.server.Peer.PeerBuilder;
 import org.greatfree.util.Builder;
@@ -14,7 +17,7 @@ import org.greatfree.util.Builder;
 // public class ServerOnCluster extends Peer<RootDispatcher>
 public class ClusterServer
 {
-	public ClusterServer(ServerOnClusterBuilder builder) throws IOException
+	public ClusterServer(ServerOnClusterBuilder builder) throws ServerPortConflictedException, IOException
 	{
 		PeerBuilder<RootDispatcher> peerBuilder = new PeerBuilder<RootDispatcher>();
 		
@@ -284,7 +287,15 @@ public class ClusterServer
 		@Override
 		public ClusterServer build() throws IOException
 		{
-			return new ClusterServer(this);
+			try
+			{
+				return new ClusterServer(this);
+			}
+			catch (ServerPortConflictedException e)
+			{
+				e.printStackTrace();
+			}
+			return null;
 		}
 		
 		/*
@@ -464,13 +475,13 @@ public class ClusterServer
 		}
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, RemoteIPNotExistedException, IOException
 	{
 //		TerminateSignal.SIGNAL().notifyAllTermination();
 		ClusterRoot.CLUSTER().dispose(timeout);
 	}
 
-	public void start(RootTask task) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException
+	public void start(RootTask task) throws ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException, IOException
 	{
 		RootServiceProvider.ROOT().init(task);
 		ClusterRoot.CLUSTER().start();

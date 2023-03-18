@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.message.ClusterApplicationID;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.multicast.MulticastResponse;
 import org.greatfree.message.multicast.container.ClusterNotification;
@@ -35,7 +36,7 @@ class StressChildTask implements ChildTask
 				{
 					StressChild.CHILD().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

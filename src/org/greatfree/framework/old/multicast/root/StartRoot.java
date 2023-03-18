@@ -5,7 +5,10 @@ import java.util.Scanner;
 
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.testing.client.ClientMenu;
 import org.greatfree.util.ServerStatus;
 import org.greatfree.util.TerminateSignal;
@@ -18,7 +21,7 @@ import org.greatfree.util.TerminateSignal;
 class StartRoot
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Initialize the option which represents a user's intents of operations. 09/21/2014, Bing Li
 		int option = MenuOptions.NO_OPTION;
@@ -33,6 +36,10 @@ class StartRoot
 		{
 			// Start up the cluster root. 06/11/2017, Bing Li
 			ClusterRootSingleton.CLUSTER().start();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 		catch (ClassNotFoundException | IOException | RemoteReadException | InstantiationException | IllegalAccessException | InterruptedException e)
 		{

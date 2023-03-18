@@ -3,7 +3,10 @@ package org.greatfree.framework.cluster.cs.twonode.clusterserver.child;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 01/13/2019, Bing Li
@@ -20,6 +23,20 @@ class StartChild
 		}
 		catch (ClassNotFoundException | IOException | RemoteReadException | InterruptedException e)
 		{
+			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
+		}
+		catch (RemoteIPNotExistedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (ServerPortConflictedException e)
+		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

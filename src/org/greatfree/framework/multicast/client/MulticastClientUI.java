@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.chat.ChatOptions;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.old.multicast.root.MulticastOptions;
 import org.greatfree.framework.old.multicast.root.MulticastRootMenu;
@@ -65,7 +66,7 @@ final class MulticastClientUI
 	/*
 	 * Send the users' option to the chatting server. 04/23/2017, Bing Li
 	 */
-	public void send(int option) throws ClassNotFoundException, RemoteReadException, IOException, InstantiationException, IllegalAccessException, InterruptedException
+	public void send(int option) throws ClassNotFoundException, RemoteReadException, IOException, InstantiationException, IllegalAccessException, InterruptedException, RemoteIPNotExistedException
 	{
 		switch (option)
 		{
@@ -98,7 +99,7 @@ final class MulticastClientUI
 		}
 	}
 	
-	private void communicate(int highOption) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	private void communicate(int highOption) throws InstantiationException, IllegalAccessException, IOException, InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		int notificationOption = ChatOptions.NO_OPTION;
 		String optionStr;

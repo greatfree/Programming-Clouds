@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,8 +28,6 @@ import org.greatfree.cache.local.CacheMapFactorable;
 import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The version is tested in the Clouds project. 08/22/2018, Bing Li
@@ -651,7 +650,8 @@ abstract class TimingCacheStore<Value extends CacheTiming, Factory extends Cache
 
 	protected void remove(String cacheKey, Set<String> rscKeys)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		this.lock.readLock().lock();
 		if (this.listIndexes.containsKey(cacheKey))
 		{
@@ -817,7 +817,8 @@ abstract class TimingCacheStore<Value extends CacheTiming, Factory extends Cache
 	
 	protected void clear(String cacheKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		this.lock.readLock().lock();
 		if (this.listIndexes.containsKey(cacheKey))
 		{

@@ -1,6 +1,7 @@
 package org.greatfree.concurrency.threading;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,12 +14,11 @@ import org.greatfree.concurrency.threading.message.TaskInvokeRequest;
 import org.greatfree.concurrency.threading.message.TaskNotification;
 import org.greatfree.concurrency.threading.message.TaskRequest;
 import org.greatfree.concurrency.threading.message.TaskResponse;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.util.Rand;
 import org.greatfree.util.ServerStatus;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 // Created: 09/21/2019, Bing Li
 class Worker
@@ -71,7 +71,7 @@ class Worker
 		this.tasks.put(t.getKey(), t);
 	}
 	
-	public void shutdown(long timeout) throws ClassNotFoundException, InterruptedException, IOException, RemoteReadException
+	public void shutdown(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, RemoteIPNotExistedException, IOException
 	{
 		ServerStatus.FREE().setShutdown();
 //		TerminateSignal.SIGNAL().notifyAllTermination();
@@ -143,7 +143,7 @@ class Worker
 		this.dt.asyncNotifyState(threadKey, notification.getTaskKey(), notification.getApplicationID(), notification.getKey(), true);
 	}
 	
-	public void processRequest(String threadKey, InteractRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	public void processRequest(String threadKey, InteractRequest request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		this.dt.asyncNotifySlave(request.getSourceSlaveKey(), this.tasks.get(request.getTaskKey()).processRequest(threadKey, request));
 		this.dt.asyncNotifyState(threadKey, request.getTaskKey(), request.getApplicationID(), request.getKey(), true);
@@ -153,7 +153,8 @@ class Worker
 	{
 		if (this.syncs.get(response.getCollaboratorKey()).getCD() == UtilConfig.NO_COUNT)
 		{
-			Set<TaskResponse> reses = Sets.newHashSet();
+//			Set<TaskResponse> reses = Sets.newHashSet();
+			Set<TaskResponse> reses = new HashSet<TaskResponse>();
 			reses.add(response);
 			this.responses.put(response.getCollaboratorKey(), reses);
 			this.syncs.get(response.getCollaboratorKey()).signal();
@@ -162,7 +163,8 @@ class Worker
 		{
 			if (!this.responses.containsKey(response.getCollaboratorKey()))
 			{
-				Set<TaskResponse> reses = Sets.newHashSet();
+//				Set<TaskResponse> reses = Sets.newHashSet();
+				Set<TaskResponse> reses = new HashSet<TaskResponse>();
 				reses.add(response);
 				this.responses.put(response.getCollaboratorKey(), reses);
 			}

@@ -21,7 +21,7 @@ final class RootEventActor extends AsyncMulticastor<MulticastNotification>
 		{
 			super.getMulticastor().notify(notification);
 		}
-		catch (IOException	| DistributedNodeFailedException e)
+		catch (DistributedNodeFailedException | IOException e)
 		{
 			e.printStackTrace();
 		}

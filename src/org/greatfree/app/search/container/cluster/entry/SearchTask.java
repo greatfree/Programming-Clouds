@@ -6,6 +6,7 @@ import org.greatfree.app.search.container.cluster.message.SearchApplicationID;
 import org.greatfree.cluster.RootTask;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.multicast.container.ChildRootRequest;
 import org.greatfree.message.multicast.container.ChildRootResponse;
@@ -38,7 +39,7 @@ class SearchTask implements RootTask
 				{
 					SearchEntry.CLUSTER().stopServer(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | InterruptedException | RemoteReadException | IOException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

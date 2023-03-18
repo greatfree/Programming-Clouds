@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,8 +31,6 @@ import org.greatfree.util.Builder;
 import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.Pointing;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The version is tested in the Clouds project. 08/22/2018, Bing Li
@@ -780,7 +779,8 @@ public class SortedTerminalMapStore<Value extends Pointing, Factory extends Cach
 			Map<String, Float> sp = CollectionSorter.sortDescendantByValue(allPoints);
 			
 			int index = 0;
-			Set<String> removedKeys = Sets.newHashSet();
+//			Set<String> removedKeys = Sets.newHashSet();
+			Set<String> removedKeys = new HashSet<String>();
 			indexes.clearKeys();
 //			for (Map.Entry<String, Float> entry : allPoints.entrySet())
 			for (Map.Entry<String, Float> entry : sp.entrySet())
@@ -877,7 +877,8 @@ public class SortedTerminalMapStore<Value extends Pointing, Factory extends Cach
 			}
 //			allPoints = CollectionSorter.sortDescendantByValue(allPoints);
 			Map<String, Float> sp = CollectionSorter.sortDescendantByValue(allPoints);
-			Set<String> removedKeys = Sets.newHashSet();
+//			Set<String> removedKeys = Sets.newHashSet();
+			Set<String> removedKeys = new HashSet<String>();
 			indexes.clearKeys();
 			int index = 0;
 //			for (Map.Entry<String, Float> entry : allPoints.entrySet())
@@ -917,7 +918,8 @@ public class SortedTerminalMapStore<Value extends Pointing, Factory extends Cach
 	// It is not necessary to remove data for a terminal of a large-scale storage system. 06/15/2018, Bing Li
 	public void remove(String mapKey, Set<String> rscKeys)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 		if (this.listIndexes.containsKey(mapKey))
 		{
@@ -1070,7 +1072,8 @@ public class SortedTerminalMapStore<Value extends Pointing, Factory extends Cach
 
 	public void clear(String mapKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 		if (this.listIndexes.containsKey(mapKey))
 		{

@@ -12,6 +12,7 @@ import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.DescendantListPointingComparator;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedListFetchException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.TestCacheConfig;
 import org.greatfree.framework.cps.cache.coordinator.evicting.EvictMyCachePointingThread;
@@ -162,13 +163,13 @@ public class MySortedDistributedCacheStore
 	 * Prefetching got a bug. Data should be prefetched from the currentSize, not from endIndex + 1! I need to test all of the prefetching of the distributed caches. 07/27/2018, Bing Li
 	 */
 	
-	public void prefetch(FetchMyCachePointingNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void prefetch(FetchMyCachePointingNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		PrefetchMyCachePointingsResponse response = Coordinator.CPS().prefetchPointings(notification.getCacheKey(), notification.getPrefetchStartIndex(), notification.getPrefetchEndIndex());
 		this.store.putAllLocally(notification.getCacheKey(), response.getPointings());
 	}
 
-	public void postfetch(FetchMyCachePointingNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void postfetch(FetchMyCachePointingNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (notification.getType() == FetchConfig.FETCH_RESOURCE_BY_INDEX)
 		{

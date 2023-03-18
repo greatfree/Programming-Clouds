@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.greatfree.app.search.multicast.message.CrawledPagesNotification;
 import org.greatfree.app.search.multicast.message.Page;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 10/08/2018, Bing Li
@@ -18,7 +19,7 @@ class StartCrawler
 		{
 			Crawler.FRONT().init();
 		}
-		catch (ClassNotFoundException | RemoteReadException | IOException e)
+		catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 		{
 			e.printStackTrace();
 		}

@@ -1,6 +1,7 @@
 package org.greatfree.framework.p2p.registry;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.greatfree.concurrency.reactive.RequestQueue;
 import org.greatfree.data.ServerConfig;
@@ -15,6 +16,7 @@ import org.greatfree.message.RegisterPeerStream;
 // Created: 05/01/2017, Bing Li
 class RegisterPeerThread extends RequestQueue<RegisterPeerRequest, RegisterPeerStream, RegisterPeerResponse>
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.p2p.registry");
 
 	public RegisterPeerThread(int maxTaskSize)
 	{
@@ -36,13 +38,14 @@ class RegisterPeerThread extends RequestQueue<RegisterPeerRequest, RegisterPeerS
 //				account = PeerRegistry.SYSTEM().get(request.getMessage().getPeerKey());
 //				response = new RegisterPeerResponse(account.getPeerPort(), account.getAdminPort());
 				
-				System.out.println("RegisterPeerThread: peerKey = " + request.getMessage().getPeerKey());
-				System.out.println("RegisterPeerThread: peerName = " + request.getMessage().getPeerName());
-				System.out.println("RegisterPeerThread: ip = " + request.getMessage().getIP());
-				System.out.println("RegisterPeerThread: port = " + request.getMessage().getPort());
+				log.info("RegisterPeerThread: peerKey = " + request.getMessage().getPeerKey());
+				log.info("RegisterPeerThread: peerName = " + request.getMessage().getPeerName());
+				log.info("RegisterPeerThread: ip = " + request.getMessage().getIP());
+				log.info("RegisterPeerThread: port = " + request.getMessage().getPort());
 				
 				// Register the peer. 06/02/2017, Bing Li
-				response = new RegisterPeerResponse(PeerRegistry.SYSTEM().register(request.getMessage().getPeerKey(), request.getMessage().getPeerName(), request.getMessage().getIP(), request.getMessage().getPort()));
+//				response = new RegisterPeerResponse(PeerRegistry.SYSTEM().register(request.getMessage().getPeerKey(), request.getMessage().getPeerName(), request.getMessage().getIP(), request.getMessage().getPort(), request.getMessage().isServerDisabled(), request.getMessage().isClientDisabled()));
+				response = new RegisterPeerResponse(PeerRegistry.SYSTEM().register(request.getMessage().getPeerKey(), request.getMessage().getPeerName(), request.getMessage().getIP(), request.getMessage().getPort(), request.getMessage().isServerDisabled(), request.getMessage().isBroker()));
 				try
 				{
 					// Respond to the peer. 06/02/2017, Bing Li
@@ -64,7 +67,5 @@ class RegisterPeerThread extends RequestQueue<RegisterPeerRequest, RegisterPeerS
 				e.printStackTrace();
 			}
 		}
-		
 	}
-
 }

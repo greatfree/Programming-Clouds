@@ -13,15 +13,15 @@ import java.net.SocketException;
 import java.security.Key;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.google.common.collect.Sets;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,9 +37,13 @@ import javax.crypto.Mac;
 // Created: 07/17/2014, Bing Li
 public final class Tools
 {
+	public final static Scanner INPUT = new Scanner(System.in);
+
+	/*
 	private Tools()
 	{
 	}
+	*/
 
 	/*
 	 * Create a unique key. 07/30/2014, Bing Li
@@ -49,9 +53,20 @@ public final class Tools
 		return UUID.randomUUID().toString();
 	}
 	
-	public static Set<String> generateUniqueKeys(int count)
+	public static Set<String> generateUniqueSet(int count)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
+		for (int i = 0; i < count; i++)
+		{
+			keys.add(generateUniqueKey());
+		}
+		return keys;
+	}
+	
+	public static List<String> generateUniqueList(int count)
+	{
+		List<String> keys = new ArrayList<String>();
 		for (int i = 0; i < count; i++)
 		{
 			keys.add(generateUniqueKey());
@@ -193,16 +208,21 @@ public final class Tools
 	}
 
 	/*
+	 * 
+	 * One update is performed. The sourceKey is encoded before the closest one is selected. The update aims to increase the random attribute. 01/28/2023, Bing Li 
+	 * 
 	 * Select the key from the set of keys that is most closed to the source key in
 	 * terms of the their key distance. 11/28/2014, Bing Li
 	 */
 	public static String getClosestKey(String sourceKey, Set<String> keys)
 	{
+		String sourceHash = getHash(sourceKey);
 		// Initialize a collection. 11/28/2014, Bing Li
 		Map<String, StringObj> keyMap = new HashMap<String, StringObj>();
 		// Put the source key and its instance of StringObj into the collection.
 		// 11/28/2014, Bing Li
-		keyMap.put(sourceKey, new StringObj(sourceKey));
+//		keyMap.put(sourceKey, new StringObj(sourceKey));
+		keyMap.put(sourceKey, new StringObj(sourceHash));
 		// Put each of the keys and its instance of StringObj into the same collection.
 		// 11/28/2014, Bing Li
 		for (String key : keys)
@@ -235,16 +255,20 @@ public final class Tools
 	}
 
 	/*
+	 * 
+	 * One update is performed. The sourceKey is encoded before the closest one is selected. The update aims to increase the random attribute. 01/28/2023, Bing Li 
+	 * 
 	 * Select the key from the list of keys that is most closed to the source key in
 	 * terms of the their key distance. 11/28/2014, Bing Li
 	 */
 	public static String getClosestKey(String sourceKey, List<String> keys)
 	{
+		String sourceHash = getHash(sourceKey);
 		// Initialize a collection. 11/28/2014, Bing Li
 		Map<String, StringObj> keyMap = new HashMap<String, StringObj>();
 		// Put the source key and its instance of StringObj into the collection.
 		// 11/28/2014, Bing Li
-		keyMap.put(sourceKey, new StringObj(sourceKey));
+		keyMap.put(sourceKey, new StringObj(sourceHash));
 		// Put each of the keys and its instance of StringObj into the same collection.
 		// 11/28/2014, Bing Li
 		for (String key : keys)
@@ -321,6 +345,67 @@ public final class Tools
 		}
 		return UtilConfig.EMPTY_STRING;
 	}
+	
+	public static List<String> getRandomList(List<String> list, int n)
+	{
+		if (list.size() > 0)
+		{
+			if (list.size() > n)
+			{
+				int size = list.size();
+				Set<Integer> items = new HashSet<Integer>();
+				for (int i = 0; i < n; i++)
+				{
+					items.add(Rand.getRandom(size));
+				}
+				if (items.size() > 0)
+				{
+					List<String> selectedList = new ArrayList<String>();
+					for (Integer obj : items)
+					{
+						selectedList.add(list.get(obj));
+					}
+					return selectedList;
+				}
+			}
+			else
+			{
+				return list;
+			}
+		}
+		return null;
+	}
+
+	public static Set<String> getRandomSet(Set<String> set, int n)
+	{
+		if (set.size() > 0)
+		{
+			if (set.size() > n)
+			{
+				int size = set.size();
+				List<Integer> items = new ArrayList<Integer>();
+				List<String> candidates = new ArrayList<String>(set);
+				for (int i = 0; i < n; i++)
+				{
+					items.add(Rand.getRandom(size));
+				}
+				if (items.size() > 0)
+				{
+					Set<String> selectedSet = new HashSet<String>();
+					for (Integer obj : items)
+					{
+						selectedSet.add(candidates.get(obj));
+					}
+					return selectedSet;
+				}
+			}
+			else
+			{
+				return set;
+			}
+		}
+		return null;
+	}
 
 	/*
 	 * Get the random key from a list but the specified one must be excluded.
@@ -331,7 +416,8 @@ public final class Tools
 		// The reason to initialize a new set to keep the set is to avoid updating the
 		// input set. Otherwise, it is possible to affect other code. 08/01/2015, Bing
 		// Li
-		Set<String> backupSet = Sets.newHashSet();
+//		Set<String> backupSet = Sets.newHashSet();
+		Set<String> backupSet = new HashSet<String>();
 		backupSet.addAll(set);
 		backupSet.remove(elementKey);
 		return getRandomSetElement(backupSet);
@@ -346,9 +432,12 @@ public final class Tools
 		// The reason to initialize a new set to keep the set is to avoid updating the
 		// input set. Otherwise, it is possible to affect other code. 08/01/2015, Bing
 		// Li
-		Set<String> backupSet = Sets.newHashSet();
+//		Set<String> backupSet = Sets.newHashSet();
+		Set<String> backupSet = new HashSet<String>();
 		backupSet.addAll(set);
-		return getRandomSetElement(Sets.difference(backupSet, elementKeys));
+		backupSet.removeAll(elementKeys);
+//		return getRandomSetElement(Sets.difference(backupSet, elementKeys));
+		return getRandomSetElement(backupSet);
 	}
 
 	/*

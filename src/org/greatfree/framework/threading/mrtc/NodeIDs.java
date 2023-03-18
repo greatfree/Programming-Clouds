@@ -1,13 +1,12 @@
 package org.greatfree.framework.threading.mrtc;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.greatfree.util.Rand;
 import org.greatfree.util.Tools;
-
-import com.google.common.collect.Sets;
 
 // Created: 10/01/2019, Bing Li
 public class NodeIDs
@@ -97,10 +96,12 @@ public class NodeIDs
 	{
 		if (this.allSlaveKeys.size() <= MRConfig.MINIMUM_MUTLI_SLAVE_SIZE)
 		{
-			return Sets.newHashSet(this.allSlaveKeys);
+//			return Sets.newHashSet(this.allSlaveKeys);
+			return new HashSet<String>(this.allSlaveKeys);
 		}
 //		return Rand.getRandomSet(this.allSlaveKeys, Rand.getRandom(this.allSlaveKeys.size()) + MRConfig.MINIMUM_MUTLI_SLAVE_SIZE);
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		do
 		{
 			keys.addAll(Rand.getRandomSet(this.allSlaveKeys, Rand.getRandom(this.allSlaveKeys.size())));
@@ -111,7 +112,8 @@ public class NodeIDs
 	
 	public Set<String> getSlavesExceptLocal()
 	{
-		Set<String> keys = Sets.newHashSet(this.allSlaveKeys);
+//		Set<String> keys = Sets.newHashSet(this.allSlaveKeys);
+		Set<String> keys = new HashSet<String>(this.allSlaveKeys);
 		if (this.allSlaveKeys.size() <= MRConfig.MINIMUM_MUTLI_SLAVE_SIZE)
 		{
 			keys.remove(this.localKey);
@@ -156,7 +158,8 @@ public class NodeIDs
 	
 	public Set<String> getThreadKeys(String slaveKey, int size)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		if (this.allThreadKeys.get(slaveKey).size() > size)
 		{
 			for (String entry : this.allThreadKeys.get(slaveKey))

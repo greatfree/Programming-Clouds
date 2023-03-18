@@ -129,6 +129,8 @@ public final class RemoteReader
 	 * 
 	 */
 
+//	private final static Logger log = Logger.getLogger("org.greatfree.client");
+
 //	public ServerMessage read(String nodeKey, String ip, int port, ServerMessage request) throws RemoteReadException, IOException, ClassNotFoundException
 	public ServerMessage read(String ip, int port, ServerMessage request) throws RemoteReadException, IOException, ClassNotFoundException
 	{
@@ -137,6 +139,7 @@ public final class RemoteReader
 		FreeClient client = this.manager.get(new IPResource(ip, port), true);
 		if (client != ClientConfig.NO_CLIENT)
 		{
+//			log.info("client IP: " + client.getServerAddress() + ":" + client.getServerPort());
 			// The lock is hold by each particular instance of FreeClient. It guarantees that the sending, receiving and collecting become an atomic operation, which can never be interrupted by other concurrent operations of the client. 09/21/2014, Bing Li
 			client.getLock().lock();
 			try

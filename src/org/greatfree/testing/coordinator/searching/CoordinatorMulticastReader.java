@@ -1,6 +1,7 @@
 package org.greatfree.testing.coordinator.searching;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,8 +12,6 @@ import org.greatfree.testing.coordinator.CoorConfig;
 import org.greatfree.testing.coordinator.memorizing.MemoryServerClientPool;
 import org.greatfree.testing.message.IsPublisherExistedAnycastResponse;
 import org.greatfree.testing.message.SearchKeywordBroadcastResponse;
-
-import com.google.common.collect.Sets;
 
 /*
  * This is a wrapper that encloses all of anycast and broadcast readers to accomplish the goal to retrieve data from the cluster of memory nodes. 11/29/2014, Bing Li
@@ -179,7 +178,8 @@ public class CoordinatorMulticastReader
 				if (responses.size() > 0)
 				{
 					// Initialize an empty set to take all of the matched links. 11/29/2014, Bing Li
-					Set<String> links = Sets.newHashSet();
+//					Set<String> links = Sets.newHashSet();
+					Set<String> links = new HashSet<String>();
 					// Scan each response to accumulate their results. 11/29/2014, Bing Li
 					for (SearchKeywordBroadcastResponse response : responses.values())
 					{

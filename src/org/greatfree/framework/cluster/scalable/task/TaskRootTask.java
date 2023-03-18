@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.greatfree.cluster.RootTask;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cluster.scalable.message.ScalableApplicationID;
 import org.greatfree.message.multicast.container.ChildRootRequest;
@@ -42,7 +43,7 @@ class TaskRootTask implements RootTask
 					{
 						TaskRoot.TASK().stopServer(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					}
-					catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+					catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 					{
 						e.printStackTrace();
 					}

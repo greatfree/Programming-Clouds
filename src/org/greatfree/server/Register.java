@@ -1,10 +1,11 @@
 package org.greatfree.server;
 
-import java.io.IOException;
 import java.net.SocketException;
 
 import org.greatfree.client.CSClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.message.RegisterPeerRequest;
 import org.greatfree.message.RegisterPeerResponse;
 import org.greatfree.message.ServerMessage;
@@ -78,7 +79,7 @@ class Register<Dispatcher extends ServerDispatcher<ServerMessage>>
 		return this.registryServerPort;
 	}
 	
-	public void unregister(CSClient client) throws ClassNotFoundException, RemoteReadException, IOException
+	public void unregister(CSClient client) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (this.isRegistryNeeded)
 		{
@@ -86,7 +87,7 @@ class Register<Dispatcher extends ServerDispatcher<ServerMessage>>
 		}
 	}
 	
-	public void register(CSClient client, Peer<Dispatcher> peer) throws IOException, ClassNotFoundException, RemoteReadException
+	public void register(CSClient client, Peer<Dispatcher> peer) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// To avoid the possibility of port conflict, which happens when multiple peers run on the same machine, it is necessary to obtain an idle port from the registry server. 05/01/2017, Bing Li
 //		System.out.println("1) Register-register(): starting to register ...");

@@ -6,13 +6,14 @@ import org.greatfree.app.container.cs.multinode.library.message.BorrowBookReques
 import org.greatfree.app.container.cs.multinode.library.message.BorrowBookResponse;
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 12/19/2018, Bing Li
 class BorrowBook
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 //		ChatClient.CS_FRONT().init();
 		StandaloneClient.CS().init();

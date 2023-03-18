@@ -13,12 +13,15 @@ import org.greatfree.cache.message.BroadValuesRequest;
 import org.greatfree.cache.message.ClearNotification;
 import org.greatfree.cache.message.CloseNotification;
 import org.greatfree.cache.message.RemoveKeysNotification;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 
 // Created: 07/17/2017, Bing Li
 public interface ChildMapDistributable
 {
-	public void open() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException;
+	public void open() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException;
 	public void forward(String key, CacheValue value) throws InstantiationException, IllegalAccessException, IOException, InterruptedException;
 	public void removeDBKey(String key);
 //	public void valueReceived(Key key, Value value);
@@ -37,7 +40,7 @@ public interface ChildMapDistributable
 	public void remove(HashSet<String> keys) throws InstantiationException, IllegalAccessException, IOException, InterruptedException;
 	public void remove(String k) throws InstantiationException, IllegalAccessException, IOException;
 	public void clear() throws InstantiationException, IllegalAccessException, IOException, InterruptedException;
-	public void close(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException;
+	public void close(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException;
 	public String getCacheKey();
 	public String getCacheName();
 

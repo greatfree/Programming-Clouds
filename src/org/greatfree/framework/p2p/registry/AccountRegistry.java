@@ -1,13 +1,13 @@
 package org.greatfree.framework.p2p.registry;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import org.greatfree.util.IPAddress;
-
-import com.google.common.collect.Sets;
 
 /*
  * This is an account registry. All of the accounts of the chatting system are retained in it. 04/30/2017, Bing Li
@@ -16,6 +16,8 @@ import com.google.common.collect.Sets;
 // Created: 04/30/2017, Bing Li
 public class AccountRegistry
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.p2p.registry");
+
 	// Declare a map to retain the account that joins the P2P chatting. 07/20/2017, Bing Li
 	private Map<String, PeerChatAccount> accounts;
 	
@@ -30,7 +32,7 @@ public class AccountRegistry
 	 */
 	private static AccountRegistry instance = new AccountRegistry();
 	
-	public static AccountRegistry APPLICATION()
+	public static AccountRegistry APP()
 	{
 		if (instance == null)
 		{
@@ -56,6 +58,8 @@ public class AccountRegistry
 	
 	public void add(PeerChatAccount account)
 	{
+		log.info("account, " + account.getUserName() + " added to AccountRegistry!");
+		
 		/*
 		 * Since the registry is managed by the internal system, it is safe to overwrite existing ones. The method is also called by low-level peer registry to simplify registry of the multicasting children. 10/14/2022, Bing Li
 		 */
@@ -66,6 +70,11 @@ public class AccountRegistry
 			this.accounts.put(account.getUserKey(), account);
 		}
 		*/
+	}
+	
+	public void remove(String userKey)
+	{
+		this.accounts.remove(userKey);
 	}
 
 	public Collection<PeerChatAccount> getAllAccounts()
@@ -89,7 +98,8 @@ public class AccountRegistry
 	public Map<String, IPAddress> getIPPorts(Map<String, IPAddress> ipPorts)
 	{
 //		System.out.println("AccountRegistry-getIPPorts(): init ipPorts size = " + ipPorts.size());
-		Set<String> nonPeerKeys = Sets.newHashSet();
+//		Set<String> nonPeerKeys = Sets.newHashSet();
+		Set<String> nonPeerKeys = new HashSet<String>();
 		for (String ipEntry : ipPorts.keySet())
 		{
 			if (!this.accounts.containsKey(ipEntry))

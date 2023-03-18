@@ -1,5 +1,6 @@
 package org.greatfree.concurrency.threading;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,8 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.greatfree.framework.threading.mrtc.MRConfig;
 import org.greatfree.util.Rand;
 import org.greatfree.util.Tools;
-
-import com.google.common.collect.Sets;
 
 // Created: 09/19/2019, Bing Li
 class DistributerIDs
@@ -92,10 +91,13 @@ class DistributerIDs
 	{
 		if (this.allSlaveKeys.size() <= size)
 		{
-			return Sets.newHashSet(this.allSlaveKeys);
+//			return Sets.newHashSet(this.allSlaveKeys);
+//			return this.allSlaveKeys;
+			return new HashSet<String>(this.allSlaveKeys);
 		}
 //		return Rand.getRandomSet(this.allSlaveKeys, Rand.getRandom(this.allSlaveKeys.size()) + MRConfig.MINIMUM_MUTLI_SLAVE_SIZE);
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		do
 		{
 			keys.addAll(Rand.getRandomSet(this.allSlaveKeys, Rand.getRandom(this.allSlaveKeys.size())));
@@ -106,7 +108,8 @@ class DistributerIDs
 	
 	public Set<String> getSlavesExceptLocal(int size)
 	{
-		Set<String> keys = Sets.newHashSet(this.allSlaveKeys);
+//		Set<String> keys = Sets.newHashSet(this.allSlaveKeys);
+		Set<String> keys = new HashSet<String>(this.allSlaveKeys);
 		if (this.allSlaveKeys.size() <= size)
 		{
 			keys.remove(this.nickKey);
@@ -156,7 +159,8 @@ class DistributerIDs
 	
 	public Set<String> getThreadKeys(String slaveKey, int size)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		if (this.allThreadKeys.get(slaveKey).size() > size)
 		{
 			for (String entry : this.allThreadKeys.get(slaveKey))

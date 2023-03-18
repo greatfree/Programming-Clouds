@@ -1,12 +1,11 @@
 package org.greatfree.framework.container.p2p.registry;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 // Created: 01/16/2019, Bing Li
 class Clusters
@@ -47,7 +46,8 @@ class Clusters
 //		System.out.println("Clusters-joinCluster(): rootKey = " + rootKey);
 		if (!this.clusterChildren.containsKey(rootKey))
 		{
-			Set<String> children = Sets.newHashSet();
+//			Set<String> children = Sets.newHashSet();
+			Set<String> children = new HashSet<String>();
 			this.clusterChildren.put(rootKey, children);
 		}
 		this.clusterChildren.get(rootKey).add(childKey);

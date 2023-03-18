@@ -29,6 +29,8 @@ public class MulticastConfig
 	public final static long BROADCAST_REQUEST_WAIT_TIME = 50000;
 //	public final static long BROADCAST_REQUEST_WAIT_TIME = 10000;
 	
+	public final static int ANYCAST_RESPONSE_SIZE = 2;
+	
 	public final static int ROOT_BRANCH_COUNT = 2;
 //	public final static int ROOT_BRANCH_COUNT = 1;
 	public final static int SUB_BRANCH_COUNT = 2;

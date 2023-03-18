@@ -2,11 +2,11 @@ package org.greatfree.multicast.root;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.client.SyncRemoteEventer;
@@ -20,12 +20,10 @@ import org.greatfree.util.Rand;
 import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
 
-import com.google.common.collect.Sets;
-
 // Created: 09/16/2018, Bing Li
 final class RootSyncMulticastor
 {
-	private final static Logger log = Logger.getLogger("org.greatfree.multicast.root");
+//	private final static Logger log = Logger.getLogger("org.greatfree.multicast.root");
 
 	private SyncRemoteEventer<ServerMessage> eventer;
 	
@@ -315,7 +313,7 @@ final class RootSyncMulticastor
 	/*
 	 * Multicast data in a synchronous way. It could be a broadcast or an anycast. 09/15/2018, Bing Li
 	 */
-	public void notify(MulticastNotification notification) throws IOException, DistributedNodeFailedException
+	public void notify(MulticastNotification notification) throws DistributedNodeFailedException, IOException
 	{
 		// Declare a tree to support the high efficient multicasting. 11/10/2014, Bing Li
 		Map<String, List<String>> tree;
@@ -447,7 +445,7 @@ final class RootSyncMulticastor
 //			msg = this.messageCreator.createInstanceWithoutChildren(obj);
 //			notification.setChildrenNodes(null);
 //			System.out.println("1) RootSyncMulticastor-notify(): notification is sent without children");
-			log.info("1) RootSyncMulticastor-notify(): notification is sent without children");
+//			log.info("1) RootSyncMulticastor-notify(): notification is sent without children");
 			notification.setChildrenNodes(UtilConfig.NO_IPS);
 			// Send the message one by one to the immediate nodes of the root. 11/10/2014, Bing Li
 			for (String childClientKey : this.eventer.getClientKeys())
@@ -455,7 +453,7 @@ final class RootSyncMulticastor
 				try
 				{
 //					System.out.println("2) RootSyncMulticastor: notify(): notification to be sent ...");
-					log.info("2) RootSyncMulticastor: notify(): notification to be sent ...");
+//					log.info("2) RootSyncMulticastor: notify(): notification to be sent ...");
 					// Send the message to the immediate node of the root. 11/10/2014, Bing Li
 					this.eventer.notify(childClientKey, notification);
 //					System.out.println("3) RootSyncMulticastor: notify(): notification is sent ...");
@@ -467,7 +465,7 @@ final class RootSyncMulticastor
 					 */
 					
 //					System.out.println("4) RootSyncMulticastor: notify(): notification is sent with exception ...");
-					log.info("3) RootSyncMulticastor: notify(): notification is sent with exception ...");
+//					log.info("3) RootSyncMulticastor: notify(): notification is sent with exception ...");
 					// Remove the instance of FreeClient. 11/10/2014, Bing Li
 					this.eventer.removeClient(childClientKey);
 					throw new DistributedNodeFailedException(childClientKey);
@@ -508,7 +506,8 @@ final class RootSyncMulticastor
 	
 	public void nearestRead(Set<String> dataKeys, MulticastRequest request) throws DistributedNodeFailedException, IOException
 	{
-		Set<String> nearestClientKeys = Sets.newHashSet();
+//		Set<String> nearestClientKeys = Sets.newHashSet();
+		Set<String> nearestClientKeys = new HashSet<String>();
 		for (String dataKey : dataKeys)
 		{
 			nearestClientKeys.add(Tools.getClosestKey(dataKey, this.eventer.getClientKeys()));
@@ -1154,7 +1153,7 @@ final class RootSyncMulticastor
 								// Send the request to the immediate child of the root. 11/28/2014, Bing Li
 								this.eventer.notify(childrenKey, request);
 								
-								System.out.println("1) RootSyncMulticastor-read(): send to " + this.eventer.getIPAddress(childrenKey));
+//								System.out.println("1) RootSyncMulticastor-read(): send to " + this.eventer.getIPAddress(childrenKey));
 								
 								// Calculate the count of the children in the cluster. 05/21/2017, Bing Li
 //								this.nodeCount.incrementAndGet();
@@ -1203,7 +1202,7 @@ final class RootSyncMulticastor
 					{
 						// Send the request to the immediate node of the root. 11/28/2014, Bing Li
 						this.eventer.notify(childrenKey, request);
-						System.out.println("2) RootSyncMulticastor-read(): send to " + this.eventer.getIPAddress(childrenKey));
+//						System.out.println("2) RootSyncMulticastor-read(): send to " + this.eventer.getIPAddress(childrenKey));
 					}
 					catch (IOException e)
 					{
@@ -1238,7 +1237,7 @@ final class RootSyncMulticastor
 				{
 					// Send the request to the immediate node of the root. 11/28/2014, Bing Li
 					this.eventer.notify(childrenKey, request);
-					System.out.println("3) RootSyncMulticastor-read(): send to " + this.eventer.getIPAddress(childrenKey));
+//					System.out.println("3) RootSyncMulticastor-read(): send to " + this.eventer.getIPAddress(childrenKey));
 				}
 				catch (IOException e)
 				{

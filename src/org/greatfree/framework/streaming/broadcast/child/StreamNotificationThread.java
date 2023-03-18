@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.child.ChildMulticastor;
 import org.greatfree.framework.streaming.message.StreamNotification;
@@ -43,10 +44,9 @@ class StreamNotificationThread extends NotificationQueue<StreamNotification>
 							RootMulticastor.CHILD_STREAM().broadcastNotify(notification);
 						}
 					}
-
 					this.disposeMessage(notification);
 				}
-				catch (InterruptedException | ClassNotFoundException | RemoteReadException | IOException | InstantiationException | IllegalAccessException | DistributedNodeFailedException e)
+				catch (InterruptedException | ClassNotFoundException | RemoteReadException | IOException | InstantiationException | IllegalAccessException | DistributedNodeFailedException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

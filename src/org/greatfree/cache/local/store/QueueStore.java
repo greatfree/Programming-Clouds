@@ -3,6 +3,7 @@ package org.greatfree.cache.local.store;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,8 +26,6 @@ import org.greatfree.exceptions.QueueEmptyException;
 import org.greatfree.util.Builder;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 //It is required to design such a store to replace the ones in com.greatfree.util.persistcache.enhance since those ones get exceptions of "too many file opened". The store does not create a directory/folder for each persistable queue. On the other hand, those queues in the store is placed into one directory only. 06/20/2017, Bing Li
 
@@ -721,7 +720,8 @@ public class QueueStore<Value extends Serializable, Factory extends CacheMapFact
 	
 	public void removeQueue(String queueKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 //		String queueKey = this.keyCreator.createPrefixKey(queueKey);
 		if (this.keys.containsKey(queueKey))

@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.p2p.message.AddPartnerNotification;
 import org.greatfree.framework.p2p.message.ChatNotification;
@@ -50,7 +53,7 @@ class ChatPeer
 	/*
 	 * Stop the chatting peer. 05/12/2017, Bing Li
 	 */
-	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
@@ -80,7 +83,7 @@ class ChatPeer
 	/*
 	 * Start the chatting peer. 05/12/2017, Bing Li
 	 */
-	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException
+	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Initialize the private chatting sessions. 04/23/2017, Bing Li
 //		PrivateChatSessions.HUNGARY().init();
@@ -164,7 +167,7 @@ class ChatPeer
 	/*
 	 * Register the chatting user. 06/05/2017, Bing Li
 	 */
-	public ChatRegistryResponse registerChat(String localUserKey, String localUserName, String description, String preference) throws ClassNotFoundException, RemoteReadException, IOException
+	public ChatRegistryResponse registerChat(String localUserKey, String localUserName, String description, String preference) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (ChatRegistryResponse)this.chatPeer.read(RegistryConfig.PEER_REGISTRY_ADDRESS, ChatConfig.CHAT_REGISTRY_PORT, new ChatRegistryRequest(localUserKey, localUserName, description, preference));
 	}
@@ -172,7 +175,7 @@ class ChatPeer
 	/*
 	 * Search one potential chatting partner. 06/05/2017, Bing Li
 	 */
-	public ChatPartnerResponse searchUser(String userKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public ChatPartnerResponse searchUser(String userKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (ChatPartnerResponse)this.chatPeer.read(RegistryConfig.PEER_REGISTRY_ADDRESS, ChatConfig.CHAT_REGISTRY_PORT, new ChatPartnerRequest(userKey));
 	}

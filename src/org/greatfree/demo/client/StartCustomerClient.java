@@ -8,13 +8,14 @@ import org.greatfree.client.StandaloneClient;
 import org.greatfree.demo.message.MerchandiseRequest;
 import org.greatfree.demo.message.MerchandiseResponse;
 import org.greatfree.demo.message.ShutdownBusinessServerNotification;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 01/24/2019, Bing Li
 class StartCustomerClient
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		Scanner in = new Scanner(System.in);
 

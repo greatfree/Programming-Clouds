@@ -2,6 +2,7 @@ package org.greatfree.cache.distributed.store;
 
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,8 +33,6 @@ import org.greatfree.exceptions.TerminalServerOverflowedException;
 import org.greatfree.util.Builder;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The cache is created and tested in the Clouds project. 08/27/2018, Bing Li
@@ -628,7 +627,8 @@ public class DistributedMapStore<Value extends StoreElement, Factory extends Cac
 		Set<String> keys = this.getKeys(notification.getMapKey());
 //		Set<String> keys = Sets.newHashSet();
 //		keys.add("");
-		Set<String> dataKeys = Sets.newHashSet();
+//		Set<String> dataKeys = Sets.newHashSet();
+		Set<String> dataKeys = new HashSet<String>();
 		if (keys != UtilConfig.NO_KEYS)
 		{
 			if (keys.size() > 0)
@@ -855,7 +855,8 @@ public class DistributedMapStore<Value extends StoreElement, Factory extends Cac
 //		this.lock.readLock().lock();
 		if (!this.keys.containsKey(v.getCacheKey()))
 		{
-			Set<String> keys = Sets.newHashSet();
+//			Set<String> keys = Sets.newHashSet();
+			Set<String> keys = new HashSet<String>();
 //			this.lock.readLock().unlock();
 //			this.lock.writeLock().lock();
 			this.keys.put(v.getCacheKey(), keys);
@@ -890,7 +891,8 @@ public class DistributedMapStore<Value extends StoreElement, Factory extends Cac
 //		this.lock.readLock().lock();
 		if (!this.keys.containsKey(mapKey))
 		{
-			Set<String> keys = Sets.newHashSet();
+//			Set<String> keys = Sets.newHashSet();
+			Set<String> keys = new HashSet<String>();
 //			this.lock.readLock().unlock();
 //			this.lock.writeLock().lock();
 			this.keys.put(mapKey, keys);

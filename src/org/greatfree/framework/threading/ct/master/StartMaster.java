@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.concurrency.threading.ThreadConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 
 /*
  * The CT/ct represents "Controlling Threads". 09/16/2019, Bing Li
@@ -13,7 +16,7 @@ import org.greatfree.exceptions.RemoteReadException;
 // Created: 09/16/2019, Bing Li
 class StartMaster
 {
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Thread master starting up ...");
 

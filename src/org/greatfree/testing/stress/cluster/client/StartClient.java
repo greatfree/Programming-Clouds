@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.cluster.StandaloneClusterClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.testing.stress.cluster.StressConfig;
 import org.greatfree.testing.stress.cluster.message.StressNotification;
@@ -26,7 +27,7 @@ import org.greatfree.util.Tools;
 class StartClient
 {
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws IOException, ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException
 	{
 		Scanner in = new Scanner(System.in);
 

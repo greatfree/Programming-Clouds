@@ -16,7 +16,10 @@ import org.greatfree.cache.message.child.BroadValuesRequestCreator;
 import org.greatfree.cache.message.child.ClearNotificationCreator;
 import org.greatfree.cache.message.child.CloseNotificationCreator;
 import org.greatfree.cache.message.child.RemoveKeysNotificationCreator;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.old.multicast.child.ClusterChild;
 import org.greatfree.multicast.child.abandoned.ClusterChildBroadcastNotifier;
@@ -51,7 +54,7 @@ public class MapClusterChild extends ClusterChild<DistributedCacheChildDispatche
 	}
 
 	@Override
-	public void init() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException
+	public void init() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Start the cluster child on the system level. 07/05/2017, Bing Li
 		super.start();
@@ -79,7 +82,7 @@ public class MapClusterChild extends ClusterChild<DistributedCacheChildDispatche
 	}
 
 	@Override
-	public void terminate(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void terminate(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		// Stop the cluster child on the system level. 07/05/2017, Bing Li
 		super.stop(timeout);

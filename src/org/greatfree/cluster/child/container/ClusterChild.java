@@ -3,7 +3,10 @@ package org.greatfree.cluster.child.container;
 import java.io.IOException;
 
 import org.greatfree.cluster.ChildTask;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.message.ServerMessage;
 import org.greatfree.message.container.Notification;
 import org.greatfree.message.container.Request;
@@ -23,7 +26,7 @@ final class ClusterChild
 {
 //	private final int treeBranchCount;
 	
-	public ClusterChild(ClusterChildBuilder builder) throws IOException
+	public ClusterChild(ClusterChildBuilder builder) throws IOException, ServerPortConflictedException
 	{
 		PeerBuilder<ChildDispatcher> peerBuilder = new PeerBuilder<ChildDispatcher>();
 
@@ -51,10 +54,10 @@ final class ClusterChild
 			.asyncEventIdleCheckDelay(builder.getAsyncEventIdleCheckDelay())
 			.asyncEventIdleCheckPeriod(builder.getAsyncEventIdleCheckPeriod())
 			.schedulerPoolSize(builder.getSchedulerPoolSize())
-			.scheulerKeepAliveTime(builder.getSchedulerKeepAliveTime());
+			.schedulerKeepAliveTime(builder.getSchedulerKeepAliveTime());
 
 //		this.treeBranchCount = builder.getTreeBranchCount();
-		Child.CONTAINER().init(peerBuilder, builder.getRootBranchCount(), builder.getTreeBranchCount(), builder.getRequestWaitTime());
+		Child.CONTAINER().init(peerBuilder, builder.getRootBranchCount(), builder.getTreeBranchCount(), builder.getRequestWaitTime(), builder.getAnyResponseSize());
 	}
 
 	public static class ClusterChildBuilder implements Builder<ClusterChild>
@@ -96,6 +99,7 @@ final class ClusterChild
 		private int treeBranchCount;
 		// The parameter is added to initialize the RootClient. 02/28/2019, Bing Li
 		private long requestWaitTime;
+		private int anyResponseSize;
 		
 		public ClusterChildBuilder()
 		{
@@ -279,10 +283,24 @@ final class ClusterChild
 			return this;
 		}
 
+		public ClusterChildBuilder anyResponseSize(int anyResponseSize)
+		{
+			this.anyResponseSize = anyResponseSize;
+			return this;
+		}
+
 		@Override
 		public ClusterChild build() throws IOException
 		{
-			return new ClusterChild(this);
+			try
+			{
+				return new ClusterChild(this);
+			}
+			catch (IOException | ServerPortConflictedException e)
+			{
+				e.printStackTrace();
+			}
+			return null;
 		}
 		
 		public String getPeerName()
@@ -434,12 +452,22 @@ final class ClusterChild
 		{
 			return this.requestWaitTime;
 		}
+		
+		public int getAnyResponseSize()
+		{
+			return this.anyResponseSize;
+		}
+	}
+	
+	public String getLocalIPKey()
+	{
+		return Child.CONTAINER().getLocalIPKey();
 	}
 	
 	/*
 	 * The method is able to get the IP address of any node. 09/22/2021, Bing Li
 	 */
-	public IPAddress getIPAddress(String nodeKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public IPAddress getIPAddress(String nodeKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return Child.CONTAINER().getIPAddress(nodeKey);
 	}
@@ -479,7 +507,7 @@ final class ClusterChild
 	/*
 	 * It allows the child to interact with any nodes through reading. 09/22/2021, Bing Li
 	 */
-	public ServerMessage read(IPAddress ip, Request request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(IPAddress ip, Request request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return Child.CONTAINER().read(ip, request);
 	}
@@ -503,7 +531,7 @@ final class ClusterChild
 	/*
 	 * The child is enabled to interact with the root through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
 	 */
-	public ChildRootResponse readRoot(ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ChildRootResponse readRoot(ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return Child.CONTAINER().readRoot(request);
 	}
@@ -511,17 +539,17 @@ final class ClusterChild
 	/*
 	 * The child is enabled to interact with the collabrator through request/response. For example, it happens multiple children need to be synchronized. 09/14/2020, Bing Li
 	 */
-	public ChildRootResponse readCollaborator(IPAddress ip, ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ChildRootResponse readCollaborator(IPAddress ip, ChildRootRequest request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return Child.CONTAINER().readCollaborator(ip, request);
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 		Child.CONTAINER().dispose(timeout);
 	}
 
-	public void start(String rootKey, ChildTask task) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void start(String rootKey, ChildTask task) throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, IOException, ServerPortConflictedException
 	{
 		ChildServiceProvider.CHILD().init(task);
 //		Child.CONTAINER().start(rootKey, this.treeBranchCount);

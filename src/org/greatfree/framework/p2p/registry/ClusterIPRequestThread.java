@@ -35,11 +35,11 @@ class ClusterIPRequestThread extends RequestQueue<ClusterIPRequest, ClusterIPStr
 				{
 					// Updated in XTU. 05/17/2017, Bing Li
 					// Generate the response that encloses all of IPs of the nodes in the cluster. 05/08/2017, Bing Li
-					response = new ClusterIPResponse(AccountRegistry.APPLICATION().getIPPorts(PeerRegistry.SYSTEM().getIPPorts()));
+					response = new ClusterIPResponse(AccountRegistry.APP().getIPPorts(PeerRegistry.SYSTEM().getIPPorts()));
 				}
 				else
 				{
-					response = new ClusterIPResponse(AccountRegistry.APPLICATION().getIPPorts(PeerRegistry.SYSTEM().getIPPorts(request.getMessage().getNodes())));
+					response = new ClusterIPResponse(AccountRegistry.APP().getIPPorts(PeerRegistry.SYSTEM().getIPPorts(request.getMessage().getNodes())));
 				}
 				
 				try

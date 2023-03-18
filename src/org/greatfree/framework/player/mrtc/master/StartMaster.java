@@ -5,14 +5,17 @@ import java.util.Scanner;
 
 import org.greatfree.concurrency.threading.PlayerSystem;
 import org.greatfree.concurrency.threading.ThreadConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 09/30/2019, Bing Li
 class StartMaster
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Player master " + PlayerSystem.THREADING().getNickName() + " starting up ...");
 		

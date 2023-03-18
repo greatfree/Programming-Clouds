@@ -5,7 +5,10 @@ import java.util.Scanner;
 
 import org.greatfree.app.p2p.message.GreetingResponse;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.p2p.message.ChatPartnerResponse;
 import org.greatfree.util.TerminateSignal;
 import org.greatfree.util.Tools;
@@ -14,7 +17,7 @@ import org.greatfree.util.Tools;
 class StartPeer
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, RemoteIPNotExistedException
 	{
 		Scanner in = new Scanner(System.in);
 
@@ -25,8 +28,15 @@ class StartPeer
 		System.out.println("Tell me your partner: ");
 		
 		String partner = in.nextLine();
-		
-		PeerSingleton.PEER().start(username);
+
+		try
+		{
+			PeerSingleton.PEER().start(username);
+		}
+		catch (DuplicatePeerNameException | RemoteIPNotExistedException | ServerPortConflictedException e)
+		{
+			System.out.println(e);
+		}
 
 		PeerSingleton.PEER().registerChat(Tools.getHash(username), username, username + " is a football fan!", "Programming");
 		

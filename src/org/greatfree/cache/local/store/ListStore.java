@@ -2,6 +2,7 @@ package org.greatfree.cache.local.store;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,8 +19,6 @@ import org.greatfree.exceptions.TerminalServerOverflowedException;
 import org.greatfree.util.Builder;
 import org.greatfree.util.UniqueKey;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 // Created: 02/20/2019, Bing Li
 // public class CacheListStore<Value extends UniqueKey, Factory extends CacheMapFactorable<String, Value>> extends RootCache<String, Value, Factory, StringKeyDB>
@@ -639,7 +638,8 @@ public class ListStore<Value extends UniqueKey, Factory extends CacheMapFactorab
 
 	public void clear(String listKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 		if (this.listKeys.containsKey(listKey))
 		{

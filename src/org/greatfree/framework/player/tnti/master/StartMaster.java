@@ -8,7 +8,10 @@ import org.greatfree.concurrency.threading.Player;
 import org.greatfree.concurrency.threading.PlayerSystem;
 import org.greatfree.concurrency.threading.ThreadConfig;
 import org.greatfree.concurrency.threading.message.TaskResponse;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.exceptions.ThreadAssignmentException;
 import org.greatfree.framework.threading.message.AddInterNotification;
 import org.greatfree.framework.threading.message.AddInterRequest;
@@ -23,7 +26,7 @@ import org.greatfree.util.TerminateSignal;
 class StartMaster
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, ThreadAssignmentException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, ThreadAssignmentException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Player master starting up ...");
 		MasterTask task = new MasterTask();

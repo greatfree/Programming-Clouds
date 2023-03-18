@@ -15,7 +15,10 @@ import org.greatfree.cache.message.BroadValuesRequest;
 import org.greatfree.cache.message.ClearNotification;
 import org.greatfree.cache.message.CloseNotification;
 import org.greatfree.cache.message.RemoveKeysNotification;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.message.ServerMessage;
 
 /*
@@ -27,7 +30,7 @@ import org.greatfree.message.ServerMessage;
 public interface ChildMapDistributable<Key extends CacheKey<String>, Value extends CacheKey<String>, Factory extends PersistableMapFactorable<String, Value>, DB extends KeyLoadable<String>>
 {
 //	public void open() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException;
-	public void open(ChildMapRegistry<Key, Value, Factory, DB> registry) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException;
+	public void open(ChildMapRegistry<Key, Value, Factory, DB> registry) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException;
 	public void forward(String key, Value value) throws InstantiationException, IllegalAccessException, IOException, InterruptedException;
 	public void removeDBKey(String key);
 //	public void valueReceived(Key key, Value value);
@@ -47,7 +50,7 @@ public interface ChildMapDistributable<Key extends CacheKey<String>, Value exten
 	public void remove(Key k) throws InstantiationException, IllegalAccessException, IOException;
 	public void clear() throws InstantiationException, IllegalAccessException, IOException, InterruptedException;
 //	public void close() throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException;
-	public void close(ChildMapRegistry<Key, Value, Factory, DB> registry, long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException;
+	public void close(ChildMapRegistry<Key, Value, Factory, DB> registry, long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException;
 	public String getCacheKey();
 	public String getCacheName();
 	public void respondToRoot(ServerMessage message) throws IOException, InterruptedException;

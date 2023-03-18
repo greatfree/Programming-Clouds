@@ -5,7 +5,10 @@ import java.util.Map;
 
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.HelloWorld;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.multicast.message.HelloWorldAnycastResponse;
@@ -137,7 +140,7 @@ class ClusterRootSingleton
 	/*
 	 * Stop the CSCluster. 05/08/2017, Bing Li
 	 */
-	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException
+	public void stop(long timeout) throws IOException, InterruptedException, ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		// Stop the peer. 04/30/2017, Bing Li
 //		super.stop();
@@ -180,7 +183,7 @@ class ClusterRootSingleton
 	/*
 	 * Start the CSCluster. 05/08/2017, Bing Li
 	 */
-	public void start() throws ClassNotFoundException, RemoteReadException, IOException, InstantiationException, IllegalAccessException, InterruptedException
+	public void start() throws ClassNotFoundException, RemoteReadException, IOException, InstantiationException, IllegalAccessException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Initialize the shared thread pool for server listeners. 02/27/2016, Bing Li
 //		SharedThreadPool.SHARED().init(ServerConfig.SHARED_THREAD_POOL_SIZE, ServerConfig.SHARED_THREAD_POOL_KEEP_ALIVE_TIME);

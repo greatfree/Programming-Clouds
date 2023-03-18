@@ -1,6 +1,7 @@
 package org.greatfree.cache.distributed.terminal;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,8 +14,6 @@ import org.greatfree.cache.local.CacheMapFactorable;
 import org.greatfree.cache.local.RootCache;
 import org.greatfree.exceptions.TerminalServerOverflowedException;
 import org.greatfree.util.Builder;
-
-import com.google.common.collect.Sets;
 
 /*
  * The version is tested in the Clouds project. 08/22/2018, Bing Li
@@ -277,7 +276,9 @@ public class TerminalMap<Value extends Serializable, Factory extends CacheMapFac
 			}
 		}
 		Set<String> obtainedRscKeys = vs.keySet();
-		Set<String> unavailableRscKeys = Sets.difference(rscKeys, obtainedRscKeys);
+//		Set<String> unavailableRscKeys = Sets.difference(rscKeys, obtainedRscKeys);
+		Set<String> unavailableRscKeys = new HashSet<String>(rscKeys);
+		rscKeys.removeAll(obtainedRscKeys);
 //		this.lock.readLock().lock();
 		Map<String, Value> restRscs = this.db.getMap(unavailableRscKeys);
 //		System.out.println("3) TerminalMap-getValues(): restRscs size = " + restRscs.size());

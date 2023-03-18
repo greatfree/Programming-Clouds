@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,8 +15,6 @@ import org.greatfree.framework.cps.cache.message.front.LoadMyDataByKeysResponse;
 import org.greatfree.framework.cps.cache.message.front.LoadMyDataResponse;
 import org.greatfree.util.Rand;
 import org.greatfree.util.Time;
-
-import com.google.common.collect.Sets;
 
 // Created: 08/25/2018, Bing Li
 class DistributedMapStoreClient
@@ -112,7 +111,8 @@ class DistributedMapStoreClient
 
 	public static void loadDataByKeysFromDistributedMapStore() throws ClassNotFoundException, RemoteReadException, IOException
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		String cacheKey;
 		Date startTime;
 		Date endTime;

@@ -611,7 +611,7 @@ public class FreeReaderPool
 
 						// The line sends a message to the remote server. If it receives the message and send a feedback, it indicates that the ObjectOutputStream is initialized on the server. Then, the local ObjectInputStream can be initialized. It avoids the possible getting blocked. 11/06/2014, Bing Li
 //						client.initRead(nodeKey);
-						client.initRead();
+//						client.initRead();
 						// Wait for feedback from the remote server. 11/06/2014, Bing Li
 						this.initReadCollaborator.holdOn(UtilConfig.INIT_READ_WAIT_TIME);
 						// After the feedback is received, the ObjectInputStream can be initialized. 11/06/2014, Bing Li
@@ -769,7 +769,7 @@ public class FreeReaderPool
 
 								// The line sends a message to the remote server. If it receives the message, it indicates that the ObjectOutputStream is initialized on the server. Then, the local ObjectInputStream can be initialized. It avoids the possible getting blocked. 11/06/2014, Bing Li
 //								client.initRead(nodeKey);
-								client.initRead();
+//								client.initRead();
 								// Wait for feedback from the remote server. 11/06/2014, Bing Li
 								this.initReadCollaborator.holdOn(UtilConfig.INIT_READ_WAIT_TIME);
 								// After the feedback is received, the ObjectInputStream can be initialized. 11/06/2014, Bing Li

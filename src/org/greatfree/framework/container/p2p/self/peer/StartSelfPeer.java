@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.chat.ChatConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.container.p2p.message.SelfNotification;
 import org.greatfree.framework.container.p2p.message.SelfRequest;
 import org.greatfree.framework.container.p2p.message.SelfResponse;
@@ -13,7 +16,7 @@ import org.greatfree.framework.container.p2p.message.SelfResponse;
 class StartSelfPeer
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		SelfPeer.CONTAINER().start("greatfree", ChatConfig.CHAT_SERVER_PORT, new SelfTask(), true);
 		

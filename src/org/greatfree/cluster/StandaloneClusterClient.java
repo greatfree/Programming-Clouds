@@ -3,6 +3,7 @@ package org.greatfree.cluster;
 import java.io.IOException;
 
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
 import org.greatfree.message.PeerAddressResponse;
@@ -45,7 +46,7 @@ public class StandaloneClusterClient
 		StandaloneClient.CS().dispose();
 	}
 	
-	public void init(String registryIP, int registryPort, String rootKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public void init(String registryIP, int registryPort, String rootKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException, IOException
 	{
 		StandaloneClient.CS().init();
 		this.registryIP = registryIP;
@@ -69,7 +70,7 @@ public class StandaloneClusterClient
 		StandaloneClient.CS().asyncNotify(ip, port, notification);
 	}
 	
-	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(String ip, int port, ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return StandaloneClient.CS().read(ip, port, request);
 	}
@@ -84,7 +85,7 @@ public class StandaloneClusterClient
 		StandaloneClient.CS().asyncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
 	}
 	
-	public ServerMessage readRoot(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage readRoot(ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		return StandaloneClient.CS().read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
 		ServerMessage msg = StandaloneClient.CS().read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
@@ -102,7 +103,7 @@ public class StandaloneClusterClient
 		StandaloneClient.CS().asyncNotify(this.registryIP, this.registryPort, notification);
 	}
 	
-	public ServerMessage readRegistry(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage readRegistry(ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return StandaloneClient.CS().read(this.registryIP, this.registryPort, request);
 	}

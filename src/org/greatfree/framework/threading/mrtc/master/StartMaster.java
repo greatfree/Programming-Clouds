@@ -8,14 +8,17 @@ import java.util.Set;
 
 import org.greatfree.concurrency.threading.ThreadConfig;
 import org.greatfree.concurrency.threading.message.AllSlavesNotification;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.threading.mrtc.MRConfig;
 import org.greatfree.framework.threading.mrtc.NodeIDs;
 
 // Created: 09/22/2019, Bing Li
 class StartMaster
 {
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("MR Master, " + NodeIDs.ID().getLocalName() + ", starting up ...");
 

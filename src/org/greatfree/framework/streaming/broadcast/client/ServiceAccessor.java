@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.greatfree.client.CSClient;
 import org.greatfree.data.ClientConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.streaming.StreamConfig;
@@ -49,7 +50,7 @@ class ServiceAccessor
 		this.client.dispose();
 	}
 	
-	public void init() throws ClassNotFoundException, RemoteReadException, IOException
+	public void init() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		this.client = new CSClient.CSClientBuilder()
 				.freeClientPoolSize(RegistryConfig.CLIENT_POOL_SIZE)
@@ -73,14 +74,14 @@ class ServiceAccessor
 		this.pubSubAddress = par.getPeerAddress();
 	}
 
-	public void setSubscriberAddress(String publisher, String topic) throws ClassNotFoundException, RemoteReadException, IOException
+	public void setSubscriberAddress(String publisher, String topic) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		SubscribersResponse sr = (SubscribersResponse)this.client.read(this.pubSubAddress.getIP(), this.pubSubAddress.getPort(), new SubscribersRequest(publisher, topic, false));
 		PeerAddressResponse par = (PeerAddressResponse)this.client.read(RegistryConfig.PEER_REGISTRY_ADDRESS,  RegistryConfig.PEER_REGISTRY_PORT, new PeerAddressRequest(sr.getSelectedSubscriber()));
 		this.subscriberAddress = par.getPeerAddress();
 	}
 	
-	public List<String> search(String keyword) throws ClassNotFoundException, RemoteReadException, IOException
+	public List<String> search(String keyword) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return ((SearchResponse)this.client.read(this.subscriberAddress.getIP(), this.subscriberAddress.getPort(), new SearchRequest(keyword))).getResults();
 	}

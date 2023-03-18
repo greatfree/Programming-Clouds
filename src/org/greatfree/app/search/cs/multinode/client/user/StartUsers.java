@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.greatfree.app.search.multicast.message.LocationNotification;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 10/07/2018, Bing Li
@@ -22,7 +23,7 @@ class StartUsers
 		{
 			SearchClient.FRONT().init();
 		}
-		catch (ClassNotFoundException | RemoteReadException | IOException e)
+		catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 		{
 			e.printStackTrace();
 		}
@@ -56,7 +57,7 @@ class StartUsers
 			{
 				SearchUI.CS().send(option);
 			}
-			catch (ClassNotFoundException | RemoteReadException e)
+			catch (ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 			{
 				option = MenuOptions.NO_OPTION;
 				System.out.println(ClientMenu.WRONG_OPTION);

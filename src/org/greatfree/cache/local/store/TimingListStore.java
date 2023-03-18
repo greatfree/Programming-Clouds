@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,8 +29,6 @@ import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.Timing;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * Since timing is transformed to pointing in the type of Long, the cache is the same as SortedListStore. The cache is out of date. 08/24/2018, Bing Li 
@@ -738,7 +737,8 @@ public class TimingListStore<Value extends Timing, Factory extends CacheMapFacto
 	
 	public void remove(String listKey, int index)
 	{
-		Set<String> removalKeys = Sets.newHashSet();
+//		Set<String> removalKeys = Sets.newHashSet();
+		Set<String> removalKeys = new HashSet<String>();
 //		this.lock.readLock().lock();
 //		String listKey = this.keyCreator.createPrefixKey(listKey);
 		if (this.listIndexes.containsKey(listKey))
@@ -788,7 +788,8 @@ public class TimingListStore<Value extends Timing, Factory extends CacheMapFacto
 
 	public void clear(String listKey)
 	{
-		Set<String> removalKeys = Sets.newHashSet();
+//		Set<String> removalKeys = Sets.newHashSet();
+		Set<String> removalKeys = new HashSet<String>();
 //		this.lock.readLock().lock();
 //		String listKey = this.keyCreator.createPrefixKey(listKey);
 		if (this.listIndexes.containsKey(listKey))

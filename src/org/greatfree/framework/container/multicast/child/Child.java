@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.greatfree.cluster.ChildTask;
 import org.greatfree.cluster.child.container.ClusterChildContainer;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 /**
@@ -37,13 +40,13 @@ final class Child
 		}
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.child.stop(timeout);
 	}
 	
-	public void start(String rootKey, ChildTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void start(String rootKey, ChildTask task) throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.child = new ClusterChildContainer(task);
 		this.child.start(rootKey);

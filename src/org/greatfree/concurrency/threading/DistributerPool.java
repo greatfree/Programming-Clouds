@@ -1,5 +1,6 @@
 package org.greatfree.concurrency.threading;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -9,8 +10,6 @@ import org.greatfree.concurrency.threading.message.InteractRequest;
 import org.greatfree.concurrency.threading.message.TaskInvokeNotification;
 import org.greatfree.concurrency.threading.message.TaskInvokeRequest;
 import org.greatfree.data.ServerConfig;
-
-import com.google.common.collect.Sets;
 
 // Created: 09/13/2019, Bing Li
 class DistributerPool
@@ -62,7 +61,8 @@ class DistributerPool
 	
 	public Set<String> generateThreads(int n)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		String threadKey;
 		for (int i = 0; i < n; i++)
 		{

@@ -2,6 +2,7 @@ package org.greatfree.multicast.rp.root;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,6 @@ import org.greatfree.util.IPAddress;
 import org.greatfree.util.Rand;
 import org.greatfree.util.Tools;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 // Created: 10/15/2018, Bing Li
 class RootSyncMulticastor
@@ -456,7 +455,8 @@ class RootSyncMulticastor
 	
 	public void nearestRead(Set<String> dataKeys, RPMulticastRequest request) throws DistributedNodeFailedException, IOException
 	{
-		Set<String> nearestClientKeys = Sets.newHashSet();
+//		Set<String> nearestClientKeys = Sets.newHashSet();
+		Set<String> nearestClientKeys = new HashSet<String>();
 		for (String dataKey : dataKeys)
 		{
 			nearestClientKeys.add(Tools.getClosestKey(dataKey, this.eventer.getClientKeys()));

@@ -1,6 +1,5 @@
 package org.greatfree.app.search.container.cs.multinode.client.user;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,6 +9,7 @@ import org.greatfree.app.search.cs.multinode.client.user.SearchOptions;
 import org.greatfree.app.search.multicast.message.Page;
 import org.greatfree.app.search.multicast.message.SearchMultiResponse;
 import org.greatfree.cluster.StandaloneClusterClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.message.multicast.container.CollectedClusterResponse;
 import org.greatfree.util.Tools;
@@ -64,7 +64,7 @@ class SearchUI
 	/*
 	 * Send messages to the chatting server. 04/23/2017, Bing Li
 	 */
-	public void send(int option) throws ClassNotFoundException, RemoteReadException, IOException
+	public void send(int option) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		CollectedClusterResponse response;
 		List<SearchMultiResponse> searchResponses;

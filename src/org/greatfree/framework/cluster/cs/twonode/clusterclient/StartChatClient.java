@@ -6,7 +6,10 @@ import java.util.Scanner;
 import org.greatfree.chat.ClientMenu;
 import org.greatfree.chat.MenuOptions;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cs.twonode.client.ChatMaintainer;
 import org.greatfree.framework.multicast.MulticastConfig;
 
@@ -14,7 +17,7 @@ import org.greatfree.framework.multicast.MulticastConfig;
 class StartChatClient
 {
 
-	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, DistributedNodeFailedException, InterruptedException
+	public static void main(String[] args) throws ClassNotFoundException, IOException, RemoteReadException, DistributedNodeFailedException, InterruptedException, RemoteIPNotExistedException
 	{
 		// Initialize the option which represents a user's intents of operations. 09/21/2014, Bing Li
 		int option = MenuOptions.NO_OPTION;
@@ -37,7 +40,14 @@ class StartChatClient
 
 		System.out.println("Client starting up ...");
 
-		ChatClient.CCC().init(MulticastConfig.CLUSTER_CLIENT_ROOT_NAME);
+		try
+		{
+			ChatClient.CCC().init(MulticastConfig.CLUSTER_CLIENT_ROOT_NAME);
+		}
+		catch (DuplicatePeerNameException | RemoteIPNotExistedException | ServerPortConflictedException e)
+		{
+			System.out.println(e);
+		}
 
 		System.out.println("Client started ...");
 
@@ -58,7 +68,7 @@ class StartChatClient
 				// Send the option to the polling server. 09/21/2014, Bing Li
 				ClientUI.CCC().send(option, in);
 			}
-			catch (NumberFormatException | ClassNotFoundException | RemoteReadException e)
+			catch (NumberFormatException | ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException e)
 			{
 				option = MenuOptions.NO_OPTION;
 				System.out.println(ClientMenu.WRONG_OPTION);

@@ -3,7 +3,10 @@ package org.greatfree.framework.cluster.cs.multinode.wurb.clusterserver.child;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 /*
@@ -66,7 +69,7 @@ So the solution is revised as follows.
 class StartChild
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Chatting child starting up ...");
 
@@ -77,6 +80,10 @@ class StartChild
 		catch (ClassNotFoundException | IOException | RemoteReadException | InterruptedException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Chatting child started ...");

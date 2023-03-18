@@ -10,7 +10,10 @@ import org.greatfree.concurrency.threading.message.KillNotification;
 import org.greatfree.concurrency.threading.message.ATMThreadRequest;
 import org.greatfree.concurrency.threading.message.ATMThreadResponse;
 import org.greatfree.concurrency.threading.message.ShutdownSlaveNotification;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.container.p2p.message.ChatPartnerRequest;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.p2p.message.ChatPartnerResponse;
@@ -46,7 +49,7 @@ class Master
 		}
 	}
 
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		ServerStatus.FREE().setShutdown();		
 		// Set the terminating signal. 11/25/2014, Bing Li
@@ -55,7 +58,7 @@ class Master
 		this.master.stop(timeout);
 	}
 	
-	public void start(String masterName, String slaveName, ServerTask task) throws IOException, ClassNotFoundException, RemoteReadException
+	public void start(String masterName, String slaveName, ServerTask task) throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.master = new PeerContainer(masterName, ThreadConfig.THREAD_PORT, task, true);
 		this.master.start();
@@ -70,7 +73,7 @@ class Master
 		ServerStatus.FREE().addServerID(ChatMaintainer.PEER().getLocalUserKey());
 	}
 	
-	public void assignTasks() throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void assignTasks() throws ClassNotFoundException, RemoteReadException, InterruptedException, RemoteIPNotExistedException, IOException
 	{
 		System.out.println("Thread master assigning tasks ...");
 		String t1 = ((ATMThreadResponse)this.master.read(ChatMaintainer.PEER().getPartnerIP(), ChatMaintainer.PEER().getPartnerPort(), new ATMThreadRequest())).getThreadKey();
@@ -95,7 +98,7 @@ class Master
 		System.out.println("Thread master task assigned to " + ThreadInfo.ASYNC().getThreadName(threadKey));
 	}
 	
-	public boolean isAlive(String threadKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public boolean isAlive(String threadKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return ((IsAliveResponse)this.master.read(ChatMaintainer.PEER().getPartnerIP(), ChatMaintainer.PEER().getPartnerPort(), new IsAliveRequest(threadKey))).isAlive();
 	}

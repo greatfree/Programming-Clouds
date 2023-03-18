@@ -21,14 +21,15 @@ import org.greatfree.cache.message.BroadKeysResponse;
 import org.greatfree.cache.message.BroadSizeResponse;
 import org.greatfree.cache.message.BroadValuesResponse;
 import org.greatfree.cache.message.UniGetResponse;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.server.Peer;
 import org.greatfree.testing.cache.distributed.IntegerValue;
 import org.greatfree.util.Builder;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.Tools;
-
-import com.google.common.collect.Sets;
 
 /*
  * The map, com.greatfree.cache.PersistableMap, is suitable for the parent of the distributed map. The key, value, and listener should be updated. It affects too many other ones. I need to create another one for the distributed map. This is the new distributed map I created. 07/08/2017, Bing Li
@@ -293,7 +294,7 @@ public class DistributedPersistableMap<Key extends CacheKey<String>, Value exten
 	 */
 	@Override
 //	public void open(MapRegistry<Value, Factory, DB> registry) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException
-	public void open(MapRegistry<Key, Value, Factory, DB> registry) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException
+	public void open(MapRegistry<Key, Value, Factory, DB> registry) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		registry.register(this);
 		this.root.init();
@@ -304,7 +305,7 @@ public class DistributedPersistableMap<Key extends CacheKey<String>, Value exten
 	 */
 	@Override
 //	public void close(MapRegistry<Value, Factory, DB> registry) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
-	public void close(MapRegistry<Key, Value, Factory, DB> registry, long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void close(MapRegistry<Key, Value, Factory, DB> registry, long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		registry.unregister(this.cacheKey);
 		this.db.removeAll();
@@ -429,7 +430,9 @@ public class DistributedPersistableMap<Key extends CacheKey<String>, Value exten
 		// Get the keys of the retrieved data from the local cache. 07/10/2017, Bing Li
 		Set<String> retrievedKeys = values.keySet();
 		// Get the keys that are not retrieved from the local cache. 07/10/2017, Bing Li
-		HashSet<String> notRetrievedKeys = new HashSet<String>(Sets.difference(keys, retrievedKeys));
+//		HashSet<String> notRetrievedKeys = new HashSet<String>(Sets.difference(keys, retrievedKeys));
+		HashSet<String> notRetrievedKeys = new HashSet<String>(keys);
+		notRetrievedKeys.removeAll(retrievedKeys);
 		// Get the data that are not retrieved from the local cache through the cluster. 07/10/2017, Bing Li
 		Map<String, BroadGetResponse<Value>> clusteredValues = this.root.broadcastReadNearestly(notRetrievedKeys, this.rootBranchCount, this.subBranchCount);
 		// Put all of retrieved data together. 07/10/2017, Bing Li
@@ -554,7 +557,8 @@ public class DistributedPersistableMap<Key extends CacheKey<String>, Value exten
 //		{
 		// If the local cache is full, the keys of the entire map should be retrieved from all of the nodes in the cluster. 0711/2011
 		Map<String, BroadKeysResponse> responses = this.root.broadcastReadKeys(this.rootBranchCount, this.subBranchCount);
-		Set<String> allKeys = Sets.newHashSet(this.keys);
+//		Set<String> allKeys = Sets.newHashSet(this.keys);
+		Set<String> allKeys = new HashSet<String>(this.keys);
 		// Merge the keys of each node of the cluster. 07/11/2017, Bing Li
 		for (BroadKeysResponse response : responses.values())
 		{

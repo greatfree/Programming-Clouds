@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.multicast.child.ChildMulticastor;
 import org.greatfree.framework.multicast.message.ShutdownChildrenBroadcastNotification;
@@ -35,7 +36,7 @@ class ShutdownStorageBroadcastNotificationThread extends NotificationQueue<Shutd
 					StorageNode.STORAGE().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);
 				}
-				catch (InterruptedException | InstantiationException | IllegalAccessException | IOException | DistributedNodeFailedException | ClassNotFoundException | RemoteReadException e)
+				catch (InterruptedException | InstantiationException | IllegalAccessException | DistributedNodeFailedException | ClassNotFoundException | RemoteReadException | IOException | RemoteIPNotExistedException e)
 				{
 					e.printStackTrace();
 				}

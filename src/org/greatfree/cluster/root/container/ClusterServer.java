@@ -6,7 +6,10 @@ import org.greatfree.cluster.ClusterConfig;
 import org.greatfree.cluster.RootTask;
 import org.greatfree.concurrency.ThreadPool;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cluster.original.cs.twonode.message.StopChatClusterNotification;
 import org.greatfree.server.container.Peer.PeerBuilder;
 import org.greatfree.util.Builder;
@@ -14,7 +17,7 @@ import org.greatfree.util.Builder;
 // Created: 01/13/2019, Bing Li
 final class ClusterServer
 {
-	public ClusterServer(ServerOnClusterBuilder builder) throws IOException
+	public ClusterServer(ServerOnClusterBuilder builder) throws ServerPortConflictedException, IOException
 	{
 		PeerBuilder<RootDispatcher> peerBuilder = new PeerBuilder<RootDispatcher>();
 		
@@ -40,8 +43,9 @@ final class ClusterServer
 //			.asyncEventerWaitRound(builder.getAsyncEventerWaitRound())
 			.asyncEventIdleCheckDelay(builder.getAsyncEventIdleCheckDelay())
 			.asyncEventIdleCheckPeriod(builder.getAsyncEventIdleCheckPeriod())
+			.isBroker(builder.isBroker())
 			.schedulerPoolSize(builder.getSchedulerPoolSize())
-			.scheulerKeepAliveTime(builder.getSchedulerKeepAliveTime());
+			.schedulerKeepAliveTime(builder.getSchedulerKeepAliveTime());
 
 		if (builder.getReplicas() == ClusterConfig.NO_REPLICAS)
 		{
@@ -83,6 +87,8 @@ final class ClusterServer
 		
 		private int schedulerPoolSize;
 		private long schedulerKeepAliveTime;
+		
+		private boolean isBroker = false;
 
 		private int rootBranchCount;
 		private int treeBranchCount;
@@ -233,6 +239,12 @@ final class ClusterServer
 			this.schedulerKeepAliveTime = schedulerKeepAliveTime;
 			return this;
 		}
+
+		public ServerOnClusterBuilder isBroker(boolean isBroker)
+		{
+			this.isBroker = isBroker;
+			return this;
+		}
 		
 		public ServerOnClusterBuilder rootBranchCount(int rootBranchCount)
 		{
@@ -261,7 +273,15 @@ final class ClusterServer
 		@Override
 		public ClusterServer build() throws IOException
 		{
-			return new ClusterServer(this);
+			try
+			{
+				return new ClusterServer(this);
+			}
+			catch (ServerPortConflictedException | IOException e)
+			{
+				e.printStackTrace();
+			}
+			return null;
 		}
 		
 		public String getPeerName()
@@ -380,6 +400,11 @@ final class ClusterServer
 		{
 			return this.schedulerKeepAliveTime;
 		}
+		
+		public boolean isBroker()
+		{
+			return this.isBroker;
+		}
 
 		public int getRootBranchCount()
 		{
@@ -434,12 +459,12 @@ final class ClusterServer
 		}
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, InterruptedException, RemoteReadException, IOException, RemoteIPNotExistedException
 	{
 		ClusterRoot.CONTAINER().dispose(timeout);
 	}
 
-	public void start(RootTask task) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException
+	public void start(RootTask task) throws ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException, IOException
 	{
 		RootServiceProvider.ROOT().init(task);
 		ClusterRoot.CONTAINER().start();

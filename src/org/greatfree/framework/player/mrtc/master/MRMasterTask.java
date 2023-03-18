@@ -2,6 +2,7 @@ package org.greatfree.framework.player.mrtc.master;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 import org.greatfree.concurrency.threading.ATMTask;
 import org.greatfree.concurrency.threading.message.ATMMessageType;
@@ -17,6 +18,7 @@ import org.greatfree.message.container.Request;
 // Created: 09/30/2019, Bing Li
 class MRMasterTask extends ATMTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.player.mrtc.master");
 
 	@Override
 	public void processNotification(Notification notification)
@@ -25,32 +27,32 @@ class MRMasterTask extends ATMTask
 		{
 			// The state of task execution sent from slaves. For the game, the notification is not necessarily processed. 04/03/2020, Bing Li
 			case ATMMessageType.TASK_STATE_NOTIFICATION:
-				System.out.println("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("TASK_STATE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				return;
 
 			// Partial states of the game is sent from slaves. 04/03/2020, Bing Li
 			case TaskApplicationID.MR_PARTIAL_NOTIFICATION:
-				System.out.println("MR_PARTICAL_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("MR_PARTICAL_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				MRPartialNotification mrpn = (MRPartialNotification)notification;
 				MRStates.CONCURRENCY().incrementPath(mrpn.getMRKey(), mrpn.getPath());
-				System.out.println("============================================");
-				System.out.println("Partial: The partial path:");
-				System.out.println(MRStates.CONCURRENCY().getPath(mrpn.getMRKey()));
-				System.out.println("============================================");
+				log.info("============================================");
+				log.info("Partial: The partial path:");
+				log.info(MRStates.CONCURRENCY().getPath(mrpn.getMRKey()));
+				log.info("============================================");
 				return;
 
 			// Final state of the game is sent from slaves. 04/03/2020, Bing Li
 			case TaskApplicationID.MR_FINAL_NOTIFICATION:
-				System.out.println("MR_FINAL_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("MR_FINAL_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				MRFinalNotification mrfn = (MRFinalNotification)notification;
 				// Detect whether the game is done. 04/03/2020, Bing Li
 				if (mrfn.isDone())
 				{
 					MRStates.CONCURRENCY().incrementPath(mrfn.getMRKey(), mrfn.getPath());
-					System.out.println("============================================");
-					System.out.println("Done: The final path:");
-					System.out.println(MRStates.CONCURRENCY().getPath(mrfn.getMRKey()));
-					System.out.println("============================================");
+					log.info("============================================");
+					log.info("Done: The final path:");
+					log.info(MRStates.CONCURRENCY().getPath(mrfn.getMRKey()));
+					log.info("============================================");
 				}
 				else
 				{
@@ -60,10 +62,10 @@ class MRMasterTask extends ATMTask
 					// Check whether the currency degree (CD) meets the requirement. 04/03/2020, Bing Li
 					if (MRStates.CONCURRENCY().isCDFulfilled(mrfn.getMRKey(), mrfn.getCD()))
 					{
-						System.out.println("============================================");
-						System.out.println("Interrupted: The current final path:");
-						System.out.println(MRStates.CONCURRENCY().getPath(mrfn.getMRKey()));
-						System.out.println("============================================");
+						log.info("============================================");
+						log.info("Interrupted: The current final path:");
+						log.info(MRStates.CONCURRENCY().getPath(mrfn.getMRKey()));
+						log.info("============================================");
 						// Check whether the current hops reach the predefined one. 04/03/2020, Bing Li
 						if (mrfn.getCurrentHop() < mrfn.getMaxHop())
 						{

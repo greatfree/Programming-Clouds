@@ -3,6 +3,7 @@ package org.greatfree.framework.cluster.cs.twonode.admin;
 import java.io.IOException;
 
 import org.greatfree.client.StandaloneClient;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.p2p.message.PeerAddressRequest;
 import org.greatfree.framework.multicast.MulticastConfig;
@@ -43,7 +44,7 @@ class AdminClient
 		StandaloneClient.CS().dispose();
 	}
 
-	public void init() throws ClassNotFoundException, RemoteReadException, IOException
+	public void init() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException, IOException
 	{
 		StandaloneClient.CS().init();
 		
@@ -66,7 +67,7 @@ class AdminClient
 		StandaloneClient.CS().asyncNotify(this.rootAddress.getIP(), this.rootAddress.getPort(), notification);
 	}
 	
-	public ServerMessage read(ServerMessage request) throws ClassNotFoundException, RemoteReadException, IOException
+	public ServerMessage read(ServerMessage request) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return StandaloneClient.CS().read(this.rootAddress.getIP(), this.rootAddress.getPort(), request);
 	}

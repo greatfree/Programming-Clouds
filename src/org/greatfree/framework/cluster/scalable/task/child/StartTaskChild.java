@@ -3,7 +3,10 @@ package org.greatfree.framework.cluster.scalable.task.child;
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 /*
@@ -14,7 +17,7 @@ import org.greatfree.util.TerminateSignal;
 class StartTaskChild
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Task child starting up ...");
 
@@ -25,6 +28,10 @@ class StartTaskChild
 		catch (ClassNotFoundException | IOException | RemoteReadException | InterruptedException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Task child started ...");

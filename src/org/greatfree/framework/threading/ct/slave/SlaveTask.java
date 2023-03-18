@@ -2,6 +2,7 @@ package org.greatfree.framework.threading.ct.slave;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 import org.greatfree.concurrency.threading.message.ExecuteNotification;
 import org.greatfree.concurrency.threading.message.IsAliveRequest;
@@ -10,6 +11,7 @@ import org.greatfree.concurrency.threading.message.KillNotification;
 import org.greatfree.concurrency.threading.message.ATMThreadResponse;
 import org.greatfree.concurrency.threading.message.ShutdownSlaveNotification;
 import org.greatfree.concurrency.threading.message.ATMMessageType;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.threading.message.PrintTaskNotification;
 import org.greatfree.message.ServerMessage;
@@ -21,6 +23,8 @@ import org.greatfree.util.ServerStatus;
 // Created: 09/12/2019, Bing Li
 class SlaveTask implements ServerTask
 {
+	private final static Logger log = Logger.getLogger("org.greatfree.framework.threading.ct.slave");
+	
 	@Override
 	public void processNotification(Notification notification)
 	{
@@ -28,13 +32,13 @@ class SlaveTask implements ServerTask
 		{
 //			case TaskMessageType.PRINT_TASK_NOTIFICATION:
 			case ATMMessageType.TASK_NOTIFICATION:
-				System.out.println("PRINT_TASK_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("PRINT_TASK_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				PrintTaskNotification ptn = (PrintTaskNotification)notification;
 				DistributedThreadPool.POOL().enqueueInstruction(ptn);
 				break;
 				
 			case ATMMessageType.EXECUTE_NOTIFICATION:
-				System.out.println("EXECUTE_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("EXECUTE_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ExecuteNotification en = (ExecuteNotification)notification;
 				DistributedThreadPool.POOL().execute(en.getThreadKey());
 				break;
@@ -42,7 +46,7 @@ class SlaveTask implements ServerTask
 				// The thread starts to wait automatically when no messages exist in the queue. So the below lines are not necessary. 09/18/2019, Bing Li
 				/*
 			case ThreadingMessageType.TIMEOUT_NOTIFICATION:
-				System.out.println("TIMEOUT_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("TIMEOUT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				TimeoutNotification tn = (TimeoutNotification)notification;
 				DistributedThreadPool.POOL().enqueueInstruction(tn);
 				break;
@@ -53,11 +57,11 @@ class SlaveTask implements ServerTask
 				 */
 				/*
 			case ThreadingMessageType.SIGNAL_NOTIFICATION:
-				System.out.println("SIGNAL_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("SIGNAL_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				SignalNotification gan = (SignalNotification)notification;
-				System.out.println("SlaveTask-SIGNAL_NOTIFICATION: started ...");
+				log.info("SlaveTask-SIGNAL_NOTIFICATION: started ...");
 				DistributedThreadPool.POOL().signal(gan.getThreadKey());
-				System.out.println("SlaveTask-SIGNAL_NOTIFICATION: ended ...");
+				log.info("SlaveTask-SIGNAL_NOTIFICATION: ended ...");
 //				DistributedThreadPool.POOL().enqueueInstruction(gan);
 				break;
 				*/
@@ -65,14 +69,14 @@ class SlaveTask implements ServerTask
 				// The thread starts to wait automatically when no messages exist in the queue. So the below lines are not necessary. 09/18/2019, Bing Li
 				/*
 			case ThreadingMessageType.WAIT_NOTIFICATION:
-				System.out.println("WAIT_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("WAIT_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				WaitNotification wn = (WaitNotification)notification;
 				DistributedThreadPool.POOL().enqueueInstruction(wn);
 				break;
 				*/
 				
 			case ATMMessageType.KILL_NOTIFICATION:
-				System.out.println("KILL_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("KILL_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				KillNotification kn = (KillNotification)notification;
 				try
 				{
@@ -85,14 +89,14 @@ class SlaveTask implements ServerTask
 				break;
 				
 			case ATMMessageType.SHUTDOWN_SLAVE_NOTIFICATION:
-				System.out.println("SHUTDOWN_NOTIFICATION received @" + Calendar.getInstance().getTime());
+				log.info("SHUTDOWN_NOTIFICATION received @" + Calendar.getInstance().getTime());
 				ShutdownSlaveNotification sn = (ShutdownSlaveNotification)notification;
 				ServerStatus.FREE().setShutdown();
 				try
 				{
 					Slave.SLAVE().stop(sn.getTimeout());
 				}
-				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException e)
+				catch (ClassNotFoundException | IOException | InterruptedException | RemoteReadException | RemoteIPNotExistedException e)
 				{
 					ServerStatus.FREE().printException(e);
 				}
@@ -106,7 +110,7 @@ class SlaveTask implements ServerTask
 		switch (request.getApplicationID())
 		{
 			case ATMMessageType.ATM_THREAD_REQUEST:
-				System.out.println("NOTIFICATION_THREAD_REQUEST received @" + Calendar.getInstance().getTime());
+				log.info("NOTIFICATION_THREAD_REQUEST received @" + Calendar.getInstance().getTime());
 				/*
 				String threadKey = DistributedThreadPool.POOL().generateThread();
 				if (threadKey != null)
@@ -121,7 +125,7 @@ class SlaveTask implements ServerTask
 				return new ATMThreadResponse(DistributedThreadPool.POOL().generateThread());
 				
 			case ATMMessageType.IS_ALIVE_REQUEST:
-				System.out.println("IS_ALIVE_REQUEST received @" + Calendar.getInstance().getTime());
+				log.info("IS_ALIVE_REQUEST received @" + Calendar.getInstance().getTime());
 				IsAliveRequest iar = (IsAliveRequest)request;
 				return new IsAliveResponse(DistributedThreadPool.POOL().isAlive(iar.getThreadKey()));
 		}

@@ -1,10 +1,9 @@
 package org.greatfree.testing.util;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.greatfree.util.Rand;
-
-import com.google.common.collect.Sets;
 
 // Created: 09/26/2019, Bing Li
 class RandomSet
@@ -12,7 +11,8 @@ class RandomSet
 
 	public static void main(String[] args)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		keys.add("AAA");
 		keys.add("BBB");
 

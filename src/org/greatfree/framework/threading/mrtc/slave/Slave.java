@@ -9,7 +9,10 @@ import org.greatfree.concurrency.threading.ThreadConfig;
 import org.greatfree.concurrency.threading.ThreadTask;
 import org.greatfree.concurrency.threading.message.TaskNotification;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.threading.mrtc.NodeIDs;
 import org.greatfree.message.container.Notification;
 import org.greatfree.util.IPPort;
@@ -42,7 +45,7 @@ class Slave
 	/*
 	 * Stop the slave. 01/08/2020, Bing Li
 	 */
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		Scheduler.PERIOD().shutdown(timeout);
 		TerminateSignal.SIGNAL().notifyAllTermination();
@@ -52,7 +55,7 @@ class Slave
 	/*
 	 * Start the slave. 01/08/2020, Bing Li
 	 */
-	public void start() throws ClassNotFoundException, IOException, RemoteReadException, InterruptedException
+	public void start() throws ClassNotFoundException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException, IOException
 	{
 		Scheduler.PERIOD().init(ServerConfig.SCHEDULER_POOL_SIZE, ServerConfig.SCHEDULER_KEEP_ALIVE_TIME);
 		this.dt = new Distributer.DistributerBuilder()
@@ -113,7 +116,7 @@ class Slave
 	/*
 	 * Detect whether one thread on a slave is alive. 01/08/2020, Bing Li
 	 */
-	public boolean isAlive(String slaveKey, String threadKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public boolean isAlive(String slaveKey, String threadKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return this.dt.isAlive(slaveKey, threadKey);
 	}

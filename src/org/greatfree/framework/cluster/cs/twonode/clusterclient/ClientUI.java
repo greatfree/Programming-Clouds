@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cs.twonode.client.ChatMaintainer;
 import org.greatfree.framework.cs.twonode.client.ClientMenu;
@@ -57,7 +58,7 @@ class ClientUI
 	/*
 	 * Send the users' option to the chatting server. 04/23/2017, Bing Li
 	 */
-	public void send(int option, Scanner in) throws ClassNotFoundException, RemoteReadException, IOException, DistributedNodeFailedException
+	public void send(int option, Scanner in) throws ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, RemoteIPNotExistedException, IOException
 	{
 		// Check the option to interact with the chatting server. 04/23/2017, Bing Li
 		switch (option)

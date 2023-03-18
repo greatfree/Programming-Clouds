@@ -1,6 +1,7 @@
 package org.greatfree.testing.cluster.coordinator;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.greatfree.data.ServerConfig;
@@ -21,8 +22,6 @@ import org.greatfree.testing.cluster.coordinator.dn.UnicastNotifier;
 import org.greatfree.testing.cluster.coordinator.dn.UnicastNotifierCreator;
 import org.greatfree.testing.cluster.coordinator.dn.UnicastNotifierDisposer;
 import org.greatfree.testing.cluster.coordinator.dn.UnicastNotifierSource;
-
-import com.google.common.collect.Sets;
 
 /*
  * This is a singleton that contains all of the notification multicastor pools. Those multicastors are critical to compose a cluster for all of the DN servers. 11/26/2014, Bing Li
@@ -111,7 +110,8 @@ public class CoordinatorMulticastNotifier
 		if (notifier != null)
 		{
 			// It is suggested to define a new interface such that it is not necessary to put the dnKey into a Set. 11/25/2016, Bing Li
-			Set<String> dnKeys = Sets.newHashSet();
+//			Set<String> dnKeys = Sets.newHashSet();
+			Set<String> dnKeys = new HashSet<String>();
 			dnKeys.add(dnKey);
 			// Disseminate the unicast notification. 11/26/2014, Bing Li
 			notifier.disseminate(message, dnKeys);

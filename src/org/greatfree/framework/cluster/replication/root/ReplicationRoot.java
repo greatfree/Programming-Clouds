@@ -5,7 +5,10 @@ import java.io.IOException;
 import org.greatfree.cluster.RootTask;
 import org.greatfree.cluster.root.container.ClusterServerContainer;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cluster.replication.ReplicationConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.util.TerminateSignal;
@@ -43,13 +46,13 @@ class ReplicationRoot
 		this.server.stopCluster();
 	}
 
-	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		TerminateSignal.SIGNAL().notifyAllTermination();
 		this.server.stop(timeout);
 	}
 	
-	public void start(int port, RootTask task, int replicas) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException
+	public void start(int port, RootTask task, int replicas) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.server = new ClusterServerContainer(port, ReplicationConfig.REPLICATION_ROOT, RegistryConfig.PEER_REGISTRY_ADDRESS, RegistryConfig.PEER_REGISTRY_PORT, task, replicas);
 		this.server.start();

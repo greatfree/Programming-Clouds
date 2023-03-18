@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,8 +32,6 @@ import org.greatfree.util.Builder;
 import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.Timing;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * It is replaced by the Pointing-Based caches. 08/22/2018, Bing Li
@@ -779,7 +778,8 @@ class TimingTerminalMapStore<Value extends Timing, Factory extends CacheMapFacto
 	
 	public void remove(String mapKey, Set<String> rscKeys)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		this.lock.readLock().lock();
 		if (this.listIndexes.containsKey(mapKey))
 		{
@@ -922,7 +922,8 @@ class TimingTerminalMapStore<Value extends Timing, Factory extends CacheMapFacto
 
 	public void clear(String mapKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 		this.lock.readLock().lock();
 		if (this.listIndexes.containsKey(mapKey))
 		{

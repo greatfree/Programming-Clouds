@@ -1,6 +1,7 @@
 package org.greatfree.testing.cluster.coordinator;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,8 +29,6 @@ import org.greatfree.testing.message.DNAnycastResponse;
 import org.greatfree.testing.message.DNBroadcastResponse;
 import org.greatfree.testing.message.UnicastResponse;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * This is a singleton that contains all of the request/response multicastor pools. Those multicastors are critical to compose a cluster for all of the DN servers. 11/26/2014, Bing Li
@@ -210,7 +209,8 @@ public class CoordinatorMulticastReader
 			try
 			{
 				// Unicast the request and wait for the responses. 11/29/2014, Bing Li
-				Set<String> dnKeys = Sets.newHashSet();
+//				Set<String> dnKeys = Sets.newHashSet();
+				Set<String> dnKeys = new HashSet<String>();
 				dnKeys.add(dnKey);
 				Map<String, UnicastResponse> responses = reader.disseminate(dnKeys, request);
 				// After the responses are received, the reader must be collected. 11/29/2014, Bing Li

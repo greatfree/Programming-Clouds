@@ -10,6 +10,7 @@ import org.greatfree.concurrency.Scheduler;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedListFetchException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.cps.cache.TestCacheConfig;
 import org.greatfree.framework.cps.cache.coordinator.evicting.EvictMyUKValueThread;
@@ -108,13 +109,13 @@ public class MyDistributedList
 		return this.list.getRange(new FetchMyUKValueNotification(this.list.getCacheKey(), startIndex, endIndex, this.list.getMemCacheSize(), this.list.getPrefetchCount()));
 	}
 	
-	public void prefetch(FetchMyUKValueNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void prefetch(FetchMyUKValueNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		PrefetchMyUKValuesResponse response = Coordinator.CPS().prefetchUK(notification.getPrefetchStartIndex(), notification.getPrefetchEndIndex());
 		this.list.addAllLocally(response.getValues());
 	}
 
-	public void postfetch(FetchMyUKValueNotification notification) throws ClassNotFoundException, RemoteReadException, IOException
+	public void postfetch(FetchMyUKValueNotification notification) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (notification.getType() == FetchConfig.FETCH_RESOURCE_BY_INDEX)
 		{

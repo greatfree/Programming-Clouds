@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.greatfree.chat.message.ShutdownServerNotification;
 import org.greatfree.concurrency.reactive.NotificationQueue;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 
 // Created: 08/14/2018, Bing Li
@@ -30,7 +31,7 @@ public class ShutdownCordinatorThread extends NotificationQueue<ShutdownServerNo
 					VendorCoordinator.CPS().stop(ServerConfig.SERVER_SHUTDOWN_TIMEOUT);
 					this.disposeMessage(notification);
 				}
-				catch (InterruptedException | ClassNotFoundException | IOException | RemoteReadException e)
+				catch (InterruptedException | ClassNotFoundException | RemoteReadException | RemoteIPNotExistedException | IOException e)
 				{
 					e.printStackTrace();
 				}

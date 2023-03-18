@@ -6,7 +6,10 @@ import org.greatfree.cluster.RootTask;
 import org.greatfree.cluster.root.ClusterServer;
 import org.greatfree.data.ServerConfig;
 import org.greatfree.exceptions.DistributedNodeFailedException;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.util.TerminateSignal;
@@ -41,7 +44,7 @@ class ChatServer
 //		this.stopServer(timeout);
 	}
 
-	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stopServer(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		if (!this.server.isChildrenEmpty())
 		{
@@ -55,7 +58,7 @@ class ChatServer
 		this.server.stop(timeout);
 	}
 	
-	public void start(String serverName, RootTask task) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException
+	public void start(String serverName, RootTask task) throws IOException, ClassNotFoundException, RemoteReadException, DistributedNodeFailedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		this.server = new ClusterServer.ServerOnClusterBuilder()
 			.peerPort(ServerConfig.COORDINATOR_PORT)

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,8 +31,6 @@ import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.FileManager;
 import org.greatfree.util.Pointing;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * The list cache that sorts only a predefined count of data is implemented. When data is saved in the list, each data should have a unique key. It must employ the constructor Pointing(long points) of Pointing. 02/15/2019, Bing Li
@@ -468,7 +467,8 @@ public class SortedTerminalListStore<Value extends Pointing, Factory extends Cac
 //				allPoints = CollectionSorter.sortDescendantByValue(allPoints);
 				Map<String, Float> sp = CollectionSorter.sortDescendantByValue(allPoints);
 				int index = 0;
-				Set<String> removedKeys = Sets.newHashSet();
+//				Set<String> removedKeys = Sets.newHashSet();
+				Set<String> removedKeys = new HashSet<String>();
 				indexes.clearKeys();
 //				for (Map.Entry<String, Float> entry : allPoints.entrySet())
 				for (Map.Entry<String, Float> entry : sp.entrySet())
@@ -563,7 +563,8 @@ public class SortedTerminalListStore<Value extends Pointing, Factory extends Cac
 			}
 //			allPoints = CollectionSorter.sortDescendantByValue(allPoints);
 			Map<String, Float> sp = CollectionSorter.sortDescendantByValue(allPoints);
-			Set<String> removedKeys = Sets.newHashSet();
+//			Set<String> removedKeys = Sets.newHashSet();
+			Set<String> removedKeys = new HashSet<String>();
 			indexes.clearKeys();
 			for (Map.Entry<String, Float> entry : sp.entrySet())
 			{
@@ -873,7 +874,8 @@ public class SortedTerminalListStore<Value extends Pointing, Factory extends Cac
 	// It is not necessary to remove data for a terminal of a large-scale storage system. 06/15/2018, Bing Li
 	public void clear(String listKey)
 	{
-		Set<String> keys = Sets.newHashSet();
+//		Set<String> keys = Sets.newHashSet();
+		Set<String> keys = new HashSet<String>();
 //		this.lock.readLock().lock();
 		if (this.listIndexes.containsKey(listKey))
 		{

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.greatfree.testing.data.CrawledLink;
@@ -14,8 +15,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import com.google.common.collect.Sets;
 
 /*
  * This is the class that crawls a URL. For the sample, it just gets the links from the URL, no further accessing on those links. 11/23/2014, Bing Li
@@ -90,7 +89,8 @@ public class Crawler
 		// The link string. 11/23/2014, Bing Li
 		String linkHref;
 		// Initialize a set to contain all the link strings. 11/23/2014, Bing Li
-		Set<CrawledLink> crawledLinks = Sets.newHashSet();
+//		Set<CrawledLink> crawledLinks = Sets.newHashSet();
+		Set<CrawledLink> crawledLinks = new HashSet<CrawledLink>();
 		// Parse the link to get the link string and save them into the set. 11/23/2014, Bing Li 
 		for (Element link : links)
 		{

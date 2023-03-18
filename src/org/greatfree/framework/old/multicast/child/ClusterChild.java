@@ -5,7 +5,10 @@ import java.io.IOException;
 import org.greatfree.chat.ChatConfig;
 import org.greatfree.client.FreeClientPool;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.multicast.MulticastConfig;
 import org.greatfree.framework.p2p.RegistryConfig;
 import org.greatfree.framework.p2p.message.ChatRegistryRequest;
@@ -74,7 +77,7 @@ public abstract class ClusterChild<Dispatcher extends ServerDispatcher<ServerMes
 	/*
 	 * Stop the child root. 05/12/2017, Bing Li
 	 */
-	public synchronized void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public synchronized void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 		// Set the terminating signal. 11/25/2014, Bing Li
 //		TerminateSignal.SIGNAL().setTerminated();
@@ -91,7 +94,7 @@ public abstract class ClusterChild<Dispatcher extends ServerDispatcher<ServerMes
 	/*
 	 * Start the cluster child. 07/08/2017, Bing Li
 	 */
-	public synchronized void start() throws ClassNotFoundException, RemoteReadException, IOException
+	public synchronized void start() throws ClassNotFoundException, RemoteReadException, IOException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// Start up the peer. 06/14/2017, Bing Li
 		if (!this.peer.isStarted())
@@ -200,10 +203,10 @@ public abstract class ClusterChild<Dispatcher extends ServerDispatcher<ServerMes
 	/*
 	 * The interface is invoked after the method, start(), is invoked. 07/05/2017, Bing Li
 	 */
-	public abstract void init() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException;
+	public abstract void init() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, RemoteReadException, InterruptedException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException;
 	
 	/*
 	 * The interface is invoked after the method, stop(), is invoked. 07/05/2017, Bing Li
 	 */
-	public abstract void terminate(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException;
+	public abstract void terminate(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException;
 }

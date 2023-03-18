@@ -3,14 +3,17 @@ package org.greatfree.framework.cluster.cs.multinode.intercast.group.clusterserv
 import java.io.IOException;
 
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.util.TerminateSignal;
 
 // Created: 04/07/2019, Bing Li
 class StartChild
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		System.out.println("Chatting child starting up ...");
 
@@ -21,6 +24,10 @@ class StartChild
 		catch (ClassNotFoundException | IOException | RemoteReadException | InterruptedException e)
 		{
 			e.printStackTrace();
+		}
+		catch (DuplicatePeerNameException e)
+		{
+			System.out.println(e);
 		}
 
 		System.out.println("Chatting child started ...");

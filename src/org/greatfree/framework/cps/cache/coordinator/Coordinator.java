@@ -8,7 +8,10 @@ import java.util.Set;
 import org.greatfree.concurrency.Scheduler;
 import org.greatfree.concurrency.SharedThreadPool;
 import org.greatfree.data.ServerConfig;
+import org.greatfree.exceptions.DuplicatePeerNameException;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
+import org.greatfree.exceptions.ServerPortConflictedException;
 import org.greatfree.framework.cps.cache.data.MyCachePointing;
 import org.greatfree.framework.cps.cache.data.MyCacheTiming;
 import org.greatfree.framework.cps.cache.data.MyData;
@@ -100,7 +103,7 @@ public class Coordinator
 		}
 	}
 	
-	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException
+	public void stop(long timeout) throws ClassNotFoundException, IOException, InterruptedException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		TerminateSignal.SIGNAL().setTerminated();
 		TerminateSignal.SIGNAL().notifyAllTermination();
@@ -126,7 +129,7 @@ public class Coordinator
 		this.manServer.stop(timeout);
 	}
 	
-	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException
+	public void start(String username) throws IOException, ClassNotFoundException, RemoteReadException, DuplicatePeerNameException, RemoteIPNotExistedException, ServerPortConflictedException
 	{
 		// I am not sure whether the below line solves the exception or not, i.e.,  Comparison method violates its general contract!. 08/12/2018, Bing Li
 		System.setProperty(UtilConfig.MERGE_SORT, UtilConfig.TRUE);
@@ -233,7 +236,7 @@ public class Coordinator
 //		System.out.println("Coordinator notify(): " + notification + " is being sent to the terminal DONE ...");
 	}
 	
-	public CoordinatorResponse query(String query) throws ClassNotFoundException, RemoteReadException, IOException
+	public CoordinatorResponse query(String query) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (CoordinatorResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new CoordinatorRequest(query));
 	}
@@ -248,28 +251,28 @@ public class Coordinator
 		this.peer.syncNotify(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new ReplicateMuchMyDataNotification(data));
 	}
 	
-	public PostfetchMyDataResponse postfetchMyData(String myDataKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyDataResponse postfetchMyData(String myDataKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		System.out.println("Coordinator-postfetch(): myDataKey = " + myDataKey);
 		return (PostfetchMyDataResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyDataRequest(myDataKey));
 	}
 	
-	public PostfetchMyStoreDataResponse postfetchMyStoreData(String mapKey, String key) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyStoreDataResponse postfetchMyStoreData(String mapKey, String key) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyStoreDataResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyStoreDataRequest(mapKey, key));
 	}
 
-	public PostfetchMyStoreDataKeysResponse postfetchMyStoreDataKeys(String mapKey, long size) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyStoreDataKeysResponse postfetchMyStoreDataKeys(String mapKey, long size) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyStoreDataKeysResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyStoreDataKeysRequest(mapKey, (int)size));
 	}
 
-	public PostfetchMuchMyStoreDataResponse postfetchMyStoreData(String mapKey, Set<String> keys) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMuchMyStoreDataResponse postfetchMyStoreData(String mapKey, Set<String> keys) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMuchMyStoreDataResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMuchMyStoreDataRequest(mapKey, keys));
 	}
 	
-	public PostfetchMyDataByKeysResponse postfetchMyData(Set<String> keys) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyDataByKeysResponse postfetchMyData(Set<String> keys) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyDataByKeysResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyDataByKeysRequest(keys));
 	}
@@ -306,44 +309,44 @@ public class Coordinator
 	}
 	*/
 
-	public PrefetchMyPointingsResponse prefetch(int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, IOException
+	public PrefetchMyPointingsResponse prefetch(int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PrefetchMyPointingsResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PrefetchMyPointingsRequest(startIndex, endIndex));
 	}
 	
-	public PrefetchMyUKValuesResponse prefetchUK(int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, IOException
+	public PrefetchMyUKValuesResponse prefetchUK(int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PrefetchMyUKValuesResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PrefetchMyUKValuesRequest(startIndex, endIndex));
 	}
 
-	public PostfetchMyPointingByKeyResponse postfetchMyPointing(String resourceKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyPointingByKeyResponse postfetchMyPointing(String resourceKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyPointingByKeyResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyPointingByKeyRequest(resourceKey));
 	}
 	
-	public PostfetchMinMyPointingResponse postfetchMinMyPointing() throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMinMyPointingResponse postfetchMinMyPointing() throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMinMyPointingResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMinMyPointingRequest());
 	}
 	
 //	public PostfetchMyPointingsResponse postfetchMyPointing(int index, int postfetchCount) throws ClassNotFoundException, RemoteReadException, IOException
-	public PostfetchMyPointingsResponse postfetchTopMyPointing(int endIndex) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyPointingsResponse postfetchTopMyPointing(int endIndex) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		return (PostfetchMyPointingsResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyPointingsRequest(index, postfetchCount));
 		return (PostfetchMyPointingsResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyPointingsRequest(0, endIndex));
 	}
 	
-	public PostfetchMyUKValuesResponse postfetch(int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyUKValuesResponse postfetch(int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyUKValuesResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyUKValuesRequest(startIndex, endIndex));
 	}
 	
-	public PostfetchMyPointingByIndexResponse postfetchMyPointing(int index) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyPointingByIndexResponse postfetchMyPointing(int index) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyPointingByIndexResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyPointingByIndexRequest(index));
 	}
 	
-	public PostfetchMyUKValueByIndexResponse postfetchMyUK(int index) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyUKValueByIndexResponse postfetchMyUK(int index) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyUKValueByIndexResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyUKValueByIndexRequest(index));
 	}
@@ -378,42 +381,42 @@ public class Coordinator
 		this.peer.syncNotify(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new ReplicateMuchMyStoreDataMapStoreNotification(mapKey, data));
 	}
 	
-	public PrefetchMyCachePointingsResponse prefetchPointings(String mapKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, IOException
+	public PrefetchMyCachePointingsResponse prefetchPointings(String mapKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PrefetchMyCachePointingsResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PrefetchMyCachePointingsRequest(mapKey, startIndex, endIndex, false, MySortedDistributedCacheStore.MIDDLESTORE().isTerminalMap()));
 	}
 	
-	public PrefetchMyCachePointingsResponse prefetchTimings(String mapKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, IOException
+	public PrefetchMyCachePointingsResponse prefetchTimings(String mapKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PrefetchMyCachePointingsResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PrefetchMyCachePointingsRequest(mapKey, startIndex, endIndex, true, MySortedDistributedCacheStore.MIDDLESTORE().isTerminalMap()));
 	}
 
-	public PostfetchMyCachePointingByIndexResponse postfetchMyCachePointing(String mapKey, int index) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyCachePointingByIndexResponse postfetchMyCachePointing(String mapKey, int index) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyCachePointingByIndexResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyCachePointingByIndexRequest(mapKey, index, false, MySortedDistributedCacheStore.MIDDLESTORE().isTerminalMap()));
 	}
 
-	public PostfetchMyCachePointingByIndexResponse postfetchMyCacheTiming(String mapKey, int index) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyCachePointingByIndexResponse postfetchMyCacheTiming(String mapKey, int index) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyCachePointingByIndexResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyCachePointingByIndexRequest(mapKey, index, true, MySortedDistributedCacheStore.MIDDLESTORE().isTerminalMap()));
 	}
 	
-	public PostfetchMyCachePointingByKeyResponse postfetchMyCachePointing(String mapKey, String resourceKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyCachePointingByKeyResponse postfetchMyCachePointing(String mapKey, String resourceKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyCachePointingByKeyResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyCachePointingByKeyRequest(mapKey, resourceKey, false, MySortedDistributedCacheStore.MIDDLESTORE().isTerminalMap()));
 	}
 	
-	public PostfetchMyCachePointingByKeyResponse postfetchMyCacheTiming(String mapKey, String resourceKey) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyCachePointingByKeyResponse postfetchMyCacheTiming(String mapKey, String resourceKey) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyCachePointingByKeyResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyCachePointingByKeyRequest(mapKey, resourceKey, true, MySortedDistributedCacheStore.MIDDLESTORE().isTerminalMap()));
 	}
 	
-	public PostfetchMyCachePointingsResponse postfetchMyCachePointings(String mapKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyCachePointingsResponse postfetchMyCachePointings(String mapKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyCachePointingsResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyCachePointingsRequest(mapKey, startIndex, endIndex, false, MySortedDistributedCacheStore.MIDDLESTORE().isTerminalMap()));
 	}
 	
-	public PostfetchMyCachePointingsResponse postfetchMyCacheTimings(String mapKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, IOException
+	public PostfetchMyCachePointingsResponse postfetchMyCacheTimings(String mapKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PostfetchMyCachePointingsResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PostfetchMyCachePointingsRequest(mapKey, startIndex, endIndex, true, MySortedDistributedCacheStore.MIDDLESTORE().isTerminalMap()));
 	}
@@ -429,18 +432,18 @@ public class Coordinator
 	}
 	
 //	public PopMyStoreDataResponse pop(String stackKey, int count, boolean isPeeking) throws ClassNotFoundException, RemoteReadException, IOException
-	public PopMyStoreDataResponse pop(String stackKey, int count) throws ClassNotFoundException, RemoteReadException, IOException
+	public PopMyStoreDataResponse pop(String stackKey, int count) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 //		return (PopMyStoreDataResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PopMyStoreDataRequest(stackKey, count, false, isPeeking));
 		return (PopMyStoreDataResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PopMyStoreDataRequest(stackKey, count, false, false));
 	}
 	
-	public PopMyStoreDataResponse peekStack(String stackKey, int kickOutCount) throws ClassNotFoundException, RemoteReadException, IOException
+	public PopMyStoreDataResponse peekStack(String stackKey, int kickOutCount) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PopMyStoreDataResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PopMyStoreDataRequest(stackKey, kickOutCount, false, true));
 	}
 	
-	public PopMyStoreDataResponse peekStack(String stackKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, IOException
+	public PopMyStoreDataResponse peekStack(String stackKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (PopMyStoreDataResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new PopMyStoreDataRequest(stackKey, startIndex, endIndex));
 	}
@@ -455,17 +458,17 @@ public class Coordinator
 		this.peer.syncNotify(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new EnqueueMuchMyStoreDataNotification(queueKey, data));
 	}
 	
-	public DequeueMyStoreDataResponse dequeue(String queueKey, int count) throws ClassNotFoundException, RemoteReadException, IOException
+	public DequeueMyStoreDataResponse dequeue(String queueKey, int count) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (DequeueMyStoreDataResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new DequeueMyStoreDataRequest(queueKey, count, false));
 	}
 	
-	public DequeueMyStoreDataResponse peekQueue(String queueKey, int count) throws ClassNotFoundException, RemoteReadException, IOException
+	public DequeueMyStoreDataResponse peekQueue(String queueKey, int count) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (DequeueMyStoreDataResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new DequeueMyStoreDataRequest(queueKey, count, true));
 	}
 	
-	public DequeueMyStoreDataResponse peekQueue(String queueKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, IOException
+	public DequeueMyStoreDataResponse peekQueue(String queueKey, int startIndex, int endIndex) throws ClassNotFoundException, RemoteReadException, RemoteIPNotExistedException
 	{
 		return (DequeueMyStoreDataResponse)this.peer.read(ServerConfig.TERMINAL_ADDRESS, ServerConfig.TERMINAL_PORT, new DequeueMyStoreDataRequest(queueKey, startIndex, endIndex));
 	}

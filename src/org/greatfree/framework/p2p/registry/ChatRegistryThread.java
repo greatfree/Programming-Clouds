@@ -35,7 +35,7 @@ class ChatRegistryThread extends RequestQueue<ChatRegistryRequest, ChatRegistryS
 				System.out.println("ChatRegistryThread: peerID = " + request.getMessage().getPeerID() + "; peerName = " + request.getMessage().getPeerName());
 
 				// Register the chatting peer. 05/01/2017, Bing Li
-				AccountRegistry.APPLICATION().add(new PeerChatAccount(request.getMessage().getPeerID(), request.getMessage().getPeerName(), request.getMessage().getPeerDescription(), request.getMessage().getPreference()));
+				AccountRegistry.APP().add(new PeerChatAccount(request.getMessage().getPeerID(), request.getMessage().getPeerName(), request.getMessage().getPeerDescription(), request.getMessage().getPreference()));
 				
 				response = new ChatRegistryResponse(true);
 				try

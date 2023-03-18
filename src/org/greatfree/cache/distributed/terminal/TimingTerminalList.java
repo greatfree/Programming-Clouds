@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,8 +26,6 @@ import org.greatfree.util.CollectionSorter;
 import org.greatfree.util.Time;
 import org.greatfree.util.Timing;
 import org.greatfree.util.UtilConfig;
-
-import com.google.common.collect.Sets;
 
 /*
  * It is replaced by the Pointing-Based caches. 08/22/2018, Bing Li
@@ -556,7 +555,8 @@ class TimingTerminalList<Value extends Timing, Factory extends CacheMapFactorabl
 	public void clear()
 	{
 		String key;
-		Set<String> removalKeys = Sets.newHashSet();
+//		Set<String> removalKeys = Sets.newHashSet();
+		Set<String> removalKeys = new HashSet<String>();
 		this.lock.readLock().lock();
 		Set<Integer> keys = this.keys.getKeys();
 		for (Integer index : keys)

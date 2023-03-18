@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.greatfree.chat.MenuOptions;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.testing.client.ClientMenu;
 
@@ -11,7 +12,7 @@ import org.greatfree.testing.client.ClientMenu;
 final class StartClient
 {
 
-	public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException
+	public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException, RemoteIPNotExistedException
 	{
 		// Initialize the option which represents a user's intents of operations. 09/21/2014, Bing Li
 		int option = MenuOptions.NO_OPTION;

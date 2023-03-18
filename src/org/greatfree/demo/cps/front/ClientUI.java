@@ -8,6 +8,7 @@ import org.greatfree.data.ServerConfig;
 import org.greatfree.demo.cps.message.MerchandiseRequest;
 import org.greatfree.demo.cps.message.MerchandiseResponse;
 import org.greatfree.demo.cps.message.OrderNotification;
+import org.greatfree.exceptions.RemoteIPNotExistedException;
 import org.greatfree.exceptions.RemoteReadException;
 import org.greatfree.framework.container.cps.message.StopCoordinatorNotification;
 import org.greatfree.framework.container.cps.message.StopTerminalNotification;
@@ -61,7 +62,7 @@ class ClientUI
 		System.out.println(ClientMenu.INPUT_PROMPT);
 	}
 
-	public void send(int option) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException
+	public void send(int option) throws ClassNotFoundException, RemoteReadException, IOException, InterruptedException, RemoteIPNotExistedException
 	{
 		MerchandiseResponse response;
 		switch (option)
