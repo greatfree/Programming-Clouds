@@ -6,7 +6,7 @@ The book in Chinese has been finished and will be published in a couple of month
 
 I will record video tutorials and translater the book into English.
 
-I am now working on the final experiment before publishing the complete code. The experiment is crucial from my perspective. It compares GreatFree with the current popular distributed development tools, i.e., the Spring Series. Although the task is finished yet, I believe they are totally distinct from each other and GreatFree beats the current technologies for sure.
+I am now working on the final experiment before publishing the complete code. The experiment is crucial from my perspective. It compares GreatFree with the current popular distributed development tools, i.e., the Spring Series. Although the task is not finished yet, I believe they are totally distinct from each other and GreatFree beats the current technologies for sure.
 
 In short, GreatFree is a programming paradigm which is straightforward, concise, homogeneous, and high-quality, and the current technologies can only deal with the development with configuring, which is weird, tough, heterogeneous, and low-quality.
 
